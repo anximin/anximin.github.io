@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search> 
+  
+  
+    
+    <entry>
+      <title>Hello World</title>
+      <link href="/2021/06/29/hello-world/"/>
+      <url>/2021/06/29/hello-world/</url>
+      
+        <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>CentOS 最小安装后配置Ceph集群</title>
+      <link href="/2021/06/24/centos7mini-ceph/"/>
+      <url>/2021/06/24/centos7mini-ceph/</url>
+      
+        <content type="html"><![CDATA[<h3 id="CentOS-最小安装后配置Ceph集群"><a href="#CentOS-最小安装后配置Ceph集群" class="headerlink" title="CentOS 最小安装后配置Ceph集群"></a>CentOS 最小安装后配置Ceph集群</h3><ul><li><p>版本信息：<br>OS:  CentOS 7.9.2009</p></li><li><p>集群节点信息：</p><table><thead><tr><th align="left">主机名</th><th align="center">业务IP</th><th align="center">互联IP</th></tr></thead><tbody><tr><td align="left">client</td><td align="center">10.10.10.100</td><td align="center">10.10.100.100</td></tr><tr><td align="left">node01</td><td align="center">10.10.10.101</td><td align="center">10.10.100.101</td></tr><tr><td align="left">node02</td><td align="center">10.10.10.102</td><td align="center">10.10.100.102</td></tr><tr><td align="left">node03</td><td align="center">10.10.10.103</td><td align="center">10.10.100.103</td></tr></tbody></table><h4 id="系统环境准备"><a href="#系统环境准备" class="headerlink" title="系统环境准备"></a>系统环境准备</h4><h5 id="升级系统"><a href="#升级系统" class="headerlink" title="升级系统"></a>升级系统</h5><p>查看当前版本   <code>cat /etc/redhat-release</code><br>清理源    <code>sudo yum clean all</code><br>更新软件及内核   <code>sudo yum -y update</code><br>只更新软件   <code>sudo yum -y upgrade</code><br>查看当前路径   <code>pwd</code></p></li></ul><h5 id="修改主机名并添加HOSTS记录"><a href="#修改主机名并添加HOSTS记录" class="headerlink" title="修改主机名并添加HOSTS记录"></a>修改主机名并添加HOSTS记录</h5><ol><li>修改主机名<br>方法一： <code>hostnamectl set-hostname 主机名</code><br>方法二： <code>vim /etc/hostname </code></li><li>添加HOSTS记录<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@Client ~]# vi /etc/hosts</span><br><span class="line"></span><br><span class="line">10.10.10.100 client client.seko.asia</span><br><span class="line">10.10.10.101 node01 node01.seko.asia</span><br><span class="line">10.10.10.102 node02 node02.seko.asia</span><br><span class="line">10.10.10.103 node03 node03.seko.asia</span><br></pre></td></tr></table></figure></li></ol><h5 id="关闭防火墙及关闭SELinux"><a href="#关闭防火墙及关闭SELinux" class="headerlink" title="关闭防火墙及关闭SELinux"></a>关闭防火墙及关闭SELinux</h5><ol><li><p>防火墙操作</p><ul><li>关闭防火墙<br><code>systemctl stop firewalld</code></li><li>禁用防火墙<br><code>systemctl disable firewalld</code></li><li>临时关闭SElinux<br><code>[root@Client ~]# setenforce 0</code></li></ul></li><li><p>永久关闭SELinux</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@Client ~]# vim /etc/sysconfig/selinux </span><br></pre></td></tr></table></figure><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> This file controls the state of SELinux on the system.</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> SELINUX= can take one of these three values:</span></span><br><span class="line"><span class="meta">#</span><span class="bash">     enforcing - SELinux security policy is enforced.</span></span><br><span class="line"><span class="meta">#</span><span class="bash">     permissive - SELinux prints warnings instead of enforcing.</span></span><br><span class="line"><span class="meta">#</span><span class="bash">     disabled - No SELinux policy is loaded.</span></span><br><span class="line">SELINUX=disabled</span><br><span class="line"><span class="meta">#</span><span class="bash"> SELINUXTYPE= can take one of three values:</span></span><br><span class="line"><span class="meta">#</span><span class="bash">     targeted - Targeted processes are protected,</span></span><br><span class="line"><span class="meta">#</span><span class="bash">     minimum - Modification of targeted policy. Only selected processes are protected.</span> </span><br><span class="line"><span class="meta">#</span><span class="bash">     mls - Multi Level Security protection.</span></span><br><span class="line">SELINUXTYPE=targeted</span><br></pre></td></tr></table></figure></li></ol><h5 id="SSH-互信"><a href="#SSH-互信" class="headerlink" title="SSH 互信"></a>SSH 互信</h5><ol><li>创建公钥私钥</li></ol><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">[root@Client ~]# ssh-keygen </span><br><span class="line">Generating public/private rsa key pair.</span><br><span class="line">Enter file in which to save the key (/root/.ssh/id_rsa): </span><br><span class="line">Enter passphrase (empty for no passphrase): </span><br><span class="line">Enter same passphrase again: </span><br><span class="line">Your identification has been saved in /root/.ssh/id_rsa.</span><br><span class="line">Your public key has been saved in /root/.ssh/id_rsa.pub.</span><br><span class="line">The key fingerprint is:</span><br><span class="line">SHA256:BEb9+s9g1HmI1p8VIPid9xi/iVtma+r22sfsALNAcs8 root@Client</span><br><span class="line">The key&#x27;s randomart image is:</span><br><span class="line">+---[RSA 2048]----+</span><br><span class="line">|     .+.  .. .   |</span><br><span class="line">|     . ...  . .  |</span><br><span class="line">|        o.+ . .. |</span><br><span class="line">|       . +.B =...|</span><br><span class="line">|        S.= E o+o|</span><br><span class="line">|        .o . *.oo|</span><br><span class="line">|         .o . =*o|</span><br><span class="line">|         ..o o===|</span><br><span class="line">|           .==*=o|</span><br><span class="line">+----[SHA256]-----+</span><br></pre></td></tr></table></figure><ol start="2"><li>传递公钥给其它节点主机</li></ol><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@Client ~]# ssh-copy-id -i /root/.ssh/id_rsa.pub node01</span><br></pre></td></tr></table></figure><p>–记得也传给自己一份</p><h5 id="配置时间服务器，保证各个节点的时间一致，如果不一致，系统会警告。"><a href="#配置时间服务器，保证各个节点的时间一致，如果不一致，系统会警告。" class="headerlink" title="配置时间服务器，保证各个节点的时间一致，如果不一致，系统会警告。"></a>配置时间服务器，保证各个节点的时间一致，如果不一致，系统会警告。</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@Client ~]# vim /etc/chrony.conf</span><br></pre></td></tr></table></figure><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Allow NTP client access from <span class="built_in">local</span> network.</span></span><br><span class="line"><span class="meta">#</span><span class="bash">allow 192.168.0.0/16</span></span><br><span class="line">allow 10.10.10.0/24</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Serve time even <span class="keyword">if</span> not synchronized to a time <span class="built_in">source</span>.</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="built_in">local</span> stratum 10</span></span><br><span class="line">local stratum 10</span><br></pre></td></tr></table></figure><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@Client ~]# systemctl enable chronyd.service</span><br><span class="line">[root@Client ~]# systemctl restart chronyd</span><br></pre></td></tr></table></figure><h5 id="在其它节点-编辑chrony-conf文件"><a href="#在其它节点-编辑chrony-conf文件" class="headerlink" title="在其它节点 编辑chrony.conf文件"></a>在其它节点 编辑chrony.conf文件</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@node01 ~]# vi /etc/chrony.conf</span><br></pre></td></tr></table></figure><h5 id="修改最上面几行-–-gt-client-作为时间服务器主机"><a href="#修改最上面几行-–-gt-client-作为时间服务器主机" class="headerlink" title="修改最上面几行  – &gt;client 作为时间服务器主机"></a>修改最上面几行  – &gt;client 作为时间服务器主机</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> Please consider joining the pool (http://www.pool.ntp.org/join.html).</span></span><br><span class="line">server client iburst</span><br><span class="line"><span class="meta">#</span><span class="bash">server 1.centos.pool.ntp.org iburst</span></span><br><span class="line"><span class="meta">#</span><span class="bash">server 2.centos.pool.ntp.org iburst</span></span><br><span class="line"><span class="meta">#</span><span class="bash">server 3.centos.pool.ntp.org iburst</span></span><br></pre></td></tr></table></figure><h3 id="部署ceph-源"><a href="#部署ceph-源" class="headerlink" title="部署ceph 源"></a>部署ceph 源</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@node03 ~]# yum -y install wget</span><br></pre></td></tr></table></figure><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@Client ~]# wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo</span><br></pre></td></tr></table></figure><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@Client ~]# rpm -ivh https://mirrors.aliyun.com/ceph/rpm-octopus/el7/noarch/ceph-release-1-1.el7.noarch.rpm</span><br></pre></td></tr></table></figure><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@Client ~]# vi /etc/yum.repos.d/epel.repo </span><br></pre></td></tr></table></figure><h4 id="添加Ceph源"><a href="#添加Ceph源" class="headerlink" title="添加Ceph源"></a>添加Ceph源</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">cat &lt;&lt; EOF | tee /etc/yum.repos.d/ceph.repo</span><br><span class="line"></span><br><span class="line">[Ceph]</span><br><span class="line">name=Ceph packages for $basearch</span><br><span class="line">baseurl=http://mirrors.163.com/ceph/rpm-octopus/el7/$basearch</span><br><span class="line">enabled=1</span><br><span class="line">gpgcheck=1</span><br><span class="line">type=rpm-md</span><br><span class="line">gpgkey=http://mirrors.163.com/ceph/keys/release.asc</span><br><span class="line">priority=1</span><br><span class="line"></span><br><span class="line">[Ceph-noarch]</span><br><span class="line">name=Ceph noarch packages</span><br><span class="line">baseurl=http://mirrors.163.com/ceph/rpm-octopus/el7/noarch</span><br><span class="line">enabled=1</span><br><span class="line">gpgcheck=1</span><br><span class="line">type=rpm-md</span><br><span class="line">gpgkey=http://mirrors.163.com/ceph/keys/release.asc</span><br><span class="line">priority=1</span><br><span class="line"></span><br><span class="line">[ceph-source]</span><br><span class="line">name=Ceph source packages</span><br><span class="line">baseurl=http://mirrors.163.com/ceph/rpm-octopus/el7/SRPMS</span><br><span class="line">enabled=1</span><br><span class="line">gpgcheck=1</span><br><span class="line">type=rpm-md</span><br><span class="line">gpgkey=http://mirrors.163.com/ceph/keys/release.asc</span><br><span class="line">priority=1</span><br><span class="line">EOF</span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> ceph </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> ceph </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>slide</title>
+      <link href="/2021/06/24/slide/"/>
+      <url>/2021/06/24/slide/</url>
+      
+        <content type="html"><![CDATA[<h3 id="hexo-theme-melody-v1-5"><a href="#hexo-theme-melody-v1-5" class="headerlink" title="hexo-theme-melody v1.5"></a>hexo-theme-melody <small>v1.5</small></h3><!-- .slide: data-background="#49B1F5" --><p>Supports iframe &amp; slides. You can use a layout called <code>slides</code> to enabled the slides layout.</p><p>Also you can add a <code>iframe</code> front-matter with the <code>slides</code> layout in your <code>md</code> file to enable the iframe page.</p><h3 id="Steps"><a href="#Steps" class="headerlink" title="Steps"></a>Steps</h3><!-- .slide: data-transition="concave" data-background="#C7916B" --><h4 id="1-Add-a-slides-page"><a href="#1-Add-a-slides-page" class="headerlink" title="1. Add a slides page"></a>1. Add a slides page</h4><p>// ……</p><p>==</p><p>// ……</p><p>===</p><h4 id="2-Add-the-layout-type"><a href="#2-Add-the-layout-type" class="headerlink" title="2. Add the layout type"></a>2. Add the layout type</h4><!-- .slide: data-transition="fade" data-background="#00C4B6" --><p>// ……</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 滑块文章 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> hexo </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>这是标题</title>
+      <link href="/2021/06/23/index/"/>
+      <url>/2021/06/23/index/</url>
+      
+        <content type="html"><![CDATA[<h3 id="测试一下"><a href="#测试一下" class="headerlink" title="测试一下"></a>测试一下</h3>]]></content>
+      
+      
+      <categories>
+          
+          <category> pipi </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> hhh </tag>
+            
+            <tag> ooo </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+  
+  
+</search>
