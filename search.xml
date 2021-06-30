@@ -4,19 +4,6 @@
   
     
     <entry>
-      <title>Hello World</title>
-      <link href="/2021/06/29/hello-world/"/>
-      <url>/2021/06/29/hello-world/</url>
-      
-        <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
-      
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>CentOS 最小安装后配置Ceph集群</title>
       <link href="/2021/06/24/centos7mini-ceph/"/>
       <url>/2021/06/24/centos7mini-ceph/</url>
@@ -46,7 +33,7 @@
       <link href="/2021/06/24/slide/"/>
       <url>/2021/06/24/slide/</url>
       
-        <content type="html"><![CDATA[<h3 id="hexo-theme-melody-v1-5"><a href="#hexo-theme-melody-v1-5" class="headerlink" title="hexo-theme-melody v1.5"></a>hexo-theme-melody <small>v1.5</small></h3><!-- .slide: data-background="#49B1F5" --><p>Supports iframe &amp; slides. You can use a layout called <code>slides</code> to enabled the slides layout.</p><p>Also you can add a <code>iframe</code> front-matter with the <code>slides</code> layout in your <code>md</code> file to enable the iframe page.</p><h3 id="Steps"><a href="#Steps" class="headerlink" title="Steps"></a>Steps</h3><!-- .slide: data-transition="concave" data-background="#C7916B" --><h4 id="1-Add-a-slides-page"><a href="#1-Add-a-slides-page" class="headerlink" title="1. Add a slides page"></a>1. Add a slides page</h4><p>// ……</p><p>==</p><p>// ……</p><p>===</p><h4 id="2-Add-the-layout-type"><a href="#2-Add-the-layout-type" class="headerlink" title="2. Add the layout type"></a>2. Add the layout type</h4><!-- .slide: data-transition="fade" data-background="#00C4B6" --><p>// ……</p>]]></content>
+        <content type="html"><![CDATA[<h3 id="hexo-theme-melody-v1-5"><a href="#hexo-theme-melody-v1-5" class="headerlink" title="hexo-theme-melody v1.5"></a>hexo-theme-melody <small>v1.5</small></h3><!-- .slide: data-background="#49B1F5" --><p>Supports iframe &amp; slides. You can use a layout called <code>slides</code> to enabled the slides layout.</p><p>Also you can add a <code>iframe</code> front-matter with the <code>slides</code> layout in your <code>md</code> file to enable the iframe page.</p><h3 id="Steps"><a href="#Steps" class="headerlink" title="Steps"></a>Steps</h3><!-- .slide: data-transition="concave" data-background="#C7916B" --><h4 id="1-Add-a-slides-page"><a href="#1-Add-a-slides-page" class="headerlink" title="1. Add a slides page"></a>1. Add a slides page</h4><p>// ……</p><p>==</p><p>// ……</p><p>===</p><h4 id="2-Add-the-layout-type"><a href="#2-Add-the-layout-type" class="headerlink" title="2. Add the layout type"></a>2. Add the layout type</h4><!-- .slide: data-transition="fade" data-background="#00C4B6" --><p>// ……</p><p>===</p><h4 id="这是第三个页面"><a href="#这是第三个页面" class="headerlink" title="这是第三个页面"></a>这是第三个页面</h4>]]></content>
       
       
       <categories>
