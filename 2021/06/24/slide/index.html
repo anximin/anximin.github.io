@@ -22,7 +22,7 @@ Also you can add a `iframe` front-matter with the `slides` layout in your `md` f
 #### 2. Add the layout type
 <!-- .slide: data-transition="fade" data-background="#00C4B6" -->
 
-// ......</script></section></div></div><script src="https://cdn.jsdelivr.net/npm/reveal.js@latest/dist/reveal.js"></script><script src="https://cdn.jsdelivr.net/npm/reveal.js@latest/plugin/zoom/zoom.js"></script><script src="https://cdn.jsdelivr.net/npm/reveal.js@latest/plugin/search/search.js"></script><script src="https://cdn.jsdelivr.net/npm/reveal.js@latest/plugin/notes/notes.js"></script><script src="https://cdn.jsdelivr.net/npm/reveal.js@latest/plugin/math/math.js"></script><script>Reveal.initialize({
+// ......</script></section></div></div><script src="https://cdn.jsdelivr.net/npm/reveal.js@latest/dist/reveal.js"></script><script src="https://cdn.jsdelivr.net/npm/reveal.js@latest/plugin/zoom/zoom.js"></script><script src="https://cdn.jsdelivr.net/npm/reveal.js@latest/plugin/search/search.js"></script><script src="https://cdn.jsdelivr.net/npm/reveal.js@latest/plugin/notes/notes.js"></script><script src="https://cdn.jsdelivr.net/npm/reveal.js@latest/plugin/math/math.js"></script><script src="https://cdn.jsdelivr.net/npm/reveal.js@latest/plugin/markdown/markdown.js"></script><script src="https://cdn.jsdelivr.net/npm/reveal.js@latest/plugin/highlight/highlight.js"></script><script>Reveal.initialize({
   mouseWheel: false,
   transition: 'slide',
   transitionSpeed: 'default',
@@ -42,6 +42,9 @@ Also you can add a `iframe` front-matter with the `slides` layout in your `md` f
     smartypants: true
   },
   plugins: [
+  RevealMarkdown,
+  // Markdown
+  RevealHighlight,
   // Search
   RevealSearch,
   // Speaker notes
@@ -50,15 +53,5 @@ Also you can add a `iframe` front-matter with the `slides` layout in your `md` f
   RevealZoom,
   // MathJax
   RevealMath
-  ],
-  dependencies: [
-    { src: 'https://cdn.jsdelivr.net/npm/reveal.js@latest/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-    // Syntax highlight for <code> elements
-    { src: 'https://cdn.jsdelivr.net/npm/reveal.js@latest/plugin/highlight/highlight.js', async: true, callback: function() {
-      // issue #218
-      setTimeout(function () {
-        hljs.initHighlighting();
-      }, 0)
-    } },
   ]
 });</script></body></html>
