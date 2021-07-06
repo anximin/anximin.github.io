@@ -4,6 +4,63 @@
   
     
     <entry>
+      <title>git 查看及修改当前应用的仓库地址</title>
+      <link href="/2021/07/06/git-change-repository/"/>
+      <url>/2021/07/06/git-change-repository/</url>
+      
+        <content type="html"><![CDATA[<ol><li>查看当前仓库地址：</li></ol><p><code>git remote show origin</code></p><ol start="2"><li>修改仓库地址</li></ol><p><code> git remote set-url origin SSH或HTTPS的地址以.git结尾</code></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 运维 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> git </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>vm-vs-k8s</title>
+      <link href="/2021/07/06/vm-vs-k8s/"/>
+      <url>/2021/07/06/vm-vs-k8s/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>hexo 文章置顶功能</title>
+      <link href="/2021/07/06/hexo-doc-top/"/>
+      <url>/2021/07/06/hexo-doc-top/</url>
+      
+        <content type="html"><![CDATA[<ul><li>hexo 默认只按发布日期排序，想实现文章的置顶功能，需要安装支持置顶的仓库。</li></ul><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ npm uninstall hexo-generator-index --save</span><br><span class="line">$ npm install hexo-generator-index-pin-top --save</span><br></pre></td></tr></table></figure><p>然后就可以在需要置顶的文章中<code>Front-matter</code>部分加入 <code>top: 1</code> 实现置顶功能。<br>其中<code>1</code> 代表置顶的优先级，可以不同的文章设置不同的排序级别。</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> hexo </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>vmware vsphere出现“需要整合虚拟机磁盘”告警</title>
       <link href="/2021/07/05/vcenter-warning/"/>
       <url>/2021/07/05/vcenter-warning/</url>
