@@ -6,19 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://anximin.github.io">
-  <title>黑群晖 Active Backup for Business 套件激活方法 | Want To</title>
+  <title>搭建gitlab服务器 | Want To</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1.首先先安装好Active Backup for Business套件（以下简称ABB），这时候打开会显示需要激活 2.到【控制面板】 - 【信息中心】 找到【产品序列号】并记下来。最好装好黑群晖立即安装ABB，然后激活 3.浏览器输入如下地址，显示如下信息即可进行下一步：">
+  <meta name="description" content="gitlab和github很相似，不过github暂时没有开源版本，项目必须托管到github官方网站，不能本地部署,而且国内访问github并不稳定。考虑到安全费用等因素，决定搭建自己的gitlab服务器。 获取gitlib资源 直接从gitlab官方网站下载  wget https:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;gitlab-ce&#x2F;yum&#x2F;el7&#x2F;gitlab-">
 <meta property="og:type" content="article">
-<meta property="og:title" content="黑群晖 Active Backup for Business 套件激活方法">
-<meta property="og:url" content="http://anximin.github.io/2021/07/05/Active-Backup-for-Business/index.html">
+<meta property="og:title" content="搭建gitlab服务器">
+<meta property="og:url" content="http://anximin.github.io/2021/07/07/git-srv-build/index.html">
 <meta property="og:site_name" content="Want To">
-<meta property="og:description" content="1.首先先安装好Active Backup for Business套件（以下简称ABB），这时候打开会显示需要激活 2.到【控制面板】 - 【信息中心】 找到【产品序列号】并记下来。最好装好黑群晖立即安装ABB，然后激活 3.浏览器输入如下地址，显示如下信息即可进行下一步：">
+<meta property="og:description" content="gitlab和github很相似，不过github暂时没有开源版本，项目必须托管到github官方网站，不能本地部署,而且国内访问github并不稳定。考虑到安全费用等因素，决定搭建自己的gitlab服务器。 获取gitlib资源 直接从gitlab官方网站下载  wget https:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;gitlab-ce&#x2F;yum&#x2F;el7&#x2F;gitlab-">
 <meta property="og:locale">
-<meta property="article:published_time" content="2021-07-05T09:28:58.000Z">
-<meta property="article:modified_time" content="2021-07-07T01:22:25.707Z">
+<meta property="article:published_time" content="2021-07-07T08:07:04.000Z">
+<meta property="article:modified_time" content="2021-07-07T08:29:51.190Z">
 <meta property="article:author" content="Sylar">
-<meta property="article:tag" content="黑群晖">
+<meta property="article:tag" content="git">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="Want To" type="application/atom+xml">
@@ -167,35 +167,37 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-Active-Backup-for-Business" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-git-srv-build" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      黑群晖 Active Backup for Business 套件激活方法
+      搭建gitlab服务器
     </h1>
   
 
         
-        <a href="/2021/07/05/Active-Backup-for-Business/" class="archive-article-date">
-  	<time datetime="2021-07-05T09:28:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-07-05</time>
+        <a href="/2021/07/07/git-srv-build/" class="archive-article-date">
+  	<time datetime="2021-07-07T08:07:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-07-07</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>1.首先先安装好Active Backup for Business套件（以下简称ABB），这时候打开会显示需要激活</p>
-<p>2.到【控制面板】 - 【信息中心】 找到【产品序列号】并记下来。最好装好黑群晖立即安装ABB，然后激活</p>
-<p>3.浏览器输入如下地址，显示如下信息即可进行下一步：</p>
-<span id="more"></span>
-<p>（IP地址替换为NAS的地址，登陆用户名和登陆密码就是你登陆群晖的时候所使用的,群晖默认https端口为5001而不是443）<br><a target="_blank" rel="noopener" href="https://ip地址:5001/webapi/auth.cgi?api=SYNO.API.Auth&amp;method=Login&amp;version=1&amp;account=%E7%99%BB%E9%99%86%E7%94%A8%E6%88%B7%E5%90%8D&amp;passwd=%E7%99%BB%E9%99%86%E5%AF%86%E7%A0%81">https://IP地址:5001/webapi/auth.cgi?api=SYNO.API.Auth&amp;method=Login&amp;version=1&amp;account=登陆用户名&amp;passwd=登陆密码</a></p>
-<p><a target="_blank" rel="noopener" href="https://10.10.10.20:5001/webapi/auth.cgi?api=SYNO.API.Auth&amp;method=Login&amp;version=1&amp;account=sekoit&amp;passwd=BGT%256yhn">https://10.10.10.20:5001/webapi/auth.cgi?api=SYNO.API.Auth&amp;method=Login&amp;version=1&amp;account=sekoit&amp;passwd=BGT%6yhn</a></p>
-<p>4.浏览器输入如下地址，显示如下信息即可进行下一步：（IP地址替换为NAS的地址，序列号就是刚才信息中心的产品序列号）<br><a target="_blank" rel="noopener" href="https://ip地址:5001/webapi/entry.cgi?api=SYNO.ActiveBackup.Activation&amp;method=set&amp;version=1&amp;activated=true&amp;serial_number=&quot;%E5%BA%8F%E5%88%97%E5%8F%B7&quot;">https://IP地址:5001/webapi/entry.cgi?api=SYNO.ActiveBackup.Activation&amp;method=set&amp;version=1&amp;activated=true&amp;serial_number=&quot;序列号&quot;</a></p>
-<p><a target="_blank" rel="noopener" href="https://10.10.10.20:5001/webapi/entry.cgi?api=SYNO.ActiveBackup.Activation&amp;method=set&amp;version=1&amp;activated=true&amp;serial_number=%E2%80%9DC7LWN09761%E2%80%9C">https://10.10.10.20:5001/webapi/entry.cgi?api=SYNO.ActiveBackup.Activation&amp;method=set&amp;version=1&amp;activated=true&amp;serial_number=”C7LWN09761“</a></p>
-<p>这样就完成了Active Backup for Business套件的激活，打开正常。</p>
+        <p>gitlab和github很相似，不过github暂时没有开源版本，项目必须托管到github官方网站，不能本地部署,而且国内访问github并不稳定。考虑到安全费用等因素，决定搭建自己的gitlab服务器。</p>
+<h4 id="获取gitlib资源"><a href="#获取gitlib资源" class="headerlink" title="获取gitlib资源"></a>获取gitlib资源</h4><p> 直接从gitlab官方网站下载 </p>
+<p><code>wget https://mirrors.tuna.tsinghua.edu.cn/gitlab-ce/yum/el7/gitlab-ce-10.0.0-ce.0.el7.x86_64.rpm</code></p>
+<h4 id="执行安装"><a href="#执行安装" class="headerlink" title="执行安装"></a>执行安装</h4><p>执行命令 <code>rpm -i gitlab-ce-10.0.0-ce.0.el7.x86_64.rpm</code></p>
+<h4 id="配置IP及端口"><a href="#配置IP及端口" class="headerlink" title="配置IP及端口"></a>配置IP及端口</h4><p><code>vi /etc/gitlab/gitlab.rb</code><br>找到 <code>external_url &#39;http://192.168.1.100:8080&#39; </code>行。</p>
+<h4 id="配置防火墙放行对应的端口"><a href="#配置防火墙放行对应的端口" class="headerlink" title="配置防火墙放行对应的端口"></a>配置防火墙放行对应的端口</h4><p><code>firewall-cmd --zone=public --add-port=8080/tcp --permanent</code></p>
+<h4 id="重新载入Gitlab配置"><a href="#重新载入Gitlab配置" class="headerlink" title="重新载入Gitlab配置"></a>重新载入Gitlab配置</h4><p><code>gitlab-ctl reconfigure</code></p>
+<h4 id="重启-GitLab服务"><a href="#重启-GitLab服务" class="headerlink" title="重启 GitLab服务"></a>重启 GitLab服务</h4><p><code>gitlab-ctl restart</code></p>
+<h4 id="通过浏览器访问IP和端口管理GitLab"><a href="#通过浏览器访问IP和端口管理GitLab" class="headerlink" title="通过浏览器访问IP和端口管理GitLab"></a>通过浏览器访问IP和端口管理GitLab</h4><p>初始账户: <code>root</code> 密码:<code>5iveL!fe</code>。登录之后就可以创建远程项目了.</p>
+<h4 id="可能遇到错误页502"><a href="#可能遇到错误页502" class="headerlink" title="可能遇到错误页502"></a>可能遇到错误页502</h4><p>访问链接报错 502-Whoops, GitLab is taking too much time to respond</p>
+<p>原因是端口被占用了，需要在配置文件里更改端口 ，再执行<code>gitlab-ctl reconfigure</code> <code>gitlab-ctl restart</code> 就可以解决。</p>
 
       
 
@@ -240,24 +242,13 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">黑群晖</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">git</a>
         		</li>
       		
 		</ul>
 	</div>
 
       
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/运维/" class="article-tag-list-link color3">运维</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
 
       
 
@@ -307,7 +298,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://anximin.github.io/2021/07/05/Active-Backup-for-Business/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://anximin.github.io/2021/07/07/git-srv-build/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -321,18 +312,18 @@
   
 <nav id="article-nav">
   
-    <a href="/2021/07/05/vcenter-warning/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2021/07/07/git-idea-gitlab/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          vmware vsphere出现“需要整合虚拟机磁盘”告警
+          IDEA集成GitLab版本控制
         
       </div>
     </a>
   
   
-    <a href="/2021/07/05/enable-smb1/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">启用永久支持SMB1.0</div>
+    <a href="/2021/07/06/git-change-repository/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">git 查看及修改当前应用的仓库地址</div>
       <i class="icon-circle-right"></i>
     </a>
   
