@@ -166,6 +166,104 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-enable-smb1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/07/05/enable-smb1/">启用永久支持SMB1.0</a>
+    </h1>
+  
+
+        
+        <a href="/2021/07/05/enable-smb1/" class="archive-article-date">
+  	<time datetime="2021-07-05T09:23:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-07-05</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>目前微软已经默认禁用了SMB1.0版本，但经常会因为各种原因还需要用到SMB版本1,例如在Windows 2012 R2的域控环境中，如果还有WinXP系统的客户机，就必须打开SMB1.0。</p>
+<h3 id="临时启用SMB1的支持"><a href="#临时启用SMB1的支持" class="headerlink" title="临时启用SMB1的支持"></a>临时启用SMB1的支持</h3><p>启动Win2012R2的powershell输入以下两个命令</p>
+<ol>
+<li><code>Set-SmbServerrConfiguration -RejectUnencryptedAccess $false</code></li>
+<li><code>Set-SmbServerConfiguration –EnableSMB1Protocol $true</code></li>
+</ol>
+<p>之后发现已经可以正常支持SMB1了，但是重启后又被禁用了。</p>
+<h3 id="永久启用SMB1的支持"><a href="#永久启用SMB1的支持" class="headerlink" title="永久启用SMB1的支持"></a>永久启用SMB1的支持</h3>
+        
+          <a class="article-more-a" href="/2021/07/05/enable-smb1/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Active Directory</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">活动目录</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/运维/" class="article-tag-list-link color3">运维</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/07/05/enable-smb1/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-time-sync" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -752,7 +850,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">黑群晖</a>
+                <a href="javascript:void(0)" class="js-tag color2">CentOS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -764,7 +862,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">CentOS</a>
+                <a href="javascript:void(0)" class="js-tag color4">黑群晖</a>
               </li>
              
               <li class="article-tag-list-item">
