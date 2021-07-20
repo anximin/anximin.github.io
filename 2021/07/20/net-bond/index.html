@@ -8,15 +8,15 @@
   <link rel="dns-prefetch" href="http://anximin.github.io">
   <title>Openfiler网络聚合 | Want To</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="多网卡的7种bond模式原理网卡绑定mode共有七种(0~6) bond0、bond1、bond2、bond3、bond4、bond5、bond6 常用的有三种 mode&#x3D;0：平衡负载模式，有自动备援，但需要”Switch”支援及设定。 mode&#x3D;1：自动备援模式，其中一条线若断线，其他线路将会自动备援。 mode&#x3D;6：平衡负载模式，有自动备援，不必”Switch”支援及设定。 需要说明的是如果想">
+  <meta name="description" content="多网卡的7种bond模式原理网卡绑定mode共有七种(0~6) bond0、bond1、bond2、bond3、bond4、bond5、bond6 常用的有三种 mode&#x3D;0：平衡负载模式，有自动备援，但需要”Switch”支援及设定。 mode&#x3D;1：自动备援模式，其中一条线若断线，其他线路将会自动备援。 mode&#x3D;6：平衡负载模式，有自动备援，不必”Switch”支援及设定。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Openfiler网络聚合">
 <meta property="og:url" content="http://anximin.github.io/2021/07/20/net-bond/index.html">
 <meta property="og:site_name" content="Want To">
-<meta property="og:description" content="多网卡的7种bond模式原理网卡绑定mode共有七种(0~6) bond0、bond1、bond2、bond3、bond4、bond5、bond6 常用的有三种 mode&#x3D;0：平衡负载模式，有自动备援，但需要”Switch”支援及设定。 mode&#x3D;1：自动备援模式，其中一条线若断线，其他线路将会自动备援。 mode&#x3D;6：平衡负载模式，有自动备援，不必”Switch”支援及设定。 需要说明的是如果想">
+<meta property="og:description" content="多网卡的7种bond模式原理网卡绑定mode共有七种(0~6) bond0、bond1、bond2、bond3、bond4、bond5、bond6 常用的有三种 mode&#x3D;0：平衡负载模式，有自动备援，但需要”Switch”支援及设定。 mode&#x3D;1：自动备援模式，其中一条线若断线，其他线路将会自动备援。 mode&#x3D;6：平衡负载模式，有自动备援，不必”Switch”支援及设定。">
 <meta property="og:locale">
 <meta property="article:published_time" content="2021-07-20T03:39:07.000Z">
-<meta property="article:modified_time" content="2021-07-20T03:52:45.140Z">
+<meta property="article:modified_time" content="2021-07-20T03:55:29.390Z">
 <meta property="article:author" content="Sylar">
 <meta property="article:tag" content="OPENfiler">
 <meta name="twitter:card" content="summary">
@@ -192,6 +192,7 @@
 <p><code>mode=0</code>：平衡负载模式，有自动备援，但需要”Switch”支援及设定。</p>
 <p><code>mode=1</code>：自动备援模式，其中一条线若断线，其他线路将会自动备援。</p>
 <p><code>mode=6</code>：平衡负载模式，有自动备援，不必”Switch”支援及设定。</p>
+<span id="more"></span>
 <p>需要说明的是如果想做成mode 0的负载均衡,仅仅设置这里options bond0 miimon=100 mode=0是不够的,与网卡相连的交换机必须做特殊配置（这两个端口应该采取聚合方式），因为做bonding的这两块网卡是使用同一个MAC地址.从原理分析一下（bond运行在mode 0下）：</p>
 <p>mode 0下bond所绑定的网卡的IP都被修改成相同的mac地址，如果这些网卡都被接在同一个交换机，那么交换机的arp表里这个mac地址对应的端口就有多 个，那么交换机接受到发往这个mac地址的包应该往哪个端口转发呢？正常情况下mac地址是全球唯一的，一个mac地址对应多个端口肯定使交换机迷惑了。所以 mode0下的bond如果连接到交换机，交换机这几个端口应该采取聚合方式（cisco称为 ethernetchannel，foundry称为portgroup），因为交换机做了聚合后，聚合下的几个端口也被捆绑成一个mac地址.我们的解 决办法是，两个网卡接入不同的交换机即可。</p>
 <p>mode6模式下无需配置交换机，因为做bonding的这两块网卡是使用不同的MAC地址。</p>
@@ -498,7 +499,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">CentOS</a>
+                <a href="javascript:void(0)" class="js-tag color4">黑群晖</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -507,10 +508,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">存储</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">黑群晖</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -526,11 +523,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+                <a href="javascript:void(0)" class="js-tag color2">CentOS</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">OPENfiler</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
               <li class="article-tag-list-item">
