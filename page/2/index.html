@@ -166,6 +166,98 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-git-change-repository" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/07/06/git-change-repository/">git 查看及修改当前应用的仓库地址</a>
+    </h1>
+  
+
+        
+        <a href="/2021/07/06/git-change-repository/" class="archive-article-date">
+  	<time datetime="2021-07-06T09:42:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-07-06</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ol>
+<li>查看当前仓库地址：</li>
+</ol>
+<p><code>git remote show origin</code></p>
+<ol start="2">
+<li>修改仓库地址</li>
+</ol>
+<p><code> git remote set-url origin SSH或HTTPS的地址以.git结尾</code></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">git</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/运维/" class="article-tag-list-link color3">运维</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/07/06/git-change-repository/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-vm-vs-k8s" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -978,133 +1070,9 @@
 
 
   
-    <article id="post-centos7_mini_ceph" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/06/24/centos7_mini_ceph/">CentOS 最小安装后配置Ceph集群</a>
-    </h1>
-  
-
-        
-        <a href="/2021/06/24/centos7_mini_ceph/" class="archive-article-date">
-  	<time datetime="2021-06-24T09:30:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-06-24</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="CentOS-最小安装后配置Ceph集群"><a href="#CentOS-最小安装后配置Ceph集群" class="headerlink" title="CentOS 最小安装后配置Ceph集群"></a>CentOS 最小安装后配置Ceph集群</h3><ul>
-<li><p>版本信息：<br>OS:  CentOS 7.9.2009</p>
-</li>
-<li><p>集群节点信息：</p>
-<table>
-<thead>
-<tr>
-<th align="left">主机名</th>
-<th align="center">业务IP</th>
-<th align="center">互联IP</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">client</td>
-<td align="center">10.10.10.100</td>
-<td align="center">10.10.100.100</td>
-</tr>
-<tr>
-<td align="left">node01</td>
-<td align="center">10.10.10.101</td>
-<td align="center">10.10.100.101</td>
-</tr>
-<tr>
-<td align="left">node02</td>
-<td align="center">10.10.10.102</td>
-<td align="center">10.10.100.102</td>
-</tr>
-<tr>
-<td align="left">node03</td>
-<td align="center">10.10.10.103</td>
-<td align="center">10.10.100.103</td>
-</tr>
-</tbody></table>
-<h4 id="系统环境准备"><a href="#系统环境准备" class="headerlink" title="系统环境准备"></a>系统环境准备</h4>
-        
-          <a class="article-more-a" href="/2021/06/24/centos7_mini_ceph/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">ceph</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">存储</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/运维/" class="article-tag-list-link color3">运维</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/06/24/centos7_mini_ceph/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+      <a class="extend prev" rel="prev" href="/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">Next &amp;raquo;</a>
     </nav>
   
 
@@ -1203,10 +1171,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">CentOS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">ceph</a>
               </li>
              
@@ -1215,11 +1179,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">cephadm</a>
+                <a href="javascript:void(0)" class="js-tag color2">CentOS</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">git</a>
+                <a href="javascript:void(0)" class="js-tag color3">cephadm</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1228,6 +1192,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">活动目录</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">git</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1251,15 +1219,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">nodeJS</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">npm</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">
