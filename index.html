@@ -263,6 +263,225 @@
 
 
   
+    <article id="post-Linux-partition" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/07/31/Linux-partition/">Linux的mbr与gpt分区</a>
+    </h1>
+  
+
+        
+        <a href="/2021/07/31/Linux-partition/" class="archive-article-date">
+  	<time datetime="2021-07-31T01:08:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-07-31</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="MBR分区"><a href="#MBR分区" class="headerlink" title="MBR分区"></a>MBR分区</h4><p>支持最大卷：2T</p>
+<p>限制：最多4个主分区 或 3个主分区加1个扩展分区</p>
+<p>分区工具：fdisk /dev/[sda]</p>
+<p>fdisk -l /dev/sda  如果提示：</p>
+<p><code>WARNING: GPT (GUID Partition Table) detected on &#39;/dev/sda&#39;! The util fdisk doesn&#39;t support GPT. Use GNU Parted.</code></p>
+        
+          <a class="article-more-a" href="/2021/07/31/Linux-partition/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">linux</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/07/31/Linux-partition/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-openfiler-cluster" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/07/29/openfiler-cluster/">openfiler-cluster</a>
+    </h1>
+  
+
+        
+        <a href="/2021/07/29/openfiler-cluster/" class="archive-article-date">
+  	<time datetime="2021-07-29T03:14:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-07-29</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>hostname: openfiler91<br>eth0: 10.10.10.91<br>eth1: 10.10.100.91<br>512MB Meta partition<br>4GB+ Data partition</p>
+<p>hostname: filer92<br>eth0: 10.10.10.92<br>eth1: 10.10.100.92<br>512MB Meta partition<br>4GB+ Data partition<br>virtualip: 10.10.10.90 ( 不要在任何网卡配置，后面在corosync中配置 )</p>
+<h4 id="创建hosts文件"><a href="#创建hosts文件" class="headerlink" title="创建hosts文件"></a>创建hosts文件</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@openfiler91 ~]<span class="comment"># vi /etc/hosts</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Do not remove the following line, or various programs</span></span><br><span class="line"><span class="comment"># that require network functionality will fail.</span></span><br><span class="line">127.0.0.1               openfiler91 localhost.localdomain localhost</span><br><span class="line">::1             localhost6.localdomain6 localhost6</span><br><span class="line">10.10.10.91 openfiler91</span><br><span class="line">10.10.10.92 openfiler92</span><br></pre></td></tr></table></figure>
+
+<p>复制到另一节点</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@openfiler91 ~]# scp /etc/hosts openfiler92:/etc/  </span><br></pre></td></tr></table></figure>
+
+<h4 id="创建SSH互信"><a href="#创建SSH互信" class="headerlink" title="创建SSH互信"></a>创建SSH互信</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@openfiler91 ~]<span class="comment"># ssh-keygen -t dsa</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@openfiler92 ~]<span class="comment"># ssh-keygen -t dsa</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@openfiler91 ~]<span class="comment"># ssh-copy-id -i /root/.ssh/id_dsa.pub openfiler92</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@openfiler92 ~]<span class="comment"># ssh-copy-id -i /root/.ssh/id_dsa.pub openfiler91</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="DRBD的设置"><a href="#DRBD的设置" class="headerlink" title="DRBD的设置"></a>DRBD的设置</h4><h5 id="修改drbd-conf文件。"><a href="#修改drbd-conf文件。" class="headerlink" title="修改drbd.conf文件。"></a>修改drbd.conf文件。</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">[root@openfiler91 ~]# vi /etc/drbd.conf </span><br><span class="line"></span><br><span class="line"># You can find an example in  /usr/share/doc/drbd.../drbd.conf.example</span><br><span class="line">include &quot;drbd.d/global_common.conf&quot;;</span><br><span class="line">#include &quot;drbd.d/*.res&quot;;</span><br><span class="line">resource meta &#123;</span><br><span class="line"> on openfiler91 &#123;</span><br><span class="line">  device /dev/drbd0;</span><br><span class="line">  disk /dev/sda5;</span><br><span class="line">  address 10.10.100.91:7788;</span><br><span class="line">  meta-disk internal;</span><br><span class="line"> &#125;</span><br><span class="line"> on openfiler92 &#123;</span><br><span class="line">  device /dev/drbd0;</span><br><span class="line">  disk /dev/sda5;</span><br><span class="line">  address 10.10.100.92:7788;</span><br><span class="line">  meta-disk internal;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br><span class="line">resource data &#123;</span><br><span class="line"> on openfiler91 &#123;</span><br><span class="line">  device /dev/drbd1;</span><br><span class="line">  disk /dev/sda6;</span><br><span class="line">  address 10.10.100.91:7789;</span><br><span class="line">  meta-disk internal;</span><br><span class="line"> &#125;</span><br><span class="line"> on openfiler92 &#123;</span><br><span class="line">  device /dev/drbd1;</span><br><span class="line">  disk /dev/sda6;</span><br><span class="line">  address 10.10.100.92:7789;</span><br><span class="line">  meta-disk internal;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>复制到另一个节点中</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@openfiler91 ~]<span class="comment"># scp /etc/drbd.conf openfiler92:/etc/drbd.conf   </span></span><br><span class="line">drbd.conf                                   100%  613     0.6KB/s   00:00    </span><br></pre></td></tr></table></figure>
+
+
+
+<p>清空各节点的两个目录</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@openfiler91 ~]<span class="comment"># dd if=/dev/zero of=/dev/drbd0</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@openfiler91 ~]<span class="comment"># dd if=/dev/zero of=/dev/drbd1</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@openfiler92 ~]<span class="comment"># dd if=/dev/zero of=/dev/drbd0</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@openfiler92 ~]<span class="comment"># dd if=/dev/zero of=/dev/drbd1</span></span><br></pre></td></tr></table></figure>
+
+<p>还有可能需要对目标磁盘进行清除(sda5、sda6根据实际情况填写)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@openfiler91 ~]<span class="comment"># dd if=/dev/zero of=/dev/sda5</span></span><br><span class="line">[root@openfiler91 ~]<span class="comment"># dd if=/dev/zero of=/dev/sda6</span></span><br><span class="line">[root@openfiler92 ~]<span class="comment"># dd if=/dev/zero of=/dev/sda5</span></span><br><span class="line">[root@openfiler92 ~]<span class="comment"># dd if=/dev/zero of=/dev/sda6</span></span><br></pre></td></tr></table></figure>
+
+<p>上面操作根据空间不同，执行的时间也不同，512M的空间清除时间大约100秒。</p>
+<h5 id="创建resource-meta-和-data"><a href="#创建resource-meta-和-data" class="headerlink" title="创建resource:meta 和 data"></a>创建resource:meta 和 data</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@openfiler91 ~]<span class="comment"># drbdadm create-md meta</span></span><br><span class="line">[root@openfiler91 ~]<span class="comment"># drbdadm create-md data</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@openfiler92 ~]<span class="comment"># drbdadm create-md meta</span></span><br><span class="line">[root@openfiler92 ~]<span class="comment"># drbdadm create-md data</span></span><br></pre></td></tr></table></figure>
+
+<p>如果上一步操作没有错误，那么可以启动drbd服务了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@openfiler91 ~]<span class="comment"># service drbd start</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@openfiler92 ~]<span class="comment"># service drbd start</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+<p>drbd状态-同步中</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@openfiler92 dev]<span class="comment"># more /proc/drbd                                                                                       </span></span><br><span class="line">version: 8.3.10 (api:88/proto:86-96)</span><br><span class="line">GIT-hash: 5c0b0469666682443d4785d90a2c603378f9017b build by phil@fat-tyre, 2011-01-28 12:17:35</span><br><span class="line"> 0: cs:SyncTarget ro:Secondary/Primary ds:Inconsistent/UpToDate C r-----</span><br><span class="line">    ns:0 nr:69632 dw:69632 dr:0 al:0 bm:4 lo:0 pe:0 ua:0 ap:0 ep:1 wo:b oos:452396</span><br><span class="line">        [=&gt;..................] sync<span class="string">&#x27;ed: 14.1% (452396/522028)K</span></span><br><span class="line"><span class="string">        finish: 0:05:49 speed: 1,280 (1,288) want: 250 K/sec</span></span><br><span class="line"><span class="string"> 1: cs:SyncTarget ro:Secondary/Primary ds:Inconsistent/UpToDate C r-----</span></span><br><span class="line"><span class="string">    ns:0 nr:44544 dw:44544 dr:0 al:0 bm:2 lo:0 pe:0 ua:0 ap:0 ep:1 wo:b oos:9610156</span></span><br><span class="line"><span class="string">        [&gt;....................] sync&#x27;</span>ed:  0.6% (9384/9428)M</span><br><span class="line">        finish: 2:00:45 speed: 1,320 (1,308) want: 250 K/sec</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root@openfiler91 ~]<span class="comment"># service drbd status            </span></span><br><span class="line">drbd driver loaded OK; device status:</span><br><span class="line">version: 8.3.10 (api:88/proto:86-96)</span><br><span class="line">GIT-hash: 5c0b0469666682443d4785d90a2c603378f9017b build by phil@fat-tyre, 2011-01-28 12:17:35</span><br><span class="line">m:res   cs          ro                 ds                     p  mounted  fstype</span><br><span class="line">0:meta  SyncSource  Primary/Secondary  UpToDate/Inconsistent  C</span><br><span class="line">...     sync<span class="string">&#x27;ed:    0.2%               (9416/9428)M</span></span><br><span class="line"><span class="string">...     sync&#x27;</span>ed:    7.9%               (487340/522028)K</span><br><span class="line">1:data  SyncSource  Primary/Secondary  UpToDate/Inconsistent  C</span><br></pre></td></tr></table></figure>
+
+<p>drbd状态-同步完成</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@openfiler92 dev]<span class="comment"># more /proc/drbd</span></span><br><span class="line">version: 8.3.10 (api:88/proto:86-96)</span><br><span class="line">GIT-hash: 5c0b0469666682443d4785d90a2c603378f9017b build by phil@fat-tyre, 2011-01-28 12:17:35</span><br><span class="line"> 0: cs:Connected ro:Secondary/Primary ds:UpToDate/UpToDate C r-----</span><br><span class="line">    ns:0 nr:522028 dw:522028 dr:0 al:0 bm:32 lo:0 pe:0 ua:0 ap:0 ep:1 wo:b oos:0</span><br><span class="line"> 1: cs:Connected ro:Secondary/Primary ds:UpToDate/UpToDate C r-----</span><br><span class="line">    ns:0 nr:9654700 dw:9654700 dr:0 al:0 bm:590 lo:0 pe:0 ua:0 ap:0 ep:1 wo:b oos:0</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@openfiler91 ~]<span class="comment"># service drbd status</span></span><br><span class="line">drbd driver loaded OK; device status:</span><br><span class="line">version: 8.3.10 (api:88/proto:86-96)</span><br><span class="line">GIT-hash: 5c0b0469666682443d4785d90a2c603378f9017b build by phil@fat-tyre, 2011-01-28 12:17:35</span><br><span class="line">m:res   cs         ro                 ds                 p  mounted  fstype</span><br><span class="line">0:meta  Connected  Primary/Secondary  UpToDate/UpToDate  C</span><br><span class="line">1:data  Connected  Primary/Secondary  UpToDate/UpToDate  C</span><br></pre></td></tr></table></figure>
+
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">openfiler</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/07/29/openfiler-cluster/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-git-push-rejected" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -421,19 +640,19 @@
 
 
   
-    <article id="post-centos8-mini-cephadm" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-linux_centos8_mini_cephadm" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/07/23/centos8-mini-cephadm/">centos8最小化安装环境使用cephadm部署ceph集群存储</a>
+      <a class="article-title" href="/2021/07/23/linux_centos8_mini_cephadm/">centos8最小化安装环境使用cephadm部署ceph集群存储</a>
     </h1>
   
 
         
-        <a href="/2021/07/23/centos8-mini-cephadm/" class="archive-article-date">
+        <a href="/2021/07/23/linux_centos8_mini_cephadm/" class="archive-article-date">
   	<time datetime="2021-07-23T08:24:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-07-23</time>
 </a>
         
@@ -445,7 +664,7 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ip addr　　查看网络配置</span><br><span class="line">nmcli:　　　查看网络配置</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>修改配置文件：vi /etc/sysconfig/network-scripts/ifcfg-ens192</p>
         
-          <a class="article-more-a" href="/2021/07/23/centos8-mini-cephadm/#more">more >></a>
+          <a class="article-more-a" href="/2021/07/23/linux_centos8_mini_cephadm/#more">more >></a>
         
       
 
@@ -469,7 +688,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2021/07/23/centos8-mini-cephadm/">展开全文 >></a>
+          <a class="article-more-a" href="/2021/07/23/linux_centos8_mini_cephadm/">展开全文 >></a>
         </p>
       
 
@@ -816,169 +1035,6 @@
 
 
   
-    <article id="post-git-idea-gitlab" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/07/07/git-idea-gitlab/">IDEA集成GitLab版本控制</a>
-    </h1>
-  
-
-        
-        <a href="/2021/07/07/git-idea-gitlab/" class="archive-article-date">
-  	<time datetime="2021-07-07T08:31:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-07-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h3><ul>
-<li>本地开发环境安装好了git</li>
-<li>IDEA 可正常使用</li>
-<li>已经创建好了gitlab项目</li>
-</ul>
-<h3 id="检验本地git程序状态"><a href="#检验本地git程序状态" class="headerlink" title="检验本地git程序状态"></a>检验本地git程序状态</h3><pre><code>依次选择 File =&gt; Settings =&gt; Version Control =&gt; Git
-</code></pre>
-        
-          <a class="article-more-a" href="/2021/07/07/git-idea-gitlab/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">git</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">idea</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/07/07/git-idea-gitlab/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-git-srv-build" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/07/07/git-srv-build/">搭建gitlab服务器</a>
-    </h1>
-  
-
-        
-        <a href="/2021/07/07/git-srv-build/" class="archive-article-date">
-  	<time datetime="2021-07-07T08:07:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-07-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>gitlab和github很相似，不过github暂时没有开源版本，项目必须托管到github官方网站，不能本地部署,而且国内访问github并不稳定。考虑到安全费用等因素，决定搭建自己的gitlab服务器。</p>
-<h4 id="获取gitlib资源"><a href="#获取gitlib资源" class="headerlink" title="获取gitlib资源"></a>获取gitlib资源</h4>
-        
-          <a class="article-more-a" href="/2021/07/07/git-srv-build/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">git</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/07/07/git-srv-build/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
@@ -1076,7 +1132,35 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">黑群晖</a>
+                <a href="javascript:void(0)" class="js-tag color2">Active Directory</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">活动目录</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">IDEA</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">cephadm</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">CentOS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1088,47 +1172,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">CentOS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">cephadm</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">git</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Active Directory</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">活动目录</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">IDEA</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">OPENfiler</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">OPNsense</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Nginx</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1137,6 +1185,22 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">npm</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Nginx</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">openfiler</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">黑群晖</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">

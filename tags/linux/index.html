@@ -6,19 +6,16 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://anximin.github.io">
-  <title>centos8最小化安装环境使用cephadm部署ceph集群存储 | Want To</title>
+  <title>Tag: linux | Want To</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="配置IP 123ip addr　　查看网络配置nmcli:　　　查看网络配置 修改配置文件：vi &#x2F;etc&#x2F;sysconfig&#x2F;network-scripts&#x2F;ifcfg-ens192">
-<meta property="og:type" content="article">
-<meta property="og:title" content="centos8最小化安装环境使用cephadm部署ceph集群存储">
-<meta property="og:url" content="http://anximin.github.io/2021/07/23/centos8-mini-cephadm/index.html">
+  <meta name="description" content="弃我去者，昨日之日不可留；乱我心者，今日之日多烦忧。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Want To">
+<meta property="og:url" content="http://anximin.github.io/tags/linux/index.html">
 <meta property="og:site_name" content="Want To">
-<meta property="og:description" content="配置IP 123ip addr　　查看网络配置nmcli:　　　查看网络配置 修改配置文件：vi &#x2F;etc&#x2F;sysconfig&#x2F;network-scripts&#x2F;ifcfg-ens192">
+<meta property="og:description" content="弃我去者，昨日之日不可留；乱我心者，今日之日多烦忧。">
 <meta property="og:locale">
-<meta property="article:published_time" content="2021-07-23T08:24:31.000Z">
-<meta property="article:modified_time" content="2021-07-29T03:03:22.494Z">
 <meta property="article:author" content="Sylar">
-<meta property="article:tag" content="cephadm">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="Want To" type="application/atom+xml">
@@ -167,277 +164,60 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-centos8-mini-cephadm" class="article article-type-post " itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
+            
   
-    <h1 class="article-title" itemprop="name">
-      centos8最小化安装环境使用cephadm部署ceph集群存储
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2021" class="archive-year">2021</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2021/07/31/Linux-partition/" class="archive-article-date">
+  	<time datetime="2021-07-31T01:08:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-07-31</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2021/07/31/Linux-partition/">Linux的mbr与gpt分区</a>
     </h1>
   
 
-        
-        <a href="/2021/07/23/centos8-mini-cephadm/" class="archive-article-date">
-  	<time datetime="2021-07-23T08:24:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-07-23</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>配置IP</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ip addr　　查看网络配置</span><br><span class="line">nmcli:　　　查看网络配置</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>修改配置文件：vi /etc/sysconfig/network-scripts/ifcfg-ens192</p>
-<span id="more"></span>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">TYPE=&quot;Ethernet&quot;</span><br><span class="line">PROXY_METHOD=&quot;none&quot;</span><br><span class="line">BROWSER_ONLY=&quot;no&quot;</span><br><span class="line">BOOTPROTO=&quot;none&quot;</span><br><span class="line">DEFROUTE=&quot;yes&quot;</span><br><span class="line">IPV4_FAILURE_FATAL=&quot;no&quot;</span><br><span class="line">IPV6INIT=&quot;yes&quot;</span><br><span class="line">IPV6_AUTOCONF=&quot;yes&quot;</span><br><span class="line">IPV6_DEFROUTE=&quot;yes&quot;</span><br><span class="line">IPV6_FAILURE_FATAL=&quot;no&quot;</span><br><span class="line">IPV6_ADDR_GEN_MODE=&quot;stable-privacy&quot;</span><br><span class="line">NAME=&quot;ens192&quot;</span><br><span class="line">UUID=&quot;d4bf9a37-b2bf-4136-8f60-28d653247ae4&quot;</span><br><span class="line">DEVICE=&quot;ens192&quot;</span><br><span class="line">ONBOOT=&quot;yes&quot;</span><br><span class="line">IPADDR=&quot;10.10.10.100&quot;</span><br><span class="line">PREFIX=&quot;24&quot;</span><br><span class="line">GATEWAY=&quot;10.10.10.254&quot;</span><br><span class="line">DNS1=&quot;10.10.17.1&quot;</span><br><span class="line">IPV6_PRIVACY=&quot;no&quot;</span><br></pre></td></tr></table></figure>
-<p>方法：nmcli c reload +网卡名<br>例：nmcli c reload ens192</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 重载所有ifcfg或route到connection（不会立即生效）</span><br><span class="line">nmcli c reload  ifcfg-xxx</span><br><span class="line"># 重载指定ifcfg或route到connection（不会立即生效）</span><br><span class="line">nmcli c load /etc/sysconfig/network-scripts/ifcfg-ethX</span><br><span class="line">nmcli c load /etc/sysconfig/network-scripts/route-ethX</span><br><span class="line"># 立即生效connection，有3种方法</span><br><span class="line">nmcli c up ethX</span><br><span class="line">nmcli d reapply ethX</span><br><span class="line">nmcli d connect ethX</span><br></pre></td></tr></table></figure>
-<p>centos8修改时区以及修正时间<br>查看系统当前的时区命令：timedatectl<br>设置系统时区位亚洲/上海：timedatectl set-timezone Asia/Shanghai<br>校准时间命令：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum install -y ntpdate</span><br><span class="line">ntpdate us.pool.ntp.org</span><br></pre></td></tr></table></figure>
-<p>CentOS 8 源 yum/dnf 源添加、删除和优化</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">执行yum源更新命令 </span><br><span class="line">yum repolist #查看已安装的源</span><br><span class="line">yum makecache #更新元数据</span><br></pre></td></tr></table></figure>
-<p>删除yum中的源</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">1） 删除库配置文件 </span><br><span class="line"></span><br><span class="line">以root权限运行下面的命令：</span><br><span class="line"></span><br><span class="line">cd /etc/yum.repos.d/ </span><br><span class="line"></span><br><span class="line">ls #结果如下</span><br><span class="line"></span><br><span class="line">CentOS-Base.repo epel.repo mirrors-rpmforge-testing </span><br><span class="line"></span><br><span class="line">CentOS-Debuginfo.repo epel-testing.repo rpmforge.repo </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">2） 删除目标库 epel，指定具体的名称。</span><br><span class="line"></span><br><span class="line">rm epel.repo epel-testing.repo  </span><br><span class="line"></span><br><span class="line">rm /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL  </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">3) 删除库的.rpm包</span><br><span class="line"></span><br><span class="line">rpm -qa | grep epel </span><br><span class="line"></span><br><span class="line">输出：</span><br><span class="line"></span><br><span class="line">epel-release-6-8.noarch </span><br><span class="line"></span><br><span class="line">删除即可：yum remove epel-release-6-8.noarch </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">4）重建数据源：</span><br><span class="line"></span><br><span class="line">yum repolist   #查看已安装的源</span><br><span class="line"></span><br><span class="line">yum makecache  #更新元数据</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">安装阿里云源的案例：</span><br><span class="line"></span><br><span class="line">aliyun 更新了 centos8 的说明</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-8.repo</span><br><span class="line"></span><br><span class="line">centos 8 默认是会读取centos.org的mirrorlist的，所以一般来说是不需要配置镜像的。</span><br><span class="line"></span><br><span class="line">如果你的网络访问centos.org的mirrorlist有问题，可能才需要另外配置镜像</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">cd /etc/yum.repos.d</span><br><span class="line"></span><br><span class="line">#备份</span><br><span class="line"></span><br><span class="line">cp CentOS-Base.repo CentOS-Base.repo.bak</span><br><span class="line"></span><br><span class="line">cp CentOS-AppStream.repo CentOS-AppStream.repo.bak</span><br><span class="line"></span><br><span class="line">cp CentOS-Extras.repo CentOS-Extras.repo.bak</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">sed -i &#x27;s/mirrorlist=/#mirrorlist=/g&#x27; CentOS-Base.repo CentOS-AppStream.repo CentOS-Extras.repo</span><br><span class="line"></span><br><span class="line">sed -i &#x27;s/#baseurl=/baseurl=/g&#x27; CentOS-Base.repo CentOS-AppStream.repo CentOS-Extras.repo</span><br><span class="line"></span><br><span class="line">sed -i &#x27;s/http:\/\/mirror.centos.org/https:\/\/mirrors.aliyun.com/g&#x27; CentOS-Base.repo CentOS-AppStream.repo CentOS-Extras.repo</span><br></pre></td></tr></table></figure>
-
-
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> systemctl start chronyd &amp;&amp; systemctl <span class="built_in">enable</span> chronyd</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> systemctl <span class="built_in">disable</span> firewalld &amp;&amp; systemctl stop firewalld</span></span><br><span class="line"><span class="meta">#</span><span class="bash">setenforce 0</span></span><br><span class="line"><span class="meta">#</span><span class="bash">sed -i <span class="string">&quot;s/SELINUX=enforcing/SELINUX=disabled/g&quot;</span> /etc/selinux/config</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">hostnamectl set-hostname node01</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#dnf install epel-release -y</span></span><br><span class="line"><span class="comment">#dnf install python3 -y</span></span><br><span class="line"><span class="comment">#dnf install podman -y</span></span><br><span class="line"><span class="comment">#dnf install -y chrony</span></span><br><span class="line"><span class="comment">#systemctl start chronyd &amp;&amp; systemctl enable chronyd</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> cat /etc/hosts</span></span><br><span class="line">127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4</span><br><span class="line">::1         localhost localhost.localdomain localhost6 localhost6.localdomain6</span><br><span class="line">192.168.149.128 ceph1</span><br><span class="line">192.168.149.145 ceph2</span><br><span class="line">192.168.149.146 ceph3</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#vi /etc/chrony.conf</span><br><span class="line">allow 192.168.123.0/24</span><br><span class="line">#systemctl restart chronyd</span><br></pre></td></tr></table></figure>
-
-<p>ssh-keygen</p>
-<p>ssh-copy-id -f -i /etc/ceph/ceph.pub root@node01</p>
-<p>ssh-copy-id -i /root/.ssh/id_rsa.pub node01</p>
-<p>scp /etc/hosts node01:/etc/</p>
-<p>scp /etc/chrony.conf  node02:/etc/</p>
-<p>ceph orch host add node02 10.10.10.102</p>
-<h2 id="下载cephadm脚本"><a href="#下载cephadm脚本" class="headerlink" title="下载cephadm脚本"></a>下载cephadm脚本</h2><p>下载cephadm脚本,并安装相应版本的容器源。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">curl --silent --remote-name --location https://github.com/ceph/ceph/raw/pacific/src/cephadm/cephadm</span></span><br><span class="line"><span class="meta">#</span><span class="bash">chmod +x cephadm</span></span><br><span class="line"><span class="meta">#</span><span class="bash">./cephadm add-repo --release pacific</span></span><br><span class="line"><span class="meta">#</span><span class="bash">./cephadm install</span></span><br><span class="line"><span class="meta">#</span><span class="bash">./cephadm install  ceph-common</span></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>官方文档中还提到了另一种安装cephadm方式，就是通过dnf install -y cephadm安装，实践证明最好不要使用这种方式，这种方式安装的cephadm可能不是最新版本的，但cephadm去拉的容器版本又是最新的，会导致两个版本不一致！</p>
-</blockquote>
-<p>查看编排后端是cephadm,如果是使用的rook这里后端显示的就是rook。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@ceph1 ~]#  ceph orch status</span><br><span class="line">Backend: cephadm</span><br><span class="line">Available: Yes</span><br><span class="line">Paused: No</span><br></pre></td></tr></table></figure>
-
-<h2 id="引导单群集Ceph安装"><a href="#引导单群集Ceph安装" class="headerlink" title="引导单群集Ceph安装"></a>引导单群集Ceph安装</h2><p>[root@ceph1 ~]<em># cephadm bootstrap –mon-ip 192.168.149.128</em></p>
-<p>引导完成一个单节点群集，程序会做如下事情：</p>
-<ul>
-<li>在本地主机上为新集群创建monitor 和 manager daemon守护程序。</li>
-<li>为Ceph集群生成一个新的SSH密钥，并将其添加到root用户的/root/.ssh/authorized_keys文件中。</li>
-<li>将与新群集进行通信所需的最小配置文件保存到/etc/ceph/ceph.conf。</li>
-<li>向/etc/ceph/ceph.client.admin.keyring写入client.admin管理secret key的副本。</li>
-<li>将public key的副本写入/etc/ceph/ceph.pub。</li>
-</ul>
-<p>完成后记录以上了IP以及用户和密码，打开Ceph Dashboard并根据提示修改密码，打开后提示要激活计量模块。</p>
-<p>(可选)如果忘记记录密码可以通过以下方法重置密码(将密码写入password文件中，通过命令导入密码)</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ceph dashboard ac-user-set-password admin -i password </span><br><span class="line">&#123;&quot;username&quot;: &quot;admin&quot;, &quot;password&quot;: &quot;$2b$12$6oFrEpssXCzLnKTWQy5fM.YZwlHjn8CuQRdeSSJR9hBGgVuwGCxoa&quot;, &quot;roles&quot;: [&quot;administrator&quot;], &quot;name&quot;: null, &quot;email&quot;: null, &quot;lastUpdate&quot;: 1620495653, &quot;enabled&quot;: true, &quot;pwdExpirationDate&quot;: null, &quot;pwdUpdateRequired&quot;: false&#125;</span><br></pre></td></tr></table></figure>
-
-<p>如果Ceph Dashboard中错过了启用，也可以使用命令启用，命令是“ceph telemetry on –license sharing-1-0”。</p>
-<h2 id="添加主机"><a href="#添加主机" class="headerlink" title="添加主机"></a>添加主机</h2><p>上文中提示了在引导成功单节点Ceph群集后会引导程序会将public key的副本写入/etc/ceph/ceph.pub，在添加主机节点前需要讲该key分发到要加入群集的主机上</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@ceph1 ~]# ssh-copy-id -f -i /etc/ceph/ceph.pub root@ceph2</span><br><span class="line">[root@ceph1 ~]# ssh-copy-id -f -i /etc/ceph/ceph.pub root@ceph3</span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@ceph1 ~]# ceph orch host add ceph2 192.168.149.145</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@ceph1 ~]# ceph orch host ls</span><br><span class="line">HOST   ADDR             LABELS  STATUS  </span><br><span class="line">ceph1  192.168.149.128  _admin          </span><br><span class="line">ceph2  192.168.149.145                  </span><br><span class="line">ceph3  192.168.149.146         </span><br></pre></td></tr></table></figure>
-
-<h2 id="添加OSD"><a href="#添加OSD" class="headerlink" title="添加OSD"></a>添加OSD</h2><p>添加OSD需求满足以下所有条件：</p>
-<ul>
-<li>设备必须没有分区。</li>
-<li>设备不得具有任何LVM状态。</li>
-<li>不得安装设备。</li>
-<li>该设备不得包含文件系统。</li>
-<li>该设备不得包含Ceph BlueStore OSD。</li>
-<li>设备必须大于5 GB。</li>
-</ul>
-<p>添加OSD有2种方式，1为自动添加所有满足条件的OSD。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#ceph orch apply osd --all-available-devices</span><br></pre></td></tr></table></figure>
-
-<p>2为通过手工指定的方式添加OSD。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#ceph orch daemon add osd ceph1:/dev/sdb</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@ceph1 ~]# ceph orch device ls</span><br></pre></td></tr></table></figure>
-
-<h2 id="查看Ceph部署服务"><a href="#查看Ceph部署服务" class="headerlink" title="查看Ceph部署服务"></a>查看Ceph部署服务</h2><p>命令行查看Ceph状态正常。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[root@ceph1 ~]# ceph -s</span><br><span class="line">  cluster:</span><br><span class="line">    id:     36e7a21c-e3f7-11eb-8960-000c299df6ef</span><br><span class="line">    health: HEALTH_OK</span><br><span class="line"> </span><br><span class="line">  services:</span><br><span class="line">    mon: 3 daemons, quorum ceph1,ceph2,ceph3 (age 8s)</span><br><span class="line">    mgr: ceph1.nwbihh(active, since 3d), standbys: ceph2.ednijf</span><br><span class="line">    osd: 9 osds: 9 up (since 3s), 9 in (since 3d)</span><br><span class="line"> </span><br><span class="line">  data:</span><br><span class="line">    pools:   1 pools, 1 pgs</span><br><span class="line">    objects: 0 objects, 0 B</span><br><span class="line">    usage:   48 MiB used, 180 GiB / 180 GiB avail</span><br><span class="line">    pgs:     1 active+clean</span><br></pre></td></tr></table></figure>
-
-<p>iSCSI还是没有自动集成。</p>
-<p>rbd-mirror服务没有启用。</p>
-<p>NFS也没有集成。</p>
-<p>Cephfs也没有部署。</p>
-<p>RGW也没有集成。</p>
-<p>下面我们逐步一个个部署集成这些服务。</p>
-<h2 id="部署RGW"><a href="#部署RGW" class="headerlink" title="部署RGW"></a>部署RGW</h2><p>使用指定数量匹配模式部署。</p>
-
-      
-
-      
-        <div class="page-reward">
-          <a href="javascript:;" class="page-reward-btn tooltip-top">
-            <div class="tooltip tooltip-east">
-            <span class="tooltip-item">
-              赏
-            </span>
-            <span class="tooltip-content">
-              <span class="tooltip-text">
-                <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i>觉得赞，就请我喝杯茶吧<i class="icon icon-quo-right"></i></p>
-                  <div class="reward-box">
-                    
-                    <div class="reward-box-item">
-                      <img class="reward-img" src="/img/alipay.jpg">
-                      <span class="reward-type">支付宝</span>
-                    </div>
-                    
-                    
-                    <div class="reward-box-item">
-                      <img class="reward-img" src="/img/weixin.jpg">
-                      <span class="reward-type">微信</span>
-                    </div>
-                    
-                  </div>
-                </span>
-              </span>
-            </span>
-          </div>
-          </a>
-        </div>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
+        <div class="article-info info-on-right">
+          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">cephadm</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">linux</a>
         		</li>
       		
 		</ul>
 	</div>
 
-      
+          
 
-      
-
-      
-        
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
         </div>
-      </div>
-    </span>
-  </div>
-</div>
-
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://anximin.github.io/2021/07/23/centos8-mini-cephadm/" alt="微信分享二维码">
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
-      
-      <div class="clearfix"></div>
-    </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
-  
-<nav id="article-nav">
-  
-    <a href="/2021/07/23/ceph-cephadm/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          ceph部署中所需的cephadm文件
-        
-      </div>
-    </a>
   
   
-    <a href="/2021/07/20/net-bond/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Openfiler网络聚合</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-  
-  
+    </div></section>
   
 
-  
-
-  
-
-  
+    
 
 
           </div>
@@ -460,9 +240,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: true,
+		isPost: false,
 		isArchive: false,
-		isTag: false,
+		isTag: true,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
@@ -530,7 +310,35 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">黑群晖</a>
+                <a href="javascript:void(0)" class="js-tag color2">Active Directory</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">活动目录</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">IDEA</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">cephadm</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">CentOS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -542,47 +350,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">CentOS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">cephadm</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">git</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Active Directory</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">活动目录</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">IDEA</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">OPENfiler</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">OPNsense</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Nginx</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -591,6 +363,22 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">npm</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Nginx</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">openfiler</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">黑群晖</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">
