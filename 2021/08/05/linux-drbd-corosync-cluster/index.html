@@ -6,18 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://anximin.github.io">
-  <title>404 Not Found：该页无法显示 | Want To</title>
+  <title>openfiler基于corosync集群当脑裂时自动停止服务 | Want To</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="弃我去者，昨日之日不可留；乱我心者，今日之日多烦忧。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="404 Not Found：该页无法显示">
-<meta property="og:url" content="http://anximin.github.io/404.html">
+  <meta name="description" content="模拟心跳down机实验以及恢复在主节点主机上面建立crontab任务问题：drbd脑裂问题，当心跳线断掉的时候，两个节点同时可以对外提供服务，通过corosync管理服务机制出现问题，双方都对外提供服务，会导致最终数据产生不一致。按照上面实验filer01作为主机对外提供服务，在filer01上面添加crontab任务，当检测到自己网卡down掉，或者是心跳线出现问题，在验证属于自己问题后，将集群">
+<meta property="og:type" content="article">
+<meta property="og:title" content="openfiler基于corosync集群当脑裂时自动停止服务">
+<meta property="og:url" content="http://anximin.github.io/2021/08/05/linux-drbd-corosync-cluster/index.html">
 <meta property="og:site_name" content="Want To">
-<meta property="og:description" content="弃我去者，昨日之日不可留；乱我心者，今日之日多烦忧。">
+<meta property="og:description" content="模拟心跳down机实验以及恢复在主节点主机上面建立crontab任务问题：drbd脑裂问题，当心跳线断掉的时候，两个节点同时可以对外提供服务，通过corosync管理服务机制出现问题，双方都对外提供服务，会导致最终数据产生不一致。按照上面实验filer01作为主机对外提供服务，在filer01上面添加crontab任务，当检测到自己网卡down掉，或者是心跳线出现问题，在验证属于自己问题后，将集群">
 <meta property="og:locale">
-<meta property="article:published_time" content="2021-06-23T07:30:36.000Z">
-<meta property="article:modified_time" content="2021-06-24T07:05:22.232Z">
+<meta property="article:published_time" content="2021-08-05T08:37:58.000Z">
+<meta property="article:modified_time" content="2021-08-05T08:43:32.697Z">
 <meta property="article:author" content="Sylar">
+<meta property="article:tag" content="openfiler">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="Want To" type="application/atom+xml">
@@ -166,27 +167,35 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="404-" class="article article-type-404 " itemscope itemprop="blogPost">
+            <article id="post-linux-drbd-corosync-cluster" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      404 Not Found：该页无法显示
+      openfiler基于corosync集群当脑裂时自动停止服务
     </h1>
   
 
         
-        <a href="/404.html" class="archive-article-date">
-  	<time datetime="2021-06-23T07:30:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-06-23</time>
+        <a href="/2021/08/05/linux-drbd-corosync-cluster/" class="archive-article-date">
+  	<time datetime="2021-08-05T08:37:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-08-05</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <p>模拟心跳down机实验以及恢复<br>在主节点主机上面建立crontab任务<br>问题：drbd脑裂问题，当心跳线断掉的时候，两个节点同时可以对外提供服务，通过corosync管理服务机制出现问题，双方都对外提供服务，会导致最终数据产生不一致。<br>按照上面实验filer01作为主机对外提供服务，在filer01上面添加crontab任务，当检测到自己网卡down掉，或者是心跳线出现问题，在验证属于自己问题后，将集群服务停掉，自动退出集群节点。</p>
+<span id="more"></span>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">[root@openfiler01 ~]<span class="comment"># cat drbd.sh</span></span><br><span class="line">\<span class="comment">#!/bin/bash</span></span><br><span class="line">\<span class="comment">#env &gt; /root/bbb</span></span><br><span class="line">/sbin/ifconfig | grepeth1</span><br><span class="line"><span class="keyword">if</span> [ $? = 0 ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot; <span class="subst">$(date +%F/%H:%M)</span> : eth1 OK&quot;</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;<span class="subst">$(date +%F/%H:%M)</span>: eth1 down ,stop service&quot;</span> &gt;&gt; /root/fail.txt</span><br><span class="line">pkill corosync</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line">ping -c110.10.5.156 &amp;&gt; /dev/null</span><br><span class="line"><span class="keyword">if</span> [ $? = 0 ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot; <span class="subst">$(date +%F/%H:%M)</span> : ping OK&quot;</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">ping -c1 192.168.11.1 &amp;&gt; /dev/null</span><br><span class="line"><span class="keyword">if</span> [ $? = 0 ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;<span class="subst">$(date +%F/%H:%M)</span> : ping 11.1OK 223 failed&quot;</span> &gt;&gt; /root/alter.txt</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">   <span class="built_in">echo</span><span class="string">&quot;<span class="subst">$(date +%F/%H:%M)</span>: ping failed , stop service &quot;</span> &gt;&gt; /root/fail.txt</span><br><span class="line">   pkillcorosync</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+
+
+<p>添加到crontab，时时检测问题。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@filer91 ~]<span class="comment">#crontab -l</span></span><br><span class="line">\* * * * * sh/root/drbd.sh &amp;</span><br></pre></td></tr></table></figure>
+
+
       
 
       
@@ -225,6 +234,17 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">openfiler</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
@@ -275,7 +295,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://anximin.github.io/404.html" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://anximin.github.io/2021/08/05/linux-drbd-corosync-cluster/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -287,6 +307,16 @@
 </article>
 
   
+<nav id="article-nav">
+  
+  
+    <a href="/2021/08/05/linux-drbd-bigdisk/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">drbd使用大硬盘</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -305,6 +335,16 @@
 </aside>
 
 
+
+  
+  
+  
+
+  
+
+  
+
+  
 
 
           </div>
@@ -327,7 +367,7 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,

@@ -16,7 +16,7 @@
 <meta property="og:description" content="DRBD(Distributed Replicated Block Device)是一个用软件实现的、无共享的、服务器之间镜像块设备内容的存储复制解决方案。数据镜像：实时、透明、同步（所有服务器都成功后返回）、异步（本地服务器成功后返回）DRBD的核心功能通过Linux的内核实现，最接近系统的IO栈，但它没有上层的功能比如检测到EXT3文件系统的崩溃。DRBD的位置处于文件系统以下，比文件系统更加">
 <meta property="og:locale">
 <meta property="article:published_time" content="2021-08-05T02:06:36.000Z">
-<meta property="article:modified_time" content="2021-08-05T03:25:15.453Z">
+<meta property="article:modified_time" content="2021-08-05T08:31:05.719Z">
 <meta property="article:author" content="Sylar">
 <meta property="article:tag" content="DRBD">
 <meta name="twitter:card" content="summary">
@@ -209,6 +209,11 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@filer92 ~]<span class="comment"># service drbd status</span></span><br><span class="line">drbd driver loaded OK; device status:</span><br><span class="line">version: 8.3.10 (api:88/proto:86-96)</span><br><span class="line">GIT-hash: 5c0b0469666682443d4785d90a2c603378f9017b build by phil@fat-tyre, 2011-01-28 12:17:35</span><br><span class="line">m:res   cs         ro                 ds                 p  mounted  fstype</span><br><span class="line">0:meta  Connected  Secondary/Primary  UpToDate/UpToDate  C</span><br><span class="line">1:data  Connected  Secondary/Primary  UpToDate/UpToDate  C</span><br></pre></td></tr></table></figure>
 
 <p>至此DRBD的脑裂问题已经解决。</p>
+<p>还可以重新同步数据:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@filer91 ~]<span class="comment"># drbdadm invalidate all</span></span><br></pre></td></tr></table></figure>
+
+
+
 
       
 
@@ -468,15 +473,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">git</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+                <a href="javascript:void(0)" class="js-tag color4">git</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -484,7 +485,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">DRBD</a>
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -492,7 +493,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">CentOS</a>
+                <a href="javascript:void(0)" class="js-tag color5">openfiler</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">DRBD</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -504,15 +509,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">CentOS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">cephadm</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">OPNsense</a>
+                <a href="javascript:void(0)" class="js-tag color5">OPENfiler</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">OPENfiler</a>
+                <a href="javascript:void(0)" class="js-tag color4">OPNsense</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -528,19 +537,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">黑群晖</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">虚拟化</a>
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">openfiler</a>
+                <a href="javascript:void(0)" class="js-tag color4">虚拟化</a>
               </li>
              
               <li class="article-tag-list-item">
