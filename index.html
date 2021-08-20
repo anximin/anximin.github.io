@@ -263,29 +263,39 @@
 
 
   
-    <article id="post-linux-drbd-corosync-cluster" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-openfiler_lostLV" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/08/05/linux-drbd-corosync-cluster/">openfiler基于corosync集群当脑裂时自动停止服务</a>
+      <a class="article-title" href="/2021/08/20/openfiler_lostLV/">openfiler丢失了LV卷</a>
     </h1>
   
 
         
-        <a href="/2021/08/05/linux-drbd-corosync-cluster/" class="archive-article-date">
-  	<time datetime="2021-08-05T08:37:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-08-05</time>
+        <a href="/2021/08/20/openfiler_lostLV/" class="archive-article-date">
+  	<time datetime="2021-08-20T06:05:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-08-20</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>模拟心跳down机实验以及恢复<br>在主节点主机上面建立crontab任务<br>问题：drbd脑裂问题，当心跳线断掉的时候，两个节点同时可以对外提供服务，通过corosync管理服务机制出现问题，双方都对外提供服务，会导致最终数据产生不一致。<br>按照上面实验filer01作为主机对外提供服务，在filer01上面添加crontab任务，当检测到自己网卡down掉，或者是心跳线出现问题，在验证属于自己问题后，将集群服务停掉，自动退出集群节点。</p>
+        <ol>
+<li><p>使用lvdisplay和lvs命令查看都能正常看到对应的卷，但是在openfiler中没有显示。</p>
+</li>
+<li><p>应该是在openfiler的配置信息丢失导致的；</p>
+</li>
+<li><p>卷的配置信息保存在一个叫volumes.xml的配置文件中；<code>/meta/opt/openfiler/etc/volumes.xml</code></p>
+</li>
+<li><p>在volumes.xml中添加对应的配置信息；</p>
+</li>
+</ol>
+<p>格式如下：</p>
         
-          <a class="article-more-a" href="/2021/08/05/linux-drbd-corosync-cluster/#more">more >></a>
+          <a class="article-more-a" href="/2021/08/20/openfiler_lostLV/#more">more >></a>
         
       
 
@@ -299,7 +309,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">openfiler</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">poenfiler</a>
         		</li>
       		
 		</ul>
@@ -309,7 +319,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2021/08/05/linux-drbd-corosync-cluster/">展开全文 >></a>
+          <a class="article-more-a" href="/2021/08/20/openfiler_lostLV/">展开全文 >></a>
         </p>
       
 
@@ -339,19 +349,609 @@
 
 
   
-    <article id="post-linux-drbd-bigdisk" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-Win_kuaijiejian" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/08/05/linux-drbd-bigdisk/">drbd使用大硬盘</a>
+      <a class="article-title" href="/2021/08/19/Win_kuaijiejian/">Win_kuaijiejian</a>
     </h1>
   
 
         
-        <a href="/2021/08/05/linux-drbd-bigdisk/" class="archive-article-date">
+        <a href="/2021/08/19/Win_kuaijiejian/" class="archive-article-date">
+  	<time datetime="2021-08-19T03:00:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-08-19</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>Windows10运行命令大全</strong></p>
+<p>Windows的117个运行命令</p>
+<p>1.关于Windows（版本） winver</p>
+<p>2.设置 ms-settings:wheel</p>
+<p>3.添加设备 devicepairingwizard</p>
+<p>4.添加硬件 hdwwiz</p>
+<p>5.用户账户 netplwiz</p>
+        
+          <a class="article-more-a" href="/2021/08/19/Win_kuaijiejian/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">运行命令</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/08/19/Win_kuaijiejian/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-openfiler_kuozhan" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/08/18/openfiler_kuozhan/">openfiler集群扩展容量</a>
+    </h1>
+  
+
+        
+        <a href="/2021/08/18/openfiler_kuozhan/" class="archive-article-date">
+  	<time datetime="2021-08-18T03:01:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-08-18</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> openfiler集群建成之后，通过修改分区实现调整drbd数据卷大小的实验。</p>
+<p>drbd0为元数据分区，drbd1为存储数据卷分区。</p>
+<p>集群包含名为<code>data</code>的VG, 内含PV:<code>/dev/drbd1 </code> 在data中由openfiler创建了<code>filer</code> <code>ftp</code>两个LV。</p>
+<p>大小如下：</p>
+<table>
+<thead>
+<tr>
+<th>分区 partition</th>
+<th>分区类型</th>
+<th>DRBD块设备</th>
+<th>容量</th>
+<th>扩容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>/dev/sda1</td>
+<td>ext3</td>
+<td>drbd0</td>
+<td>600M</td>
+<td>不变</td>
+</tr>
+<tr>
+<td>/dev/sda2</td>
+<td>LVM</td>
+<td>drbd1</td>
+<td>8G</td>
+<td>80G</td>
+</tr>
+</tbody></table>
+<p>sda这块硬盘是500G的，所以想通过修改<code>sda2</code>分区大小来扩展<code>drbd1</code>。</p>
+<h5 id="查看当前分区信息"><a href="#查看当前分区信息" class="headerlink" title="查看当前分区信息"></a>查看当前分区信息</h5>
+        
+          <a class="article-more-a" href="/2021/08/18/openfiler_kuozhan/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">openfiler</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/08/18/openfiler_kuozhan/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-Win10_CANTadd_AD" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/08/17/Win10_CANTadd_AD/">Win10加域提示“无法加载脱机注册表配置单元”</a>
+    </h1>
+  
+
+        
+        <a href="/2021/08/17/Win10_CANTadd_AD/" class="archive-article-date">
+  	<time datetime="2021-08-17T07:21:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-08-17</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>WIN 10 PRO 加域提示“无法加载脱机注册表配置单元，请确保你有权限访问指定的路径位置，并有修改其内容的权限，可能需要提升管理员身份运行”</p>
+<p>原因分析：</p>
+        
+          <a class="article-more-a" href="/2021/08/17/Win10_CANTadd_AD/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Active Directory</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/08/17/Win10_CANTadd_AD/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-Win_DC2003PassRecovery" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/08/16/Win_DC2003PassRecovery/">域控【2003】密码重置</a>
+    </h1>
+  
+
+        
+        <a href="/2021/08/16/Win_DC2003PassRecovery/" class="archive-article-date">
+  	<time datetime="2021-08-16T03:41:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-08-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>如果Windows Server 2003域控服务器的密码忘记了,可以在这里下载Mcse_PassRecovery工具。<br>Windows Server 2003没有提供恢复域控制器密码的工具，此工具来自MSCE技术论坛，而此论坛目前好像已经不存在了。如果你有它的消息欢迎提供线索。</p>
+<p>忘记域控制器密码的解决办法：</p>
+        
+          <a class="article-more-a" href="/2021/08/16/Win_DC2003PassRecovery/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Active Directory</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/08/16/Win_DC2003PassRecovery/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-SQL_knowledge" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/08/11/SQL_knowledge/">SQL关键词：触发器,函数,视图,存储过程</a>
+    </h1>
+  
+
+        
+        <a href="/2021/08/11/SQL_knowledge/" class="archive-article-date">
+  	<time datetime="2021-08-11T03:44:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-08-11</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>触发器</strong>:是一个特殊的存储过程,它是mysql在insert,update,delete的时候自动执行的代码块.</p>
+<p>在一个语句执行后,自动触发的事件</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">trigger</span> trigger_name</span><br><span class="line"></span><br><span class="line">　　 after<span class="operator">/</span>before <span class="keyword">insert</span> <span class="operator">/</span>update<span class="operator">/</span><span class="keyword">delete</span> <span class="keyword">on</span> 表名</span><br><span class="line"></span><br><span class="line">　　 <span class="keyword">for</span> <span class="keyword">each</span> <span class="type">row</span></span><br><span class="line"></span><br><span class="line">　　 <span class="keyword">begin</span></span><br><span class="line"></span><br><span class="line">　　 <span class="keyword">sql</span>语句：（触发的语句一句或多句）</span><br><span class="line"></span><br><span class="line">　　 <span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+        
+          <a class="article-more-a" href="/2021/08/11/SQL_knowledge/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">SQL</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/08/11/SQL_knowledge/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-qunhui_uninstall_GLPI" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/08/11/qunhui_uninstall_GLPI/">群晖卸载忘记密码的套件</a>
+    </h1>
+  
+
+        
+        <a href="/2021/08/11/qunhui_uninstall_GLPI/" class="archive-article-date">
+  	<time datetime="2021-08-11T01:46:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-08-11</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>群晖套件<code>GLPI</code>安装后一直没有用，想要卸载时需要提供当时设置的Mysql密码，时间久远早就忘了，造成无法常规卸载。</p>
+<ul>
+<li><p>打开群晖的SSH登录开关。</p>
+<ul>
+<li><code>主菜单</code>》 <code>控制面板</code>》 <code>终端机和SNMP</code>》<code>终端机</code>》<code>启动SSH功能</code>&gt;&gt;<code>保存</code></li>
+</ul>
+</li>
+<li><p>通过SSH工具连接到群晖：</p>
+<ul>
+<li><pre><code class="bash">it@Cloud:/$ sudo synopkg list | grep --ignore-case GLPI
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--more--&gt;</span><br><span class="line">  * 此时会提示输入管理密码（是登录群晖时的密码）。</span><br><span class="line"></span><br><span class="line">    ```bash</span><br><span class="line">    We trust you have received the usual lecture from the local System</span><br><span class="line">    Administrator. It usually boils down to these three things:</span><br><span class="line">    </span><br><span class="line">        #1) Respect the privacy of others.</span><br><span class="line">        #2) Think before you type.</span><br><span class="line">        #3) With great power comes great responsibility.</span><br><span class="line">    </span><br><span class="line">    Password: </span><br><span class="line">    GLPI-9.5.3-0132: GLPI is an Information Resource Manager with an additional administration interface. You can use it to build up a database with all the inventory in your company (computer, software, printers...). The details of the inventory will be stored in the database. GLPI has enhanced functions to make daily life for the 、administrators easier.</span><br></pre></td></tr></table></figure>
+#忽略大小写：
+it@Cloud:/$ sudo synopkg pause GLPI
+#输入卸载命令：
+it@Cloud:/$ sudo synopkg uninstall GLPI
+</code></pre>
+<p>等待一会儿<code>GLPI</code>套件就卸载掉了。<br>其它的一些套件都可以使用此方法卸载。</p>
+</li>
+</ul>
+</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">群晖</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/08/11/qunhui_uninstall_GLPI/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-linux_drbd_corosync_cluster" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/08/05/linux_drbd_corosync_cluster/">openfiler基于corosync集群当脑裂时自动停止服务</a>
+    </h1>
+  
+
+        
+        <a href="/2021/08/05/linux_drbd_corosync_cluster/" class="archive-article-date">
+  	<time datetime="2021-08-05T08:37:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-08-05</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>模拟心跳down机实验以及恢复<br>在主节点主机上面建立crontab任务<br>问题：drbd脑裂问题，当心跳线断掉的时候，两个节点同时可以对外提供服务，通过corosync管理服务机制出现问题，双方都对外提供服务，会导致最终数据产生不一致。<br>按照上面实验filer01作为主机对外提供服务，在filer01上面添加crontab任务，当检测到自己网卡down掉，或者是心跳线出现问题，在验证属于自己问题后，将集群服务停掉，自动退出集群节点。</p>
+        
+          <a class="article-more-a" href="/2021/08/05/linux_drbd_corosync_cluster/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">openfiler</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/08/05/linux_drbd_corosync_cluster/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-linux_drbd_bigdisk" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/08/05/linux_drbd_bigdisk/">drbd使用大硬盘</a>
+    </h1>
+  
+
+        
+        <a href="/2021/08/05/linux_drbd_bigdisk/" class="archive-article-date">
   	<time datetime="2021-08-05T07:23:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-08-05</time>
 </a>
         
@@ -362,7 +962,7 @@
         <p>更换硬盘后drbd状态显示为UnConfigured</p>
 <p>Linux缺省vmalloc为128MB</p>
         
-          <a class="article-more-a" href="/2021/08/05/linux-drbd-bigdisk/#more">more >></a>
+          <a class="article-more-a" href="/2021/08/05/linux_drbd_bigdisk/#more">more >></a>
         
       
 
@@ -386,564 +986,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2021/08/05/linux-drbd-bigdisk/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-linux-LVM" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/08/05/linux-LVM/">linux LVM分区全解</a>
-    </h1>
-  
-
-        
-        <a href="/2021/08/05/linux-LVM/" class="archive-article-date">
-  	<time datetime="2021-08-05T03:34:56.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-08-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="LVM（逻辑分区管理）中的几个概念："><a href="#LVM（逻辑分区管理）中的几个概念：" class="headerlink" title="LVM（逻辑分区管理）中的几个概念："></a>LVM（逻辑分区管理）中的几个概念：</h3><p><code>PV</code>(physical volume)：物理卷在逻辑卷管理系统最底层，可为整个物理硬盘或实际物理硬盘上的分区。<br><code>VG</code>(volume group)：卷组建立在物理卷上，一卷组中至少要包括一物理卷，卷组建立后可动态的添加卷到卷组中，一个逻辑卷管理系统工程中可有多个卷组。</p>
-        
-          <a class="article-more-a" href="/2021/08/05/linux-LVM/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">LVM</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/08/05/linux-LVM/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-linux-drbd-naolie" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/08/05/linux-drbd-naolie/">【解决】DRBD脑裂问题</a>
-    </h1>
-  
-
-        
-        <a href="/2021/08/05/linux-drbd-naolie/" class="archive-article-date">
-  	<time datetime="2021-08-05T02:06:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-08-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>DRBD(Distributed Replicated Block Device)是一个用软件实现的、无共享的、服务器之间镜像块设备内容的存储复制解决方案。<br>数据镜像：实时、透明、同步（所有服务器都成功后返回）、异步（本地服务器成功后返回）<br>DRBD的核心功能通过Linux的内核实现，最接近系统的IO栈，但它没有上层的功能比如检测到EXT3文件系统的崩溃。<br>DRBD的位置处于文件系统以下，比文件系统更加靠近操作系统内核及IO栈。</p>
-<p>今天就遇到了openfiler HA(双活)集群中的DRBD服务出现了脑裂。下面是解决过程。</p>
-        
-          <a class="article-more-a" href="/2021/08/05/linux-drbd-naolie/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DRBD</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/08/05/linux-drbd-naolie/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-openfiler_cluster_lvm" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/08/03/openfiler_cluster_lvm/">openfiler集群应用LVM分区</a>
-    </h1>
-  
-
-        
-        <a href="/2021/08/03/openfiler_cluster_lvm/" class="archive-article-date">
-  	<time datetime="2021-08-03T00:16:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-08-03</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <table>
-<thead>
-<tr>
-<th>node1</th>
-<th>node2</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>hostname: filer91<br />eth0: 10.10.10.91<br />eth1: 10.10.100.91<br />512MB Meta partition<br />4GB+ Data partition</td>
-<td>hostname: filer91<br />eth0: 10.10.10.91<br />eth1: 10.10.100.91<br />512MB Meta partition<br />4GB+ Data partition</td>
-</tr>
-</tbody></table>
-<p>virtualip: 10.10.10.90 ( 不要在任何网卡配置，后面在corosync中配置 )</p>
-        
-          <a class="article-more-a" href="/2021/08/03/openfiler_cluster_lvm/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">openfiler</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/08/03/openfiler_cluster_lvm/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Linux-partition" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/07/31/Linux-partition/">Linux的mbr与gpt分区</a>
-    </h1>
-  
-
-        
-        <a href="/2021/07/31/Linux-partition/" class="archive-article-date">
-  	<time datetime="2021-07-31T01:08:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-07-31</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="MBR分区"><a href="#MBR分区" class="headerlink" title="MBR分区"></a>MBR分区</h4><p>支持最大卷：2T</p>
-<p>限制：最多4个主分区 或 3个主分区加1个扩展分区</p>
-<p>分区工具：fdisk /dev/[sda]</p>
-<p>fdisk -l /dev/sda  如果提示：</p>
-<p><code>WARNING: GPT (GUID Partition Table) detected on &#39;/dev/sda&#39;! The util fdisk doesn&#39;t support GPT. Use GNU Parted.</code></p>
-        
-          <a class="article-more-a" href="/2021/07/31/Linux-partition/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/07/31/Linux-partition/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-git-push-rejected" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/07/29/git-push-rejected/">【解决】Push to origin/master was rejected错误</a>
-    </h1>
-  
-
-        
-        <a href="/2021/07/29/git-push-rejected/" class="archive-article-date">
-  	<time datetime="2021-07-29T02:44:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-07-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p> 在IDEA中push项目的时候遇到 <code>Push to origin/master was rejected</code>错误提示。</p>
-<p>该错误意思是<code>推送被拒绝</code></p>
-<h4 id="原因是："><a href="#原因是：" class="headerlink" title="原因是："></a>原因是：</h4>
-        
-          <a class="article-more-a" href="/2021/07/29/git-push-rejected/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">git</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">IDEA</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/07/29/git-push-rejected/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-ceph-cephadm" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/07/23/ceph-cephadm/">ceph部署中所需的cephadm文件</a>
-    </h1>
-  
-
-        
-        <a href="/2021/07/23/ceph-cephadm/" class="archive-article-date">
-  	<time datetime="2021-07-23T08:40:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-07-23</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>通常国内的网络是不能wget到这个文件的。也可以手动建立cephadm这个文件，然后再赋予它执行权限<code>chmod +x cephadm</code>，下面是cephadm的完整内容。</p>
-        
-          <a class="article-more-a" href="/2021/07/23/ceph-cephadm/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">cephadm</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/07/23/ceph-cephadm/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-linux_centos8_mini_cephadm" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/07/23/linux_centos8_mini_cephadm/">centos8最小化安装环境使用cephadm部署ceph集群存储</a>
-    </h1>
-  
-
-        
-        <a href="/2021/07/23/linux_centos8_mini_cephadm/" class="archive-article-date">
-  	<time datetime="2021-07-23T08:24:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-07-23</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>配置IP</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ip addr　　查看网络配置</span><br><span class="line">nmcli:　　　查看网络配置</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>修改配置文件：vi /etc/sysconfig/network-scripts/ifcfg-ens192</p>
-        
-          <a class="article-more-a" href="/2021/07/23/linux_centos8_mini_cephadm/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">cephadm</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/07/23/linux_centos8_mini_cephadm/">展开全文 >></a>
+          <a class="article-more-a" href="/2021/08/05/linux_drbd_bigdisk/">展开全文 >></a>
         </p>
       
 
@@ -975,7 +1018,7 @@
   
   
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
     </nav>
   
 
@@ -1070,15 +1113,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">SQL</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Active Directory</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">活动目录</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+                <a href="javascript:void(0)" class="js-tag color5">运行命令</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1094,18 +1141,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">drbd</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">openfiler</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">DRBD</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">ceph</a>
               </li>
              
@@ -1118,7 +1153,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">drbd</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">cephadm</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">openfiler</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">DRBD</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Nginx</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1127,10 +1178,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">OPNsense</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Nginx</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1143,6 +1190,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">黑群晖</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">群晖</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">poenfiler</a>
               </li>
              
               <li class="article-tag-list-item">
