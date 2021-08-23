@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Want To</title>
+  
+  
+  <link href="http://anximin.github.io/atom.xml" rel="self"/>
+  
+  <link href="http://anximin.github.io/"/>
+  <updated>2021-08-21T02:43:18.266Z</updated>
+  <id>http://anximin.github.io/</id>
+  
+  <author>
+    <name>Sylar</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>openfiler丢失了LV卷</title>
+    <link href="http://anximin.github.io/2021/08/20/openfiler_lostLV/"/>
+    <id>http://anximin.github.io/2021/08/20/openfiler_lostLV/</id>
+    <published>2021-08-20T06:05:44.000Z</published>
+    <updated>2021-08-21T02:43:18.266Z</updated>
+    
+    
+    <summary type="html">&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;使用lvdisplay和lvs命令查看都能正常看到对应的卷，但是在openfiler中没有显示。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;应该是在openfiler的配置信息丢失导致的；&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;卷的配置信息保存在一个叫volumes.xml的配置文件中；&lt;code&gt;/meta/opt/openfiler/etc/volumes.xml&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;在volumes.xml中添加对应的配置信息；&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;格式如下：&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="poenfiler" scheme="http://anximin.github.io/tags/poenfiler/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Windows10运行命令大全</title>
+    <link href="http://anximin.github.io/2021/08/19/Win_kuaijiejian/"/>
+    <id>http://anximin.github.io/2021/08/19/Win_kuaijiejian/</id>
+    <published>2021-08-19T03:00:17.000Z</published>
+    <updated>2021-08-21T03:52:18.977Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;&lt;strong&gt;Windows10运行命令大全&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Windows的117个运行命令&lt;/p&gt;
+&lt;p&gt;1.关于Windows（版本） winver&lt;/p&gt;
+&lt;p&gt;2.设置 ms-settings:wheel&lt;/p&gt;
+&lt;p&gt;3.添加设备 devicepairingwizard&lt;/p&gt;
+&lt;p&gt;4.添加硬件 hdwwiz&lt;/p&gt;
+&lt;p&gt;5.用户账户 netplwiz&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="Windows" scheme="http://anximin.github.io/categories/Windows/"/>
+    
+    
+    <category term="运行命令" scheme="http://anximin.github.io/tags/%E8%BF%90%E8%A1%8C%E5%91%BD%E4%BB%A4/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>openfiler集群扩展容量</title>
+    <link href="http://anximin.github.io/2021/08/18/openfiler_kuozhan/"/>
+    <id>http://anximin.github.io/2021/08/18/openfiler_kuozhan/</id>
+    <published>2021-08-18T03:01:48.000Z</published>
+    <updated>2021-08-21T03:16:01.030Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt; openfiler集群建成之后，通过修改分区实现调整drbd数据卷大小的实验。&lt;/p&gt;
+&lt;p&gt;drbd0为元数据分区，drbd1为存储数据卷分区。&lt;/p&gt;
+&lt;p&gt;集群包含名为&lt;code&gt;data&lt;/code&gt;的VG, 内含PV:&lt;code&gt;/dev/drbd1 &lt;/code&gt; 在data中由openfiler创建了&lt;code&gt;filer&lt;/code&gt; &lt;code&gt;ftp&lt;/code&gt;两个LV。&lt;/p&gt;
+&lt;p&gt;大小如下：&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;分区 partition&lt;/th&gt;
+&lt;th&gt;分区类型&lt;/th&gt;
+&lt;th&gt;DRBD块设备&lt;/th&gt;
+&lt;th&gt;容量&lt;/th&gt;
+&lt;th&gt;扩容&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;
+&lt;td&gt;/dev/sda1&lt;/td&gt;
+&lt;td&gt;ext3&lt;/td&gt;
+&lt;td&gt;drbd0&lt;/td&gt;
+&lt;td&gt;600M&lt;/td&gt;
+&lt;td&gt;不变&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;/dev/sda2&lt;/td&gt;
+&lt;td&gt;LVM&lt;/td&gt;
+&lt;td&gt;drbd1&lt;/td&gt;
+&lt;td&gt;8G&lt;/td&gt;
+&lt;td&gt;80G&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;&lt;/table&gt;
+&lt;p&gt;sda这块硬盘是500G的，所以想通过修改&lt;code&gt;sda2&lt;/code&gt;分区大小来扩展&lt;code&gt;drbd1&lt;/code&gt;。&lt;/p&gt;
+&lt;h5 id=&quot;查看当前分区信息&quot;&gt;&lt;a href=&quot;#查看当前分区信息&quot; class=&quot;headerlink&quot; title=&quot;查看当前分区信息&quot;&gt;&lt;/a&gt;查看当前分区信息&lt;/h5&gt;</summary>
+    
+    
+    
+    
+    <category term="openfiler" scheme="http://anximin.github.io/tags/openfiler/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Win10加域提示“无法加载脱机注册表配置单元”</title>
+    <link href="http://anximin.github.io/2021/08/17/Win10_CANTadd_AD/"/>
+    <id>http://anximin.github.io/2021/08/17/Win10_CANTadd_AD/</id>
+    <published>2021-08-17T07:21:10.000Z</published>
+    <updated>2021-08-20T07:38:13.089Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;WIN 10 PRO 加域提示“无法加载脱机注册表配置单元，请确保你有权限访问指定的路径位置，并有修改其内容的权限，可能需要提升管理员身份运行”&lt;/p&gt;
+&lt;p&gt;原因分析：&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="Active Directory" scheme="http://anximin.github.io/tags/Active-Directory/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>域控【2003】密码重置</title>
+    <link href="http://anximin.github.io/2021/08/16/Win_DC2003PassRecovery/"/>
+    <id>http://anximin.github.io/2021/08/16/Win_DC2003PassRecovery/</id>
+    <published>2021-08-16T03:41:06.000Z</published>
+    <updated>2021-08-20T07:38:27.573Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;如果Windows Server 2003域控服务器的密码忘记了,可以在这里下载Mcse_PassRecovery工具。&lt;br&gt;Windows Server 2003没有提供恢复域控制器密码的工具，此工具来自MSCE技术论坛，而此论坛目前好像已经不存在了。如果你有它的消息欢迎提供线索。&lt;/p&gt;
+&lt;p&gt;忘记域控制器密码的解决办法：&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="Active Directory" scheme="http://anximin.github.io/tags/Active-Directory/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SQL关键词：触发器,函数,视图,存储过程</title>
+    <link href="http://anximin.github.io/2021/08/11/SQL_knowledge/"/>
+    <id>http://anximin.github.io/2021/08/11/SQL_knowledge/</id>
+    <published>2021-08-11T03:44:43.000Z</published>
+    <updated>2021-08-20T07:39:40.607Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;&lt;strong&gt;触发器&lt;/strong&gt;:是一个特殊的存储过程,它是mysql在insert,update,delete的时候自动执行的代码块.&lt;/p&gt;
+&lt;p&gt;在一个语句执行后,自动触发的事件&lt;/p&gt;
+&lt;figure class=&quot;highlight sql&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;code class=&quot;hljs sql&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;create&lt;/span&gt; &lt;span class=&quot;hljs-keyword&quot;&gt;trigger&lt;/span&gt; trigger_name&lt;br&gt;&lt;br&gt;　　 after&lt;span class=&quot;hljs-operator&quot;&gt;/&lt;/span&gt;before &lt;span class=&quot;hljs-keyword&quot;&gt;insert&lt;/span&gt; &lt;span class=&quot;hljs-operator&quot;&gt;/&lt;/span&gt;update&lt;span class=&quot;hljs-operator&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;delete&lt;/span&gt; &lt;span class=&quot;hljs-keyword&quot;&gt;on&lt;/span&gt; 表名&lt;br&gt;&lt;br&gt;　　 &lt;span class=&quot;hljs-keyword&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;hljs-keyword&quot;&gt;each&lt;/span&gt; &lt;span class=&quot;hljs-type&quot;&gt;row&lt;/span&gt;&lt;br&gt;&lt;br&gt;　　 &lt;span class=&quot;hljs-keyword&quot;&gt;begin&lt;/span&gt;&lt;br&gt;&lt;br&gt;　　 &lt;span class=&quot;hljs-keyword&quot;&gt;sql&lt;/span&gt;语句：（触发的语句一句或多句）&lt;br&gt;&lt;br&gt;　　 &lt;span class=&quot;hljs-keyword&quot;&gt;end&lt;/span&gt;&lt;br&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;</summary>
+    
+    
+    
+    
+    <category term="SQL" scheme="http://anximin.github.io/tags/SQL/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>群晖卸载忘记密码的套件</title>
+    <link href="http://anximin.github.io/2021/08/11/qunhui_uninstall_GLPI/"/>
+    <id>http://anximin.github.io/2021/08/11/qunhui_uninstall_GLPI/</id>
+    <published>2021-08-11T01:46:02.000Z</published>
+    <updated>2021-08-20T07:40:22.156Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;群晖套件&lt;code&gt;GLPI&lt;/code&gt;安装后一直没有用，想要卸载时需要提供当时设置的Mysql密码，时间久远早就忘了，造成无法常规卸载。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;打开群晖的SSH登录开关。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;主菜单&lt;/code&gt;》</summary>
+        
+      
+    
+    
+    
+    
+    <category term="群晖" scheme="http://anximin.github.io/tags/%E7%BE%A4%E6%99%96/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>openfiler基于corosync集群当脑裂时自动停止服务</title>
+    <link href="http://anximin.github.io/2021/08/05/linux_drbd_corosync_cluster/"/>
+    <id>http://anximin.github.io/2021/08/05/linux_drbd_corosync_cluster/</id>
+    <published>2021-08-05T08:37:58.000Z</published>
+    <updated>2021-08-05T08:43:32.697Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;模拟心跳down机实验以及恢复&lt;br&gt;在主节点主机上面建立crontab任务&lt;br&gt;问题：drbd脑裂问题，当心跳线断掉的时候，两个节点同时可以对外提供服务，通过corosync管理服务机制出现问题，双方都对外提供服务，会导致最终数据产生不一致。&lt;br&gt;按照上面实验filer01作为主机对外提供服务，在filer01上面添加crontab任务，当检测到自己网卡down掉，或者是心跳线出现问题，在验证属于自己问题后，将集群服务停掉，自动退出集群节点。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="openfiler" scheme="http://anximin.github.io/tags/openfiler/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>drbd使用大硬盘</title>
+    <link href="http://anximin.github.io/2021/08/05/linux_drbd_bigdisk/"/>
+    <id>http://anximin.github.io/2021/08/05/linux_drbd_bigdisk/</id>
+    <published>2021-08-05T07:23:21.000Z</published>
+    <updated>2021-08-05T07:29:18.963Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;更换硬盘后drbd状态显示为UnConfigured&lt;/p&gt;
+&lt;p&gt;Linux缺省vmalloc为128MB&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="drbd" scheme="http://anximin.github.io/tags/drbd/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>linux LVM分区全解</title>
+    <link href="http://anximin.github.io/2021/08/05/linux_LVM/"/>
+    <id>http://anximin.github.io/2021/08/05/linux_LVM/</id>
+    <published>2021-08-05T03:34:56.000Z</published>
+    <updated>2021-08-20T07:42:31.922Z</updated>
+    
+    
+    <summary type="html">&lt;h3 id=&quot;LVM（逻辑分区管理）中的几个概念：&quot;&gt;&lt;a href=&quot;#LVM（逻辑分区管理）中的几个概念：&quot; class=&quot;headerlink&quot; title=&quot;LVM（逻辑分区管理）中的几个概念：&quot;&gt;&lt;/a&gt;LVM（逻辑分区管理）中的几个概念：&lt;/h3&gt;&lt;p&gt;&lt;code&gt;PV&lt;/code&gt;(physical volume)：物理卷在逻辑卷管理系统最底层，可为整个物理硬盘或实际物理硬盘上的分区。&lt;br&gt;&lt;code&gt;VG&lt;/code&gt;(volume group)：卷组建立在物理卷上，一卷组中至少要包括一物理卷，卷组建立后可动态的添加卷到卷组中，一个逻辑卷管理系统工程中可有多个卷组。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="linux" scheme="http://anximin.github.io/tags/linux/"/>
+    
+    <category term="LVM" scheme="http://anximin.github.io/tags/LVM/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【解决】DRBD脑裂问题</title>
+    <link href="http://anximin.github.io/2021/08/05/linux_drbd_naolie/"/>
+    <id>http://anximin.github.io/2021/08/05/linux_drbd_naolie/</id>
+    <published>2021-08-05T02:06:36.000Z</published>
+    <updated>2021-08-20T07:42:52.374Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;DRBD(Distributed Replicated Block Device)是一个用软件实现的、无共享的、服务器之间镜像块设备内容的存储复制解决方案。&lt;br&gt;数据镜像：实时、透明、同步（所有服务器都成功后返回）、异步（本地服务器成功后返回）&lt;br&gt;DRBD的核心功能通过Linux的内核实现，最接近系统的IO栈，但它没有上层的功能比如检测到EXT3文件系统的崩溃。&lt;br&gt;DRBD的位置处于文件系统以下，比文件系统更加靠近操作系统内核及IO栈。&lt;/p&gt;
+&lt;p&gt;今天就遇到了openfiler HA(双活)集群中的DRBD服务出现了脑裂。下面是解决过程。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="linux" scheme="http://anximin.github.io/tags/linux/"/>
+    
+    <category term="DRBD" scheme="http://anximin.github.io/tags/DRBD/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>openfiler集群部署过程</title>
+    <link href="http://anximin.github.io/2021/08/03/openfiler_cluster_build/"/>
+    <id>http://anximin.github.io/2021/08/03/openfiler_cluster_build/</id>
+    <published>2021-08-03T00:16:15.000Z</published>
+    <updated>2021-08-21T03:13:54.095Z</updated>
+    
+    
+    <summary type="html">&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;node1&lt;/th&gt;
+&lt;th&gt;node2&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;
+&lt;td&gt;hostname: filer1&lt;br /&gt;eth0: 10.10.10.101&lt;br /&gt;eth1: 10.10.100.101&lt;br /&gt;600MB Meta partition&lt;br /&gt;8GB+ Data partition&lt;/td&gt;
+&lt;td&gt;hostname: filer2&lt;br /&gt;eth0: 10.10.10.102&lt;br /&gt;eth1: 10.10.100.102&lt;br /&gt;600MB Meta partition&lt;br /&gt;8GB+ Data partition&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;&lt;/table&gt;
+&lt;p&gt;virtualip: 10.10.10.100 ( 不要在任何网卡配置，后面在corosync中配置 )&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="openfiler" scheme="http://anximin.github.io/tags/openfiler/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Linux的mbr与gpt分区</title>
+    <link href="http://anximin.github.io/2021/07/31/Linux_partition/"/>
+    <id>http://anximin.github.io/2021/07/31/Linux_partition/</id>
+    <published>2021-07-31T01:08:18.000Z</published>
+    <updated>2021-08-10T06:51:13.712Z</updated>
+    
+    
+    <summary type="html">&lt;h4 id=&quot;MBR分区&quot;&gt;&lt;a href=&quot;#MBR分区&quot; class=&quot;headerlink&quot; title=&quot;MBR分区&quot;&gt;&lt;/a&gt;MBR分区&lt;/h4&gt;&lt;p&gt;支持最大卷：2T&lt;/p&gt;
+&lt;p&gt;限制：最多4个主分区 或 3个主分区加1个扩展分区&lt;/p&gt;
+&lt;p&gt;分区工具：fdisk /dev/[sda]&lt;/p&gt;
+&lt;p&gt;fdisk -l /dev/sda  如果提示：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;WARNING: GPT (GUID Partition Table) detected on &amp;#39;/dev/sda&amp;#39;! The util fdisk doesn&amp;#39;t support GPT. Use GNU Parted.&lt;/code&gt;&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="linux" scheme="http://anximin.github.io/tags/linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【解决】Push to origin/master was rejected错误</title>
+    <link href="http://anximin.github.io/2021/07/29/git-push-rejected/"/>
+    <id>http://anximin.github.io/2021/07/29/git-push-rejected/</id>
+    <published>2021-07-29T02:44:41.000Z</published>
+    <updated>2021-08-21T03:19:08.623Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt; 在IDEA中push项目的时候遇到 &lt;code&gt;Push to origin/master was rejected&lt;/code&gt;错误提示。&lt;/p&gt;
+&lt;p&gt;该错误意思是&lt;code&gt;推送被拒绝&lt;/code&gt;&lt;/p&gt;
+&lt;h4 id=&quot;原因是：&quot;&gt;&lt;a href=&quot;#原因是：&quot; class=&quot;headerlink&quot; title=&quot;原因是：&quot;&gt;&lt;/a&gt;原因是：&lt;/h4&gt;</summary>
+    
+    
+    
+    
+    <category term="git" scheme="http://anximin.github.io/tags/git/"/>
+    
+    <category term="IDEA" scheme="http://anximin.github.io/tags/IDEA/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ceph部署中所需的cephadm文件</title>
+    <link href="http://anximin.github.io/2021/07/23/ceph-cephadm/"/>
+    <id>http://anximin.github.io/2021/07/23/ceph-cephadm/</id>
+    <published>2021-07-23T08:40:08.000Z</published>
+    <updated>2021-08-21T03:26:26.622Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;通常国内的网络是不能wget到这个文件的。也可以手动建立cephadm这个文件，然后再赋予它执行权限&lt;code&gt;chmod +x cephadm&lt;/code&gt;，下面是cephadm的完整内容。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="cephadm" scheme="http://anximin.github.io/tags/cephadm/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>centos8最小化安装环境使用cephadm部署ceph集群存储</title>
+    <link href="http://anximin.github.io/2021/07/23/linux_centos8_mini_cephadm/"/>
+    <id>http://anximin.github.io/2021/07/23/linux_centos8_mini_cephadm/</id>
+    <published>2021-07-23T08:24:31.000Z</published>
+    <updated>2021-07-29T03:03:22.494Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;配置IP&lt;/p&gt;
+&lt;figure class=&quot;highlight plaintext&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;code class=&quot;hljs plaintext&quot;&gt;ip addr　　查看网络配置&lt;br&gt;nmcli:　　　查看网络配置&lt;br&gt;&lt;br&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;修改配置文件：vi /etc/sysconfig/network-scripts/ifcfg-ens192&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="cephadm" scheme="http://anximin.github.io/tags/cephadm/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Openfiler网络聚合</title>
+    <link href="http://anximin.github.io/2021/07/20/net_bond/"/>
+    <id>http://anximin.github.io/2021/07/20/net_bond/</id>
+    <published>2021-07-20T03:39:07.000Z</published>
+    <updated>2021-07-20T03:55:29.390Z</updated>
+    
+    
+    <summary type="html">&lt;h3 id=&quot;多网卡的7种bond模式原理&quot;&gt;&lt;a href=&quot;#多网卡的7种bond模式原理&quot; class=&quot;headerlink&quot; title=&quot;多网卡的7种bond模式原理&quot;&gt;&lt;/a&gt;多网卡的7种bond模式原理&lt;/h3&gt;&lt;p&gt;网卡绑定mode共有七种(0~6) &lt;code&gt;bond0&lt;/code&gt;、&lt;code&gt;bond1&lt;/code&gt;、&lt;code&gt;bond2&lt;/code&gt;、&lt;code&gt;bond3&lt;/code&gt;、&lt;code&gt;bond4&lt;/code&gt;、&lt;code&gt;bond5&lt;/code&gt;、&lt;code&gt;bond6&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;常用的有三种&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;mode=0&lt;/code&gt;：平衡负载模式，有自动备援，但需要”Switch”支援及设定。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;mode=1&lt;/code&gt;：自动备援模式，其中一条线若断线，其他线路将会自动备援。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;mode=6&lt;/code&gt;：平衡负载模式，有自动备援，不必”Switch”支援及设定。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="OPENfiler" scheme="http://anximin.github.io/tags/OPENfiler/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>OPNsense远程管理设置</title>
+    <link href="http://anximin.github.io/2021/07/17/net_opnsense_wanhttp/"/>
+    <id>http://anximin.github.io/2021/07/17/net_opnsense_wanhttp/</id>
+    <published>2021-07-17T02:20:50.000Z</published>
+    <updated>2021-07-29T03:06:49.696Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;一般OPNsense担任的是防火墙角色，所以在生产环境中，一般是通过VPN方式进行远程管理的。&lt;/p&gt;
+&lt;p&gt;如果对安全不敏感的环境需要实现简单的远程管理，可以使用这个方法。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="OPNsense" scheme="http://anximin.github.io/tags/OPNsense/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>OPNsense系统安装</title>
+    <link href="http://anximin.github.io/2021/07/16/net_opnsense_install/"/>
+    <id>http://anximin.github.io/2021/07/16/net_opnsense_install/</id>
+    <published>2021-07-16T07:17:14.000Z</published>
+    <updated>2021-07-17T02:24:18.083Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;下载地址： &lt;a href=&quot;https://opnsense.org/download/&quot;&gt;https://opnsense.org/download/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;选择平台（System architecture）&lt;/p&gt;
+&lt;p&gt;只能选择amd64&lt;/p&gt;
+&lt;p&gt;选择映象类型（Select the image type）&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="OPNsense" scheme="http://anximin.github.io/tags/OPNsense/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>nodejs安装与版本升级</title>
+    <link href="http://anximin.github.io/2021/07/08/nodejs_install_and_update/"/>
+    <id>http://anximin.github.io/2021/07/08/nodejs_install_and_update/</id>
+    <published>2021-07-08T08:06:52.000Z</published>
+    <updated>2021-07-20T03:55:59.497Z</updated>
+    
+    
+    <summary type="html">&lt;h3 id=&quot;nodejs安装&quot;&gt;&lt;a href=&quot;#nodejs安装&quot; class=&quot;headerlink&quot; title=&quot;nodejs安装&quot;&gt;&lt;/a&gt;nodejs安装&lt;/h3&gt;&lt;p&gt;官网下载地址：&lt;a href=&quot;http://nodejs.cn/download/&quot;&gt;http://nodejs.cn/download/&lt;/a&gt;&lt;br&gt;   例如我下载的是 &lt;code&gt;node-v14.16.0-x64.msi&lt;/code&gt; ，安装很简单，双击一路下一步即可安装完成。&lt;/p&gt;
+&lt;h3 id=&quot;验证是否安装成功&quot;&gt;&lt;a href=&quot;#验证是否安装成功&quot; class=&quot;headerlink&quot; title=&quot;验证是否安装成功&quot;&gt;&lt;/a&gt;验证是否安装成功&lt;/h3&gt;</summary>
+    
+    
+    
+    
+    <category term="nodeJS" scheme="http://anximin.github.io/tags/nodeJS/"/>
+    
+    <category term="npm" scheme="http://anximin.github.io/tags/npm/"/>
+    
+  </entry>
+  
+</feed>
