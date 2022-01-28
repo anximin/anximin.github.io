@@ -160,6 +160,28 @@
   
     <article class="article-card">
       <h2 class="article-head">
+        <a href="/2021/07/23/linux_centos8_mini_cephadm/">centos8最小化安装环境使用cephadm部署ceph集群存储</a>
+      </h2>
+      <p class="article-date">July 23, 2021</p>
+      
+        
+  <a href="/tags#cephadm" >
+    <span class="tag-code">cephadm</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          <p>配置IP</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">ip addr　　查看网络配置<br>nmcli:　　　查看网络配置<br><br></code></pre></td></tr></table></figure>
+<p>修改配置文件：vi /etc/sysconfig/network-scripts/ifcfg-ens192</p>
+        
+      </div>
+      <a class="more" href="/2021/07/23/linux_centos8_mini_cephadm/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
         <a href="/2021/07/20/net_bond/">Openfiler网络聚合</a>
       </h2>
       <p class="article-date">July 20, 2021</p>
@@ -422,50 +444,6 @@ hexo 默认只按发布日期排序，想实现文章的置顶功能，需要安
         
       </div>
       <a class="more" href="/2021/07/05/qunhui_Active_Backup_for_Business/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/2021/07/05/Win_enable_smb1/">启用永久支持SMB1.0</a>
-      </h2>
-      <p class="article-date">July 5, 2021</p>
-      
-        
-  <a href="/tags#Active Directory" >
-    <span class="tag-code">Active Directory</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          <p>目前微软已经默认禁用了SMB1.0版本，但经常会因为各种原因还需要用到SMB版本1,例如在Windows 2012 R2的域控环境中，如果还有WinXP系统的客户机，就必须打开SMB1.0。</p>
-<h3 id="临时启用SMB1的支持"><a href="#临时启用SMB1的支持" class="headerlink" title="临时启用SMB1的支持"></a>临时启用SMB1的支持</h3><p>操作命令</p>
-<p>查看SMB1文件服务</p>
-<p>Get-WindowsFeature FS-SMB1</p>
-<p>查看SMB1状态</p>
-<p>Get-SmbServerConfiguration | Select EnableSMB1Protocol</p>
-<p>查看SMB2状态</p>
-<p>Get-SmbServerConfiguration | Select EnableSMB2Protocol</p>
-<p>禁用SMB1</p>
-<p>Set-SmbServerConfiguration -EnableSMB1Protocol $false</p>
-<p>启用SMB1</p>
-<p>Set-SmbServerConfiguration -EnableSMB1Protocol $true</p>
-<p>察觉SMB1</p>
-<p>Get-WindowsOptionalFeature –Online –FeatureName SMB1Protocol</p>
-<p>禁用SMB1</p>
-<p>Disable-WindowsOptionalFeature -Online -FeatureName smb1protocol</p>
-<p>启用SMB1</p>
-<p>Enable-WindowsOptionalFeature -Online -FeatureName smb1protocol</p>
-<p>启动Win2012R2的powershell输入以下两个命令</p>
-<ol>
-<li><code>Set-SmbServerrConfiguration -RejectUnencryptedAccess $false</code></li>
-<li><code>Set-SmbServerConfiguration –EnableSMB1Protocol $true</code></li>
-</ol>
-<p>之后发现已经可以正常支持SMB1了，但是重启后又被禁用了。</p>
-<h3 id="永久启用SMB1的支持"><a href="#永久启用SMB1的支持" class="headerlink" title="永久启用SMB1的支持"></a>永久启用SMB1的支持</h3>
-        
-      </div>
-      <a class="more" href="/2021/07/05/Win_enable_smb1/">Read more</a>
     </article>
   
 

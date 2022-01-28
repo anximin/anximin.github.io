@@ -4,6 +4,25 @@
   
     
     <entry>
+      <title>部署基于EXi的群晖【中篇】- 创建虚拟机引导群晖系统</title>
+      <link href="/2022/01/28/ESXiQunhui2/"/>
+      <url>/2022/01/28/ESXiQunhui2/</url>
+      
+        <content type="html"><![CDATA[<h3 id="准备群晖7-0-1引导文件"><a href="#准备群晖7-0-1引导文件" class="headerlink" title="准备群晖7.0.1引导文件"></a>准备群晖7.0.1引导文件</h3><p>使用<code>StarWind V2V Image Converter</code>转换引导文件img格式为ESXi系统的vmdk格式。</p><h3 id="创建虚拟机"><a href="#创建虚拟机" class="headerlink" title="创建虚拟机"></a>创建虚拟机</h3><p>其他无需多言，只要注意以下几点：</p><ol><li><p>esxi虚拟交换机默认的安全项全部允许(否则助手扫描不到群晖IP)。</p></li><li><p>客户机操作系统版本选择: <code>其他 3.x Linux (64位)</code>（兼容性高）。</p></li><li><p>CPU &lt;=4核心 （非必要，建议值）。</p></li><li><p>内存根据配置设置但要勾选 <code>预留所有客户机内存 (全部锁定)</code></p></li><li><p>USB控制器 改成USB3.0（非必要，建议值）。</p></li><li><p>网卡如果直通就删除虚拟网卡，否则建议将适配器类型改为<code>E1000e</code>，MAC地址手动填写群晖引导中设置的MAC地址（不改也行，根据情况）。</p></li><li><p>删除没必要的设备: 硬盘，SCSI控制器，DVD。</p></li><li><p>完成虚拟机的创建，再次点击编辑虚拟机设置。</p></li><li><p>添加硬盘 =&gt; 现有硬盘 =&gt; 选中群晖虚拟机目录 =&gt; 上载 =&gt; 分别上传转换后的两个vmdk文件。</p></li><li><p>选中上传的磁盘文件后 单击选择，将硬盘的控制器选择为SATA 0:0 (必须)</p></li><li><p>添加直通的硬盘 </p><ul><li><p>如果直通的是控制器【添加其他设备 =&gt; PCI设备 =&gt; 选择直通的SATA控制器 】</p></li><li><p>如果是RDM直通【添加硬盘 =&gt; 现有硬盘 =&gt; RDM磁盘文件（控制器SATA 0:1 +）】</p></li></ul></li><li><p>虚拟机选项中=&gt;引导选项选择<code>EFI</code> 引导,延迟 <code>5000毫秒</code>。</p></li></ol><h3 id="开启虚拟机"><a href="#开启虚拟机" class="headerlink" title="开启虚拟机"></a>开启虚拟机</h3><p>开机后出现选择引导项时，按上下方向键选择SATA引导方式。</p><ol><li>如果使用的RDM直通方式可以直接回车引导群晖系统。</li></ol><p>            一般3-5分钟后即可在群晖助手中搜索到。</p><ol start="2"><li>如果使用的直通SATA控制器方式，需要选择引导方式时按<code>e</code>键进入<code>grub</code>引导编辑,如下：</li></ol><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">menuentry &#x27;RedPill DS3615xs v7.0.1-42218 Beta (SATA, Verbose)&#x27; &#123;<br>    savedefault<br>    set root=(hd0,msdos1)<br>    echo Loading Linux...<br>    linux /zImage mac1=001132123456 netif_num=1 earlycon=uart8250,io,0x3f8,115200n8 syno_hdd_powerup_seq=0 vid=0x46f4 synoboot_satadom=1 syno_hdd_detect=0 pid=0x0001 console=ttyS0,115200n8 elevator=elevator sn=2021NAS123456 root=/dev/md0 earlyprintk loglevel=15 log_buf_len=32M syno_port_thaw=1 HddHotplug=0 withefi syno_hw_version=DS3615xs vender_format_version=2 <br>    echo Loading initramfs...<br>    initrd /rd.gz /custom.gz<br>    echo Starting kernel with SATA boot<br>&#125;<br></code></pre></td></tr></table></figure><p>        找到<code>syno_port_thaw=1</code> 在它之后插入参数 <code>SasIdxMap=0 DiskIdxMap=3100 SataPortMap=14</code> </p><p>        然后按F10或Ctrl+x 开始引导，如果能正常引导并安装了群晖系统，则可以把上述参数写入到grub.cfg文件。常规操作在此不做过多赘述。</p><hr><p><code>SasIdxMap</code> 代表引导顺序填0即可.</p><p><code>SataPortMap</code> 代表控制器数量及每个控制器有几个接口SataPortMap=14代表共有两个控制器，第一个控制器有1个接口，第二个控制器有4个接口，数值范围0-9。</p><p><code>DiskIdxMap</code> 代表磁盘顺序后面时十六进制值，DiskIdxMap=3100代表第一个控制器的磁盘从32开始计数，第二个控制器的磁盘从0开始计数。</p><hr><h4 id="注意事项："><a href="#注意事项：" class="headerlink" title="注意事项："></a>注意事项：</h4><p>如遇到无限循环（系统未安装）问题，原因是集成的驱动有冲突或有问题（所以才没有制作包含所有驱动的版本），需重新编译，或下载已经编译好的。下篇我会分享编译过程。</p><p>链接：<a href="https://pan.baidu.com/s/1WB22QDTvpeJAmOaYBcr34Q?pwd=fbmo">https://pan.baidu.com/s/1WB22QDTvpeJAmOaYBcr34Q?pwd=fbmo</a><br>提取码：fbmo</p><h4 id="参考文章："><a href="#参考文章：" class="headerlink" title="参考文章："></a>参考文章：</h4><p><a href="https://www.openos.org/threads/111ds3615ds918ds36157-x.3529/">黑群晖DS918和DS3615的7.X引导 </a></p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> 群晖 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>部署基于ESXi的群晖【上篇】- 安装ESXi并设置直通</title>
       <link href="/2022/01/28/ESXiQunhui1/"/>
       <url>/2022/01/28/ESXiQunhui1/</url>
@@ -11,6 +30,12 @@
         <content type="html"><![CDATA[<h3 id="硬件选择"><a href="#硬件选择" class="headerlink" title="硬件选择"></a>硬件选择</h3><p>ESXi对硬件兼容性相当不错了，一般电脑都可以正常安装，由于想要提高群晖在ESXi平台下的性能所以有几点必须要考虑：</p><ol><li><p>CPU，主板，都要支持VT-d. 并且在BIOS中打开VT-d。</p></li><li><p>网卡要注意是否支持ESXi系统。最好有独立的网卡直通给群晖。</p></li><li><p>如果使用阵列卡，是否受ESXi系统支持。同时因为阵列卡发热量惊人，最好配备散热风扇。</p></li><li><p>将来想上NVME缓存的话，最好板载支持双NVME。</p></li><li><p>电源最好在500W以上。</p></li></ol><h3 id="ESXi版本"><a href="#ESXi版本" class="headerlink" title="ESXi版本"></a>ESXi版本</h3><p>部署群晖常用的ESXi版本有 6.7 / 6.7 U1 / 6.7 U2 / 6.7 U3 </p><p>其中6.7不支持硬件直通，其余版本都支持。所以推荐选用6.7 u3版本。</p><p>安装ESXi时如果提示没有网络适配器，说明你的主板上没有被ESXi系统识别的网卡。</p><p>解决办法：换受支持的网卡或<a href="https://www.cnblogs.com/zoulongbin/p/10361615.html">打包ESXi系统集成网卡驱动</a>。</p><h3 id="直通硬盘控制器"><a href="#直通硬盘控制器" class="headerlink" title="直通硬盘控制器"></a>直通硬盘控制器</h3><p>ESXi直通PCI设备非常简单，登录WAB控制台选择 <code>管理</code>=&gt; <code>硬件</code> =&gt; <code>PCI设备</code> 选中相应的设备，单击 <code>切换直通</code> 再<code>重新引导主机</code>，就完成了。</p><h4 id="直通板载SATA控制器"><a href="#直通板载SATA控制器" class="headerlink" title="直通板载SATA控制器"></a>直通板载SATA控制器</h4><p>想要直通板载的硬盘控制器必须注意几点：</p><ol><li><p>ESXi的系统盘不能插在主板的sata控制器上。可以选择使用USB设备或m.2的设备安装系统。</p></li><li><p>板载sata控制器上直通前必须插着至少一个硬盘，否则可能ESXi会直接忽略掉这个控制器。</p></li></ol><p>准备好后开始直通，但是对于板载的SATA控制器一般显示是灰色的不可选状态，首先打开ESXi的SSH服务，</p><p>使用SSH客户端工具连接主机，输入命令：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">lspci -v |grep &quot;Class 0106&quot; -B 1<br></code></pre></td></tr></table></figure><p>返回的结果可能是</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">0000:00:17.0 Massstorage controller SATA controller: Intel Corporation Union Point-H AHCIController [vmhba0]<br><br>Class 0106: 8086:a282<br></code></pre></td></tr></table></figure><p>记住这个返回结果。</p><p>编辑 <code>/etc/vmware/passthru.map</code> 文件，再文件末尾增加：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">#Intel Corporation Lynx Point AHCIController<br><br>8086 a282 d3d0 false<br></code></pre></td></tr></table></figure><p>重启ESXi服务器，再次直通设备时，对应的SATA控制器就为可选状态了。</p><p>#：其中8086是PCIE设备的供应商ID，a282是PCIE设备的设备ID。</p><h3 id="解除设备的被直通状态"><a href="#解除设备的被直通状态" class="headerlink" title="解除设备的被直通状态"></a>解除设备的被直通状态</h3><p>直接在WAB端是无法解除直通状态的，需要SSH修改esx.conf文件：</p><p>将所有<code>passthru</code>替换为<code>vmkernel</code> 保存重启，即可解除直通。【会解除所有被直通的设备】</p><h3 id="还可以选择RDM直通硬盘"><a href="#还可以选择RDM直通硬盘" class="headerlink" title="还可以选择RDM直通硬盘"></a>还可以选择RDM直通硬盘</h3><p>如果因为某种原因还是无法通过直通PCI设备直通硬盘，还可以变通一下，选择RDM方式直通硬盘。后面创建虚拟机时进行操作说明。</p>]]></content>
       
       
+      
+        <tags>
+            
+            <tag> 群晖 </tag>
+            
+        </tags>
       
     </entry>
     

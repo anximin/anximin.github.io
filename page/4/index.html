@@ -160,6 +160,50 @@
   
     <article class="article-card">
       <h2 class="article-head">
+        <a href="/2021/07/05/Win_enable_smb1/">启用永久支持SMB1.0</a>
+      </h2>
+      <p class="article-date">July 5, 2021</p>
+      
+        
+  <a href="/tags#Active Directory" >
+    <span class="tag-code">Active Directory</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          <p>目前微软已经默认禁用了SMB1.0版本，但经常会因为各种原因还需要用到SMB版本1,例如在Windows 2012 R2的域控环境中，如果还有WinXP系统的客户机，就必须打开SMB1.0。</p>
+<h3 id="临时启用SMB1的支持"><a href="#临时启用SMB1的支持" class="headerlink" title="临时启用SMB1的支持"></a>临时启用SMB1的支持</h3><p>操作命令</p>
+<p>查看SMB1文件服务</p>
+<p>Get-WindowsFeature FS-SMB1</p>
+<p>查看SMB1状态</p>
+<p>Get-SmbServerConfiguration | Select EnableSMB1Protocol</p>
+<p>查看SMB2状态</p>
+<p>Get-SmbServerConfiguration | Select EnableSMB2Protocol</p>
+<p>禁用SMB1</p>
+<p>Set-SmbServerConfiguration -EnableSMB1Protocol $false</p>
+<p>启用SMB1</p>
+<p>Set-SmbServerConfiguration -EnableSMB1Protocol $true</p>
+<p>察觉SMB1</p>
+<p>Get-WindowsOptionalFeature –Online –FeatureName SMB1Protocol</p>
+<p>禁用SMB1</p>
+<p>Disable-WindowsOptionalFeature -Online -FeatureName smb1protocol</p>
+<p>启用SMB1</p>
+<p>Enable-WindowsOptionalFeature -Online -FeatureName smb1protocol</p>
+<p>启动Win2012R2的powershell输入以下两个命令</p>
+<ol>
+<li><code>Set-SmbServerrConfiguration -RejectUnencryptedAccess $false</code></li>
+<li><code>Set-SmbServerConfiguration –EnableSMB1Protocol $true</code></li>
+</ol>
+<p>之后发现已经可以正常支持SMB1了，但是重启后又被禁用了。</p>
+<h3 id="永久启用SMB1的支持"><a href="#永久启用SMB1的支持" class="headerlink" title="永久启用SMB1的支持"></a>永久启用SMB1的支持</h3>
+        
+      </div>
+      <a class="more" href="/2021/07/05/Win_enable_smb1/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
         <a href="/2021/07/05/Win_time_sync/">客户机与域控服务器同步时间</a>
       </h2>
       <p class="article-date">July 5, 2021</p>

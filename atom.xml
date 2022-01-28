@@ -6,7 +6,7 @@
   <link href="http://anximin.github.io/atom.xml" rel="self"/>
   
   <link href="http://anximin.github.io/"/>
-  <updated>2022-01-28T09:42:16.150Z</updated>
+  <updated>2022-01-28T09:57:55.316Z</updated>
   <id>http://anximin.github.io/</id>
   
   <author>
@@ -17,11 +17,34 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>部署基于EXi的群晖【中篇】- 创建虚拟机引导群晖系统</title>
+    <link href="http://anximin.github.io/2022/01/28/ESXiQunhui2/"/>
+    <id>http://anximin.github.io/2022/01/28/ESXiQunhui2/</id>
+    <published>2022-01-28T03:55:41.000Z</published>
+    <updated>2022-01-28T09:57:55.316Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h3 id=&quot;准备群晖7-0-1引导文件&quot;&gt;&lt;a href=&quot;#准备群晖7-0-1引导文件&quot; class=&quot;headerlink&quot; title=&quot;准备群晖7.0.1引导文件&quot;&gt;&lt;/a&gt;准备群晖7.0.1引导文件&lt;/h3&gt;&lt;p&gt;使用&lt;code&gt;StarWind V2V</summary>
+        
+      
+    
+    
+    
+    
+    <category term="群晖" scheme="http://anximin.github.io/tags/%E7%BE%A4%E6%99%96/"/>
+    
+  </entry>
+  
+  <entry>
     <title>部署基于ESXi的群晖【上篇】- 安装ESXi并设置直通</title>
     <link href="http://anximin.github.io/2022/01/28/ESXiQunhui1/"/>
     <id>http://anximin.github.io/2022/01/28/ESXiQunhui1/</id>
     <published>2022-01-28T02:46:09.000Z</published>
-    <updated>2022-01-28T09:42:16.150Z</updated>
+    <updated>2022-01-28T09:57:25.890Z</updated>
     
     
       
@@ -34,6 +57,8 @@
     
     
     
+    
+    <category term="群晖" scheme="http://anximin.github.io/tags/%E7%BE%A4%E6%99%96/"/>
     
   </entry>
   
@@ -449,27 +474,6 @@
     
     
     <category term="openfiler" scheme="http://anximin.github.io/tags/openfiler/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Linux的mbr与gpt分区</title>
-    <link href="http://anximin.github.io/2021/07/31/Linux_partition/"/>
-    <id>http://anximin.github.io/2021/07/31/Linux_partition/</id>
-    <published>2021-07-31T01:08:18.000Z</published>
-    <updated>2021-08-10T06:51:13.712Z</updated>
-    
-    
-    <summary type="html">&lt;h4 id=&quot;MBR分区&quot;&gt;&lt;a href=&quot;#MBR分区&quot; class=&quot;headerlink&quot; title=&quot;MBR分区&quot;&gt;&lt;/a&gt;MBR分区&lt;/h4&gt;&lt;p&gt;支持最大卷：2T&lt;/p&gt;
-&lt;p&gt;限制：最多4个主分区 或 3个主分区加1个扩展分区&lt;/p&gt;
-&lt;p&gt;分区工具：fdisk /dev/[sda]&lt;/p&gt;
-&lt;p&gt;fdisk -l /dev/sda  如果提示：&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;WARNING: GPT (GUID Partition Table) detected on &amp;#39;/dev/sda&amp;#39;! The util fdisk doesn&amp;#39;t support GPT. Use GNU Parted.&lt;/code&gt;&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="linux" scheme="http://anximin.github.io/tags/linux/"/>
     
   </entry>
   
