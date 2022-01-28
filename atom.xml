@@ -6,7 +6,7 @@
   <link href="http://anximin.github.io/atom.xml" rel="self"/>
   
   <link href="http://anximin.github.io/"/>
-  <updated>2022-01-28T02:36:40.135Z</updated>
+  <updated>2022-01-28T09:42:16.150Z</updated>
   <id>http://anximin.github.io/</id>
   
   <author>
@@ -17,18 +17,40 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>hexo</title>
+    <title>部署基于ESXi的群晖【上篇】- 安装ESXi并设置直通</title>
+    <link href="http://anximin.github.io/2022/01/28/ESXiQunhui1/"/>
+    <id>http://anximin.github.io/2022/01/28/ESXiQunhui1/</id>
+    <published>2022-01-28T02:46:09.000Z</published>
+    <updated>2022-01-28T09:42:16.150Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h3 id=&quot;硬件选择&quot;&gt;&lt;a href=&quot;#硬件选择&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Win11安装git npm nodejs hexo</title>
     <link href="http://anximin.github.io/2022/01/27/hexo/"/>
     <id>http://anximin.github.io/2022/01/27/hexo/</id>
     <published>2022-01-27T08:54:09.000Z</published>
-    <updated>2022-01-28T02:36:40.135Z</updated>
+    <updated>2022-01-28T03:15:42.603Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;h2 id=&quot;Win11安装git-npm-nodejs-hexo&quot;&gt;&lt;a href=&quot;#Win11安装git-npm-nodejs-hexo&quot; class=&quot;headerlink&quot; title=&quot;Win11安装git npm nodejs</summary>
+    <summary type="html">&lt;h3 id=&quot;1-安装git&quot;&gt;&lt;a href=&quot;#1-安装git&quot; class=&quot;headerlink&quot; title=&quot;1.安装git&quot;&gt;&lt;/a&gt;1.安装git&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;下载Git  &lt;a</summary>
         
       
     
@@ -448,27 +470,6 @@
     
     
     <category term="linux" scheme="http://anximin.github.io/tags/linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>【解决】Push to origin/master was rejected错误</title>
-    <link href="http://anximin.github.io/2021/07/29/git-push-rejected/"/>
-    <id>http://anximin.github.io/2021/07/29/git-push-rejected/</id>
-    <published>2021-07-29T02:44:41.000Z</published>
-    <updated>2021-08-21T03:19:08.623Z</updated>
-    
-    
-    <summary type="html">&lt;p&gt; 在IDEA中push项目的时候遇到 &lt;code&gt;Push to origin/master was rejected&lt;/code&gt;错误提示。&lt;/p&gt;
-&lt;p&gt;该错误意思是&lt;code&gt;推送被拒绝&lt;/code&gt;&lt;/p&gt;
-&lt;h4 id=&quot;原因是：&quot;&gt;&lt;a href=&quot;#原因是：&quot; class=&quot;headerlink&quot; title=&quot;原因是：&quot;&gt;&lt;/a&gt;原因是：&lt;/h4&gt;</summary>
-    
-    
-    
-    
-    <category term="git" scheme="http://anximin.github.io/tags/git/"/>
-    
-    <category term="IDEA" scheme="http://anximin.github.io/tags/IDEA/"/>
     
   </entry>
   

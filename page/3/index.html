@@ -160,6 +160,30 @@
   
     <article class="article-card">
       <h2 class="article-head">
+        <a href="/2021/07/20/net_bond/">Openfiler网络聚合</a>
+      </h2>
+      <p class="article-date">July 20, 2021</p>
+      
+        
+  <a href="/tags#OPENfiler" >
+    <span class="tag-code">OPENfiler</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          <h3 id="多网卡的7种bond模式原理"><a href="#多网卡的7种bond模式原理" class="headerlink" title="多网卡的7种bond模式原理"></a>多网卡的7种bond模式原理</h3><p>网卡绑定mode共有七种(0~6) <code>bond0</code>、<code>bond1</code>、<code>bond2</code>、<code>bond3</code>、<code>bond4</code>、<code>bond5</code>、<code>bond6</code></p>
+<p>常用的有三种</p>
+<p><code>mode=0</code>：平衡负载模式，有自动备援，但需要”Switch”支援及设定。</p>
+<p><code>mode=1</code>：自动备援模式，其中一条线若断线，其他线路将会自动备援。</p>
+<p><code>mode=6</code>：平衡负载模式，有自动备援，不必”Switch”支援及设定。</p>
+        
+      </div>
+      <a class="more" href="/2021/07/20/net_bond/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
         <a href="/2021/07/17/net_opnsense_wanhttp/">OPNsense远程管理设置</a>
       </h2>
       <p class="article-date">July 17, 2021</p>
@@ -442,32 +466,6 @@ hexo 默认只按发布日期排序，想实现文章的置顶功能，需要安
         
       </div>
       <a class="more" href="/2021/07/05/Win_enable_smb1/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/2021/07/05/Win_time_sync/">客户机与域控服务器同步时间</a>
-      </h2>
-      <p class="article-date">July 5, 2021</p>
-      
-        
-  <a href="/tags#Active Directory" >
-    <span class="tag-code">Active Directory</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          <h3 id="启动PowerShell"><a href="#启动PowerShell" class="headerlink" title="启动PowerShell"></a>启动PowerShell</h3><ol>
-<li>按下窗口键弹出开始菜单。</li>
-<li>键盘输入powershell ，点击右侧的以管理员身份运行。</li>
-</ol>
-<h3 id="输入命令校时"><a href="#输入命令校时" class="headerlink" title="输入命令校时"></a>输入命令校时</h3><ol>
-<li><p>查看当前域控时间</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">net time<br>\\Server 的当前时间是 2021/7/5 17:03:58<br>命令成功完成。<br></code></pre></td></tr></table></figure>
-        
-      </div>
-      <a class="more" href="/2021/07/05/Win_time_sync/">Read more</a>
     </article>
   
 

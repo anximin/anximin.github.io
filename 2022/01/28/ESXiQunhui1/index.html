@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="弃我去者，昨日之日不可留；乱我心者，今日之日多烦忧。">
+  <meta name="keyword" content="">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      部署基于ESXi的群晖【上篇】- 安装ESXi并设置直通 | Want To
+    
+  </title>
+  <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js"></script>
+  
+    
+<script src="/js/qrious.js"></script>
+
+  
+  
+  
+
+  
+  
+    
+<script src="/js/local-search.js"></script>
+
+
+<meta name="generator" content="Hexo 5.4.1"><link rel="alternate" href="/atom.xml" title="Want To" type="application/atom+xml">
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>Want To</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+      
+        <li class="menu-item menu-item-search right-list">
+    <a role="button" class="popup-trigger">
+        <i class="fa fa-search fa-fw"></i>
+    </a>
+</li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+    
+      <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+            <span class="search-icon">
+                <i class="fa fa-search"></i>
+            </span>
+            <div class="search-input-container">
+                <input autocomplete="off" autocapitalize="off"
+                    placeholder="Please enter your keyword(s) to search." spellcheck="false"
+                    type="search" class="search-input">
+            </div>
+            <span class="popup-btn-close">
+                <i class="fa fa-times-circle"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+    
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>部署基于ESXi的群晖【上篇】- 安装ESXi并设置直通</h2>
+  <p class="post-date">2022-01-28</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><h3 id="硬件选择"><a href="#硬件选择" class="headerlink" title="硬件选择"></a>硬件选择</h3><p>ESXi对硬件兼容性相当不错了，一般电脑都可以正常安装，由于想要提高群晖在ESXi平台下的性能所以有几点必须要考虑：</p>
+<ol>
+<li><p>CPU，主板，都要支持VT-d. 并且在BIOS中打开VT-d。</p>
+</li>
+<li><p>网卡要注意是否支持ESXi系统。最好有独立的网卡直通给群晖。</p>
+</li>
+<li><p>如果使用阵列卡，是否受ESXi系统支持。同时因为阵列卡发热量惊人，最好配备散热风扇。</p>
+</li>
+<li><p>将来想上NVME缓存的话，最好板载支持双NVME。</p>
+</li>
+<li><p>电源最好在500W以上。</p>
+</li>
+</ol>
+<h3 id="ESXi版本"><a href="#ESXi版本" class="headerlink" title="ESXi版本"></a>ESXi版本</h3><p>部署群晖常用的ESXi版本有 6.7 / 6.7 U1 / 6.7 U2 / 6.7 U3 </p>
+<p>其中6.7不支持硬件直通，其余版本都支持。所以推荐选用6.7 u3版本。</p>
+<p>安装ESXi时如果提示没有网络适配器，说明你的主板上没有被ESXi系统识别的网卡。</p>
+<p>解决办法：换受支持的网卡或<a target="_blank" rel="noopener" href="https://www.cnblogs.com/zoulongbin/p/10361615.html">打包ESXi系统集成网卡驱动</a>。</p>
+<h3 id="直通硬盘控制器"><a href="#直通硬盘控制器" class="headerlink" title="直通硬盘控制器"></a>直通硬盘控制器</h3><p>ESXi直通PCI设备非常简单，登录WAB控制台选择 <code>管理</code>=&gt; <code>硬件</code> =&gt; <code>PCI设备</code> 选中相应的设备，单击 <code>切换直通</code> 再<code>重新引导主机</code>，就完成了。</p>
+<h4 id="直通板载SATA控制器"><a href="#直通板载SATA控制器" class="headerlink" title="直通板载SATA控制器"></a>直通板载SATA控制器</h4><p>想要直通板载的硬盘控制器必须注意几点：</p>
+<ol>
+<li><p>ESXi的系统盘不能插在主板的sata控制器上。可以选择使用USB设备或m.2的设备安装系统。</p>
+</li>
+<li><p>板载sata控制器上直通前必须插着至少一个硬盘，否则可能ESXi会直接忽略掉这个控制器。</p>
+</li>
+</ol>
+<p>准备好后开始直通，但是对于板载的SATA控制器一般显示是灰色的不可选状态，首先打开ESXi的SSH服务，</p>
+<p>使用SSH客户端工具连接主机，输入命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">lspci -v |grep &quot;Class 0106&quot; -B 1<br></code></pre></td></tr></table></figure>
+
+<p>返回的结果可能是</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">0000:00:17.0 Massstorage controller SATA controller: Intel Corporation Union Point-H AHCIController [vmhba0]<br><br>Class 0106: 8086:a282<br></code></pre></td></tr></table></figure>
+
+<p>记住这个返回结果。</p>
+<p>编辑 <code>/etc/vmware/passthru.map</code> 文件，再文件末尾增加：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">#Intel Corporation Lynx Point AHCIController<br><br>8086 a282 d3d0 false<br></code></pre></td></tr></table></figure>
+
+<p>重启ESXi服务器，再次直通设备时，对应的SATA控制器就为可选状态了。</p>
+<p>#：其中8086是PCIE设备的供应商ID，a282是PCIE设备的设备ID。</p>
+<h3 id="解除设备的被直通状态"><a href="#解除设备的被直通状态" class="headerlink" title="解除设备的被直通状态"></a>解除设备的被直通状态</h3><p>直接在WAB端是无法解除直通状态的，需要SSH修改esx.conf文件：</p>
+<p>将所有<code>passthru</code>替换为<code>vmkernel</code> 保存重启，即可解除直通。【会解除所有被直通的设备】</p>
+<h3 id="还可以选择RDM直通硬盘"><a href="#还可以选择RDM直通硬盘" class="headerlink" title="还可以选择RDM直通硬盘"></a>还可以选择RDM直通硬盘</h3><p>如果因为某种原因还是无法通过直通PCI设备直通硬盘，还可以变通一下，选择RDM方式直通硬盘。后面创建虚拟机时进行操作说明。</p>
+</section>
+    <!-- Tags START -->
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/2022/01/27/hexo/">
+        <span class="nav-arrow">← </span>
+        
+          Win11安装git npm nodejs hexo
+        
+      </a>
+    
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+      <div class="money-like">
+        <div class="reward-btn">
+          赏
+          <span class="money-code">
+            <span class="alipay-code">
+              <div class="code-image"></div>
+              <b>使用支付宝打赏</b>
+            </span>
+            <span class="wechat-code">
+              <div class="code-image"></div>
+              <b>使用微信打赏</b>
+            </span>
+          </span>
+        </div>
+        <p class="notice">若你觉得我的文章对你有帮助，欢迎点击上方按钮对我打赏</p>
+      </div>
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+      <div class="qrcode">
+        <canvas id="share-qrcode"></canvas>
+        <p class="notice">扫描二维码，分享此文章</p>
+      </div>
+    
+    <!-- 二维码 END -->
+    
+      <!-- Utterances START -->
+      <div id="utterances"></div>
+      <script src="https://utteranc.es/client.js"
+        repo=""
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async></script>    
+      <!-- Utterances END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#%E7%A1%AC%E4%BB%B6%E9%80%89%E6%8B%A9"><span class="toc-nav-text">硬件选择</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#ESXi%E7%89%88%E6%9C%AC"><span class="toc-nav-text">ESXi版本</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#%E7%9B%B4%E9%80%9A%E7%A1%AC%E7%9B%98%E6%8E%A7%E5%88%B6%E5%99%A8"><span class="toc-nav-text">直通硬盘控制器</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#%E7%9B%B4%E9%80%9A%E6%9D%BF%E8%BD%BDSATA%E6%8E%A7%E5%88%B6%E5%99%A8"><span class="toc-nav-text">直通板载SATA控制器</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#%E8%A7%A3%E9%99%A4%E8%AE%BE%E5%A4%87%E7%9A%84%E8%A2%AB%E7%9B%B4%E9%80%9A%E7%8A%B6%E6%80%81"><span class="toc-nav-text">解除设备的被直通状态</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#%E8%BF%98%E5%8F%AF%E4%BB%A5%E9%80%89%E6%8B%A9RDM%E7%9B%B4%E9%80%9A%E7%A1%AC%E7%9B%98"><span class="toc-nav-text">还可以选择RDM直通硬盘</span></a></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://anximin.github.io/2022/01/28/ESXiQunhui1/';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+    // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', '/css/images/error_icon.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== '/css/images/error_icon.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+  })();
+</script>
+
+
+  <script>
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+  </script>
+
+
+
+
+
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2022 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    Theme by <a target="_blank" rel="noopener" href="https://github.com/yanm1ng">yanm1ng</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      hljs.configure({useBR: true});
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+
+<script src="/js/script.js"></script>
+
+
+  </body>
+</html>
