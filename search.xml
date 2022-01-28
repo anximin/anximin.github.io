@@ -835,9 +835,9 @@
     
     
     <entry>
-      <title>About</title>
-      <link href="/about/index.html"/>
-      <url>/about/index.html</url>
+      <title>404 Not Found：该页无法显示</title>
+      <link href="//404.html"/>
+      <url>//404.html</url>
       
         <content type="html"><![CDATA[]]></content>
       
@@ -846,9 +846,9 @@
     
     
     <entry>
-      <title>404 Not Found：该页无法显示</title>
-      <link href="//404.html"/>
-      <url>//404.html</url>
+      <title>About</title>
+      <link href="/about/index.html"/>
+      <url>/about/index.html</url>
       
         <content type="html"><![CDATA[]]></content>
       
