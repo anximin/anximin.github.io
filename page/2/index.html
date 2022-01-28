@@ -37,7 +37,7 @@
 <script src="/js/local-search.js"></script>
 
 
-<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="Want To" type="application/atom+xml">
+<meta name="generator" content="Hexo 5.4.1"><link rel="alternate" href="/atom.xml" title="Want To" type="application/atom+xml">
 </head>
 <div class="wechat-share">
   <img src="/css/images/logo.png" />
@@ -157,6 +157,147 @@
 </header>
 
     <main class="app-body">
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/2021/08/11/SQL_knowledge/">SQL关键词：触发器,函数,视图,存储过程</a>
+      </h2>
+      <p class="article-date">August 11, 2021</p>
+      
+        
+  <a href="/tags#SQL" >
+    <span class="tag-code">SQL</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          <p><strong>触发器</strong>:是一个特殊的存储过程,它是mysql在insert,update,delete的时候自动执行的代码块.</p>
+<p>在一个语句执行后,自动触发的事件</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">create</span> <span class="hljs-keyword">trigger</span> trigger_name<br><br>　　 after<span class="hljs-operator">/</span>before <span class="hljs-keyword">insert</span> <span class="hljs-operator">/</span>update<span class="hljs-operator">/</span><span class="hljs-keyword">delete</span> <span class="hljs-keyword">on</span> 表名<br><br>　　 <span class="hljs-keyword">for</span> <span class="hljs-keyword">each</span> <span class="hljs-type">row</span><br><br>　　 <span class="hljs-keyword">begin</span><br><br>　　 <span class="hljs-keyword">sql</span>语句：（触发的语句一句或多句）<br><br>　　 <span class="hljs-keyword">end</span><br></code></pre></td></tr></table></figure>
+        
+      </div>
+      <a class="more" href="/2021/08/11/SQL_knowledge/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/2021/08/11/qunhui_uninstall_GLPI/">群晖卸载忘记密码的套件</a>
+      </h2>
+      <p class="article-date">August 11, 2021</p>
+      
+        
+  <a href="/tags#群晖" >
+    <span class="tag-code">群晖</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          群晖套件GLPI安装后一直没有用，想要卸载时需要提供当时设置的Mysql密码，时间久远早就忘了，造成无法常规卸载。
+
+打开群晖的SSH登录开关。
+
+主菜单》 控制面板》 终端机和SNMP》终端机》启动SSH功能&gt;&gt;保存
+
+
+通过SSH工具连接到群晖：
+
+it@Cloud:/$ s ...
+        
+      </div>
+      <a class="more" href="/2021/08/11/qunhui_uninstall_GLPI/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/2021/08/05/linux_drbd_corosync_cluster/">openfiler基于corosync集群当脑裂时自动停止服务</a>
+      </h2>
+      <p class="article-date">August 5, 2021</p>
+      
+        
+  <a href="/tags#openfiler" >
+    <span class="tag-code">openfiler</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          <p>模拟心跳down机实验以及恢复<br>在主节点主机上面建立crontab任务<br>问题：drbd脑裂问题，当心跳线断掉的时候，两个节点同时可以对外提供服务，通过corosync管理服务机制出现问题，双方都对外提供服务，会导致最终数据产生不一致。<br>按照上面实验filer01作为主机对外提供服务，在filer01上面添加crontab任务，当检测到自己网卡down掉，或者是心跳线出现问题，在验证属于自己问题后，将集群服务停掉，自动退出集群节点。</p>
+        
+      </div>
+      <a class="more" href="/2021/08/05/linux_drbd_corosync_cluster/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/2021/08/05/linux_drbd_bigdisk/">drbd使用大硬盘</a>
+      </h2>
+      <p class="article-date">August 5, 2021</p>
+      
+        
+  <a href="/tags#drbd" >
+    <span class="tag-code">drbd</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          <p>更换硬盘后drbd状态显示为UnConfigured</p>
+<p>Linux缺省vmalloc为128MB</p>
+        
+      </div>
+      <a class="more" href="/2021/08/05/linux_drbd_bigdisk/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/2021/08/05/linux_LVM/">linux LVM分区全解</a>
+      </h2>
+      <p class="article-date">August 5, 2021</p>
+      
+        
+  <a href="/tags#linux" >
+    <span class="tag-code">linux</span>
+  </a>
+
+  <a href="/tags#LVM" >
+    <span class="tag-code">LVM</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          <h3 id="LVM（逻辑分区管理）中的几个概念："><a href="#LVM（逻辑分区管理）中的几个概念：" class="headerlink" title="LVM（逻辑分区管理）中的几个概念："></a>LVM（逻辑分区管理）中的几个概念：</h3><p><code>PV</code>(physical volume)：物理卷在逻辑卷管理系统最底层，可为整个物理硬盘或实际物理硬盘上的分区。<br><code>VG</code>(volume group)：卷组建立在物理卷上，一卷组中至少要包括一物理卷，卷组建立后可动态的添加卷到卷组中，一个逻辑卷管理系统工程中可有多个卷组。</p>
+        
+      </div>
+      <a class="more" href="/2021/08/05/linux_LVM/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/2021/08/05/linux_drbd_naolie/">【解决】DRBD脑裂问题</a>
+      </h2>
+      <p class="article-date">August 5, 2021</p>
+      
+        
+  <a href="/tags#linux" >
+    <span class="tag-code">linux</span>
+  </a>
+
+  <a href="/tags#DRBD" >
+    <span class="tag-code">DRBD</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          <p>DRBD(Distributed Replicated Block Device)是一个用软件实现的、无共享的、服务器之间镜像块设备内容的存储复制解决方案。<br>数据镜像：实时、透明、同步（所有服务器都成功后返回）、异步（本地服务器成功后返回）<br>DRBD的核心功能通过Linux的内核实现，最接近系统的IO栈，但它没有上层的功能比如检测到EXT3文件系统的崩溃。<br>DRBD的位置处于文件系统以下，比文件系统更加靠近操作系统内核及IO栈。</p>
+<p>今天就遇到了openfiler HA(双活)集群中的DRBD服务出现了脑裂。下面是解决过程。</p>
+        
+      </div>
+      <a class="more" href="/2021/08/05/linux_drbd_naolie/">Read more</a>
+    </article>
   
     <article class="article-card">
       <h2 class="article-head">
@@ -306,154 +447,6 @@
       <a class="more" href="/2021/07/20/net_bond/">Read more</a>
     </article>
   
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/2021/07/17/net_opnsense_wanhttp/">OPNsense远程管理设置</a>
-      </h2>
-      <p class="article-date">July 17, 2021</p>
-      
-        
-  <a href="/tags#OPNsense" >
-    <span class="tag-code">OPNsense</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          <p>一般OPNsense担任的是防火墙角色，所以在生产环境中，一般是通过VPN方式进行远程管理的。</p>
-<p>如果对安全不敏感的环境需要实现简单的远程管理，可以使用这个方法。</p>
-        
-      </div>
-      <a class="more" href="/2021/07/17/net_opnsense_wanhttp/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/2021/07/16/net_opnsense_install/">OPNsense系统安装</a>
-      </h2>
-      <p class="article-date">July 16, 2021</p>
-      
-        
-  <a href="/tags#OPNsense" >
-    <span class="tag-code">OPNsense</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          <p>下载地址： <a target="_blank" rel="noopener" href="https://opnsense.org/download/">https://opnsense.org/download/</a></p>
-<p>选择平台（System architecture）</p>
-<p>只能选择amd64</p>
-<p>选择映象类型（Select the image type）</p>
-        
-      </div>
-      <a class="more" href="/2021/07/16/net_opnsense_install/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/2021/07/08/nodejs_install_and_update/">nodejs安装与版本升级</a>
-      </h2>
-      <p class="article-date">July 8, 2021</p>
-      
-        
-  <a href="/tags#nodeJS" >
-    <span class="tag-code">nodeJS</span>
-  </a>
-
-  <a href="/tags#npm" >
-    <span class="tag-code">npm</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          <h3 id="nodejs安装"><a href="#nodejs安装" class="headerlink" title="nodejs安装"></a>nodejs安装</h3><p>官网下载地址：<a target="_blank" rel="noopener" href="http://nodejs.cn/download/">http://nodejs.cn/download/</a><br>   例如我下载的是 <code>node-v14.16.0-x64.msi</code> ，安装很简单，双击一路下一步即可安装完成。</p>
-<h3 id="验证是否安装成功"><a href="#验证是否安装成功" class="headerlink" title="验证是否安装成功"></a>验证是否安装成功</h3>
-        
-      </div>
-      <a class="more" href="/2021/07/08/nodejs_install_and_update/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/2021/07/07/git-idea-gitlab/">IDEA集成GitLab版本控制</a>
-      </h2>
-      <p class="article-date">July 7, 2021</p>
-      
-        
-  <a href="/tags#git" >
-    <span class="tag-code">git</span>
-  </a>
-
-  <a href="/tags#idea" >
-    <span class="tag-code">idea</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          <h3 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h3><ul>
-<li>本地开发环境安装好了git</li>
-<li>IDEA 可正常使用</li>
-<li>已经创建好了gitlab项目</li>
-</ul>
-<h3 id="检验本地git程序状态"><a href="#检验本地git程序状态" class="headerlink" title="检验本地git程序状态"></a>检验本地git程序状态</h3><pre><code>依次选择 File =&gt; Settings =&gt; Version Control =&gt; Git
-</code></pre>
-        
-      </div>
-      <a class="more" href="/2021/07/07/git-idea-gitlab/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/2021/07/07/git-srv-build/">搭建gitlab服务器</a>
-      </h2>
-      <p class="article-date">July 7, 2021</p>
-      
-        
-  <a href="/tags#git" >
-    <span class="tag-code">git</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          <p>gitlab和github很相似，不过github暂时没有开源版本，项目必须托管到github官方网站，不能本地部署,而且国内访问github并不稳定。考虑到安全费用等因素，决定搭建自己的gitlab服务器。</p>
-<h4 id="获取gitlib资源"><a href="#获取gitlib资源" class="headerlink" title="获取gitlib资源"></a>获取gitlib资源</h4>
-        
-      </div>
-      <a class="more" href="/2021/07/07/git-srv-build/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/2021/07/06/git-change-repository/">git 查看及修改当前应用的仓库地址</a>
-      </h2>
-      <p class="article-date">July 6, 2021</p>
-      
-        
-  <a href="/tags#git" >
-    <span class="tag-code">git</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          
-查看当前仓库地址：
-
-git remote show origin
-
-修改仓库地址
-
- git remote set-url origin SSH或HTTPS的地址以.git结尾
-
-        
-      </div>
-      <a class="more" href="/2021/07/06/git-change-repository/">Read more</a>
-    </article>
-  
 
   
     <div class="guide-pager">
@@ -473,7 +466,7 @@ git remote show origin
 </div>
     <footer class="app-footer">
   <p class="copyright">
-    &copy; 2021 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    &copy; 2022 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
     <br>
     Theme by <a target="_blank" rel="noopener" href="https://github.com/yanm1ng">yanm1ng</a>
   </p>

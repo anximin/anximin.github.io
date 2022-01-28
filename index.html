@@ -37,7 +37,7 @@
 <script src="/js/local-search.js"></script>
 
 
-<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="Want To" type="application/atom+xml">
+<meta name="generator" content="Hexo 5.4.1"><link rel="alternate" href="/atom.xml" title="Want To" type="application/atom+xml">
 </head>
 <div class="wechat-share">
   <img src="/css/images/logo.png" />
@@ -188,6 +188,131 @@
   
     <article class="article-card">
       <h2 class="article-head">
+        <a href="/2022/01/27/hexo/">hexo</a>
+      </h2>
+      <p class="article-date">January 27, 2022</p>
+      
+        
+  <a href="/tags#hexo" >
+    <span class="tag-code">hexo</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          Win11安装git npm nodejs hexo1.安装git
+下载Git  https://git-scm.com/
+Git教程 - 廖雪峰的官方网站 
+
+2.安装Node.js
+下载Node.js Download | Node.js (nodejs.org)
+
+安装时要注意包含环境 ...
+        
+      </div>
+      <a class="more" href="/2022/01/27/hexo/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/2021/11/06/linux_Rocky_Mssql/">在Rocky系统安装Mssql2017</a>
+      </h2>
+      <p class="article-date">November 6, 2021</p>
+      
+        
+  <a href="/tags#MSSQL" >
+    <span class="tag-code">MSSQL</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+           最小安装Rocky之后已经具备了网络连接能力。
+使用nmcli命令查看网络。
+1nmcli device status
+
+使用nmtui配置网络。
+1nmtui
+
+配置完成后，必须重启网络服务才能生效。
+1systemctl restart NetworkManager
+
+安装MSSQL2 ...
+        
+      </div>
+      <a class="more" href="/2021/11/06/linux_Rocky_Mssql/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/2021/10/22/SO-DO/">SO_DO</a>
+      </h2>
+      <p class="article-date">October 22, 2021</p>
+      
+      <div class="article-summary">
+        
+          
+        
+      </div>
+      <a class="more" href="/2021/10/22/SO-DO/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/2021/10/20/SQL-2K-TEMPDB/">改变tempdb数据库文件的默认路径</a>
+      </h2>
+      <p class="article-date">October 20, 2021</p>
+      
+      <div class="article-summary">
+        
+          在SQL Server 2000中，可以改变tempdb数据库文件的默认路径.
+一、执行下面语句 alter database tempdb modify file  (NAME=tempdev,FILENAME = ‘C:\tempdb.mdf’) alter database tempd ...
+        
+      </div>
+      <a class="more" href="/2021/10/20/SQL-2K-TEMPDB/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/2021/10/20/SQL-2K-M/">SQL Server 2000 大容量内存设置实现方法</a>
+      </h2>
+      <p class="article-date">October 20, 2021</p>
+      
+      <div class="article-summary">
+        
+          标准的 32 位地址最多可映像 4 GB 内存。因此，32 位进程的标准地址空间限制为 4 GB。
+默认情况下，在 32 位 Microsoft Windows 操作系统中，将为操作系统保留 2 GB 空间，另外 2 GB 空间可由应用程序使用。
+在32bit操作系统中，一般SQL Serv ...
+        
+      </div>
+      <a class="more" href="/2021/10/20/SQL-2K-M/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/2021/09/17/JAVA-jdbc-template/">JdbcTemplate中的方法</a>
+      </h2>
+      <p class="article-date">September 17, 2021</p>
+      
+        
+  <a href="/tags#JAVA" >
+    <span class="tag-code">JAVA</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          Jdbctemplate中的方法：
+query、queryForObject、queryForList、queryForMap
+【query方法】返回结果是list，且list中元素必须是自定义bean；不能是list。
+【queryForObject】查询出一条记录并封装到一个对象中。可以 ...
+        
+      </div>
+      <a class="more" href="/2021/09/17/JAVA-jdbc-template/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
         <a href="/2021/08/20/openfiler_lostLV/">openfiler丢失了LV卷</a>
       </h2>
       <p class="article-date">August 20, 2021</p>
@@ -334,147 +459,6 @@
       <a class="more" href="/2021/08/16/Win_DC2003PassRecovery/">Read more</a>
     </article>
   
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/2021/08/11/SQL_knowledge/">SQL关键词：触发器,函数,视图,存储过程</a>
-      </h2>
-      <p class="article-date">August 11, 2021</p>
-      
-        
-  <a href="/tags#SQL" >
-    <span class="tag-code">SQL</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          <p><strong>触发器</strong>:是一个特殊的存储过程,它是mysql在insert,update,delete的时候自动执行的代码块.</p>
-<p>在一个语句执行后,自动触发的事件</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">create</span> <span class="hljs-keyword">trigger</span> trigger_name<br><br>　　 after<span class="hljs-operator">/</span>before <span class="hljs-keyword">insert</span> <span class="hljs-operator">/</span>update<span class="hljs-operator">/</span><span class="hljs-keyword">delete</span> <span class="hljs-keyword">on</span> 表名<br><br>　　 <span class="hljs-keyword">for</span> <span class="hljs-keyword">each</span> <span class="hljs-type">row</span><br><br>　　 <span class="hljs-keyword">begin</span><br><br>　　 <span class="hljs-keyword">sql</span>语句：（触发的语句一句或多句）<br><br>　　 <span class="hljs-keyword">end</span><br></code></pre></td></tr></table></figure>
-        
-      </div>
-      <a class="more" href="/2021/08/11/SQL_knowledge/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/2021/08/11/qunhui_uninstall_GLPI/">群晖卸载忘记密码的套件</a>
-      </h2>
-      <p class="article-date">August 11, 2021</p>
-      
-        
-  <a href="/tags#群晖" >
-    <span class="tag-code">群晖</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          群晖套件GLPI安装后一直没有用，想要卸载时需要提供当时设置的Mysql密码，时间久远早就忘了，造成无法常规卸载。
-
-打开群晖的SSH登录开关。
-
-主菜单》 控制面板》 终端机和SNMP》终端机》启动SSH功能&gt;&gt;保存
-
-
-通过SSH工具连接到群晖：
-
-it@Cloud:/$ s ...
-        
-      </div>
-      <a class="more" href="/2021/08/11/qunhui_uninstall_GLPI/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/2021/08/05/linux_drbd_corosync_cluster/">openfiler基于corosync集群当脑裂时自动停止服务</a>
-      </h2>
-      <p class="article-date">August 5, 2021</p>
-      
-        
-  <a href="/tags#openfiler" >
-    <span class="tag-code">openfiler</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          <p>模拟心跳down机实验以及恢复<br>在主节点主机上面建立crontab任务<br>问题：drbd脑裂问题，当心跳线断掉的时候，两个节点同时可以对外提供服务，通过corosync管理服务机制出现问题，双方都对外提供服务，会导致最终数据产生不一致。<br>按照上面实验filer01作为主机对外提供服务，在filer01上面添加crontab任务，当检测到自己网卡down掉，或者是心跳线出现问题，在验证属于自己问题后，将集群服务停掉，自动退出集群节点。</p>
-        
-      </div>
-      <a class="more" href="/2021/08/05/linux_drbd_corosync_cluster/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/2021/08/05/linux_drbd_bigdisk/">drbd使用大硬盘</a>
-      </h2>
-      <p class="article-date">August 5, 2021</p>
-      
-        
-  <a href="/tags#drbd" >
-    <span class="tag-code">drbd</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          <p>更换硬盘后drbd状态显示为UnConfigured</p>
-<p>Linux缺省vmalloc为128MB</p>
-        
-      </div>
-      <a class="more" href="/2021/08/05/linux_drbd_bigdisk/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/2021/08/05/linux_LVM/">linux LVM分区全解</a>
-      </h2>
-      <p class="article-date">August 5, 2021</p>
-      
-        
-  <a href="/tags#linux" >
-    <span class="tag-code">linux</span>
-  </a>
-
-  <a href="/tags#LVM" >
-    <span class="tag-code">LVM</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          <h3 id="LVM（逻辑分区管理）中的几个概念："><a href="#LVM（逻辑分区管理）中的几个概念：" class="headerlink" title="LVM（逻辑分区管理）中的几个概念："></a>LVM（逻辑分区管理）中的几个概念：</h3><p><code>PV</code>(physical volume)：物理卷在逻辑卷管理系统最底层，可为整个物理硬盘或实际物理硬盘上的分区。<br><code>VG</code>(volume group)：卷组建立在物理卷上，一卷组中至少要包括一物理卷，卷组建立后可动态的添加卷到卷组中，一个逻辑卷管理系统工程中可有多个卷组。</p>
-        
-      </div>
-      <a class="more" href="/2021/08/05/linux_LVM/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/2021/08/05/linux_drbd_naolie/">【解决】DRBD脑裂问题</a>
-      </h2>
-      <p class="article-date">August 5, 2021</p>
-      
-        
-  <a href="/tags#linux" >
-    <span class="tag-code">linux</span>
-  </a>
-
-  <a href="/tags#DRBD" >
-    <span class="tag-code">DRBD</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          <p>DRBD(Distributed Replicated Block Device)是一个用软件实现的、无共享的、服务器之间镜像块设备内容的存储复制解决方案。<br>数据镜像：实时、透明、同步（所有服务器都成功后返回）、异步（本地服务器成功后返回）<br>DRBD的核心功能通过Linux的内核实现，最接近系统的IO栈，但它没有上层的功能比如检测到EXT3文件系统的崩溃。<br>DRBD的位置处于文件系统以下，比文件系统更加靠近操作系统内核及IO栈。</p>
-<p>今天就遇到了openfiler HA(双活)集群中的DRBD服务出现了脑裂。下面是解决过程。</p>
-        
-      </div>
-      <a class="more" href="/2021/08/05/linux_drbd_naolie/">Read more</a>
-    </article>
-  
 
   
     <div class="guide-pager">
@@ -494,7 +478,7 @@ it@Cloud:/$ s ...
 </div>
     <footer class="app-footer">
   <p class="copyright">
-    &copy; 2021 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    &copy; 2022 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
     <br>
     Theme by <a target="_blank" rel="noopener" href="https://github.com/yanm1ng">yanm1ng</a>
   </p>

@@ -37,7 +37,7 @@
 <script src="/js/local-search.js"></script>
 
 
-<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="Want To" type="application/atom+xml">
+<meta name="generator" content="Hexo 5.4.1"><link rel="alternate" href="/atom.xml" title="Want To" type="application/atom+xml">
 </head>
 <div class="wechat-share">
   <img src="/css/images/logo.png" />
@@ -167,7 +167,24 @@
   <!-- Article START -->
   <article class="post-article">
     <section class="markdown-content"><p>目前微软已经默认禁用了SMB1.0版本，但经常会因为各种原因还需要用到SMB版本1,例如在Windows 2012 R2的域控环境中，如果还有WinXP系统的客户机，就必须打开SMB1.0。</p>
-<h3 id="临时启用SMB1的支持"><a href="#临时启用SMB1的支持" class="headerlink" title="临时启用SMB1的支持"></a>临时启用SMB1的支持</h3><p>启动Win2012R2的powershell输入以下两个命令</p>
+<h3 id="临时启用SMB1的支持"><a href="#临时启用SMB1的支持" class="headerlink" title="临时启用SMB1的支持"></a>临时启用SMB1的支持</h3><p>操作命令</p>
+<p>查看SMB1文件服务</p>
+<p>Get-WindowsFeature FS-SMB1</p>
+<p>查看SMB1状态</p>
+<p>Get-SmbServerConfiguration | Select EnableSMB1Protocol</p>
+<p>查看SMB2状态</p>
+<p>Get-SmbServerConfiguration | Select EnableSMB2Protocol</p>
+<p>禁用SMB1</p>
+<p>Set-SmbServerConfiguration -EnableSMB1Protocol $false</p>
+<p>启用SMB1</p>
+<p>Set-SmbServerConfiguration -EnableSMB1Protocol $true</p>
+<p>察觉SMB1</p>
+<p>Get-WindowsOptionalFeature –Online –FeatureName SMB1Protocol</p>
+<p>禁用SMB1</p>
+<p>Disable-WindowsOptionalFeature -Online -FeatureName smb1protocol</p>
+<p>启用SMB1</p>
+<p>Enable-WindowsOptionalFeature -Online -FeatureName smb1protocol</p>
+<p>启动Win2012R2的powershell输入以下两个命令</p>
 <ol>
 <li><code>Set-SmbServerrConfiguration -RejectUnencryptedAccess $false</code></li>
 <li><code>Set-SmbServerConfiguration –EnableSMB1Protocol $true</code></li>
@@ -179,6 +196,7 @@
 <ul>
 <li> 如果可能，在生产环境中应避免使用SMB1.0版本。</li>
 </ul>
+<h3 id="如果还是不能访问SMB1共享"><a href="#如果还是不能访问SMB1共享" class="headerlink" title="如果还是不能访问SMB1共享"></a>如果还是不能访问SMB1共享</h3><p>查看 <code>“ Windows Remote Management（WinRM）”</code> 服务是否启动。</p>
 </section>
     <!-- Tags START -->
     
@@ -262,7 +280,7 @@
   <div class="toc-main">
     <strong class="toc-title">Catalog</strong>
     
-      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#%E4%B8%B4%E6%97%B6%E5%90%AF%E7%94%A8SMB1%E7%9A%84%E6%94%AF%E6%8C%81"><span class="toc-nav-text">临时启用SMB1的支持</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#%E6%B0%B8%E4%B9%85%E5%90%AF%E7%94%A8SMB1%E7%9A%84%E6%94%AF%E6%8C%81"><span class="toc-nav-text">永久启用SMB1的支持</span></a></li></ol>
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#%E4%B8%B4%E6%97%B6%E5%90%AF%E7%94%A8SMB1%E7%9A%84%E6%94%AF%E6%8C%81"><span class="toc-nav-text">临时启用SMB1的支持</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#%E6%B0%B8%E4%B9%85%E5%90%AF%E7%94%A8SMB1%E7%9A%84%E6%94%AF%E6%8C%81"><span class="toc-nav-text">永久启用SMB1的支持</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#%E5%A6%82%E6%9E%9C%E8%BF%98%E6%98%AF%E4%B8%8D%E8%83%BD%E8%AE%BF%E9%97%AESMB1%E5%85%B1%E4%BA%AB"><span class="toc-nav-text">如果还是不能访问SMB1共享</span></a></li></ol>
     
   </div>
 </aside>
@@ -338,7 +356,7 @@
 </div>
     <footer class="app-footer">
   <p class="copyright">
-    &copy; 2021 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    &copy; 2022 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
     <br>
     Theme by <a target="_blank" rel="noopener" href="https://github.com/yanm1ng">yanm1ng</a>
   </p>

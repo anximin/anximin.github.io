@@ -6,7 +6,7 @@
   <link href="http://anximin.github.io/atom.xml" rel="self"/>
   
   <link href="http://anximin.github.io/"/>
-  <updated>2021-08-21T02:43:18.266Z</updated>
+  <updated>2022-01-28T00:55:12.276Z</updated>
   <id>http://anximin.github.io/</id>
   
   <author>
@@ -15,6 +15,136 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>hexo</title>
+    <link href="http://anximin.github.io/2022/01/27/hexo/"/>
+    <id>http://anximin.github.io/2022/01/27/hexo/</id>
+    <published>2022-01-27T08:54:09.000Z</published>
+    <updated>2022-01-28T00:55:12.276Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;Win11安装git-npm-nodejs-hexo&quot;&gt;&lt;a href=&quot;#Win11安装git-npm-nodejs-hexo&quot; class=&quot;headerlink&quot; title=&quot;Win11安装git npm nodejs</summary>
+        
+      
+    
+    
+    
+    
+    <category term="hexo" scheme="http://anximin.github.io/tags/hexo/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>在Rocky系统安装Mssql2017</title>
+    <link href="http://anximin.github.io/2021/11/06/linux_Rocky_Mssql/"/>
+    <id>http://anximin.github.io/2021/11/06/linux_Rocky_Mssql/</id>
+    <published>2021-11-06T06:10:49.000Z</published>
+    <updated>2021-11-06T07:16:18.326Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt; 最小安装Rocky之后已经具备了网络连接能力。&lt;/p&gt;
+&lt;p&gt;使用&lt;code&gt;nmcli&lt;/code&gt;命令查看网络。&lt;/p&gt;
+&lt;figure class=&quot;highlight plaintext&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td</summary>
+        
+      
+    
+    
+    
+    
+    <category term="MSSQL" scheme="http://anximin.github.io/tags/MSSQL/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SO_DO</title>
+    <link href="http://anximin.github.io/2021/10/22/SO-DO/"/>
+    <id>http://anximin.github.io/2021/10/22/SO-DO/</id>
+    <published>2021-10-22T02:00:39.000Z</published>
+    <updated>2021-10-22T02:00:39.662Z</updated>
+    
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>改变tempdb数据库文件的默认路径</title>
+    <link href="http://anximin.github.io/2021/10/20/SQL-2K-TEMPDB/"/>
+    <id>http://anximin.github.io/2021/10/20/SQL-2K-TEMPDB/</id>
+    <published>2021-10-20T08:56:37.000Z</published>
+    <updated>2021-10-20T09:01:17.819Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;在SQL Server 2000中，可以改变tempdb数据库文件的默认路径.&lt;/p&gt;
+&lt;p&gt;一、执行下面语句&lt;br&gt; alter database tempdb modify file  (NAME=tempdev,FILENAME =</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>SQL Server 2000 大容量内存设置实现方法</title>
+    <link href="http://anximin.github.io/2021/10/20/SQL-2K-M/"/>
+    <id>http://anximin.github.io/2021/10/20/SQL-2K-M/</id>
+    <published>2021-10-20T01:45:40.000Z</published>
+    <updated>2021-10-20T02:09:47.045Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;标准的 32 位地址最多可映像 4 GB 内存。因此，32 位进程的标准地址空间限制为 4 GB。&lt;/p&gt;
+&lt;p&gt;默认情况下，在 32 位 Microsoft Windows 操作系统中，将为操作系统保留 2 GB 空间，另外 2 GB</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>JdbcTemplate中的方法</title>
+    <link href="http://anximin.github.io/2021/09/17/JAVA-jdbc-template/"/>
+    <id>http://anximin.github.io/2021/09/17/JAVA-jdbc-template/</id>
+    <published>2021-09-17T09:29:48.000Z</published>
+    <updated>2021-09-17T09:37:25.905Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;Jdbctemplate中的方法：&lt;/p&gt;
+&lt;p&gt;query、queryForObject、queryForList、queryForMap&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;【query方法】返回结果是list，且list中元素必须是自定义bean；&lt;/strong&gt;不能是l</summary>
+        
+      
+    
+    
+    
+    
+    <category term="JAVA" scheme="http://anximin.github.io/tags/JAVA/"/>
+    
+  </entry>
   
   <entry>
     <title>openfiler丢失了LV卷</title>
@@ -73,7 +203,7 @@
     <link href="http://anximin.github.io/2021/08/18/openfiler_kuozhan/"/>
     <id>http://anximin.github.io/2021/08/18/openfiler_kuozhan/</id>
     <published>2021-08-18T03:01:48.000Z</published>
-    <updated>2021-08-21T03:16:01.030Z</updated>
+    <updated>2021-08-24T02:50:57.870Z</updated>
     
     
     <summary type="html">&lt;p&gt; openfiler集群建成之后，通过修改分区实现调整drbd数据卷大小的实验。&lt;/p&gt;
@@ -339,121 +469,6 @@
     <category term="git" scheme="http://anximin.github.io/tags/git/"/>
     
     <category term="IDEA" scheme="http://anximin.github.io/tags/IDEA/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>ceph部署中所需的cephadm文件</title>
-    <link href="http://anximin.github.io/2021/07/23/ceph-cephadm/"/>
-    <id>http://anximin.github.io/2021/07/23/ceph-cephadm/</id>
-    <published>2021-07-23T08:40:08.000Z</published>
-    <updated>2021-08-21T03:26:26.622Z</updated>
-    
-    
-    <summary type="html">&lt;p&gt;通常国内的网络是不能wget到这个文件的。也可以手动建立cephadm这个文件，然后再赋予它执行权限&lt;code&gt;chmod +x cephadm&lt;/code&gt;，下面是cephadm的完整内容。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="cephadm" scheme="http://anximin.github.io/tags/cephadm/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>centos8最小化安装环境使用cephadm部署ceph集群存储</title>
-    <link href="http://anximin.github.io/2021/07/23/linux_centos8_mini_cephadm/"/>
-    <id>http://anximin.github.io/2021/07/23/linux_centos8_mini_cephadm/</id>
-    <published>2021-07-23T08:24:31.000Z</published>
-    <updated>2021-07-29T03:03:22.494Z</updated>
-    
-    
-    <summary type="html">&lt;p&gt;配置IP&lt;/p&gt;
-&lt;figure class=&quot;highlight plaintext&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;code class=&quot;hljs plaintext&quot;&gt;ip addr　　查看网络配置&lt;br&gt;nmcli:　　　查看网络配置&lt;br&gt;&lt;br&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;修改配置文件：vi /etc/sysconfig/network-scripts/ifcfg-ens192&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="cephadm" scheme="http://anximin.github.io/tags/cephadm/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Openfiler网络聚合</title>
-    <link href="http://anximin.github.io/2021/07/20/net_bond/"/>
-    <id>http://anximin.github.io/2021/07/20/net_bond/</id>
-    <published>2021-07-20T03:39:07.000Z</published>
-    <updated>2021-07-20T03:55:29.390Z</updated>
-    
-    
-    <summary type="html">&lt;h3 id=&quot;多网卡的7种bond模式原理&quot;&gt;&lt;a href=&quot;#多网卡的7种bond模式原理&quot; class=&quot;headerlink&quot; title=&quot;多网卡的7种bond模式原理&quot;&gt;&lt;/a&gt;多网卡的7种bond模式原理&lt;/h3&gt;&lt;p&gt;网卡绑定mode共有七种(0~6) &lt;code&gt;bond0&lt;/code&gt;、&lt;code&gt;bond1&lt;/code&gt;、&lt;code&gt;bond2&lt;/code&gt;、&lt;code&gt;bond3&lt;/code&gt;、&lt;code&gt;bond4&lt;/code&gt;、&lt;code&gt;bond5&lt;/code&gt;、&lt;code&gt;bond6&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;常用的有三种&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;mode=0&lt;/code&gt;：平衡负载模式，有自动备援，但需要”Switch”支援及设定。&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;mode=1&lt;/code&gt;：自动备援模式，其中一条线若断线，其他线路将会自动备援。&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;mode=6&lt;/code&gt;：平衡负载模式，有自动备援，不必”Switch”支援及设定。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="OPENfiler" scheme="http://anximin.github.io/tags/OPENfiler/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>OPNsense远程管理设置</title>
-    <link href="http://anximin.github.io/2021/07/17/net_opnsense_wanhttp/"/>
-    <id>http://anximin.github.io/2021/07/17/net_opnsense_wanhttp/</id>
-    <published>2021-07-17T02:20:50.000Z</published>
-    <updated>2021-07-29T03:06:49.696Z</updated>
-    
-    
-    <summary type="html">&lt;p&gt;一般OPNsense担任的是防火墙角色，所以在生产环境中，一般是通过VPN方式进行远程管理的。&lt;/p&gt;
-&lt;p&gt;如果对安全不敏感的环境需要实现简单的远程管理，可以使用这个方法。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="OPNsense" scheme="http://anximin.github.io/tags/OPNsense/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>OPNsense系统安装</title>
-    <link href="http://anximin.github.io/2021/07/16/net_opnsense_install/"/>
-    <id>http://anximin.github.io/2021/07/16/net_opnsense_install/</id>
-    <published>2021-07-16T07:17:14.000Z</published>
-    <updated>2021-07-17T02:24:18.083Z</updated>
-    
-    
-    <summary type="html">&lt;p&gt;下载地址： &lt;a href=&quot;https://opnsense.org/download/&quot;&gt;https://opnsense.org/download/&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;选择平台（System architecture）&lt;/p&gt;
-&lt;p&gt;只能选择amd64&lt;/p&gt;
-&lt;p&gt;选择映象类型（Select the image type）&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="OPNsense" scheme="http://anximin.github.io/tags/OPNsense/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>nodejs安装与版本升级</title>
-    <link href="http://anximin.github.io/2021/07/08/nodejs_install_and_update/"/>
-    <id>http://anximin.github.io/2021/07/08/nodejs_install_and_update/</id>
-    <published>2021-07-08T08:06:52.000Z</published>
-    <updated>2021-07-20T03:55:59.497Z</updated>
-    
-    
-    <summary type="html">&lt;h3 id=&quot;nodejs安装&quot;&gt;&lt;a href=&quot;#nodejs安装&quot; class=&quot;headerlink&quot; title=&quot;nodejs安装&quot;&gt;&lt;/a&gt;nodejs安装&lt;/h3&gt;&lt;p&gt;官网下载地址：&lt;a href=&quot;http://nodejs.cn/download/&quot;&gt;http://nodejs.cn/download/&lt;/a&gt;&lt;br&gt;   例如我下载的是 &lt;code&gt;node-v14.16.0-x64.msi&lt;/code&gt; ，安装很简单，双击一路下一步即可安装完成。&lt;/p&gt;
-&lt;h3 id=&quot;验证是否安装成功&quot;&gt;&lt;a href=&quot;#验证是否安装成功&quot; class=&quot;headerlink&quot; title=&quot;验证是否安装成功&quot;&gt;&lt;/a&gt;验证是否安装成功&lt;/h3&gt;</summary>
-    
-    
-    
-    
-    <category term="nodeJS" scheme="http://anximin.github.io/tags/nodeJS/"/>
-    
-    <category term="npm" scheme="http://anximin.github.io/tags/npm/"/>
     
   </entry>
   

@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="弃我去者，昨日之日不可留；乱我心者，今日之日多烦忧。">
+  <meta name="keyword" content="">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      SQL Server 2000 大容量内存设置实现方法 | Want To
+    
+  </title>
+  <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js"></script>
+  
+    
+<script src="/js/qrious.js"></script>
+
+  
+  
+  
+
+  
+  
+    
+<script src="/js/local-search.js"></script>
+
+
+<meta name="generator" content="Hexo 5.4.1"><link rel="alternate" href="/atom.xml" title="Want To" type="application/atom+xml">
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>Want To</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+      
+        <li class="menu-item menu-item-search right-list">
+    <a role="button" class="popup-trigger">
+        <i class="fa fa-search fa-fw"></i>
+    </a>
+</li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+    
+      <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+            <span class="search-icon">
+                <i class="fa fa-search"></i>
+            </span>
+            <div class="search-input-container">
+                <input autocomplete="off" autocapitalize="off"
+                    placeholder="Please enter your keyword(s) to search." spellcheck="false"
+                    type="search" class="search-input">
+            </div>
+            <span class="popup-btn-close">
+                <i class="fa fa-times-circle"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+    
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>SQL Server 2000 大容量内存设置实现方法</h2>
+  <p class="post-date">2021-10-20</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><p>标准的 32 位地址最多可映像 4 GB 内存。因此，32 位进程的标准地址空间限制为 4 GB。</p>
+<p>默认情况下，在 32 位 Microsoft Windows 操作系统中，将为操作系统保留 2 GB 空间，另外 2 GB 空间可由应用程序使用。</p>
+<p>在32bit操作系统中，一般SQL Server可以使用的内存不到2G，就算开启了3GB开关，也使用不到3G。现在，内存容量超过4GB的服务器越来越多，如果要SQL SERVER2000可以使用大容量的内存，我们需要做以下设定。</p>
+<p>如何开启操作系统3G开关 </p>
+<p>修改boot.ini文件(要在C盘下看到boot.ini需要在勾掉“隐藏受保护的操作系统文件”)，在启动windows项中添加 /3G 参数。修改过后的boot.ini文件应该类似以下内容：  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">[boot loader]    <br>timeout=8    <br>default=multi(0)disk(0)rdisk(0)partition(1) <br>[operating systems]  <br>multi(0)disk(0)rdisk(0)partition(1)=&quot;Microsoft Windows 2000 Advanced Server&quot;  /3G  /fastdetect  <br></code></pre></td></tr></table></figure>
+
+<p>多了一个 /3G 参数。这个参数的作用，就是让windows启动时，将自己的内核及支持程序装载到内存地址 0xC0000000 到 0xFFFFFFFF 之间，给应用程序留出3G的空间来。 </p>
+<h4 id="设置SQL-Server使用大容量内存步骤"><a href="#设置SQL-Server使用大容量内存步骤" class="headerlink" title="设置SQL Server使用大容量内存步骤:"></a>设置SQL Server使用大容量内存步骤:</h4><ol>
+<li>安装SQL Server2000，升级至SP4 (8.00.2039)，并打上AWE补丁SQL2000-KB899761-v8.00.2040 </li>
+</ol>
+<p> SQL2000-KB899761-v8.00.2040-x86x64-chs.exe  sql2000-kb948110-v8.00.2050-x86x64-chs.exe</p>
+<ol start="2">
+<li>在 C:\boot.ini 档中设定 /PAE 参数，然后重开机，让OS抓到内存</li>
+</ol>
+<p>备注： PAE（物理地址扩展）</p>
+<p>例子：multi(0)disk(0)rdisk(0)partition(1)=”Microsoft Windows 2000 Advanced Server”  /fastdetect  /PAE </p>
+<ol start="3">
+<li><p>在SQL Query Analyzer中输入下列指令，来启动SQL Server的AWE功能(这里设定内存为6G): </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">sp_configure &#x27;show advanced options&#x27;, 1  <br>RECONFIGURE <br>GO <br>sp_configure &#x27;awe enabled&#x27;, 1 <br>RECONFIGURE <br>GO <br>sp_configure &#x27;max server memory&#x27;, 6000<br>RECONFIGURE <br>GO <br>sp_configure &#x27;allow updates&#x27;, 1 <br>RECONFIGURE WITH OVERRIDE <br>GO  <br></code></pre></td></tr></table></figure></li>
+<li><p>在控制面板–管理工具–本地安全策略(或域安全策略中)–安全设置–本机策略—用户权限分配右边窗口中选取“内存中锁定页面”，在其设定画面新增用户或组，加入MSSQLSERVER服务的启动账号(比如administrator)。  </p>
+</li>
+<li><p>在命令提示符号下输入 </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">secedit /refreshpolicy machine_policy /enforce 或是 gpupdate (gpupdate 针对windows xp, 2003)  <br>secedit  /refreshpolicy  machine_policy  /enforce  (针对windows2000)<br></code></pre></td></tr></table></figure>
+<p>Windows 2000 接受此请求后，会向用户显示以下文本：</p>
+</li>
+</ol>
+<p>来自域的组策略传播已为这台计算机触发。要完成传播并使新策略生效，需要几分钟的时间。请检查应用程序日志。</p>
+<p>Windows 2003 下执行 gpupdate 后的结果。</p>
+<p>C:&gt;gpupdate</p>
+<p>正在刷新策略…</p>
+<p>用户策略刷新完成。</p>
+<p>计算机策略刷新完成。</p>
+<p>要检查在策略处理中的错误，请查阅事件日志。</p>
+<ol start="6">
+<li>重新启动SQL Server服务使设定生效</li>
+</ol>
+<ol start="7">
+<li>在SQL Query Analyzer中输入下列指令，来关闭SQL Server的allow updates功能:<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">sp_configure &#x27;allow updates&#x27;, 0   <br>RECONFIGURE WITH OVERRIDE    <br>GO   <br></code></pre></td></tr></table></figure></li>
+<li>开启任务管理器看看内存是否跟设定值一样</li>
+</ol>
+<h4 id="术语解释："><a href="#术语解释：" class="headerlink" title="术语解释："></a>术语解释：</h4><p>PAE（Physical Address Extension）：</p>
+<p>PAE 是 IA32 处理器新增的功能，可以寻址 4  GB 以上的物理内存。Microsoft Windows 2000 Advanced Server、Microsoft Windows 2000 Datacenter Server、Microsoft Windows Server 2003，企业版和 Microsoft Windows  Server 2003，Datacenter Edition 可以使用 PAE 寻址超过 4  GB 的物理内存。如果要启用 PAE，请使用 Boot.ini 档案中的 /PAE 参数。 </p>
+<p>AWE（Address Windowing Extensions）：</p>
+<p>AWE 是一个 API 集，它使程序能够保留大内存块。保留的内存是非分页的，并且只可以由该程序来使用。</p>
+</section>
+    <!-- Tags START -->
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/2021/09/17/JAVA-jdbc-template/">
+        <span class="nav-arrow">← </span>
+        
+          JdbcTemplate中的方法
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/2021/10/20/SQL-2K-TEMPDB/">
+        
+          改变tempdb数据库文件的默认路径
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+      <div class="money-like">
+        <div class="reward-btn">
+          赏
+          <span class="money-code">
+            <span class="alipay-code">
+              <div class="code-image"></div>
+              <b>使用支付宝打赏</b>
+            </span>
+            <span class="wechat-code">
+              <div class="code-image"></div>
+              <b>使用微信打赏</b>
+            </span>
+          </span>
+        </div>
+        <p class="notice">若你觉得我的文章对你有帮助，欢迎点击上方按钮对我打赏</p>
+      </div>
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+      <div class="qrcode">
+        <canvas id="share-qrcode"></canvas>
+        <p class="notice">扫描二维码，分享此文章</p>
+      </div>
+    
+    <!-- 二维码 END -->
+    
+      <!-- Utterances START -->
+      <div id="utterances"></div>
+      <script src="https://utteranc.es/client.js"
+        repo=""
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async></script>    
+      <!-- Utterances END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#%E8%AE%BE%E7%BD%AESQL-Server%E4%BD%BF%E7%94%A8%E5%A4%A7%E5%AE%B9%E9%87%8F%E5%86%85%E5%AD%98%E6%AD%A5%E9%AA%A4"><span class="toc-nav-text">设置SQL Server使用大容量内存步骤:</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#%E6%9C%AF%E8%AF%AD%E8%A7%A3%E9%87%8A%EF%BC%9A"><span class="toc-nav-text">术语解释：</span></a></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://anximin.github.io/2021/10/20/SQL-2K-M/';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+    // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', '/css/images/error_icon.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== '/css/images/error_icon.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+  })();
+</script>
+
+
+  <script>
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+  </script>
+
+
+
+
+
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2022 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    Theme by <a target="_blank" rel="noopener" href="https://github.com/yanm1ng">yanm1ng</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      hljs.configure({useBR: true});
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+
+<script src="/js/script.js"></script>
+
+
+  </body>
+</html>

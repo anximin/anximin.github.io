@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="弃我去者，昨日之日不可留；乱我心者，今日之日多烦忧。">
+  <meta name="keyword" content="">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      在Rocky系统安装Mssql2017 | Want To
+    
+  </title>
+  <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js"></script>
+  
+    
+<script src="/js/qrious.js"></script>
+
+  
+  
+  
+
+  
+  
+    
+<script src="/js/local-search.js"></script>
+
+
+<meta name="generator" content="Hexo 5.4.1"><link rel="alternate" href="/atom.xml" title="Want To" type="application/atom+xml">
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>Want To</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+      
+        <li class="menu-item menu-item-search right-list">
+    <a role="button" class="popup-trigger">
+        <i class="fa fa-search fa-fw"></i>
+    </a>
+</li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+    
+      <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+            <span class="search-icon">
+                <i class="fa fa-search"></i>
+            </span>
+            <div class="search-input-container">
+                <input autocomplete="off" autocapitalize="off"
+                    placeholder="Please enter your keyword(s) to search." spellcheck="false"
+                    type="search" class="search-input">
+            </div>
+            <span class="popup-btn-close">
+                <i class="fa fa-times-circle"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+    
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>在Rocky系统安装Mssql2017</h2>
+  <p class="post-date">2021-11-06</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><p> 最小安装Rocky之后已经具备了网络连接能力。</p>
+<p>使用<code>nmcli</code>命令查看网络。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">nmcli device status<br></code></pre></td></tr></table></figure>
+
+<p>使用<code>nmtui</code>配置网络。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">nmtui<br></code></pre></td></tr></table></figure>
+
+<p>配置完成后，必须重启网络服务才能生效。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">systemctl restart NetworkManager<br></code></pre></td></tr></table></figure>
+
+<h3 id="安装MSSQL2017前准备"><a href="#安装MSSQL2017前准备" class="headerlink" title="安装MSSQL2017前准备"></a>安装MSSQL2017前准备</h3><p>配置mssql源</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">curl https://packages.microsoft.com/config/rhel/7/mssql-server-2017.repo &gt; /etc/yum.repos.d/mssql-server.repo<br></code></pre></td></tr></table></figure>
+
+<p>安装MsSql2017之前，还要先安装python2。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh">yum -install -y python2 compat-openssl10<br>sudo alternatives --<span class="hljs-built_in">set</span> python /usr/bin/python2<br></code></pre></td></tr></table></figure>
+
+<h3 id="开始安装MSSQL2017"><a href="#开始安装MSSQL2017" class="headerlink" title="开始安装MSSQL2017"></a>开始安装MSSQL2017</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">yum install -y mssql-server<br></code></pre></td></tr></table></figure>
+<p>或使用下面的命令进行本地安装。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">sudo yum download mssql-server<br>sudo rpm -Uvh --nodeps mssql-server*rpm<br></code></pre></td></tr></table></figure>
+
+<h3 id="安装后，配置MSSQL"><a href="#安装后，配置MSSQL" class="headerlink" title="安装后，配置MSSQL"></a>安装后，配置MSSQL</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">sudo /opt/mssql/bin/mssql-conf setup<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs sh">Choose an edition of SQL Server:<br>  1) Evaluation (free, no production use rights, 180-day <span class="hljs-built_in">limit</span>)<br>  2) Developer (free, no production use rights)<br>  3) Express (free)<br>  4) Web (PAID)<br>  5) Standard (PAID)<br>  6) Enterprise (PAID)<br>  7) Enterprise Core (PAID)<br>  8) I bought a license through a retail sales channel and have a product key to enter.<br><br>Details about editions can be found at<br>https://go.microsoft.com/fwlink/?LinkId=852748&amp;clcid=0x409<br><br>Use of PAID editions of this software requires separate licensing through a<br>Microsoft Volume Licensing program.<br>By choosing a PAID edition, you are verifying that you have the appropriate<br>number of licenses <span class="hljs-keyword">in</span> place to install and run this software.<br><br>Enter your edition(1-8): 2<br>The license terms <span class="hljs-keyword">for</span> this product can be found <span class="hljs-keyword">in</span><br>/usr/share/doc/mssql-server or downloaded from:<br>https://go.microsoft.com/fwlink/?LinkId=855862&amp;clcid=0x409<br><br>The privacy statement can be viewed at:<br>https://go.microsoft.com/fwlink/?LinkId=853010&amp;clcid=0x409<br><br>Enter the SQL Server system administrator password: <br>Confirm the SQL Server system administrator password: <br>Configuring SQL Server...<br><br>ForceFlush is enabled <span class="hljs-keyword">for</span> this instance. <br>ForceFlush feature is enabled <span class="hljs-keyword">for</span> <span class="hljs-built_in">log</span> durability.<br>Setup has completed successfully. SQL Server is now starting.<br></code></pre></td></tr></table></figure>
+
+<p>查看mssql的安装路径</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sh">[root@rocky ~]<span class="hljs-comment"># find / -name mssql</span><br>/var/opt/mssql<br>/opt/mssql<br></code></pre></td></tr></table></figure>
+
+<p>查看mssql版本</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh">[root@rocky ~]<span class="hljs-comment"># rpm -qa |grep mssql</span><br>mssql-server-14.0.3421.10-2.x86_64<br></code></pre></td></tr></table></figure>
+
+<p>设置MSSQL开机启动</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">systemctl <span class="hljs-built_in">enable</span> mssql-server<br></code></pre></td></tr></table></figure>
+
+<p>开启防火墙端口</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh">firewall-cmd --zone=public --add-port=1433/tcp --permanent<br>firewall-cmd --reload<br></code></pre></td></tr></table></figure>
+
+<p>控制命令</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sh">systemctl start mssql-server<br>systemctl restart mssql-server<br>systemctl stop mssql-server<br>systemctl status mssql-server<br></code></pre></td></tr></table></figure>
+
+<h3 id="使用数据库"><a href="#使用数据库" class="headerlink" title="使用数据库"></a>使用数据库</h3><p>连接：使用Navicat等工具。</p>
+<p>创建数据库：在Linux系列系统上要先创建<code>/localdb</code>目录，放置数据库的数据文件。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh">mkdir /localMSdb<br>chmod -R 777 /localMSdb<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs sh">/**创建数据库 并且指定存储数据库的mdf和ldf文件**/<br>USE master<br>GO<br>CREATE DATABASE TestSQL ON PRIMARY<br>(<br>    NAME=<span class="hljs-string">&#x27;TestSQL_data&#x27;</span>,--库文件逻辑文件名<br>    FILENAME=<span class="hljs-string">&#x27;/localMSdb/TestSQL_data.mdf&#x27;</span>, --库文件文件名<br>    SIZE=5mb,--系统默认创建的时候会给库文件分配初始大小<br>    MAXSIZE=500MB,--库文件的最大值<br>    filegrowth=15%-- 库文件的增长幅度<br>)<br>LOG ON<br>(<br>    name=<span class="hljs-string">&#x27;TestSQL_log&#x27;</span>,--日志文件逻辑文件名<br>    filename=<span class="hljs-string">&#x27;/localMSdb/TestSQL_log.ldf&#x27;</span>,--日志文件文件名<br>    SIZE=5MB,--日志文件初始大小<br>    filegrowth=0 --启动自动增长<br>)<br>GO<br></code></pre></td></tr></table></figure>
+
+<h3 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h3><p>为方便本地管理SQL，安装SQL Server 命令行工具</p>
+<p>1）下载Microsoft Red Hat 配置文件。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">curl -o /etc/yum.repos.d/msprod.repo https://packages.microsoft.com/config/rhel/8/prod.repo <br></code></pre></td></tr></table></figure>
+
+<p>2）如果安装了早期版本的 <code>mssql-tools</code>，请<code>删除</code>所有旧的 <code>unixODBC</code> 包。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">yum remove unixODBC-utf16 unixODBC-utf16-devel<br></code></pre></td></tr></table></figure>
+
+<p>3）使用 <code>unixODBC 开发人员包</code>安装 <code>mssql-tools</code></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">yum install -y mssql-tools unixODBC-devel <br></code></pre></td></tr></table></figure>
+
+<p>4）向 PATH 环境变量添加 /opt/mssql-tools/bin/ 。 这样可以在不指定完整路径的情况下运行这些工具。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">echo</span> <span class="hljs-string">&#x27;export PATH=&quot;$PATH:/opt/mssql-tools/bin&quot;&#x27;</span> &gt;&gt; ~/.bash_profile<br><span class="hljs-built_in">echo</span> <span class="hljs-string">&#x27;export PATH=&quot;$PATH:/opt/mssql-tools/bin&quot;&#x27;</span> &gt;&gt; ~/.bashrc<br><span class="hljs-built_in">source</span> ~/.bashrc<br></code></pre></td></tr></table></figure>
+
+<p>测试本地连接:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sh">sqlcmd -S localhost -U SA -P <span class="hljs-string">&#x27;&lt;YourPassword&gt;&#x27;</span> <br><span class="hljs-comment">#出现1&gt;表示登陆成功 </span><br><br></code></pre></td></tr></table></figure>
+
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#MSSQL" >
+    <span class="tag-code">MSSQL</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/2021/10/22/SO-DO/">
+        <span class="nav-arrow">← </span>
+        
+          SO_DO
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/2022/01/27/hexo/">
+        
+          hexo
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+      <div class="money-like">
+        <div class="reward-btn">
+          赏
+          <span class="money-code">
+            <span class="alipay-code">
+              <div class="code-image"></div>
+              <b>使用支付宝打赏</b>
+            </span>
+            <span class="wechat-code">
+              <div class="code-image"></div>
+              <b>使用微信打赏</b>
+            </span>
+          </span>
+        </div>
+        <p class="notice">若你觉得我的文章对你有帮助，欢迎点击上方按钮对我打赏</p>
+      </div>
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+      <div class="qrcode">
+        <canvas id="share-qrcode"></canvas>
+        <p class="notice">扫描二维码，分享此文章</p>
+      </div>
+    
+    <!-- 二维码 END -->
+    
+      <!-- Utterances START -->
+      <div id="utterances"></div>
+      <script src="https://utteranc.es/client.js"
+        repo=""
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async></script>    
+      <!-- Utterances END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#%E5%AE%89%E8%A3%85MSSQL2017%E5%89%8D%E5%87%86%E5%A4%87"><span class="toc-nav-text">安装MSSQL2017前准备</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#%E5%BC%80%E5%A7%8B%E5%AE%89%E8%A3%85MSSQL2017"><span class="toc-nav-text">开始安装MSSQL2017</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#%E5%AE%89%E8%A3%85%E5%90%8E%EF%BC%8C%E9%85%8D%E7%BD%AEMSSQL"><span class="toc-nav-text">安装后，配置MSSQL</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#%E4%BD%BF%E7%94%A8%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-nav-text">使用数据库</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#%E9%85%8D%E7%BD%AE%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="toc-nav-text">配置环境变量</span></a></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://anximin.github.io/2021/11/06/linux_Rocky_Mssql/';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+    // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', '/css/images/error_icon.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== '/css/images/error_icon.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+  })();
+</script>
+
+
+  <script>
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+  </script>
+
+
+
+
+
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2022 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    Theme by <a target="_blank" rel="noopener" href="https://github.com/yanm1ng">yanm1ng</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      hljs.configure({useBR: true});
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+
+<script src="/js/script.js"></script>
+
+
+  </body>
+</html>
