@@ -835,9 +835,9 @@
     
     
     <entry>
-      <title>404 Not Found：该页无法显示</title>
-      <link href="//404.html"/>
-      <url>//404.html</url>
+      <title>About</title>
+      <link href="/about/index.html"/>
+      <url>/about/index.html</url>
       
         <content type="html"><![CDATA[]]></content>
       
@@ -846,9 +846,9 @@
     
     
     <entry>
-      <title>About</title>
-      <link href="/about/index.html"/>
-      <url>/about/index.html</url>
+      <title>404 Not Found：该页无法显示</title>
+      <link href="//404.html"/>
+      <url>//404.html</url>
       
         <content type="html"><![CDATA[]]></content>
       
@@ -879,9 +879,9 @@
     
     
     <entry>
-      <title>Series</title>
-      <link href="/series/index.html"/>
-      <url>/series/index.html</url>
+      <title>slides</title>
+      <link href="/slides/index.html"/>
+      <url>/slides/index.html</url>
       
         <content type="html"><![CDATA[]]></content>
       
@@ -890,9 +890,9 @@
     
     
     <entry>
-      <title>slides</title>
-      <link href="/slides/index.html"/>
-      <url>/slides/index.html</url>
+      <title>Series</title>
+      <link href="/series/index.html"/>
+      <url>/series/index.html</url>
       
         <content type="html"><![CDATA[]]></content>
       
