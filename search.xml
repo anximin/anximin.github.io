@@ -684,7 +684,7 @@
       
         <tags>
             
-            <tag> 黑群晖 </tag>
+            <tag> 群晖 </tag>
             
         </tags>
       
@@ -895,9 +895,9 @@
     
     
     <entry>
-      <title>分类</title>
-      <link href="/categories/index.html"/>
-      <url>/categories/index.html</url>
+      <title>Project</title>
+      <link href="/project/index.html"/>
+      <url>/project/index.html</url>
       
         <content type="html"><![CDATA[]]></content>
       
@@ -906,9 +906,9 @@
     
     
     <entry>
-      <title>Project</title>
-      <link href="/project/index.html"/>
-      <url>/project/index.html</url>
+      <title>分类</title>
+      <link href="/categories/index.html"/>
+      <url>/categories/index.html</url>
       
         <content type="html"><![CDATA[]]></content>
       
