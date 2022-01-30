@@ -6,7 +6,7 @@
   <link href="http://anximin.github.io/atom.xml" rel="self"/>
   
   <link href="http://anximin.github.io/"/>
-  <updated>2022-01-28T10:01:32.934Z</updated>
+  <updated>2022-01-29T01:11:58.403Z</updated>
   <id>http://anximin.github.io/</id>
   
   <author>
@@ -15,6 +15,19 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>ESXiInstallVib</title>
+    <link href="http://anximin.github.io/2022/01/29/ESXiInstallVib/"/>
+    <id>http://anximin.github.io/2022/01/29/ESXiInstallVib/</id>
+    <published>2022-01-29T01:11:58.000Z</published>
+    <updated>2022-01-29T01:11:58.403Z</updated>
+    
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>部署基于EXi的群晖【中篇】- 创建虚拟机引导群晖系统</title>
@@ -445,35 +458,6 @@
     <category term="linux" scheme="http://anximin.github.io/tags/linux/"/>
     
     <category term="DRBD" scheme="http://anximin.github.io/tags/DRBD/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>openfiler集群部署过程</title>
-    <link href="http://anximin.github.io/2021/08/03/openfiler_cluster_build/"/>
-    <id>http://anximin.github.io/2021/08/03/openfiler_cluster_build/</id>
-    <published>2021-08-03T00:16:15.000Z</published>
-    <updated>2021-08-21T03:13:54.095Z</updated>
-    
-    
-    <summary type="html">&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;node1&lt;/th&gt;
-&lt;th&gt;node2&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;&lt;tr&gt;
-&lt;td&gt;hostname: filer1&lt;br /&gt;eth0: 10.10.10.101&lt;br /&gt;eth1: 10.10.100.101&lt;br /&gt;600MB Meta partition&lt;br /&gt;8GB+ Data partition&lt;/td&gt;
-&lt;td&gt;hostname: filer2&lt;br /&gt;eth0: 10.10.10.102&lt;br /&gt;eth1: 10.10.100.102&lt;br /&gt;600MB Meta partition&lt;br /&gt;8GB+ Data partition&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;&lt;/table&gt;
-&lt;p&gt;virtualip: 10.10.10.100 ( 不要在任何网卡配置，后面在corosync中配置 )&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="openfiler" scheme="http://anximin.github.io/tags/openfiler/"/>
     
   </entry>
   

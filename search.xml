@@ -4,6 +4,19 @@
   
     
     <entry>
+      <title>ESXiInstallVib</title>
+      <link href="/2022/01/29/ESXiInstallVib/"/>
+      <url>/2022/01/29/ESXiInstallVib/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>部署基于EXi的群晖【中篇】- 创建虚拟机引导群晖系统</title>
       <link href="/2022/01/28/ESXiQunhui2/"/>
       <url>/2022/01/28/ESXiQunhui2/</url>
@@ -884,28 +897,6 @@
     
     
     <entry>
-      <title>About</title>
-      <link href="/about/index.html"/>
-      <url>/about/index.html</url>
-      
-        <content type="html"><![CDATA[]]></content>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>Project</title>
-      <link href="/project/index.html"/>
-      <url>/project/index.html</url>
-      
-        <content type="html"><![CDATA[]]></content>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>分类</title>
       <link href="/categories/index.html"/>
       <url>/categories/index.html</url>
@@ -917,9 +908,31 @@
     
     
     <entry>
+      <title>About</title>
+      <link href="/about/index.html"/>
+      <url>/about/index.html</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Series</title>
       <link href="/series/index.html"/>
       <url>/series/index.html</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Project</title>
+      <link href="/project/index.html"/>
+      <url>/project/index.html</url>
       
         <content type="html"><![CDATA[]]></content>
       

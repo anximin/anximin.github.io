@@ -188,6 +188,20 @@
   
     <article class="article-card">
       <h2 class="article-head">
+        <a href="/2022/01/29/ESXiInstallVib/">ESXiInstallVib</a>
+      </h2>
+      <p class="article-date">January 29, 2022</p>
+      
+      <div class="article-summary">
+        
+          
+        
+      </div>
+      <a class="more" href="/2022/01/29/ESXiInstallVib/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
         <a href="/2022/01/28/ESXiQunhui2/">部署基于EXi的群晖【中篇】- 创建虚拟机引导群晖系统</a>
       </h2>
       <p class="article-date">January 28, 2022</p>
@@ -418,56 +432,6 @@ query、queryForObject、queryForList、queryForMap
         
       </div>
       <a class="more" href="/2021/08/19/Win_kuaijiejian/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/2021/08/18/openfiler_kuozhan/">openfiler集群扩展容量</a>
-      </h2>
-      <p class="article-date">August 18, 2021</p>
-      
-        
-  <a href="/tags#openfiler" >
-    <span class="tag-code">openfiler</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          <p> openfiler集群建成之后，通过修改分区实现调整drbd数据卷大小的实验。</p>
-<p>drbd0为元数据分区，drbd1为存储数据卷分区。</p>
-<p>集群包含名为<code>data</code>的VG, 内含PV:<code>/dev/drbd1 </code> 在data中由openfiler创建了<code>filer</code> <code>ftp</code>两个LV。</p>
-<p>大小如下：</p>
-<table>
-<thead>
-<tr>
-<th>分区 partition</th>
-<th>分区类型</th>
-<th>DRBD块设备</th>
-<th>容量</th>
-<th>扩容</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>/dev/sda1</td>
-<td>ext3</td>
-<td>drbd0</td>
-<td>600M</td>
-<td>不变</td>
-</tr>
-<tr>
-<td>/dev/sda2</td>
-<td>LVM</td>
-<td>drbd1</td>
-<td>8G</td>
-<td>80G</td>
-</tr>
-</tbody></table>
-<p>sda这块硬盘是500G的，所以想通过修改<code>sda2</code>分区大小来扩展<code>drbd1</code>。</p>
-<h5 id="查看当前分区信息"><a href="#查看当前分区信息" class="headerlink" title="查看当前分区信息"></a>查看当前分区信息</h5>
-        
-      </div>
-      <a class="more" href="/2021/08/18/openfiler_kuozhan/">Read more</a>
     </article>
   
 
