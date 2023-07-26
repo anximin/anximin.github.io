@@ -3574,15 +3574,22 @@ it@Cloud:/$ sudo synopkg uninstall GLPI
     </entry>
     
     <entry>
-      <title><![CDATA[About]]></title>
+      <title><![CDATA[About me]]></title>
       <url>/about/index.html</url>
-      <content type="html"><![CDATA[<p>Markdown 文档 支持HTML</p>
+      <content type="html"><![CDATA[<p>平淡是生活的本色，有时生活虽然寡淡，但是它很真实也会让你很安心。人生几多繁华，几多坎坷，繁华过后，回归平淡，又是幸福的另外一种体现。<br>过去无法挽回，明天还是未知，只有当下是实实在在的。不要为昨天买单，不要同过去较劲，如果不小心摔倒，爬起来继续奔跑。即使苦难注定要在明天来临，也没必要今天就为它付费。努力照看好今天，明天才会给你惊喜。<br>放下浮躁与焦虑，洞悉人世之理</p>
+<p>自爱身命不应杀生，自重资财不应偷盗，<br>自护妻室不应侵他，无有众生爱乐于苦，<br>凡有所作悉求安乐，非己所安，不加于物。</p>
 ]]></content>
     </entry>
     
     <entry>
       <title><![CDATA[分类]]></title>
       <url>/categories/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Project]]></title>
+      <url>/project/index.html</url>
       <content type="html"></content>
     </entry>
     
@@ -3601,12 +3608,6 @@ it@Cloud:/$ sudo synopkg uninstall GLPI
     <entry>
       <title><![CDATA[Tags]]></title>
       <url>/tags/index.html</url>
-      <content type="html"></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[Project]]></title>
-      <url>/project/index.html</url>
       <content type="html"></content>
     </entry>
     
