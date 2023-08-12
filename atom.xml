@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Want To</title>
+  
+  
+  <link href="http://anximin.github.io/atom.xml" rel="self"/>
+  
+  <link href="http://anximin.github.io/"/>
+  <updated>2023-07-26T01:34:13.441Z</updated>
+  <id>http://anximin.github.io/</id>
+  
+  <author>
+    <name>Sylar</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>扫描时提示Video Initialize Error</title>
+    <link href="http://anximin.github.io/2023/07/26/maintain_hpscanerror/"/>
+    <id>http://anximin.github.io/2023/07/26/maintain_hpscanerror/</id>
+    <published>2023-07-26T00:55:11.000Z</published>
+    <updated>2023-07-26T01:34:13.441Z</updated>
+    
+    
+    <summary type="html">&lt;h3 id=&quot;1-问题描述&quot;&gt;&lt;a href=&quot;#1-问题描述&quot; class=&quot;headerlink&quot; title=&quot;1. 问题描述&quot;&gt;&lt;/a&gt;1. 问题描述&lt;/h3&gt;&lt;p&gt;win10或win11下使用HP扫描软件（&lt;code&gt;scan to&lt;/code&gt;）时，经常出现&lt;code&gt;Video initialize Error&lt;/code&gt;提示。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="运维" scheme="http://anximin.github.io/categories/%E8%BF%90%E7%BB%B4/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>node升级版本后使用HEXO生成文章时提示警告</title>
+    <link href="http://anximin.github.io/2023/07/21/nodejs_warning/"/>
+    <id>http://anximin.github.io/2023/07/21/nodejs_warning/</id>
+    <published>2023-07-21T00:31:24.000Z</published>
+    <updated>2023-07-21T00:58:58.296Z</updated>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;node升级版本后使用HEXO生成文章时提示警告&quot;&gt;&lt;a href=&quot;#node升级版本后使用HEXO生成文章时提示警告&quot; class=&quot;headerlink&quot; title=&quot;node升级版本后使用HEXO生成文章时提示警告&quot;&gt;&lt;/a&gt;node升级版本后使用HEXO生成文章时提示警告&lt;/h2&gt;</summary>
+    
+    
+    
+    
+    <category term="hexo" scheme="http://anximin.github.io/tags/hexo/"/>
+    
+    <category term="nodeJS" scheme="http://anximin.github.io/tags/nodeJS/"/>
+    
+    <category term="npm" scheme="http://anximin.github.io/tags/npm/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>编译中兴E8820s必要的准备工作</title>
+    <link href="http://anximin.github.io/2023/07/18/Router_OpenWrt_E8820S/"/>
+    <id>http://anximin.github.io/2023/07/18/Router_OpenWrt_E8820S/</id>
+    <published>2023-07-18T08:36:00.000Z</published>
+    <updated>2023-07-18T10:03:51.481Z</updated>
+    
+    
+    <summary type="html">提示：刷机有风险，操作要有心理准备。</summary>
+    
+    
+    
+    
+    <category term="OpenWrt" scheme="http://anximin.github.io/tags/OpenWrt/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>使用ubuntu编译LEDE</title>
+    <link href="http://anximin.github.io/2023/07/18/Router_OpenWrt_LEDE/"/>
+    <id>http://anximin.github.io/2023/07/18/Router_OpenWrt_LEDE/</id>
+    <published>2023-07-18T02:36:00.000Z</published>
+    <updated>2023-07-19T00:55:39.125Z</updated>
+    
+    
+    <summary type="html">编译openWrt不能使用root用户，否则报错。使用下面命令新建一个newuser.并为其添加sudo权限。</summary>
+    
+    
+    
+    
+    <category term="OpenWrt" scheme="http://anximin.github.io/tags/OpenWrt/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>详解 linux 路由 route 命令</title>
+    <link href="http://anximin.github.io/2023/07/10/Linux_cmd_Route/"/>
+    <id>http://anximin.github.io/2023/07/10/Linux_cmd_Route/</id>
+    <published>2023-07-10T03:30:00.000Z</published>
+    <updated>2023-07-19T04:00:15.785Z</updated>
+    
+    
+    <summary type="html">route命令用于查看和操作Linux操作系统中的路由表。它允许您添加，删除和修改路由表的条目，以确定数据包从一台计算机到另一台计算机的传输路径。</summary>
+    
+    
+    
+    
+    <category term="linux" scheme="http://anximin.github.io/tags/linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Ubuntu域名解析暂时失败</title>
+    <link href="http://anximin.github.io/2023/07/06/Linux_Ubuntu_Net/"/>
+    <id>http://anximin.github.io/2023/07/06/Linux_Ubuntu_Net/</id>
+    <published>2023-07-06T03:36:00.000Z</published>
+    <updated>2023-07-19T01:37:57.748Z</updated>
+    
+    
+    <summary type="html">如果之前的网络是正常的，突然出现了这种错误提示，可以使用这个方法试一下。</summary>
+    
+    
+    
+    
+    <category term="linux" scheme="http://anximin.github.io/tags/linux/"/>
+    
+    <category term="Ubuntu" scheme="http://anximin.github.io/tags/Ubuntu/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>本地部署的GitLab升级指南</title>
+    <link href="http://anximin.github.io/2023/06/20/git-GitLab-update/"/>
+    <id>http://anximin.github.io/2023/06/20/git-GitLab-update/</id>
+    <published>2023-06-20T08:25:38.000Z</published>
+    <updated>2023-07-19T01:16:34.362Z</updated>
+    
+    
+    <summary type="html">gitlab 不支持大版本之间直接升级，需要升级到当前版本的最新版本，然后再升级下一个版本。</summary>
+    
+    
+    
+    
+    <category term="GitLab" scheme="http://anximin.github.io/tags/GitLab/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>MarkDown语法</title>
+    <link href="http://anximin.github.io/2023/05/19/markdown-YuFa/"/>
+    <id>http://anximin.github.io/2023/05/19/markdown-YuFa/</id>
+    <published>2023-05-19T02:01:38.000Z</published>
+    <updated>2023-07-19T08:25:58.024Z</updated>
+    
+    
+    <summary type="html">Markdown是一种可以使用普通文本编辑器编写的标记语言,通过简单的标记语法,它可以使普通文本内容具有一定的格式</summary>
+    
+    
+    
+    <category term="快查手册" scheme="http://anximin.github.io/categories/%E5%BF%AB%E6%9F%A5%E6%89%8B%E5%86%8C/"/>
+    
+    
+    <category term="MarkDown" scheme="http://anximin.github.io/tags/MarkDown/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>华为交换机链路聚合配置-LACP</title>
+    <link href="http://anximin.github.io/2022/02/21/net_HuaweiLACP/"/>
+    <id>http://anximin.github.io/2022/02/21/net_HuaweiLACP/</id>
+    <published>2022-02-21T06:38:21.000Z</published>
+    <updated>2023-07-19T03:23:52.312Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;链路聚合一般在二层环境中使用，将多条物理接口划分为一条逻辑接口，实现拓展带宽和冗余连接。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="路由交换" scheme="http://anximin.github.io/tags/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>华为交换机启用WEB管理</title>
+    <link href="http://anximin.github.io/2022/02/21/net_HuaweiWeb/"/>
+    <id>http://anximin.github.io/2022/02/21/net_HuaweiWeb/</id>
+    <published>2022-02-21T06:24:22.000Z</published>
+    <updated>2023-07-19T03:23:33.845Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;h华为三层交换机是有Web管理端的，但是交换机上的ETH管理口默认没有地址，所以需要配置来实现正常通过浏览器访问WEB管理端。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="路由交换" scheme="http://anximin.github.io/tags/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ESXiInstallVib</title>
+    <link href="http://anximin.github.io/2022/01/29/ESXi_InstallVib/"/>
+    <id>http://anximin.github.io/2022/01/29/ESXi_InstallVib/</id>
+    <published>2022-01-29T01:11:58.000Z</published>
+    <updated>2023-07-19T03:40:04.637Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;“VMware 安装捆绑包”（通常称为 VIB），使第三方和管理员能够更轻松地将软件组件安装到其旗舰虚拟化平台 vSphere ESXi 中。&lt;/p&gt;
+&lt;p&gt;该过程非常简单，如果您为运行 ESXi 软件的正确版本安装正确的 VIB，通常不会出错。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="ESXi" scheme="http://anximin.github.io/tags/ESXi/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>部署基于ESXi的群晖【中篇】- 创建虚拟机引导群晖系统</title>
+    <link href="http://anximin.github.io/2022/01/28/ESXi_Qunhui2/"/>
+    <id>http://anximin.github.io/2022/01/28/ESXi_Qunhui2/</id>
+    <published>2022-01-28T03:55:41.000Z</published>
+    <updated>2023-07-19T03:37:44.481Z</updated>
+    
+    
+    <summary type="html">&lt;h3 id=&quot;准备群晖7-0-1引导文件&quot;&gt;&lt;a href=&quot;#准备群晖7-0-1引导文件&quot; class=&quot;headerlink&quot; title=&quot;准备群晖7.0.1引导文件&quot;&gt;&lt;/a&gt;准备群晖7.0.1引导文件&lt;/h3&gt;&lt;p&gt;使用&lt;code&gt;StarWind V2V Image Converter&lt;/code&gt;转换引导文件img格式为ESXi系统的vmdk格式。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="ESXi" scheme="http://anximin.github.io/tags/ESXi/"/>
+    
+    <category term="群晖" scheme="http://anximin.github.io/tags/%E7%BE%A4%E6%99%96/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>部署基于ESXi的群晖【上篇】- 安装ESXi并设置直通</title>
+    <link href="http://anximin.github.io/2022/01/28/ESXi_Qunhui1/"/>
+    <id>http://anximin.github.io/2022/01/28/ESXi_Qunhui1/</id>
+    <published>2022-01-28T02:46:09.000Z</published>
+    <updated>2023-07-19T03:37:17.717Z</updated>
+    
+    
+    <summary type="html">&lt;h3 id=&quot;硬件选择&quot;&gt;&lt;a href=&quot;#硬件选择&quot; class=&quot;headerlink&quot; title=&quot;硬件选择&quot;&gt;&lt;/a&gt;硬件选择&lt;/h3&gt;&lt;p&gt;ESXi对硬件兼容性相当不错了，一般电脑都可以正常安装，由于想要提高群晖在ESXi平台下的性能所以有几点必须要考虑：&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="ESXi" scheme="http://anximin.github.io/tags/ESXi/"/>
+    
+    <category term="群晖" scheme="http://anximin.github.io/tags/%E7%BE%A4%E6%99%96/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Win11安装git npm nodejs hexo</title>
+    <link href="http://anximin.github.io/2022/01/27/hexo_installOnWin11/"/>
+    <id>http://anximin.github.io/2022/01/27/hexo_installOnWin11/</id>
+    <published>2022-01-27T08:54:09.000Z</published>
+    <updated>2023-07-19T03:45:51.125Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h3 id=&quot;1-安装git&quot;&gt;&lt;a href=&quot;#1-安装git&quot; class=&quot;headerlink&quot; title=&quot;1.安装git&quot;&gt;&lt;/a&gt;1.安装git&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;下载Git  &lt;a</summary>
+        
+      
+    
+    
+    
+    
+    <category term="hexo" scheme="http://anximin.github.io/tags/hexo/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>在Rocky系统安装Mssql2017</title>
+    <link href="http://anximin.github.io/2021/11/06/linux_Rocky_Mssql/"/>
+    <id>http://anximin.github.io/2021/11/06/linux_Rocky_Mssql/</id>
+    <published>2021-11-06T06:10:49.000Z</published>
+    <updated>2023-07-19T07:27:42.846Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt; 最小安装Rocky之后已经具备了网络连接能力。&lt;/p&gt;
+&lt;p&gt;使用&lt;code&gt;nmcli&lt;/code&gt;命令查看网络。&lt;/p&gt;
+&lt;figure class=&quot;highlight ebnf&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span</summary>
+        
+      
+    
+    
+    
+    
+    <category term="linux" scheme="http://anximin.github.io/tags/linux/"/>
+    
+    <category term="MSSQL" scheme="http://anximin.github.io/tags/MSSQL/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SO_DO</title>
+    <link href="http://anximin.github.io/2021/10/22/SO-DO/"/>
+    <id>http://anximin.github.io/2021/10/22/SO-DO/</id>
+    <published>2021-10-22T02:00:39.000Z</published>
+    <updated>2021-10-22T02:00:39.662Z</updated>
+    
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>改变SQLserver中tempdb数据库文件的默认路径</title>
+    <link href="http://anximin.github.io/2021/10/20/SQL-2K-TEMPDB/"/>
+    <id>http://anximin.github.io/2021/10/20/SQL-2K-TEMPDB/</id>
+    <published>2021-10-20T08:56:37.000Z</published>
+    <updated>2023-07-19T07:24:41.311Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;在SQL Server 2000中，可以改变tempdb数据库文件的默认路径.&lt;/p&gt;
+&lt;p&gt;一、执行下面语句&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="MSSQL" scheme="http://anximin.github.io/tags/MSSQL/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SQL Server 2000 大容量内存设置实现方法</title>
+    <link href="http://anximin.github.io/2021/10/20/SQL-2K-M/"/>
+    <id>http://anximin.github.io/2021/10/20/SQL-2K-M/</id>
+    <published>2021-10-20T01:45:40.000Z</published>
+    <updated>2023-07-19T07:24:33.781Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;标准的 32 位地址最多可映像 4 GB 内存。因此，32 位进程的标准地址空间限制为 4 GB。&lt;/p&gt;
+&lt;p&gt;默认情况下，在 32 位 Microsoft Windows 操作系统中，将为操作系统保留 2 GB 空间，另外 2 GB 空间可由应用程序使用。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="MSSQL" scheme="http://anximin.github.io/tags/MSSQL/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>JAVA中的JdbcTemplate详解</title>
+    <link href="http://anximin.github.io/2021/09/17/JAVA-jdbc-template/"/>
+    <id>http://anximin.github.io/2021/09/17/JAVA-jdbc-template/</id>
+    <published>2021-09-17T09:29:48.000Z</published>
+    <updated>2023-07-19T07:47:53.630Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;JDBCTemplate是Spring为我们提供的，一组访问访问数据库的类库，Spring对JDBC的封装,通俗点说就是Spring对jdbc的封装的模板&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="JAVA" scheme="http://anximin.github.io/tags/JAVA/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>openfiler丢失了LV卷</title>
+    <link href="http://anximin.github.io/2021/08/20/openfiler_lostLV/"/>
+    <id>http://anximin.github.io/2021/08/20/openfiler_lostLV/</id>
+    <published>2021-08-20T06:05:44.000Z</published>
+    <updated>2023-07-19T01:35:42.650Z</updated>
+    
+    
+    <summary type="html">&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;使用lvdisplay和lvs命令查看都能正常看到对应的卷，但是在openfiler中没有显示。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;应该是在openfiler的配置信息丢失导致的；&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;卷的配置信息保存在一个叫volumes.xml的配置文件中；&lt;code&gt;/meta/opt/openfiler/etc/volumes.xml&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;在volumes.xml中添加对应的配置信息；&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;格式如下：&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="linux" scheme="http://anximin.github.io/tags/linux/"/>
+    
+    <category term="openfiler" scheme="http://anximin.github.io/tags/openfiler/"/>
+    
+  </entry>
+  
+</feed>
