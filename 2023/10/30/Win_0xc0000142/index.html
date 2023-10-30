@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://anximin.github.io/img/index_img/index_26_error142.jpg">
 <meta property="article:published_time" content="2023-10-30T03:58:14.000Z">
-<meta property="article:modified_time" content="2023-10-30T07:48:14.359Z">
+<meta property="article:modified_time" content="2023-10-30T07:53:14.127Z">
 <meta property="article:author" content="Sylar">
 <meta property="article:tag" content="Windows">
 <meta name="twitter:card" content="summary_large_image">
@@ -237,7 +237,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          468 字
+          470 字
         
       </span>
     
@@ -297,7 +297,8 @@
 <p>具体步骤：</p>
 <p>1、按win+R调出运行，输入cmd，点击确定。</p>
 <p>2、在命令提示符下输入下面命令： </p>
-<p>for %1 in (%windir%\system32*.dll) do regsvr32.exe /s %1 回车。到屏幕滚动停止为止。</p>
+<figure class="highlight mel"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mel"><span class="hljs-keyword">for</span> %1 <span class="hljs-keyword">in</span> (%windir%\system32\*.dll) <span class="hljs-keyword">do</span> regsvr32.exe /s %1 <br></code></pre></td></tr></table></figure>
+<p>回车。到屏幕滚动停止为止。</p>
 <p>（避免输入有误，使用复制-粘贴）</p>
 <p><strong>应用程序出错原因分析：</strong></p>
 <p>1、应用程序没有检查内存分配失败。</p>
