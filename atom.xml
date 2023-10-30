@@ -6,7 +6,7 @@
   <link href="http://anximin.github.io/atom.xml" rel="self"/>
   
   <link href="http://anximin.github.io/"/>
-  <updated>2023-07-26T01:34:13.441Z</updated>
+  <updated>2023-10-30T07:48:14.359Z</updated>
   <id>http://anximin.github.io/</id>
   
   <author>
@@ -15,6 +15,23 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>错误代码0xc0000142</title>
+    <link href="http://anximin.github.io/2023/10/30/Win_0xc0000142/"/>
+    <id>http://anximin.github.io/2023/10/30/Win_0xc0000142/</id>
+    <published>2023-10-30T03:58:14.000Z</published>
+    <updated>2023-10-30T07:48:14.359Z</updated>
+    
+    
+    <summary type="html">应用程序无法正常启动，错误代码0xc0000142。</summary>
+    
+    
+    
+    
+    <category term="Windows" scheme="http://anximin.github.io/tags/Windows/"/>
+    
+  </entry>
   
   <entry>
     <title>扫描时提示Video Initialize Error</title>
@@ -364,35 +381,6 @@
     
     
     <category term="JAVA" scheme="http://anximin.github.io/tags/JAVA/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>openfiler丢失了LV卷</title>
-    <link href="http://anximin.github.io/2021/08/20/openfiler_lostLV/"/>
-    <id>http://anximin.github.io/2021/08/20/openfiler_lostLV/</id>
-    <published>2021-08-20T06:05:44.000Z</published>
-    <updated>2023-07-19T01:35:42.650Z</updated>
-    
-    
-    <summary type="html">&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;使用lvdisplay和lvs命令查看都能正常看到对应的卷，但是在openfiler中没有显示。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;应该是在openfiler的配置信息丢失导致的；&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;卷的配置信息保存在一个叫volumes.xml的配置文件中；&lt;code&gt;/meta/opt/openfiler/etc/volumes.xml&lt;/code&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;在volumes.xml中添加对应的配置信息；&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;格式如下：&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="linux" scheme="http://anximin.github.io/tags/linux/"/>
-    
-    <category term="openfiler" scheme="http://anximin.github.io/tags/openfiler/"/>
     
   </entry>
   

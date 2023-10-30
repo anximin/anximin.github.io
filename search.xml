@@ -3,6 +3,38 @@
   
     
     <entry>
+      <title><![CDATA[错误代码0xc0000142]]></title>
+      <url>/2023/10/30/Win_0xc0000142/</url>
+      <content type="html"><![CDATA[<p><strong>0xc0000142是缺少什么？</strong></p>
+<p>应用程序无法正常启动，错误代码0xc0000142，造成的原因通常是因为部分DLL文件未能被系统注册，导致动态库调用错误。</p>
+<p><strong>解决方法：</strong></p>
+<p>将DLL文件重新注册一遍。</p>
+<p>具体步骤：</p>
+<p>1、按win+R调出运行，输入cmd，点击确定。</p>
+<p>2、在命令提示符下输入下面命令： </p>
+<p>for %1 in (%windir%\system32*.dll) do regsvr32.exe /s %1 回车。到屏幕滚动停止为止。</p>
+<p>（避免输入有误，使用复制-粘贴）</p>
+<p><strong>应用程序出错原因分析：</strong></p>
+<p>1、应用程序没有检查内存分配失败。</p>
+<p>2、应用程序由于自身BUG引用了不正常的内存光标。</p>
+<p>3、木马病毒。</p>
+<p>木马或病毒这类程序为了控制系统往往不负责任地修改系统，从而导致操作系统异常。平常应加强信息安全意识，对来源不明的可执行程序绝不好奇。</p>
+<p>4、操作系统的原因。</p>
+<p>有时候操作系统本身也会有BUG，要注意安装官方发行的升级程序。更新操作系统，让操作系统的安装程序重新拷贝正确版本的系统档案、修正系统参数。</p>
+<p>5、硬件本身的问题。</p>
+<p>硬件本身质量问题及不兼容的情况，同时还要注意散热问题，超频等特殊情况。</p>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> Windows </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[扫描时提示Video Initialize Error]]></title>
       <url>/2023/07/26/maintain_hpscanerror/</url>
       <content type="html"><![CDATA[<h3 id="1-问题描述"><a href="#1-问题描述" class="headerlink" title="1. 问题描述"></a>1. 问题描述</h3><p>win10或win11下使用HP扫描软件（<code>scan to</code>）时，经常出现<code>Video initialize Error</code>提示。</p>
@@ -3585,12 +3617,6 @@ document.getElementsByTagName('head')[0].appendChild(oMeta);]]></content>
     </entry>
     
     <entry>
-      <title><![CDATA[分类]]></title>
-      <url>/categories/index.html</url>
-      <content type="html"></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[About me]]></title>
       <url>/about/index.html</url>
       <content type="html"><![CDATA[<p>平淡是生活的本色，有时生活虽然寡淡，但是它很真实也会让你很安心。人生几多繁华，几多坎坷，繁华过后，回归平淡，又是幸福的另外一种体现。<br>过去无法挽回，明天还是未知，只有当下是实实在在的。不要为昨天买单，不要同过去较劲，如果不小心摔倒，爬起来继续奔跑。即使苦难注定要在明天来临，也没必要今天就为它付费。努力照看好今天，明天才会给你惊喜。<br>放下浮躁与焦虑，洞悉人世之理</p>
@@ -3599,14 +3625,8 @@ document.getElementsByTagName('head')[0].appendChild(oMeta);]]></content>
     </entry>
     
     <entry>
-      <title><![CDATA[Series]]></title>
-      <url>/series/index.html</url>
-      <content type="html"></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[slides]]></title>
-      <url>/slides/index.html</url>
+      <title><![CDATA[分类]]></title>
+      <url>/categories/index.html</url>
       <content type="html"></content>
     </entry>
     
@@ -3619,6 +3639,18 @@ document.getElementsByTagName('head')[0].appendChild(oMeta);]]></content>
     <entry>
       <title><![CDATA[Project]]></title>
       <url>/project/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Series]]></title>
+      <url>/series/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[slides]]></title>
+      <url>/slides/index.html</url>
       <content type="html"></content>
     </entry>
     
