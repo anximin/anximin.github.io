@@ -16,26 +16,26 @@
   <meta name="author" content="Sylar">
   <meta name="keywords" content="">
   
-    <meta name="description" content="nginx.conf 文件内容加注释">
+    <meta name="description" content="有些版本的MySQL安装完成后root用户的默认密码不一样，有的是空密码，有的是root,还有的是password ，如果都不是，可以使用下面的方法强制修改。具体如下： 1、首先修改MySQL配置文件为跳过密码验证登录。 1[root@localhost my.cnf.d]# vim &#x2F;etc&#x2F;my.cnf  在文件最末尾加上  skip-grant–tables   然后保存配置文件。 2、接下">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Nginx配置文件注解">
-<meta property="og:url" content="http://anximin.github.io/2021/06/30/nginx_conf/index.html">
+<meta property="og:title" content="在Linux环境中的Mysql忘记root密码的恢复方法">
+<meta property="og:url" content="http://anximin.github.io/2023/12/15/linux_mysql_forgetpwd/index.html">
 <meta property="og:site_name" content="Want To">
-<meta property="og:description" content="nginx.conf 文件内容加注释">
+<meta property="og:description" content="有些版本的MySQL安装完成后root用户的默认密码不一样，有的是空密码，有的是root,还有的是password ，如果都不是，可以使用下面的方法强制修改。具体如下： 1、首先修改MySQL配置文件为跳过密码验证登录。 1[root@localhost my.cnf.d]# vim &#x2F;etc&#x2F;my.cnf  在文件最末尾加上  skip-grant–tables   然后保存配置文件。 2、接下">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://anximin.github.io/img/index_img/index_31_nginx.png">
-<meta property="article:published_time" content="2021-06-30T09:40:51.000Z">
-<meta property="article:modified_time" content="2023-12-15T03:55:23.574Z">
+<meta property="og:image" content="http://anximin.github.io/img/index_img/index_28_mysql.png">
+<meta property="article:published_time" content="2023-12-15T03:26:56.000Z">
+<meta property="article:modified_time" content="2023-12-15T03:39:24.630Z">
 <meta property="article:author" content="Sylar">
-<meta property="article:tag" content="Nginx">
+<meta property="article:tag" content="linux">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://anximin.github.io/img/index_img/index_31_nginx.png">
+<meta name="twitter:image" content="http://anximin.github.io/img/index_img/index_28_mysql.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>Nginx配置文件注解 - Want To</title>
+  <title>在Linux环境中的Mysql忘记root密码的恢复方法 - Want To</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -214,7 +214,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Nginx配置文件注解"></span>
+            <span id="subtitle" data-typed-text="在Linux环境中的Mysql忘记root密码的恢复方法"></span>
           
         </div>
 
@@ -225,8 +225,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2021-06-30 17:40" pubdate>
-          2021年6月30日 下午
+        <time datetime="2023-12-15 11:26" pubdate>
+          2023年12月15日 上午
         </time>
       </span>
     
@@ -237,7 +237,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3.2k 字
+          651 字
         
       </span>
     
@@ -285,15 +285,27 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Nginx配置文件注解</h1>
+            <h1 style="display: none">在Linux环境中的Mysql忘记root密码的恢复方法</h1>
             
             
               <div class="markdown-body">
                 
-                <h4 id="nginx-conf-文件内容加注释"><a href="#nginx-conf-文件内容加注释" class="headerlink" title="nginx.conf 文件内容加注释"></a>nginx.conf 文件内容加注释</h4><span id="more"></span>
+                <p>有些版本的MySQL安装完成后root用户的默认密码不一样，有的是空密码，有的是root,还有的是password ，如果都不是，可以使用下面的方法强制修改。具体如下：</p>
+<p>1、首先修改MySQL配置文件为跳过密码验证登录。</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs vim">[root@localhost my.<span class="hljs-keyword">cnf</span>.d]# <span class="hljs-keyword">vim</span> /etc/my.<span class="hljs-keyword">cnf</span><br></code></pre></td></tr></table></figure>
 
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#定义nginx运行的用户和用户组</span><br><span class="hljs-comment">#user  nobody;</span><br><br><span class="hljs-comment">#nginx进程数，通常设置为cpu个数</span><br>worker_processes  1;<br><br><span class="hljs-comment">#全局错误日志定义类型</span><br><span class="hljs-comment">#error_log  logs/error.log;</span><br><span class="hljs-comment">#error_log  logs/error.log  notice;</span><br><span class="hljs-comment">#error_log  logs/error.log  info;</span><br><br><span class="hljs-comment">#进程pid文件</span><br><span class="hljs-comment">#pid        logs/nginx.pid;</span><br><br><span class="hljs-comment">#指定进程可以打开的最大描述符 数目(打开文件数/进程数)</span><br><span class="hljs-comment">#如果填写10240，总并发达到3万-4万时就有进程可以超过10240，这时会返回502 error</span><br><span class="hljs-comment">#worker_rlimit_nofile 65535;</span><br><br><br>events &#123;<br>    <span class="hljs-comment">#单个进程最大连接数(连接数+进程)</span><br>    worker_connections  1024;<br>&#125;<br><br><span class="hljs-comment">#设定http服务器</span><br>http &#123;<br>    <span class="hljs-comment">#文件扩展名和文件类型映射表</span><br>    include       mime.types;<br><br>    <span class="hljs-comment">#默认文件类型</span><br>    default_type  application/octet-stream;<br><br>    <span class="hljs-comment">#log_format  main  &#x27;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &#x27;</span><br>    <span class="hljs-comment">#                  &#x27;$status $body_bytes_sent &quot;$http_referer&quot; &#x27;</span><br>    <span class="hljs-comment">#                  &#x27;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&#x27;;</span><br><br>    <span class="hljs-comment">#access_log  logs/access.log  main;</span><br>    <br><br>    <span class="hljs-comment">#开启高效文件传输模式，sendfile指令指定nginx是否调用sendfile函数来输出文件，对于普通应用设为 on，</span><br>    <span class="hljs-comment">#如果用来进行下载等应用磁盘IO重负载应用，可设置为off，以平衡磁盘与网络I/O处理速度，降低系统的负载。注意：如果图片显示不正常把这个改成off。</span><br>    sendfile        on;<br><br>    <span class="hljs-comment">#此选项允许或禁止使用socke的TCP_CORK的选项，此选项仅在使用sendfile的时候使用</span><br>    <span class="hljs-comment">#tcp_nopush     on;</span><br>    <br>    <span class="hljs-comment">#超时时间，单位s</span><br>    <span class="hljs-comment">#keepalive_timeout  0;</span><br>    keepalive_timeout  65;<br><br>    <span class="hljs-comment">#gzip模块设置</span><br>    gzip on; <span class="hljs-comment">#开启gzip压缩输出</span><br>    gzip_min_length 1k;    <span class="hljs-comment">#最小压缩文件大小</span><br>    gzip_buffers 4 16k;    <span class="hljs-comment">#压缩缓冲区</span><br>    gzip_http_version 1.0; <span class="hljs-comment">#压缩版本（默认1.1，前端如果是squid2.5请使用1.0）</span><br>    gzip_comp_level 2;     <span class="hljs-comment">#压缩等级</span><br>    <span class="hljs-comment">#压缩类型，默认就已经包含textml，所以下面就不用再写了，写上去也不会有问题，但是会有一个warn。</span><br>    gzip_types text/plain application/x-javascript text/css application/xml;    <br>    gzip_vary on;<br><br>    <span class="hljs-comment">#负载均衡设置</span><br>    upstream blog &#123;<br>        <span class="hljs-comment">#upstream的负载均衡，weight是权重，可以根据机器配置定义权重。weigth参数表示权值，权值越高被分配到的几率越大</span><br>        server 10.0.0.101:80 weight=1;<br>        server 10.0.0.7:80 weight=2;<br><br>    <span class="hljs-comment">#虚拟主机的设置</span><br>    server &#123;<br>        <span class="hljs-comment">#监听的端口，默认 80</span><br>        listen       80;<br>        <span class="hljs-comment">#域名，可以有多个</span><br>        server_name  localhost;<br><br>        <span class="hljs-comment">#默认编码格式</span><br>        <span class="hljs-comment">#charset koi8-r;</span><br><br>        <span class="hljs-comment">#定义本虚拟主机的访问日志</span><br>        <span class="hljs-comment">#access_log  logs/host.access.log  main;</span><br><br>        <span class="hljs-comment">#域名和目录的建立关系</span><br>        location / &#123;<br>            <span class="hljs-comment">#文件路径</span><br>            root   html;<br>            <span class="hljs-comment">#默认访问的文件名称，优先级顺序</span><br>            index  index.html index.htm;<br>        &#125;<br>	    location /nginx_status&#123;<br>            <span class="hljs-comment">#开启状态统计</span><br>	        stub_status on;<br>            <span class="hljs-comment">#状态统计不记录日志</span><br>	        access_log ogg;<br>	        <br>	    &#125;<br>        <span class="hljs-comment">#error_page  404              /404.html;</span><br><br>        <span class="hljs-comment"># redirect server error pages to the static page /50x.html</span><br>        <span class="hljs-comment">#定义错误页面</span><br>        error_page   500 502 503 504  /50x.html;<br>        location = /50x.html &#123;<br>            root   html;<br>        &#125;<br><br>        <span class="hljs-comment"># proxy the PHP scripts to Apache listening on 127.0.0.1:80</span><br>        <span class="hljs-comment">#</span><br>        <span class="hljs-comment">#location ~ \.php$ &#123;</span><br>        <span class="hljs-comment">#    proxy_pass   http://127.0.0.1;</span><br>        <span class="hljs-comment">#&#125;</span><br><br>        <span class="hljs-comment"># pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000</span><br>        <span class="hljs-comment">#</span><br>        <span class="hljs-comment">#location ~ \.php$ &#123;</span><br>        <span class="hljs-comment">#    root           html;</span><br>        <span class="hljs-comment">#    fastcgi_pass   127.0.0.1:9000;</span><br>        <span class="hljs-comment">#    fastcgi_index  index.php;</span><br>        <span class="hljs-comment">#    fastcgi_param  SCRIPT_FILENAME  /scripts$fastcgi_script_name;</span><br>        <span class="hljs-comment">#    include        fastcgi_params;</span><br>        <span class="hljs-comment">#&#125;</span><br><br>        <span class="hljs-comment"># deny access to .htaccess files, if Apache&#x27;s document root</span><br>        <span class="hljs-comment"># concurs with nginx&#x27;s one</span><br>        <span class="hljs-comment">#</span><br>        <span class="hljs-comment">#location ~ /\.ht &#123;</span><br>        <span class="hljs-comment">#    deny  all;</span><br>        <span class="hljs-comment">#&#125;</span><br>    &#125;<br><br><br>    <span class="hljs-comment"># another virtual host using mix of IP-, name-, and port-based configuration</span><br>    <span class="hljs-comment">#</span><br>    <span class="hljs-comment">#server &#123;</span><br>    <span class="hljs-comment">#    listen       8000;</span><br>    <span class="hljs-comment">#    listen       somename:8080;</span><br>    <span class="hljs-comment">#    server_name  somename  alias  another.alias;</span><br><br>    <span class="hljs-comment">#    location / &#123;</span><br>    <span class="hljs-comment">#        root   html;</span><br>    <span class="hljs-comment">#        index  index.html index.htm;</span><br>    <span class="hljs-comment">#    &#125;</span><br>    <span class="hljs-comment">#&#125;</span><br><br><br>    <span class="hljs-comment"># HTTPS server</span><br>    <span class="hljs-comment">#</span><br>    <span class="hljs-comment">#server &#123;</span><br>    <span class="hljs-comment">#    listen       443 ssl;</span><br>    <span class="hljs-comment">#    server_name  localhost;</span><br><br>    <span class="hljs-comment">#    ssl_certificate      cert.pem;</span><br>    <span class="hljs-comment">#    ssl_certificate_key  cert.key;</span><br><br>    <span class="hljs-comment">#    ssl_session_cache    shared:SSL:1m;</span><br>    <span class="hljs-comment">#    ssl_session_timeout  5m;</span><br><br>    <span class="hljs-comment">#    ssl_ciphers  HIGH:!aNULL:!MD5;</span><br>    <span class="hljs-comment">#    ssl_prefer_server_ciphers  on;</span><br><br>    <span class="hljs-comment">#    location / &#123;</span><br>    <span class="hljs-comment">#        root   html;</span><br>    <span class="hljs-comment">#        index  index.html index.htm;</span><br>    <span class="hljs-comment">#    &#125;</span><br>    <span class="hljs-comment">#&#125;</span><br><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>在文件最末尾加上  <strong>skip-grant–tables</strong>   然后保存配置文件。</p>
+<p>2、接下来重启MySQL服务</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs applescript">[root@localhost <span class="hljs-keyword">my</span>.cnf.d]<span class="hljs-comment"># service mysqld restart</span><br>Redirecting <span class="hljs-keyword">to</span> /bin/systemctl restart  mysqld.service<br></code></pre></td></tr></table></figure>
 
+<p>3、登录MySQL（期间有时还是会要求输入密码，随便输入即可）</p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs autoit">[root<span class="hljs-symbol">@localhost</span> ~]<span class="hljs-meta"># mysql -u root -p</span><br></code></pre></td></tr></table></figure>
+
+<p>4、修改MySQL密码：选择mysql数据库；(以修改密码为root为例)</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">mysql&gt; use mysql<br><span class="hljs-keyword">Database</span> changed<br>mysql&gt; <span class="hljs-keyword">update</span> <span class="hljs-keyword">user</span> <span class="hljs-keyword">set</span> <span class="hljs-keyword">password</span>=<span class="hljs-keyword">password</span>(<span class="hljs-string">&#x27;root&#x27;</span>)<span class="hljs-keyword">where</span> <span class="hljs-keyword">user</span>=(<span class="hljs-string">&#x27;root&#x27;</span>);<br>Query OK, <span class="hljs-number">5</span> <span class="hljs-keyword">rows</span> affected (<span class="hljs-number">0.01</span> sec)<br><span class="hljs-keyword">Rows</span> matched: <span class="hljs-number">5</span>  Changed: <span class="hljs-number">5</span>  Warnings: <span class="hljs-number">0</span><br></code></pre></td></tr></table></figure>
+
+<p>5、将刚才修改的MySQL配置还原</p>
+<p>在 /etc/my.cnf 配置文件中删除刚才加上的  <strong>skip-grant-tables</strong>  最后保存，重启MySQL服务即可。</p>
 
                 
               </div>
@@ -302,32 +314,11 @@
             <div>
               <div class="post-metas my-3">
   
-    <div class="post-meta mr-3 d-flex align-items-center">
-      <i class="iconfont icon-category"></i>
-      
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/%E8%BF%90%E7%BB%B4/" class="category-chain-item">运维</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-    </div>
-  
   
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/Nginx/">#Nginx</a>
+        <a href="/tags/linux/">#linux</a>
       
     </div>
   
@@ -339,8 +330,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Nginx配置文件注解</div>
-      <div>http://anximin.github.io/2021/06/30/nginx_conf/</div>
+      <div>在Linux环境中的Mysql忘记root密码的恢复方法</div>
+      <div>http://anximin.github.io/2023/12/15/linux_mysql_forgetpwd/</div>
     </div>
     <div class="license-meta">
       
@@ -352,7 +343,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2021年6月30日</div>
+          <div>2023年12月15日</div>
         </div>
       
       
@@ -384,18 +375,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2021/07/05/Life-mubu/" title="自制投影幕">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">自制投影幕</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2021/06/30/linux_centos7_webmin/" title="基于CentOS7 安装配置Webmin">
-                        <span class="hidden-mobile">基于CentOS7 安装配置Webmin</span>
+                      <a href="/2023/12/09/net_Huawei_ma5620/" title="华为MA5620改为交换机设置的具体步骤">
+                        <span class="hidden-mobile">华为MA5620改为交换机设置的具体步骤</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

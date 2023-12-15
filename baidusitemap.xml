@@ -1,8 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://anximin.github.io/2021/07/05/qunhui_Active_Backup_for_Business/</loc>
+    <lastmod>2023-12-15</lastmod>
+  </url>
+  <url>
+    <loc>http://anximin.github.io/2021/07/20/openfiler_net_bond/</loc>
+    <lastmod>2023-12-15</lastmod>
+  </url>
+  <url>
+    <loc>http://anximin.github.io/2021/07/08/nodejs_install_and_update/</loc>
+    <lastmod>2023-12-15</lastmod>
+  </url>
+  <url>
+    <loc>http://anximin.github.io/2021/06/30/nginx_domain_server/</loc>
+    <lastmod>2023-12-15</lastmod>
+  </url>
+  <url>
+    <loc>http://anximin.github.io/2021/06/30/nginx_conf/</loc>
+    <lastmod>2023-12-15</lastmod>
+  </url>
+  <url>
+    <loc>http://anximin.github.io/2021/07/17/net_opnsense_wanhttp/</loc>
+    <lastmod>2023-12-15</lastmod>
+  </url>
+  <url>
+    <loc>http://anximin.github.io/2021/07/16/net_opnsense_install/</loc>
+    <lastmod>2023-12-15</lastmod>
+  </url>
+  <url>
     <loc>http://anximin.github.io/2023/12/08/net-huawei-MA5620GPONtoSW/</loc>
-    <lastmod>2023-12-09</lastmod>
+    <lastmod>2023-12-15</lastmod>
+  </url>
+  <url>
+    <loc>http://anximin.github.io/2021/07/31/Linux_partition/</loc>
+    <lastmod>2023-12-15</lastmod>
+  </url>
+  <url>
+    <loc>http://anximin.github.io/2023/12/15/linux_mysql_forgetpwd/</loc>
+    <lastmod>2023-12-15</lastmod>
   </url>
   <url>
     <loc>http://anximin.github.io/2023/12/09/net_Huawei_ma5620/</loc>
@@ -141,10 +177,6 @@
     <lastmod>2023-07-19</lastmod>
   </url>
   <url>
-    <loc>http://anximin.github.io/2021/07/20/openfiler_net_bond/</loc>
-    <lastmod>2023-07-19</lastmod>
-  </url>
-  <url>
     <loc>http://anximin.github.io/2021/08/02/linux_drdb/</loc>
     <lastmod>2023-07-19</lastmod>
   </url>
@@ -177,10 +209,6 @@
     <lastmod>2023-06-21</lastmod>
   </url>
   <url>
-    <loc>http://anximin.github.io/2021/07/05/qunhui_Active_Backup_for_Business/</loc>
-    <lastmod>2022-02-11</lastmod>
-  </url>
-  <url>
     <loc>http://anximin.github.io/2021/07/05/Win_time_sync/</loc>
     <lastmod>2021-12-14</lastmod>
   </url>
@@ -209,35 +237,11 @@
     <lastmod>2021-08-20</lastmod>
   </url>
   <url>
-    <loc>http://anximin.github.io/2021/07/31/Linux_partition/</loc>
-    <lastmod>2021-08-10</lastmod>
-  </url>
-  <url>
-    <loc>http://anximin.github.io/2021/07/17/net_opnsense_wanhttp/</loc>
-    <lastmod>2021-07-29</lastmod>
-  </url>
-  <url>
     <loc>http://anximin.github.io/2021/07/23/linux_centos8_mini_cephadm/</loc>
     <lastmod>2021-07-29</lastmod>
   </url>
   <url>
-    <loc>http://anximin.github.io/2021/07/08/nodejs_install_and_update/</loc>
-    <lastmod>2021-07-20</lastmod>
-  </url>
-  <url>
-    <loc>http://anximin.github.io/2021/07/16/net_opnsense_install/</loc>
-    <lastmod>2021-07-17</lastmod>
-  </url>
-  <url>
-    <loc>http://anximin.github.io/2021/06/30/nginx_conf/</loc>
-    <lastmod>2021-07-07</lastmod>
-  </url>
-  <url>
     <loc>http://anximin.github.io/2021/06/30/linux_centos7_webmin/</loc>
-    <lastmod>2021-07-07</lastmod>
-  </url>
-  <url>
-    <loc>http://anximin.github.io/2021/06/30/nginx_domain_server/</loc>
     <lastmod>2021-07-07</lastmod>
   </url>
 </urlset> 

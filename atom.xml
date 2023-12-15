@@ -6,7 +6,7 @@
   <link href="http://anximin.github.io/atom.xml" rel="self"/>
   
   <link href="http://anximin.github.io/"/>
-  <updated>2023-12-09T09:11:21.576Z</updated>
+  <updated>2023-12-15T03:39:24.630Z</updated>
   <id>http://anximin.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>在Linux环境中的Mysql忘记root密码的恢复方法</title>
+    <link href="http://anximin.github.io/2023/12/15/linux_mysql_forgetpwd/"/>
+    <id>http://anximin.github.io/2023/12/15/linux_mysql_forgetpwd/</id>
+    <published>2023-12-15T03:26:56.000Z</published>
+    <updated>2023-12-15T03:39:24.630Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;有些版本的MySQL安装完成后root用户的默认密码不一样，有的是空密码，有的是root,还有的是password ，如果都不是，可以使用下面的方法强制修改。具体如下：&lt;/p&gt;
+&lt;p&gt;1、首先修改MySQL配置文件为跳过密码验证登录。&lt;/p&gt;
+&lt;figure</summary>
+        
+      
+    
+    
+    
+    
+    <category term="linux" scheme="http://anximin.github.io/tags/linux/"/>
+    
+  </entry>
   
   <entry>
     <title>华为MA5620改为交换机设置的具体步骤</title>
@@ -45,7 +70,7 @@
     <link href="http://anximin.github.io/2023/12/08/net-huawei-MA5620GPONtoSW/"/>
     <id>http://anximin.github.io/2023/12/08/net-huawei-MA5620GPONtoSW/</id>
     <published>2023-12-08T08:45:09.000Z</published>
-    <updated>2023-12-09T09:29:52.545Z</updated>
+    <updated>2023-12-15T03:42:41.113Z</updated>
     
     
       
@@ -376,24 +401,6 @@
     
     
     
-    
-  </entry>
-  
-  <entry>
-    <title>改变SQLserver中tempdb数据库文件的默认路径</title>
-    <link href="http://anximin.github.io/2021/10/20/SQL-2K-TEMPDB/"/>
-    <id>http://anximin.github.io/2021/10/20/SQL-2K-TEMPDB/</id>
-    <published>2021-10-20T08:56:37.000Z</published>
-    <updated>2023-07-19T07:24:41.311Z</updated>
-    
-    
-    <summary type="html">&lt;p&gt;在SQL Server 2000中，可以改变tempdb数据库文件的默认路径.&lt;/p&gt;
-&lt;p&gt;一、执行下面语句&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="MSSQL" scheme="http://anximin.github.io/tags/MSSQL/"/>
     
   </entry>
   

@@ -4,6 +4,25 @@
   
   
   <entry>
+    <title>在Linux环境中的Mysql忘记root密码的恢复方法</title>
+    <link href="/2023/12/15/linux_mysql_forgetpwd/"/>
+    <url>/2023/12/15/linux_mysql_forgetpwd/</url>
+    
+    <content type="html"><![CDATA[<p>有些版本的MySQL安装完成后root用户的默认密码不一样，有的是空密码，有的是root,还有的是password ，如果都不是，可以使用下面的方法强制修改。具体如下：</p><p>1、首先修改MySQL配置文件为跳过密码验证登录。</p><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs vim">[root@localhost my.<span class="hljs-keyword">cnf</span>.d]# <span class="hljs-keyword">vim</span> /etc/my.<span class="hljs-keyword">cnf</span><br></code></pre></td></tr></table></figure><p>在文件最末尾加上  <strong>skip-grant–tables</strong>   然后保存配置文件。</p><p>2、接下来重启MySQL服务</p><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs applescript">[root@localhost <span class="hljs-keyword">my</span>.cnf.d]<span class="hljs-comment"># service mysqld restart</span><br>Redirecting <span class="hljs-keyword">to</span> /bin/systemctl restart  mysqld.service<br></code></pre></td></tr></table></figure><p>3、登录MySQL（期间有时还是会要求输入密码，随便输入即可）</p><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs autoit">[root<span class="hljs-symbol">@localhost</span> ~]<span class="hljs-meta"># mysql -u root -p</span><br></code></pre></td></tr></table></figure><p>4、修改MySQL密码：选择mysql数据库；(以修改密码为root为例)</p><figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">mysql&gt; use mysql<br><span class="hljs-keyword">Database</span> changed<br>mysql&gt; <span class="hljs-keyword">update</span> <span class="hljs-keyword">user</span> <span class="hljs-keyword">set</span> <span class="hljs-keyword">password</span>=<span class="hljs-keyword">password</span>(<span class="hljs-string">&#x27;root&#x27;</span>)<span class="hljs-keyword">where</span> <span class="hljs-keyword">user</span>=(<span class="hljs-string">&#x27;root&#x27;</span>);<br>Query OK, <span class="hljs-number">5</span> <span class="hljs-keyword">rows</span> affected (<span class="hljs-number">0.01</span> sec)<br><span class="hljs-keyword">Rows</span> matched: <span class="hljs-number">5</span>  Changed: <span class="hljs-number">5</span>  Warnings: <span class="hljs-number">0</span><br></code></pre></td></tr></table></figure><p>5、将刚才修改的MySQL配置还原</p><p>在 /etc/my.cnf 配置文件中删除刚才加上的  <strong>skip-grant-tables</strong>  最后保存，重启MySQL服务即可。</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>linux</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>华为MA5620改为交换机设置的具体步骤</title>
     <link href="/2023/12/09/net_Huawei_ma5620/"/>
     <url>/2023/12/09/net_Huawei_ma5620/</url>
@@ -841,6 +860,8 @@
     
     <tags>
       
+      <tag>linux</tag>
+      
       <tag>openfiler</tag>
       
     </tags>
@@ -860,6 +881,8 @@
     
     <tags>
       
+      <tag>路由交换</tag>
+      
       <tag>OPNsense</tag>
       
     </tags>
@@ -878,6 +901,8 @@
     
     
     <tags>
+      
+      <tag>路由交换</tag>
       
       <tag>OPNsense</tag>
       
