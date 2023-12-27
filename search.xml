@@ -3,6 +3,393 @@
   
     
     <entry>
+      <title><![CDATA[centos7安装docker和docker-compose]]></title>
+      <url>/2023/12/26/linux_centos7_Docker/</url>
+      <content type="html"><![CDATA[<h4 id="安装docker"><a href="#安装docker" class="headerlink" title="安装docker"></a>安装docker</h4><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs awk">yum update -y<br>yum install -y yum-utils device-mapper-persistent-data <br><br>yum-config-manager --add-repo https:<span class="hljs-regexp">//mi</span>rrors.aliyun.com<span class="hljs-regexp">/docker-ce/</span>linux<span class="hljs-regexp">/centos/</span>docker-ce.repo<br>sed -i <span class="hljs-string">&#x27;s+download.docker.com+mirrors.aliyun.com/docker-ce+&#x27;</span> <span class="hljs-regexp">/etc/yum</span>.repos.d/docker-ce.repo<br><br>yum -y install docker-ce<br>service docker start<br>systemctl enable docker<br><br><br></code></pre></td></tr></table></figure>
+<h4 id="安装docker-compose"><a href="#安装docker-compose" class="headerlink" title="安装docker-compose"></a>安装docker-compose</h4><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs awk">yum install -y wget<br>cd <span class="hljs-regexp">/usr/</span>local/bin<br>wget https:<span class="hljs-regexp">//gi</span>thub.com<span class="hljs-regexp">/docker/</span>compose<span class="hljs-regexp">/releases/</span>download<span class="hljs-regexp">/v2.22.0/</span>docker-compose-linux-x86_64<br>mv docker-compose-linux-x86_64 docker-compose<br></code></pre></td></tr></table></figure>
+
+
+
+
+<h2 id="一、ubuntu下官方源安装Docker"><a href="#一、ubuntu下官方源安装Docker" class="headerlink" title="一、ubuntu下官方源安装Docker"></a>一、ubuntu下官方源安装Docker</h2><h3 id="1、更新系统并安装依赖包"><a href="#1、更新系统并安装依赖包" class="headerlink" title="1、更新系统并安装依赖包"></a>1、更新系统并安装依赖包</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">sudo apt update  <br>sudo apt upgrade  <br>sudo apt install apt-transport-https ca-certificates curl gnupg-agent software-properties-common  <br></code></pre></td></tr></table></figure>
+
+<h3 id="2、导入Docker-GPG密钥"><a href="#2、导入Docker-GPG密钥" class="headerlink" title="2、导入Docker GPG密钥"></a>2、导入Docker GPG密钥</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -  <br></code></pre></td></tr></table></figure>
+
+<h3 id="3、添加Docker官方APT仓库"><a href="#3、添加Docker官方APT仓库" class="headerlink" title="3、添加Docker官方APT仓库"></a>3、添加Docker官方APT仓库</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">sudo add-apt-repository &quot;deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable&quot; <br></code></pre></td></tr></table></figure>
+
+<h3 id="4、安装并启动Docker-CE"><a href="#4、安装并启动Docker-CE" class="headerlink" title="4、安装并启动Docker-CE"></a>4、安装并启动Docker-CE</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">sudo apt update  <br>sudo apt install docker-ce docker-ce-cli containerd.io  <br>sudo systemctl start docker  <br>sudo systemctl status docker  <br>docker --version  <br></code></pre></td></tr></table></figure>
+
+<h2 id="二、ubuntu国内源安装docker"><a href="#二、ubuntu国内源安装docker" class="headerlink" title="二、ubuntu国内源安装docker"></a>二、ubuntu国内源安装docker</h2><h3 id="1、添加GPG密钥"><a href="#1、添加GPG密钥" class="headerlink" title="1、添加GPG密钥"></a>1、添加GPG密钥</h3><p>阿里云源:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">curl -fsSL http://mirrors.aliyun.com/docker-ce/linux/ubuntu/gpg | apt-key add -<br></code></pre></td></tr></table></figure>
+
+<p>清华源:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">sudo add-apt-repository &quot;deb [arch=amd64] https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/ubuntu $(lsb_release -cs) stable&quot;<br></code></pre></td></tr></table></figure>
+
+<h3 id="2、添加Docker软件源"><a href="#2、添加Docker软件源" class="headerlink" title="2、添加Docker软件源"></a>2、添加Docker软件源</h3><p>阿里云Apt源</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">echo &quot;deb http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse&quot; | sudo tee /etc/apt/sources.list.d/aliyun.list  <br></code></pre></td></tr></table></figure>
+
+<p>阿里云Docker源</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">sudo add-apt-repository &quot;deb [arch=amd64] http://mirrors.aliyun.com/docker-ce/linux/ubuntu $(lsb_release -cs) stable&quot;<br></code></pre></td></tr></table></figure>
+
+<p>清华Docker源</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">sudo add-apt-repository &quot;deb [arch=amd64] https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/ubuntu $(lsb_release -cs) stable&quot;<br></code></pre></td></tr></table></figure>
+
+<h3 id="3、安装并启动Docker-CE"><a href="#3、安装并启动Docker-CE" class="headerlink" title="3、安装并启动Docker-CE"></a>3、安装并启动Docker-CE</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">sudo apt update  <br>sudo apt install docker-ce docker-ce-cli containerd.io  <br>sudo systemctl start docker  <br>sudo systemctl status docker  <br>docker --version <br></code></pre></td></tr></table></figure>
+
+<h2 id="三、Centos7下官方源安装docker"><a href="#三、Centos7下官方源安装docker" class="headerlink" title="三、Centos7下官方源安装docker"></a>三、Centos7下官方源安装docker</h2><h3 id="1、安装必要系统工具"><a href="#1、安装必要系统工具" class="headerlink" title="1、安装必要系统工具"></a>1、安装必要系统工具</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">sudo yum install -y yum-utils device-mapper-persistent-data lvm2<br></code></pre></td></tr></table></figure>
+
+<h3 id="2、添加官方仓库"><a href="#2、添加官方仓库" class="headerlink" title="2、添加官方仓库"></a>2、添加官方仓库</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo  <br></code></pre></td></tr></table></figure>
+
+<h3 id="3、安装并启动docker"><a href="#3、安装并启动docker" class="headerlink" title="3、安装并启动docker"></a>3、安装并启动docker</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">sudo yum list docker-ce --showduplicates | sort -r #查看可用docker-ce版本<br>sudo yum install docker-ce-版本号 #安装指定版本docker-ce，根据实际需求安装<br>sudo systemctl start docker  <br>sudo systemctl status docker  <br>docker --version <br></code></pre></td></tr></table></figure>
+
+<h2 id="四、centos7国内阿里源安装docker"><a href="#四、centos7国内阿里源安装docker" class="headerlink" title="四、centos7国内阿里源安装docker"></a>四、centos7国内阿里源安装docker</h2><h3 id="1、-安装必要的一些系统工具"><a href="#1、-安装必要的一些系统工具" class="headerlink" title="1、 安装必要的一些系统工具"></a>1、 安装必要的一些系统工具</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">sudo yum install -y yum-utils device-mapper-persistent-data lvm2<br></code></pre></td></tr></table></figure>
+
+<h3 id="2、-添加软件源信息"><a href="#2、-添加软件源信息" class="headerlink" title="2、 添加软件源信息"></a>2、 添加软件源信息</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">sudo yum-config-manager --add-repo https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo<br>sudo sed -i &#x27;s+download.docker.com+mirrors.aliyun.com/docker-ce+&#x27; /etc/yum.repos.d/docker-ce.repo<br></code></pre></td></tr></table></figure>
+
+<h3 id="3、更新并安装Docker-CE"><a href="#3、更新并安装Docker-CE" class="headerlink" title="3、更新并安装Docker-CE"></a>3、更新并安装Docker-CE</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">sudo yum makecache fast<br>sudo yum -y install docker-ce<br></code></pre></td></tr></table></figure>
+
+<h3 id="4、开启Docker服务"><a href="#4、开启Docker服务" class="headerlink" title="4、开启Docker服务"></a>4、开启Docker服务</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo systemctl start docker  <br>sudo systemctl status docker  <br>docker --version<br><span class="hljs-comment"># 注意：</span><br><span class="hljs-comment"># 官方软件源默认启用了最新的软件，您可以通过编辑软件源的方式获取各个版本的软件包。例如官方并没有将测试版本的软件源置为可用，您可以通过以下方式开启。同理可以开启各种测试版本等。</span><br><span class="hljs-comment"># vim /etc/yum.repos.d/docker-ce.repo</span><br><span class="hljs-comment">#   将[docker-ce-test]下方的enabled=0修改为enabled=1</span><br><span class="hljs-comment">#</span><br><span class="hljs-comment"># 安装指定版本的Docker-CE:</span><br><span class="hljs-comment"># Step 1: 查找Docker-CE的版本:</span><br><span class="hljs-comment"># yum list docker-ce.x86_64 --showduplicates | sort -r</span><br><span class="hljs-comment">#   Loading mirror speeds from cached hostfile</span><br><span class="hljs-comment">#   Loaded plugins: branch, fastestmirror, langpacks</span><br><span class="hljs-comment">#   docker-ce.x86_64            17.03.1.ce-1.el7.centos            docker-ce-stable</span><br><span class="hljs-comment">#   docker-ce.x86_64            17.03.1.ce-1.el7.centos            @docker-ce-stable</span><br><span class="hljs-comment">#   docker-ce.x86_64            17.03.0.ce-1.el7.centos            docker-ce-stable</span><br><span class="hljs-comment">#   Available Packages</span><br><span class="hljs-comment"># Step2: 安装指定版本的Docker-CE: (VERSION例如上面的17.03.0.ce.1-1.el7.centos)</span><br><span class="hljs-comment"># sudo yum -y install docker-ce-[VERSION]</span><br></code></pre></td></tr></table></figure>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> linux </tag>
+            
+            <tag> docker </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[CentOS常用命令]]></title>
+      <url>/2023/12/26/linux_centosCMD/</url>
+      <content type="html"><![CDATA[<ol>
+<li><p>查看系统版本</p>
+<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs llvm">[root<span class="hljs-title">@localhost</span> ~]# cat /etc/centos-<span class="hljs-keyword">release</span><br>CentOS Linux <span class="hljs-keyword">release</span> <span class="hljs-number">7.2</span>.<span class="hljs-number">1511</span> (Core)<br></code></pre></td></tr></table></figure>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-section">[root@localhost ~]</span><span class="hljs-comment"># cat /etc/os-release </span><br><span class="hljs-attr">NAME</span>=<span class="hljs-string">&quot;CentOS Linux&quot;</span><br><span class="hljs-attr">VERSION</span>=<span class="hljs-string">&quot;7 (Core)&quot;</span><br><span class="hljs-attr">ID</span>=<span class="hljs-string">&quot;centos&quot;</span><br><span class="hljs-attr">ID_LIKE</span>=<span class="hljs-string">&quot;rhel fedora&quot;</span><br><span class="hljs-attr">VERSION_ID</span>=<span class="hljs-string">&quot;7&quot;</span><br><span class="hljs-attr">PRETTY_NAME</span>=<span class="hljs-string">&quot;CentOS Linux 7 (Core)&quot;</span><br><span class="hljs-attr">ANSI_COLOR</span>=<span class="hljs-string">&quot;0;31&quot;</span><br><span class="hljs-attr">CPE_NAME</span>=<span class="hljs-string">&quot;cpe:/o:centos:centos:7&quot;</span><br><span class="hljs-attr">HOME_URL</span>=<span class="hljs-string">&quot;https://www.centos.org/&quot;</span><br><span class="hljs-attr">BUG_REPORT_URL</span>=<span class="hljs-string">&quot;https://bugs.centos.org/&quot;</span><br><br><span class="hljs-attr">CENTOS_MANTISBT_PROJECT</span>=<span class="hljs-string">&quot;CentOS-7&quot;</span><br><span class="hljs-attr">CENTOS_MANTISBT_PROJECT_VERSION</span>=<span class="hljs-string">&quot;7&quot;</span><br><span class="hljs-attr">REDHAT_SUPPORT_PRODUCT</span>=<span class="hljs-string">&quot;centos&quot;</span><br><span class="hljs-attr">REDHAT_SUPPORT_PRODUCT_VERSION</span>=<span class="hljs-string">&quot;7&quot;</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs llvm">[root<span class="hljs-title">@localhost</span> ~]# uname -a<br>Linux localhost.localdomain <span class="hljs-number">3.10</span>.<span class="hljs-number">0</span><span class="hljs-number">-327</span>.el<span class="hljs-number">7</span>.<span class="hljs-keyword">x</span><span class="hljs-number">86</span>_<span class="hljs-number">64</span> <span class="hljs-variable">#1</span> SMP Thu Nov <span class="hljs-number">19</span> <span class="hljs-number">22</span>:<span class="hljs-number">10</span>:<span class="hljs-number">57</span> UTC <span class="hljs-number">2015</span> <span class="hljs-keyword">x</span><span class="hljs-number">86</span>_<span class="hljs-number">64</span> <span class="hljs-keyword">x</span><span class="hljs-number">86</span>_<span class="hljs-number">64</span> <span class="hljs-keyword">x</span><span class="hljs-number">86</span>_<span class="hljs-number">64</span> GNU/Linux<br></code></pre></td></tr></table></figure></li>
+<li></li>
+</ol>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> linux </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[使用NVM管理NodeJS版本]]></title>
+      <url>/2023/12/25/nodejs-nvm-n/</url>
+      <content type="html"><![CDATA[<h2 id="NVM-For-Linux"><a href="#NVM-For-Linux" class="headerlink" title="NVM For Linux"></a>NVM For Linux</h2><p>NVM官网地址：<a href="https://github.com/coreybutler/nvm-windows/releases">Releases · coreybutler/nvm-windows (github.com)</a></p>
+<p>下载压缩包</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs awk">cd /root<br>wget https:<span class="hljs-regexp">//gi</span>thub.com<span class="hljs-regexp">/nvm-sh/</span>nvm<span class="hljs-regexp">/archive/</span>refs<span class="hljs-regexp">/tags/</span>v0.<span class="hljs-number">39.1</span>.tar.gz<br></code></pre></td></tr></table></figure>
+
+<p>解压</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs awk">mkdir -p <span class="hljs-regexp">/root/</span>.nvm<br>tar -zxvf nvm-<span class="hljs-number">0.39</span>.<span class="hljs-number">1</span>.tar.gz -C <span class="hljs-regexp">/root/</span>.nvm<br></code></pre></td></tr></table></figure>
+
+<p>配置环境</p>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs jboss-cli">vim ~<span class="hljs-string">/.bashrc</span><br></code></pre></td></tr></table></figure>
+
+<p>在~/.bashrc的末尾，添加如下语句：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs routeros"><span class="hljs-builtin-name">export</span> <span class="hljs-attribute">NVM_DIR</span>=<span class="hljs-string">&quot;<span class="hljs-variable">$HOME</span>/.nvm/nvm-0.39.1&quot;</span><br>[ -s <span class="hljs-string">&quot;<span class="hljs-variable">$NVM_DIR</span>/nvm.sh&quot;</span> ] &amp;&amp; \. <span class="hljs-string">&quot;<span class="hljs-variable">$NVM_DIR</span>/nvm.sh&quot;</span>  <br><br><span class="hljs-comment"># This loads nvm</span><br><br>[ -s <span class="hljs-string">&quot;<span class="hljs-variable">$NVM_DIR</span>/bash_completion&quot;</span> ] &amp;&amp; \. <span class="hljs-string">&quot;<span class="hljs-variable">$NVM_DIR</span>/bash_completion&quot;</span>  <br><br><span class="hljs-comment"># This loads nvm bash_completion</span><br></code></pre></td></tr></table></figure>
+
+<p>使能配置</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">source</span> ~/.bashrc<br></code></pre></td></tr></table></figure>
+
+<p>例：使用NVM安装node v8.16.0</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">nvm</span> install <span class="hljs-number">8</span>.<span class="hljs-number">16</span>.<span class="hljs-number">0</span><br></code></pre></td></tr></table></figure>
+
+<p>例：切换node版本</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">nvm</span> use <span class="hljs-number">14</span>.<span class="hljs-number">17</span>.<span class="hljs-number">3</span><br></code></pre></td></tr></table></figure>
+<p><strong>nvm命令提示</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs sh">nvm arch：显示node是运行在32位还是64位。<br>nvm install &lt;version&gt; [arch] ：安装node， version是特定版本也可以是最新稳定版本latest。可选参数arch指定安装32位还是64位版本，默认是系统位数。可以添加--insecure绕过远程服务器的SSL。<br>nvm list [available] ：显示已安装的列表。可选参数available，显示可安装的所有版本。list可简化为ls。<br>nvm on ：开启node.js版本管理。<br>nvm off ：关闭node.js版本管理。<br>nvm proxy [url] ：设置下载代理。不加可选参数url，显示当前代理。将url设置为none则移除代理。<br>nvm node_mirror [url] ：设置node镜像。默认是https://nodejs.org/dist/。如果不写url，则使用默认url。设置后可至安装目录settings.txt文件查看，也可直接在该文件操作。<br>nvm npm_mirror [url] ：设置npm镜像。https://github.com/npm/cli/archive/。如果不写url，则使用默认url。设置后可至安装目录settings.txt文件查看，也可直接在该文件操作。<br>nvm uninstall &lt;version&gt; ：卸载指定版本node。<br>nvm use [version] [arch] ：使用制定版本node。可指定32/64位。<br>nvm root [path] ：设置存储不同版本node的目录。如果未设置，默认使用当前目录。<br>nvm version ：显示nvm版本。version可简化为v。<br></code></pre></td></tr></table></figure>
+<p><strong>版本对应关系</strong></p>
+<table>
+<thead>
+<tr>
+<th>Node.js</th>
+<th>Codename</th>
+<th>Release Date</th>
+<th align="left">npm</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>v21.5.0</td>
+<td>-</td>
+<td>2023-12-19</td>
+<td align="left">v10.2.4</td>
+</tr>
+<tr>
+<td>v20.10.0</td>
+<td>Iron</td>
+<td>2023-11-22</td>
+<td align="left">v10.2.3</td>
+</tr>
+<tr>
+<td>v19.9.0</td>
+<td>-</td>
+<td>2023-04-10</td>
+<td align="left">v9.6.3</td>
+</tr>
+<tr>
+<td>v18.19.0</td>
+<td>Hydrogen</td>
+<td>2023-11-29</td>
+<td align="left">v10.2.3</td>
+</tr>
+<tr>
+<td>v17.9.1</td>
+<td>-</td>
+<td>2022-06-01</td>
+<td align="left">v8.11.0</td>
+</tr>
+<tr>
+<td>v16.20.2</td>
+<td>Gallium</td>
+<td>2023-08-08</td>
+<td align="left">v8.19.4</td>
+</tr>
+<tr>
+<td>v15.14.0</td>
+<td>-</td>
+<td>2021-04-06</td>
+<td align="left">v7.7.6</td>
+</tr>
+<tr>
+<td>v14.21.3</td>
+<td>Fermium</td>
+<td>2023-02-16</td>
+<td align="left">v6.14.18</td>
+</tr>
+<tr>
+<td>v13.14.0</td>
+<td>-</td>
+<td>2020-04-29</td>
+<td align="left">v6.14.4</td>
+</tr>
+<tr>
+<td>v12.22.12</td>
+<td>Erbium</td>
+<td>2022-04-05</td>
+<td align="left">v6.14.16</td>
+</tr>
+<tr>
+<td>v11.15.0</td>
+<td>-</td>
+<td>2019-04-30</td>
+<td align="left">v6.7.0</td>
+</tr>
+<tr>
+<td>v10.24.1</td>
+<td>Dubnium</td>
+<td>2021-04-06</td>
+<td align="left">v6.14.12</td>
+</tr>
+<tr>
+<td>v9.11.2</td>
+<td>-</td>
+<td>2018-06-12</td>
+<td align="left">v5.6.0</td>
+</tr>
+<tr>
+<td>v8.17.0</td>
+<td>Carbon</td>
+<td>2019-12-17</td>
+<td align="left">v6.13.4</td>
+</tr>
+<tr>
+<td>v7.10.1</td>
+<td>-</td>
+<td>2017-07-11</td>
+<td align="left">v4.2.0</td>
+</tr>
+<tr>
+<td>v6.17.1</td>
+<td>Boron</td>
+<td>2019-04-03</td>
+<td align="left">v3.10.10</td>
+</tr>
+<tr>
+<td>v5.12.0</td>
+<td>-</td>
+<td>2016-06-23</td>
+<td align="left">v3.8.6</td>
+</tr>
+<tr>
+<td>v4.9.1</td>
+<td>Argon</td>
+<td>2018-03-29</td>
+<td align="left">v2.15.11</td>
+</tr>
+<tr>
+<td>v0.12.18</td>
+<td>-</td>
+<td>2017-02-22</td>
+<td align="left">v2.15.11</td>
+</tr>
+</tbody></table>
+<p>版本对应关系官方地址：<a href="https://nodejs.org/en/about/previous-releases">Previous Releases | Node.js (nodejs.org)</a></p>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> nodeJS </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Win10和Win11释放系统时跳过联网限制]]></title>
+      <url>/2023/12/25/Win_skipNetwork/</url>
+      <content type="html"><![CDATA[<p>新电脑第一次开机启动时根据向导会遇到强制联网才能进行下一步的限制，而且一旦联网，就只能登录微软账户才能继续。<br>解决这个问题也不难，两步搞定。</p>
+<p>** 一、 开机到联网界面时按快捷键启动命令窗口。**<br>首先确定当前没有任何方式连接到互联网。如果已经联网，拔掉网线，必要时恢复出厂。<br>按快捷键【shift】+【F10】,会弹出一个CMD命令窗口，<br>** 二、 输入命令然后回车：**</p>
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs livescript">oobe<span class="hljs-string">\bypassnro</span><br></code></pre></td></tr></table></figure>
+<p>回车后，系统自动重启。<br>重启之后再次进入到联网步骤时，在屏幕下方会多出一个【我没有Internet连接】的按钮。<br>点击它，下一个页面继续点击，【继续执行受限设置】。<br>然后就可以设置本地用户账户了。</p>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> Windows </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[群晖获取ROOT权限]]></title>
+      <url>/2023/12/22/NAS_qunhui_rootpwd/</url>
+      <content type="html"><![CDATA[<p><strong>一. 开启SSH登录</strong></p>
+<p>控制面板-&gt; 终端和SNMP -&gt; 启动SSH功能</p>
+<p><strong>二. 使用SSH登录群晖</strong><br>‘admin’是群晖的管理员用户，改成你用的即可。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">ssh admin@10.10.10.100<br></code></pre></td></tr></table></figure>
+<p><strong>三. 登录后切换root账户</strong><br>这里需要再次输入登录密码。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">sudo -i<br></code></pre></td></tr></table></figure>
+<p><strong>四. 赋予sshd_config文件775的权限</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">chmod 775 /etc/ssh/sshd_config<br></code></pre></td></tr></table></figure>
+
+<p><strong>五. 修改sshd_config文件内容</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sh">vi /etc/ssh/sshd_config<br><span class="hljs-comment"># 找到&quot;#PermitRootLogin prohibit-password&quot;,按“i”在下面增加一行：</span><br>PermitRootLogin yes<br><br><span class="hljs-comment">#然后按“ESC”，输入“:wq” 保存。</span><br></code></pre></td></tr></table></figure>
+
+<p> <strong>六. 重启，修改ROOT密码</strong><br> <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sh">reboot<br><span class="hljs-comment">#再次SSH登录后，输入sudo -i</span><br>sudo -i<br><span class="hljs-comment">#使用群晖的命令修改ROOT密码</span><br>synouser --setpw root root密码<br></code></pre></td></tr></table></figure>
+ </p>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> 群晖 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[华为交换机OSPF服务]]></title>
+      <url>/2023/12/20/net_Huawei_resetOSPF/</url>
+      <content type="html"><![CDATA[<p><strong>重启OSPF服务进程</strong>：</p>
+<p>首先确认用户视图 <Quidway><br>在该视图下输入命令 reset ospf [进程号] process<br>查看当前OSPF状态：display ospf brief</p>
+<p><strong>OSPF单区域配置</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash">ospf 1 router-id 1.1.1.1 <span class="hljs-comment">#进入ospf视图1代表进程号</span><br>area 0 <span class="hljs-comment">#创建区域并进入OSPF区域视图，输入要创建的区域ID，骨干区域即区域0</span><br>network +IP +匹配码<br>display ospf interface 命令查看OSPF接口通告是否正确<br>display ospf peer 查看OSPF邻居状态<br>display ip routing-table protocol ospf 查看OSPF路由表<br></code></pre></td></tr></table></figure>
+
+<p>配置OSPF区域明文认证</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash">ospf 1<br>area 1<br>authentication-mode simple plain huawei <br><span class="hljs-comment">#plain是口令以明文方式显示</span><br>authentication-mode md5 1 huawei <br><span class="hljs-comment">#配置区域密文认证</span><br></code></pre></td></tr></table></figure>
+
+<p>配置链路认证</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">int g0/0/1<br>ospf authentication-mode md5 1 huawei <br><span class="hljs-comment">#在一条链路中的两个接口配置要相同</span><br></code></pre></td></tr></table></figure>
+
+<p>配置抑制接口</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs bash">ospf 1<br>silent-interface GigabitEthernet 0/0/1 <br><span class="hljs-comment">#禁止接口g0/0/1接收和发送ospf报文</span><br>技巧对多个接口配置接口抑制<br>ospf 1<br>silent-interface all <span class="hljs-comment">#抑制所有接口</span><br>un display ip routing-table 10.0.1.1 <br><span class="hljs-comment">#查看10.0.1.1所在网段的路由条目</span><br><br>基于接口修改<br>int g0/0/0<br>ospf network-type p2mp <br><span class="hljs-comment">#修改ospf的网络类型为多到多点</span><br>ospf network-type broadcast <br><span class="hljs-comment">#修改ospf的网络类型为广播</span><br>ospf dr-priority 100 <br><span class="hljs-comment">#修改g0/0/0接口的DR优先级为100</span><br>reset ospf process <span class="hljs-comment">#重启ospf进程</span><br>ospf cost 1000 <span class="hljs-comment">#修改ospf的开销值为1000</span><br>ospf timer hello 20 <span class="hljs-comment">#修改HELLO计时器为20s</span><br>ospf timer dead 80 <span class="hljs-comment">#修改dead计时器为80s</span><br><br>ospf 1<br>preference 110 <br><span class="hljs-comment">#修改ospf优先级为110 值越大优先级越低</span><br></code></pre></td></tr></table></figure>
+
+<p>路由引入</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs bash">ospf 1<br>import-route rip 1 <span class="hljs-comment">#在ospf进程中引入rip</span><br>default-route-advertise always <br><span class="hljs-comment">#在ospf进程中引入默认路由</span><br><br>rip<br>import-route ospf 1 <span class="hljs-comment">#在rip进程中引入ospf</span><br>import-route ospf cost 3 ospf <br><span class="hljs-comment">#引入rip时配置开销值</span><br>default-route originate <br><span class="hljs-comment">#在RIP进程中发布默认路由</span><br></code></pre></td></tr></table></figure>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> 路由交换 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[CentOS7下安装python3.8.12]]></title>
+      <url>/2023/12/15/linux_centos7_python3-6-8/</url>
+      <content type="html"><![CDATA[<p>在CentOS7系统下，默认安装的Python版本为2.7.5，如下是安装Python3.8版本的方法。</p>
+<p><strong>一、安装依赖环境</strong></p>
+<p>命令如下：</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">yum <span class="hljs-keyword">install </span>gcc glibc make libffi-devel zlib-devel <span class="hljs-keyword">bzip2-devel </span>openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel -y<br></code></pre></td></tr></table></figure>
+
+<p><strong>二、从Python官网下载Python3.6.8压缩包</strong></p>
+<p>python官网<a href="https://www.python.org/">https://www.python.org/</a> 目前python最新版本是python3.10</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">wget</span> https://www.python.org/ftp/python/<span class="hljs-number">3</span>.<span class="hljs-number">8</span>.<span class="hljs-number">12</span>/Python-<span class="hljs-number">3</span>.<span class="hljs-number">8</span>.<span class="hljs-number">12</span>.tgz<br></code></pre></td></tr></table></figure>
+
+<p><strong>三、使用tar命令解压Python3.8.12压缩包</strong></p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">tar</span> -zxvf Python-<span class="hljs-number">3</span>.<span class="hljs-number">8</span>.<span class="hljs-number">12</span>.tgz<br></code></pre></td></tr></table></figure>
+
+<p><strong>四、编译安装Python3.8.12</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 进入解压后的Python3.8.12目录，使用以下命令进行编译和安装：</span><br>[root@localhost~]<span class="hljs-comment"># cd Python-3.8.12/</span><br>[root@localhost Python-3.8.12]<span class="hljs-comment"># ./configure</span><br>或者加参数指定安装路径<br>[root@localhost Python-3.8.12]<span class="hljs-comment"># ./configure --prefix=/usr/local/python3.8</span><br><br>[root@localhost Python-3.8.12]<span class="hljs-comment"># make &amp;&amp; make install</span><br>执行完成后，显示安装成功。<br></code></pre></td></tr></table></figure>
+<p><strong>五、创建软连接</strong></p>
+<p>python3.8.12安装成功了，但执行python -V命令还是显示是2.7版本的。如果要用python3.8.12需要输入python3即可，如果觉得不太方便。可以通过修改软链接的方式将默认的python指向python3.8.12。<br>先看一下默认的python及新安装的python3都安装在哪里。</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs awk">[root@localhost Python-<span class="hljs-number">3.8</span>.<span class="hljs-number">12</span>]<span class="hljs-comment"># which python</span><br><span class="hljs-regexp">/usr/</span>bin/python<br>[root@localhost Python-<span class="hljs-number">3.8</span>.<span class="hljs-number">12</span>]<span class="hljs-comment"># which python3</span><br><span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/bin/</span>python3<br></code></pre></td></tr></table></figure>
+<p>默认的python路径为/usr/bin/python，python3的路径为/usr/local/bin/python3<br>将python3的软链接加到python上</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">[root@localhost Python-3.8.12]<span class="hljs-comment"># mv /usr/bin/python /usr/bin/python.bak</span><br>[root@localhost Python-3.8.12]<span class="hljs-comment"># ln -s /usr/local/bin/python3 /usr/bin/python</span><br></code></pre></td></tr></table></figure>
+
+<p>python -V命令查看python版号，这时python的版本已经是3.8.12了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">[root@localhost Python-3.8.12]<span class="hljs-comment"># python -V</span><br>Python 3.8.12<br></code></pre></td></tr></table></figure>
+
+<p>pip命令也可以修改，python3.8.12默认的pip是pip3，CentOS7的python2.7默认没有安装pip.<br>输入pip命令的时候提示命令没有找到</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">[root@localhost Python-3.8.12]<span class="hljs-comment"># pip</span><br>bash: pip: <span class="hljs-built_in">command</span> not found...<br></code></pre></td></tr></table></figure>
+
+<p>这时也可以通过建立软链接的方式将pip命令链接到pip3上。首先看pip3命令在哪?</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">[root@localhost Python-3.8.12]<span class="hljs-comment"># which pip3</span><br>/usr/<span class="hljs-built_in">local</span>/bin/pip3<br></code></pre></td></tr></table></figure>
+
+<p>然后建立pip到pip3的软链接</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">[root@localhost Python-3.8.12]<span class="hljs-comment"># ln -s /usr/local/bin/pip3 /usr/bin/pip</span><br>[root@localhost Python-3.8.12]<span class="hljs-comment"># pip -V</span><br>pip 21.1.1 from /usr/<span class="hljs-built_in">local</span>/lib/python3.8/site-packages/pip (python 3.8)<br></code></pre></td></tr></table></figure>
+
+<p><strong>六、设置环境变量</strong></p>
+<p>安装python3改完软链接以后发现yum命令报错了，yum是依赖python2.7的，你把python改成了3.8了，所以报错了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash">[root@localhost Python-3.8.12]<span class="hljs-comment"># yum</span><br>  File <span class="hljs-string">&quot;/usr/bin/yum&quot;</span>, line 30<br>    except KeyboardInterrupt, e:<br>                            ^<br>SyntaxError: invalid syntax<br></code></pre></td></tr></table></figure>
+
+<p>可以修改yum里对python2的依赖即可。虽然安装了python3但是系统里python2依旧还在系统里，可以通过python2来指定用python2.7的命令，首先来看下python2的命令在哪里</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">[root@localhost ~]<span class="hljs-comment"># which python2</span><br>/usr/bin/python2<br></code></pre></td></tr></table></figure>
+
+<p>可以cd到/usr/bin目录下 通过ls -alh|grep python查看python命令的详细情况。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">[root@localhost bin]<span class="hljs-comment"># ls -alh|grep python</span><br></code></pre></td></tr></table></figure>
+<p>可以看到python软连接是执行的python3命令，python2是执行的python2.7的命令</p>
+<p>编辑/usr/libexec/urlgrabber-ext-down，修改第一行。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">[root@localhost bin]<span class="hljs-comment"># vi /usr/libexec/urlgrabber-ext-down</span><br></code></pre></td></tr></table></figure>
+
+<p>修改对python的依赖，修改成python2或python2.7都可以。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs bash">vim /etc/profile<br><br><span class="hljs-comment"># 在文件末尾添加以下内容：</span><br><br><span class="hljs-built_in">export</span> PATH=<span class="hljs-variable">$PATH</span>:/usr/<span class="hljs-built_in">local</span>/python3.6/bin<br><br><span class="hljs-comment"># 保存并退出。</span><br><span class="hljs-comment"># 使用source命令使环境变量生效：</span><br><br><span class="hljs-built_in">source</span> /etc/profile<br></code></pre></td></tr></table></figure>
+
+<p>编辑/usr/bin/yum，修改第一行。</p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs autoit">[root<span class="hljs-symbol">@localhost</span> bin]<span class="hljs-meta"># vi /usr/bin/yum</span><br></code></pre></td></tr></table></figure>
+<p>修改成python2或python2.7都可以。<br>改完这两个文件后，再使用yum命令就不会报错了。</p>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> linux </tag>
+            
+            <tag> python </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[在Linux环境中的Mysql忘记root密码的恢复方法]]></title>
       <url>/2023/12/15/linux_mysql_forgetpwd/</url>
       <content type="html"><![CDATA[<p>有些版本的MySQL安装完成后root用户的默认密码不一样，有的是空密码，有的是root,还有的是password ，如果都不是，可以使用下面的方法强制修改。具体如下：</p>
@@ -58,7 +445,7 @@
     
     <entry>
       <title><![CDATA[华为MA5620 EPON/GPON ONU设备恢复出厂设置密码]]></title>
-      <url>/2023/12/08/net-huawei-MA5620GPONtoSW/</url>
+      <url>/2023/12/08/net_Huawei_MA5620GPONtoSW/</url>
       <content type="html"><![CDATA[<p>配置华为MA5626恢复出厂设置（包括登录密码）</p>
 <p>空库文件、配置指南下载地址：<br>链接: <a href="https://pan.baidu.com/s/1C4mqtbKYJfwnB-WY-wkeTw?pwd=122m">https://pan.baidu.com/s/1C4mqtbKYJfwnB-WY-wkeTw?pwd=122m</a> 提取码: 122m </p>
 <p><strong>默认用户名：root 默认密码:mduadmin</strong></p>
@@ -342,7 +729,7 @@ State 5 to 1 - 断开连接
     
     <entry>
       <title><![CDATA[详解 linux 路由 route 命令]]></title>
-      <url>/2023/07/10/Linux_cmd_Route/</url>
+      <url>/2023/07/10/linux_cmd_Route/</url>
       <content type="html"><![CDATA[<h1 id="详解-linux-路由-route-命令"><a href="#详解-linux-路由-route-命令" class="headerlink" title="详解 linux 路由 route 命令"></a>详解 linux 路由 route 命令</h1><p><code>route</code> 命令用于查看和操作Linux操作系统中的路由表。它允许您添加，删除和修改路由表的条目，以确定数据包从一台计算机到另一台计算机的传输路径。</p>
 <p>以下是一些 <code>route</code> 命令的常用选项：</p>
 <ul>
@@ -412,7 +799,7 @@ State 5 to 1 - 断开连接
     
     <entry>
       <title><![CDATA[Ubuntu域名解析暂时失败]]></title>
-      <url>/2023/07/06/Linux_Ubuntu_Net/</url>
+      <url>/2023/07/06/linux_Ubuntu_Net/</url>
       <content type="html"><![CDATA[<h3 id="Ubuntu域名解析暂时失败-网络不可达【解决】"><a href="#Ubuntu域名解析暂时失败-网络不可达【解决】" class="headerlink" title="Ubuntu域名解析暂时失败 网络不可达【解决】"></a>Ubuntu域名解析暂时失败 网络不可达【解决】</h3><p>如果之前的网络是正常的，突然出现了这种错误提示，可以使用这个方法试一下。</p>
 <figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs pf">sudo service network-manager stop<br>sudo rm /var/lib/NetworkManager/NetworkManager.<span class="hljs-keyword">state</span><br>sudo service network-manager start<br></code></pre></td></tr></table></figure>
 
@@ -1148,7 +1535,7 @@ State 5 to 1 - 断开连接
     
     <entry>
       <title><![CDATA[openfiler丢失了LV卷]]></title>
-      <url>/2021/08/20/openfiler_lostLV/</url>
+      <url>/2021/08/20/NAS_openfiler_lostLV/</url>
       <content type="html"><![CDATA[<ol>
 <li><p>使用lvdisplay和lvs命令查看都能正常看到对应的卷，但是在openfiler中没有显示。</p>
 </li>
@@ -1173,9 +1560,9 @@ State 5 to 1 - 断开连接
         
         <tags>
             
-            <tag> linux </tag>
-            
             <tag> openfiler </tag>
+            
+            <tag> linux </tag>
             
         </tags>
         
@@ -1325,7 +1712,7 @@ State 5 to 1 - 断开连接
     
     <entry>
       <title><![CDATA[openfiler集群扩展容量]]></title>
-      <url>/2021/08/18/openfiler_kuozhan/</url>
+      <url>/2021/08/18/NAS_openfiler_kuozhan/</url>
       <content type="html"><![CDATA[<p> openfiler集群建成之后，通过修改分区实现调整drbd数据卷大小的实验。</p>
 <p>drbd0为元数据分区，drbd1为存储数据卷分区。</p>
 <p>集群包含名为<code>data</code>的VG, 内含PV:<code>/dev/drbd1 </code> 在data中由openfiler创建了<code>filer</code> <code>ftp</code>两个LV。</p>
@@ -1377,9 +1764,9 @@ State 5 to 1 - 断开连接
         
         <tags>
             
-            <tag> linux </tag>
-            
             <tag> openfiler </tag>
+            
+            <tag> linux </tag>
             
         </tags>
         
@@ -1469,7 +1856,7 @@ State 5 to 1 - 断开连接
     
     <entry>
       <title><![CDATA[群晖卸载忘记密码的套件]]></title>
-      <url>/2021/08/11/qunhui_uninstall_GLPI/</url>
+      <url>/2021/08/11/NAS_qunhui_uninstall_GLPI/</url>
       <content type="html"><![CDATA[<p>群晖套件<code>GLPI</code>安装后一直没有用，想要卸载时需要提供当时设置的Mysql密码，时间久远早就忘了，造成无法常规卸载。</p>
 <ul>
 <li><p>打开群晖的SSH登录开关。</p>
@@ -1519,9 +1906,9 @@ it@Cloud:/$ sudo synopkg uninstall GLPI
         
         <tags>
             
-            <tag> linux </tag>
-            
             <tag> openfiler </tag>
+            
+            <tag> linux </tag>
             
             <tag> drbd </tag>
             
@@ -1544,9 +1931,9 @@ it@Cloud:/$ sudo synopkg uninstall GLPI
         
         <tags>
             
-            <tag> linux </tag>
-            
             <tag> openfiler </tag>
+            
+            <tag> linux </tag>
             
             <tag> drbd </tag>
             
@@ -1956,9 +2343,9 @@ it@Cloud:/$ sudo synopkg uninstall GLPI
         
         <tags>
             
-            <tag> linux </tag>
-            
             <tag> openfiler </tag>
+            
+            <tag> linux </tag>
             
             <tag> drbd </tag>
             
@@ -1968,7 +2355,7 @@ it@Cloud:/$ sudo synopkg uninstall GLPI
     
     <entry>
       <title><![CDATA[openfiler集群部署过程]]></title>
-      <url>/2021/08/03/openfiler_cluster_build/</url>
+      <url>/2021/08/03/NAS_openfiler_cluster_build/</url>
       <content type="html"><![CDATA[<table>
 <thead>
 <tr>
@@ -2415,9 +2802,9 @@ it@Cloud:/$ sudo synopkg uninstall GLPI
         
         <tags>
             
-            <tag> linux </tag>
-            
             <tag> openfiler </tag>
+            
+            <tag> linux </tag>
             
             <tag> drbd </tag>
             
@@ -2427,7 +2814,7 @@ it@Cloud:/$ sudo synopkg uninstall GLPI
     
     <entry>
       <title><![CDATA[Linux的mbr与gpt分区]]></title>
-      <url>/2021/07/31/Linux_partition/</url>
+      <url>/2021/07/31/linux_partition/</url>
       <content type="html"><![CDATA[<h4 id="MBR分区"><a href="#MBR分区" class="headerlink" title="MBR分区"></a>MBR分区</h4><p>支持最大卷：2T</p>
 <p>限制：最多4个主分区 或 3个主分区加1个扩展分区</p>
 <p>分区工具：fdisk /dev/[sda]</p>
@@ -2836,9 +3223,9 @@ it@Cloud:/$ sudo synopkg uninstall GLPI
 <p>CentOS 8 源 yum/dnf 源添加、删除和优化</p>
 <figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs 1c">执行yum源更新命令 <br>yum repolist <span class="hljs-meta">#查看已安装的源</span><br>yum makecache <span class="hljs-meta">#更新元数据</span><br></code></pre></td></tr></table></figure>
 <p>删除yum中的源</p>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-number">1</span>） 删除库配置文件 <br><br>以root权限运行下面的命令：<br><br>cd <span class="hljs-regexp">/etc/yum</span>.repos.d/ <br><br>ls <span class="hljs-comment">#结果如下</span><br><br>CentOS-Base.repo epel.repo mirrors-rpmforge-testing <br><br>CentOS-Debuginfo.repo epel-testing.repo rpmforge.repo <br><br><br><br><span class="hljs-number">2</span>） 删除目标库 epel，指定具体的名称。<br><br>rm epel.repo epel-testing.repo  <br><br>rm <span class="hljs-regexp">/etc/</span>pki<span class="hljs-regexp">/rpm-gpg/</span>RPM-GPG-KEY-EPEL  <br><br><br><br><span class="hljs-number">3</span>) 删除库的.rpm包<br><br>rpm -qa | grep epel <br><br>输出：<br><br>epel-release-<span class="hljs-number">6</span>-<span class="hljs-number">8</span>.noarch <br><br>删除即可：yum remove epel-release-<span class="hljs-number">6</span>-<span class="hljs-number">8</span>.noarch <br><br><br><br><span class="hljs-number">4</span>）重建数据源：<br><br>yum repolist   <span class="hljs-comment">#查看已安装的源</span><br><br>yum makecache  <span class="hljs-comment">#更新元数据</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-number">1</span>） 删除库配置文件 <br><br>以root权限运行下面的命令：<br><br>cd <span class="hljs-regexp">/etc/yum</span>.repos.d/ <br><br>ls <span class="hljs-comment">#结果如下</span><br><br>CentOS-Base.repo epel.repo mirrors-rpmforge-testing <br><br>CentOS-Debuginfo.repo epel-testing.repo rpmforge.repo <br><br><br><span class="hljs-number">2</span>） 删除目标库 epel，指定具体的名称。<br><br>rm epel.repo epel-testing.repo  <br><br>rm <span class="hljs-regexp">/etc/</span>pki<span class="hljs-regexp">/rpm-gpg/</span>RPM-GPG-KEY-EPEL  <br><br><br><span class="hljs-number">3</span>) 删除库的.rpm包<br><br>rpm -qa | grep epel <br><br>输出：<br><br>epel-release-<span class="hljs-number">6</span>-<span class="hljs-number">8</span>.noarch <br><br>删除即可：yum remove epel-release-<span class="hljs-number">6</span>-<span class="hljs-number">8</span>.noarch <br><br><br><span class="hljs-number">4</span>）重建数据源：<br><br>yum repolist   <span class="hljs-comment">#查看已安装的源</span><br><br>yum makecache  <span class="hljs-comment">#更新元数据</span><br></code></pre></td></tr></table></figure>
 
-<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">安装阿里云源的案例：<br><br>aliyun 更新了 centos8 的说明<br><br><br><br>curl -o /etc/yum.repos.d/CentOS-<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Base</span>.</span></span>repo http:<span class="hljs-comment">//mirrors.aliyun.com/repo/Centos-8.repo</span><br><br>centos <span class="hljs-number">8</span> 默认是会读取centos.org的mirrorlist的，所以一般来说是不需要配置镜像的。<br><br>如果你的网络访问centos.org的mirrorlist有问题，可能才需要另外配置镜像<br><br><br><br>cd /etc/yum.repos.d<br><br>#备份<br><br>cp CentOS-<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Base</span>.</span></span>repo CentOS-<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Base</span>.</span></span>repo.bak<br><br>cp CentOS-<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">AppStream</span>.</span></span>repo CentOS-<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">AppStream</span>.</span></span>repo.bak<br><br>cp CentOS-<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Extras</span>.</span></span>repo CentOS-<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Extras</span>.</span></span>repo.bak<br><br><br><br>sed -i &#x27;s/mirrorlist=/#mirrorlist=/g&#x27; CentOS-<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Base</span>.</span></span>repo CentOS-<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">AppStream</span>.</span></span>repo CentOS-<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Extras</span>.</span></span>repo<br><br>sed -i &#x27;s/#baseurl=/baseurl=/g&#x27; CentOS-<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Base</span>.</span></span>repo CentOS-<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">AppStream</span>.</span></span>repo CentOS-<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Extras</span>.</span></span>repo<br><br>sed -i &#x27;s/http:\/\/mirror.centos.org/https:\/\/mirrors.aliyun.com/g&#x27; CentOS-<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Base</span>.</span></span>repo CentOS-<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">AppStream</span>.</span></span>repo CentOS-<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Extras</span>.</span></span>repo<br></code></pre></td></tr></table></figure>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">安装阿里云源的案例：<br><br>aliyun 更新了 centos8 的说明<br><br>curl -o /etc/yum.repos.d/CentOS-<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Base</span>.</span></span>repo http:<span class="hljs-comment">//mirrors.aliyun.com/repo/Centos-8.repo</span><br><br>centos <span class="hljs-number">8</span> 默认是会读取centos.org的mirrorlist的，所以一般来说是不需要配置镜像的。<br><br>如果你的网络访问centos.org的mirrorlist有问题，可能才需要另外配置镜像<br><br>cd /etc/yum.repos.d<br><br>#备份<br><br>cp CentOS-<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Base</span>.</span></span>repo CentOS-<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Base</span>.</span></span>repo.bak<br>cp CentOS-<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">AppStream</span>.</span></span>repo CentOS-<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">AppStream</span>.</span></span>repo.bak<br>cp CentOS-<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Extras</span>.</span></span>repo CentOS-<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Extras</span>.</span></span>repo.bak<br><br>sed -i &#x27;s/mirrorlist=/#mirrorlist=/g&#x27; CentOS-<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Base</span>.</span></span>repo CentOS-<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">AppStream</span>.</span></span>repo CentOS-<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Extras</span>.</span></span>repo<br><br>sed -i &#x27;s/#baseurl=/baseurl=/g&#x27; CentOS-<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Base</span>.</span></span>repo CentOS-<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">AppStream</span>.</span></span>repo CentOS-<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Extras</span>.</span></span>repo<br><br>sed -i &#x27;s/http:\/\/mirror.centos.org/https:\/\/mirrors.aliyun.com/g&#x27; CentOS-<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Base</span>.</span></span>repo CentOS-<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">AppStream</span>.</span></span>repo CentOS-<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Extras</span>.</span></span>repo<br></code></pre></td></tr></table></figure>
 
 
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">#</span><span class="bash"> systemctl start chronyd &amp;&amp; systemctl <span class="hljs-built_in">enable</span> chronyd</span><br><span class="hljs-meta">#</span><span class="bash"> systemctl <span class="hljs-built_in">disable</span> firewalld &amp;&amp; systemctl stop firewalld</span><br><span class="hljs-meta">#</span><span class="bash">setenforce 0</span><br><span class="hljs-meta">#</span><span class="bash">sed -i <span class="hljs-string">&quot;s/SELINUX=enforcing/SELINUX=disabled/g&quot;</span> /etc/selinux/config</span><br></code></pre></td></tr></table></figure>
@@ -2921,6 +3308,10 @@ it@Cloud:/$ sudo synopkg uninstall GLPI
         
         <tags>
             
+            <tag> linux </tag>
+            
+            <tag> ceph </tag>
+            
             <tag> cephadm </tag>
             
         </tags>
@@ -2929,7 +3320,7 @@ it@Cloud:/$ sudo synopkg uninstall GLPI
     
     <entry>
       <title><![CDATA[Openfiler网络聚合]]></title>
-      <url>/2021/07/20/openfiler_net_bond/</url>
+      <url>/2021/07/20/NAS_openfiler_net_bond/</url>
       <content type="html"><![CDATA[<h3 id="多网卡的7种bond模式原理"><a href="#多网卡的7种bond模式原理" class="headerlink" title="多网卡的7种bond模式原理"></a>多网卡的7种bond模式原理</h3><p>网卡绑定mode共有七种(0~6) <code>bond0</code>、<code>bond1</code>、<code>bond2</code>、<code>bond3</code>、<code>bond4</code>、<code>bond5</code>、<code>bond6</code></p>
 <p>常用的有三种</p>
 <p><code>mode=0</code>：平衡负载模式，有自动备援，但需要”Switch”支援及设定。</p>
@@ -3005,9 +3396,9 @@ it@Cloud:/$ sudo synopkg uninstall GLPI
         
         <tags>
             
-            <tag> linux </tag>
-            
             <tag> openfiler </tag>
+            
+            <tag> linux </tag>
             
         </tags>
         
@@ -3353,7 +3744,7 @@ it@Cloud:/$ sudo synopkg uninstall GLPI
     
     <entry>
       <title><![CDATA[黑群晖 Active Backup for Business 套件激活方法]]></title>
-      <url>/2021/07/05/qunhui_Active_Backup_for_Business/</url>
+      <url>/2021/07/05/NAS_qunhui_Active_Backup_for_Business/</url>
       <content type="html"><![CDATA[<h3 id="分为DSM6-2和DSM7-0-1两种激活方式："><a href="#分为DSM6-2和DSM7-0-1两种激活方式：" class="headerlink" title="分为DSM6.2和DSM7.0.1两种激活方式："></a>分为DSM6.2和DSM7.0.1两种激活方式：</h3><h4 id="DSM6-2"><a href="#DSM6-2" class="headerlink" title="DSM6.2"></a>DSM6.2</h4><p>1.首先先安装好Active Backup for Business套件（以下简称ABB），这时候打开会显示需要激活</p>
 <p>2.到【控制面板】 - 【信息中心】 找到【产品序列号】并记下来。最好装好黑群晖立即安装ABB，然后激活</p>
 <p>3.浏览器输入如下地址，显示如下信息即可进行下一步：</p>
@@ -3555,6 +3946,8 @@ it@Cloud:/$ sudo synopkg uninstall GLPI
         
         <tags>
             
+            <tag> linux </tag>
+            
             <tag> CentOS </tag>
             
         </tags>
@@ -3722,12 +4115,6 @@ document.getElementsByTagName('head')[0].appendChild(oMeta);]]></content>
     </entry>
     
     <entry>
-      <title><![CDATA[404 Not Found：该页无法显示]]></title>
-      <url>//404.html</url>
-      <content type="html"></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[About me]]></title>
       <url>/about/index.html</url>
       <content type="html"><![CDATA[<p>平淡是生活的本色，有时生活虽然寡淡，但是它很真实也会让你很安心。人生几多繁华，几多坎坷，繁华过后，回归平淡，又是幸福的另外一种体现。<br>过去无法挽回，明天还是未知，只有当下是实实在在的。不要为昨天买单，不要同过去较劲，如果不小心摔倒，爬起来继续奔跑。即使苦难注定要在明天来临，也没必要今天就为它付费。努力照看好今天，明天才会给你惊喜。<br>放下浮躁与焦虑，洞悉人世之理</p>
@@ -3742,14 +4129,8 @@ document.getElementsByTagName('head')[0].appendChild(oMeta);]]></content>
     </entry>
     
     <entry>
-      <title><![CDATA[Project]]></title>
-      <url>/project/index.html</url>
-      <content type="html"></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[Series]]></title>
-      <url>/series/index.html</url>
+      <title><![CDATA[slides]]></title>
+      <url>/slides/index.html</url>
       <content type="html"></content>
     </entry>
     
@@ -3760,8 +4141,20 @@ document.getElementsByTagName('head')[0].appendChild(oMeta);]]></content>
     </entry>
     
     <entry>
-      <title><![CDATA[slides]]></title>
-      <url>/slides/index.html</url>
+      <title><![CDATA[404 Not Found：该页无法显示]]></title>
+      <url>//404.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Project]]></title>
+      <url>/project/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Series]]></title>
+      <url>/series/index.html</url>
       <content type="html"></content>
     </entry>
     

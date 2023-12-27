@@ -6,7 +6,7 @@
   <link href="http://anximin.github.io/atom.xml" rel="self"/>
   
   <link href="http://anximin.github.io/"/>
-  <updated>2023-12-15T03:39:24.630Z</updated>
+  <updated>2023-12-26T09:44:20.731Z</updated>
   <id>http://anximin.github.io/</id>
   
   <author>
@@ -15,6 +15,180 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>centos7安装docker和docker-compose</title>
+    <link href="http://anximin.github.io/2023/12/26/linux_centos7_Docker/"/>
+    <id>http://anximin.github.io/2023/12/26/linux_centos7_Docker/</id>
+    <published>2023-12-26T09:34:57.000Z</published>
+    <updated>2023-12-26T09:44:20.731Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h4 id=&quot;安装docker&quot;&gt;&lt;a href=&quot;#安装docker&quot; class=&quot;headerlink&quot; title=&quot;安装docker&quot;&gt;&lt;/a&gt;安装docker&lt;/h4&gt;&lt;figure class=&quot;highlight awk&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td</summary>
+        
+      
+    
+    
+    
+    
+    <category term="linux" scheme="http://anximin.github.io/tags/linux/"/>
+    
+    <category term="docker" scheme="http://anximin.github.io/tags/docker/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>CentOS常用命令</title>
+    <link href="http://anximin.github.io/2023/12/26/linux_centosCMD/"/>
+    <id>http://anximin.github.io/2023/12/26/linux_centosCMD/</id>
+    <published>2023-12-26T06:20:06.000Z</published>
+    <updated>2023-12-26T06:33:06.546Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;查看系统版本&lt;/p&gt;
+&lt;figure class=&quot;highlight llvm&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span</summary>
+        
+      
+    
+    
+    
+    
+    <category term="linux" scheme="http://anximin.github.io/tags/linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>使用NVM管理NodeJS版本</title>
+    <link href="http://anximin.github.io/2023/12/25/nodejs-nvm-n/"/>
+    <id>http://anximin.github.io/2023/12/25/nodejs-nvm-n/</id>
+    <published>2023-12-25T09:48:51.000Z</published>
+    <updated>2023-12-26T03:49:24.981Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;NVM-For-Linux&quot;&gt;&lt;a href=&quot;#NVM-For-Linux&quot; class=&quot;headerlink&quot; title=&quot;NVM For Linux&quot;&gt;&lt;/a&gt;NVM For Linux&lt;/h2&gt;&lt;p&gt;NVM官网地址：&lt;a</summary>
+        
+      
+    
+    
+    
+    
+    <category term="nodeJS" scheme="http://anximin.github.io/tags/nodeJS/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Win10和Win11释放系统时跳过联网限制</title>
+    <link href="http://anximin.github.io/2023/12/25/Win_skipNetwork/"/>
+    <id>http://anximin.github.io/2023/12/25/Win_skipNetwork/</id>
+    <published>2023-12-25T03:00:17.000Z</published>
+    <updated>2023-12-25T09:41:05.452Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;新电脑第一次开机启动时根据向导会遇到强制联网才能进行下一步的限制，而且一旦联网，就只能登录微软账户才能继续。&lt;br&gt;解决这个问题也不难，两步搞定。&lt;/p&gt;
+&lt;p&gt;** 一、</summary>
+        
+      
+    
+    
+    
+    
+    <category term="Windows" scheme="http://anximin.github.io/tags/Windows/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>群晖获取ROOT权限</title>
+    <link href="http://anximin.github.io/2023/12/22/NAS_qunhui_rootpwd/"/>
+    <id>http://anximin.github.io/2023/12/22/NAS_qunhui_rootpwd/</id>
+    <published>2023-12-22T03:48:38.000Z</published>
+    <updated>2023-12-22T04:37:06.703Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;&lt;strong&gt;一. 开启SSH登录&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;控制面板-&amp;gt; 终端和SNMP -&amp;gt; 启动SSH功能&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;二.</summary>
+        
+      
+    
+    
+    
+    
+    <category term="群晖" scheme="http://anximin.github.io/tags/%E7%BE%A4%E6%99%96/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>华为交换机OSPF服务</title>
+    <link href="http://anximin.github.io/2023/12/20/net_Huawei_resetOSPF/"/>
+    <id>http://anximin.github.io/2023/12/20/net_Huawei_resetOSPF/</id>
+    <published>2023-12-20T06:40:48.000Z</published>
+    <updated>2023-12-20T08:07:27.258Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;&lt;strong&gt;重启OSPF服务进程&lt;/strong&gt;：&lt;/p&gt;
+&lt;p&gt;首先确认用户视图 &lt;Quidway&gt;&lt;br&gt;在该视图下输入命令 reset ospf [进程号] process&lt;br&gt;查看当前OSPF状态：display ospf</summary>
+        
+      
+    
+    
+    
+    
+    <category term="路由交换" scheme="http://anximin.github.io/tags/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>CentOS7下安装python3.8.12</title>
+    <link href="http://anximin.github.io/2023/12/15/linux_centos7_python3-6-8/"/>
+    <id>http://anximin.github.io/2023/12/15/linux_centos7_python3-6-8/</id>
+    <published>2023-12-15T09:07:51.000Z</published>
+    <updated>2023-12-26T06:55:25.872Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;在CentOS7系统下，默认安装的Python版本为2.7.5，如下是安装Python3.8版本的方法。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;一、安装依赖环境&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;命令如下：&lt;/p&gt;
+&lt;figure class=&quot;highlight</summary>
+        
+      
+    
+    
+    
+    
+    <category term="linux" scheme="http://anximin.github.io/tags/linux/"/>
+    
+    <category term="python" scheme="http://anximin.github.io/tags/python/"/>
+    
+  </entry>
   
   <entry>
     <title>在Linux环境中的Mysql忘记root密码的恢复方法</title>
@@ -67,8 +241,8 @@
   
   <entry>
     <title>华为MA5620 EPON/GPON ONU设备恢复出厂设置密码</title>
-    <link href="http://anximin.github.io/2023/12/08/net-huawei-MA5620GPONtoSW/"/>
-    <id>http://anximin.github.io/2023/12/08/net-huawei-MA5620GPONtoSW/</id>
+    <link href="http://anximin.github.io/2023/12/08/net_Huawei_MA5620GPONtoSW/"/>
+    <id>http://anximin.github.io/2023/12/08/net_Huawei_MA5620GPONtoSW/</id>
     <published>2023-12-08T08:45:09.000Z</published>
     <updated>2023-12-15T03:42:41.113Z</updated>
     
@@ -180,8 +354,8 @@
   
   <entry>
     <title>详解 linux 路由 route 命令</title>
-    <link href="http://anximin.github.io/2023/07/10/Linux_cmd_Route/"/>
-    <id>http://anximin.github.io/2023/07/10/Linux_cmd_Route/</id>
+    <link href="http://anximin.github.io/2023/07/10/linux_cmd_Route/"/>
+    <id>http://anximin.github.io/2023/07/10/linux_cmd_Route/</id>
     <published>2023-07-10T03:30:00.000Z</published>
     <updated>2023-07-19T04:00:15.785Z</updated>
     
@@ -197,8 +371,8 @@
   
   <entry>
     <title>Ubuntu域名解析暂时失败</title>
-    <link href="http://anximin.github.io/2023/07/06/Linux_Ubuntu_Net/"/>
-    <id>http://anximin.github.io/2023/07/06/Linux_Ubuntu_Net/</id>
+    <link href="http://anximin.github.io/2023/07/06/linux_Ubuntu_Net/"/>
+    <id>http://anximin.github.io/2023/07/06/linux_Ubuntu_Net/</id>
     <published>2023-07-06T03:36:00.000Z</published>
     <updated>2023-07-19T01:37:57.748Z</updated>
     
@@ -264,143 +438,6 @@
     
     
     <category term="路由交换" scheme="http://anximin.github.io/tags/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>华为交换机启用WEB管理</title>
-    <link href="http://anximin.github.io/2022/02/21/net_HuaweiWeb/"/>
-    <id>http://anximin.github.io/2022/02/21/net_HuaweiWeb/</id>
-    <published>2022-02-21T06:24:22.000Z</published>
-    <updated>2023-07-19T03:23:33.845Z</updated>
-    
-    
-    <summary type="html">&lt;p&gt;h华为三层交换机是有Web管理端的，但是交换机上的ETH管理口默认没有地址，所以需要配置来实现正常通过浏览器访问WEB管理端。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="路由交换" scheme="http://anximin.github.io/tags/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>ESXiInstallVib</title>
-    <link href="http://anximin.github.io/2022/01/29/ESXi_InstallVib/"/>
-    <id>http://anximin.github.io/2022/01/29/ESXi_InstallVib/</id>
-    <published>2022-01-29T01:11:58.000Z</published>
-    <updated>2023-07-19T03:40:04.637Z</updated>
-    
-    
-    <summary type="html">&lt;p&gt;“VMware 安装捆绑包”（通常称为 VIB），使第三方和管理员能够更轻松地将软件组件安装到其旗舰虚拟化平台 vSphere ESXi 中。&lt;/p&gt;
-&lt;p&gt;该过程非常简单，如果您为运行 ESXi 软件的正确版本安装正确的 VIB，通常不会出错。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="ESXi" scheme="http://anximin.github.io/tags/ESXi/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>部署基于ESXi的群晖【中篇】- 创建虚拟机引导群晖系统</title>
-    <link href="http://anximin.github.io/2022/01/28/ESXi_Qunhui2/"/>
-    <id>http://anximin.github.io/2022/01/28/ESXi_Qunhui2/</id>
-    <published>2022-01-28T03:55:41.000Z</published>
-    <updated>2023-07-19T03:37:44.481Z</updated>
-    
-    
-    <summary type="html">&lt;h3 id=&quot;准备群晖7-0-1引导文件&quot;&gt;&lt;a href=&quot;#准备群晖7-0-1引导文件&quot; class=&quot;headerlink&quot; title=&quot;准备群晖7.0.1引导文件&quot;&gt;&lt;/a&gt;准备群晖7.0.1引导文件&lt;/h3&gt;&lt;p&gt;使用&lt;code&gt;StarWind V2V Image Converter&lt;/code&gt;转换引导文件img格式为ESXi系统的vmdk格式。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="ESXi" scheme="http://anximin.github.io/tags/ESXi/"/>
-    
-    <category term="群晖" scheme="http://anximin.github.io/tags/%E7%BE%A4%E6%99%96/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>部署基于ESXi的群晖【上篇】- 安装ESXi并设置直通</title>
-    <link href="http://anximin.github.io/2022/01/28/ESXi_Qunhui1/"/>
-    <id>http://anximin.github.io/2022/01/28/ESXi_Qunhui1/</id>
-    <published>2022-01-28T02:46:09.000Z</published>
-    <updated>2023-07-19T03:37:17.717Z</updated>
-    
-    
-    <summary type="html">&lt;h3 id=&quot;硬件选择&quot;&gt;&lt;a href=&quot;#硬件选择&quot; class=&quot;headerlink&quot; title=&quot;硬件选择&quot;&gt;&lt;/a&gt;硬件选择&lt;/h3&gt;&lt;p&gt;ESXi对硬件兼容性相当不错了，一般电脑都可以正常安装，由于想要提高群晖在ESXi平台下的性能所以有几点必须要考虑：&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="ESXi" scheme="http://anximin.github.io/tags/ESXi/"/>
-    
-    <category term="群晖" scheme="http://anximin.github.io/tags/%E7%BE%A4%E6%99%96/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Win11安装git npm nodejs hexo</title>
-    <link href="http://anximin.github.io/2022/01/27/hexo_installOnWin11/"/>
-    <id>http://anximin.github.io/2022/01/27/hexo_installOnWin11/</id>
-    <published>2022-01-27T08:54:09.000Z</published>
-    <updated>2023-07-19T03:45:51.125Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h3 id=&quot;1-安装git&quot;&gt;&lt;a href=&quot;#1-安装git&quot; class=&quot;headerlink&quot; title=&quot;1.安装git&quot;&gt;&lt;/a&gt;1.安装git&lt;/h3&gt;&lt;ol&gt;
-&lt;li&gt;下载Git  &lt;a</summary>
-        
-      
-    
-    
-    
-    
-    <category term="hexo" scheme="http://anximin.github.io/tags/hexo/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>在Rocky系统安装Mssql2017</title>
-    <link href="http://anximin.github.io/2021/11/06/linux_Rocky_Mssql/"/>
-    <id>http://anximin.github.io/2021/11/06/linux_Rocky_Mssql/</id>
-    <published>2021-11-06T06:10:49.000Z</published>
-    <updated>2023-07-19T07:27:42.846Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt; 最小安装Rocky之后已经具备了网络连接能力。&lt;/p&gt;
-&lt;p&gt;使用&lt;code&gt;nmcli&lt;/code&gt;命令查看网络。&lt;/p&gt;
-&lt;figure class=&quot;highlight ebnf&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span</summary>
-        
-      
-    
-    
-    
-    
-    <category term="linux" scheme="http://anximin.github.io/tags/linux/"/>
-    
-    <category term="MSSQL" scheme="http://anximin.github.io/tags/MSSQL/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>SO_DO</title>
-    <link href="http://anximin.github.io/2021/10/22/SO-DO/"/>
-    <id>http://anximin.github.io/2021/10/22/SO-DO/</id>
-    <published>2021-10-22T02:00:39.000Z</published>
-    <updated>2021-10-22T02:00:39.662Z</updated>
-    
-    
-    
-    
     
   </entry>
   
