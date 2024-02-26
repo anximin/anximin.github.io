@@ -4985,14 +4985,14 @@ document.getElementsByTagName('head')[0].appendChild(oMeta);]]></content>
     </entry>
     
     <entry>
-      <title><![CDATA[Tags]]></title>
-      <url>/tags/index.html</url>
+      <title><![CDATA[Project]]></title>
+      <url>/project/index.html</url>
       <content type="html"></content>
     </entry>
     
     <entry>
-      <title><![CDATA[Project]]></title>
-      <url>/project/index.html</url>
+      <title><![CDATA[Series]]></title>
+      <url>/series/index.html</url>
       <content type="html"></content>
     </entry>
     
@@ -5003,8 +5003,8 @@ document.getElementsByTagName('head')[0].appendChild(oMeta);]]></content>
     </entry>
     
     <entry>
-      <title><![CDATA[Series]]></title>
-      <url>/series/index.html</url>
+      <title><![CDATA[Tags]]></title>
+      <url>/tags/index.html</url>
       <content type="html"></content>
     </entry>
     
