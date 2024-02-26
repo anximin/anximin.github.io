@@ -235,23 +235,23 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2023/10/30/Win_0xc0000142/" target="_self">
-          <img src="/img/index_img/index_26_error142.jpg" srcset="/img/loading.gif" lazyload alt="错误代码0xc0000142">
+        <a href="/2024/01/11/linux_setlocale/" target="_self">
+          <img src="/img/index_img/index_0_demo.gif" srcset="/img/loading.gif" lazyload alt="Centos7 提示setlocale:LC_CTYPE:无法改变区域选项（UTF-8）">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2023/10/30/Win_0xc0000142/" target="_self">
-          错误代码0xc0000142
+        <a href="/2024/01/11/linux_setlocale/" target="_self">
+          Centos7 提示setlocale:LC_CTYPE:无法改变区域选项（UTF-8）
         </a>
       </h1>
 
       
-      <a class="index-excerpt " href="/2023/10/30/Win_0xc0000142/" target="_self">
+      <a class="index-excerpt " href="/2024/01/11/linux_setlocale/" target="_self">
         <div>
-          应用程序无法正常启动，错误代码0xc0000142。
+          编辑environment文件   12345vi /etc/environment# 添加两行LANG=en_US.utf-8LC_ALL=en_US.utf-8   安装依赖库   12yum install glibc-commonyum -y install kde-l10n-Chinese telent   设置本地语言 1localectl set-locale LANG=zh_CN
         </div>
       </a>
 
@@ -259,8 +259,382 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2023-10-30 11:58" pubdate>
-              2023-10-30
+            <time datetime="2024-01-11 17:31" pubdate>
+              2024-01-11
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/linux/">#linux</a>
+            
+              <a href="/tags/centos/">#centos</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2024/01/05/linux_SYSCTL/" target="_self">
+          <img src="/img/index_img/index_0_demo.gif" srcset="/img/loading.gif" lazyload alt="修改Docker中的sysctl.conf文件时提示没有权限">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2024/01/05/linux_SYSCTL/" target="_self">
+          修改Docker中的sysctl.conf文件时提示没有权限
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2024/01/05/linux_SYSCTL/" target="_self">
+        <div>
+          在容器中修改 /etc/sysctl.conf后需要执行sysctl -p 使之生效。 但执行后提示 ` docker error: “Read-only file system”. **解决方法 ** 在创建Docker容器的时候加入 –privileged 即可使容器拥有系统权限。 例如： 1# docker run -itd --privileged -h docker_64 --name
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-01-05 15:26" pubdate>
+              2024-01-05
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/linux/">#linux</a>
+            
+              <a href="/tags/docker/">#docker</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2024/01/05/linux_ufw/" target="_self">
+          <img src="/img/index_img/index_0_demo.gif" srcset="/img/loading.gif" lazyload alt="UFW 防火墙命令">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2024/01/05/linux_ufw/" target="_self">
+          UFW 防火墙命令
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2024/01/05/linux_ufw/" target="_self">
+        <div>
+          关于ufwufw（Uncomplicated Firewall）是一个简化的、易于使用的Linux防火墙工具，旨在方便用户管理iptables防火墙规则。它为用户提供了一个直观且易于理解的命令行界面，使得配置防火墙规则变得更加简单。 ufw的一些主要特点和功能：  简化的防火墙管理：ufw提供了一个简洁的命令行界面，让您能够轻松地添加、删除和修改防火墙规则。 基于iptables：ufw是基于ip
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-01-05 15:16" pubdate>
+              2024-01-05
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/linux/">#linux</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2024/01/05/linux_docker_cmd/" target="_self">
+          <img src="/img/index_img/index_0_demo.gif" srcset="/img/loading.gif" lazyload alt="Docker常用操作命令">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2024/01/05/linux_docker_cmd/" target="_self">
+          Docker常用操作命令
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2024/01/05/linux_docker_cmd/" target="_self">
+        <div>
+          一、 Docker 容器命令1. 拉取镜像1$ docker pull ubuntu  2. 启动容器1$ docker run -it ubuntu /bin/bash  命令参数说明： -i   :  以交互模式运行容器，通过容器内的标准输入/输出进行交互 -t  :   重新分配一个输入终端 -d :  指定容器后台运行 ubuntu :   指定要运行的镜像。 如果本地主机上查找镜像不存在
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-01-05 15:10" pubdate>
+              2024-01-05
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/docker/">#docker</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2023/12/29/linux_centos7NodeJs18/" target="_self">
+          <img src="/img/index_img/index_0_demo.gif" srcset="/img/loading.gif" lazyload alt="在centos7（7.9）下部署NodeJs18版本的过程">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2023/12/29/linux_centos7NodeJs18/" target="_self">
+          在centos7（7.9）下部署NodeJs18版本的过程
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2023/12/29/linux_centos7NodeJs18/" target="_self">
+        <div>
+          安装nodejs18.16.0版本后，nodejs和npm都报错，因为centos7不支持。 需要升级系统的make、GCC、GLIBC的版本。 1. 升级make查看升级前的版本：可以发现是GNU Make 3.82  1# make -v  下载4.2版本，不能使用更高的版本。 123# yum -y install wgetmkdir -p /root/mydownload &amp;&am
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-12-29 07:20" pubdate>
+              2023-12-29
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/nodejs/">#nodejs</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2023/12/26/linux_centos7_Docker/" target="_self">
+          <img src="/img/index_img/index_0_demo.gif" srcset="/img/loading.gif" lazyload alt="centos7安装docker和docker-compose">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2023/12/26/linux_centos7_Docker/" target="_self">
+          centos7安装docker和docker-compose
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2023/12/26/linux_centos7_Docker/" target="_self">
+        <div>
+          安装docker1234567891011yum update -yyum install -y yum-utils device-mapper-persistent-data yum-config-manager --add-repo https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.reposed -i &#x27;s+do
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-12-26 17:34" pubdate>
+              2023-12-26
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/linux/">#linux</a>
+            
+              <a href="/tags/docker/">#docker</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2023/12/26/linux_centosCMD/" target="_self">
+          <img src="/img/index_img/index_0_demo.gif" srcset="/img/loading.gif" lazyload alt="CentOS常用命令">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2023/12/26/linux_centosCMD/" target="_self">
+          CentOS常用命令
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2023/12/26/linux_centosCMD/" target="_self">
+        <div>
+          查看系统版本 12[root@localhost ~]# cat /etc/centos-releaseCentOS Linux release 7.2.1511 (Core) 12345678910111213141516[root@localhost ~]# cat /etc/os-release NAME=&quot;CentOS Linux&quot;VERSION=&quot;7 (C
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-12-26 14:20" pubdate>
+              2023-12-26
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/linux/">#linux</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2023/12/25/nodejs-nvm-n/" target="_self">
+          <img src="/img/index_img/index_32_nodejs.jpeg" srcset="/img/loading.gif" lazyload alt="使用NVM管理NodeJS版本">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2023/12/25/nodejs-nvm-n/" target="_self">
+          使用NVM管理NodeJS版本
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2023/12/25/nodejs-nvm-n/" target="_self">
+        <div>
+          NVM For LinuxNVM官网地址：Releases · coreybutler/nvm-windows (github.com) 下载压缩包 12cd /rootwget https://github.com/nvm-sh/nvm/archive/refs/tags/v0.39.1.tar.gz  解压 12mkdir -p /root/.nvmtar -zxvf nvm-0.39.1.t
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-12-25 17:48" pubdate>
+              2023-12-25
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/nodeJS/">#nodeJS</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2023/12/25/Win_skipNetwork/" target="_self">
+          <img src="/img/index_img/index_18_windowskb.jpg" srcset="/img/loading.gif" lazyload alt="Win10和Win11释放系统时跳过联网限制">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2023/12/25/Win_skipNetwork/" target="_self">
+          Win10和Win11释放系统时跳过联网限制
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2023/12/25/Win_skipNetwork/" target="_self">
+        <div>
+          新电脑第一次开机启动时根据向导会遇到强制联网才能进行下一步的限制，而且一旦联网，就只能登录微软账户才能继续。解决这个问题也不难，两步搞定。 ** 一、 开机到联网界面时按快捷键启动命令窗口。**首先确定当前没有任何方式连接到互联网。如果已经联网，拔掉网线，必要时恢复出厂。按快捷键【shift】+【F10】,会弹出一个CMD命令窗口，** 二、 输入命令然后回车：** 1oobe\bypassnro
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-12-25 11:00" pubdate>
+              2023-12-25
             </time>
           </div>
         
@@ -281,23 +655,23 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2023/07/26/maintain_hpscanerror/" target="_self">
-          <img src="/img/index_img/index_25_hpscanerror.jpg" srcset="/img/loading.gif" lazyload alt="扫描时提示Video Initialize Error">
+        <a href="/2023/12/22/NAS_qunhui_rootpwd/" target="_self">
+          <img src="/img/index_img/index_0_demo.gif" srcset="/img/loading.gif" lazyload alt="群晖获取ROOT权限">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2023/07/26/maintain_hpscanerror/" target="_self">
-          扫描时提示Video Initialize Error
+        <a href="/2023/12/22/NAS_qunhui_rootpwd/" target="_self">
+          群晖获取ROOT权限
         </a>
       </h1>
 
       
-      <a class="index-excerpt " href="/2023/07/26/maintain_hpscanerror/" target="_self">
+      <a class="index-excerpt " href="/2023/12/22/NAS_qunhui_rootpwd/" target="_self">
         <div>
-          1. 问题描述win10或win11下使用HP扫描软件（scan to）时，经常出现Video initialize Error提示。
+          一. 开启SSH登录 控制面板-&gt; 终端和SNMP -&gt; 启动SSH功能 二. 使用SSH登录群晖‘admin’是群晖的管理员用户，改成你用的即可。 1ssh admin@10.10.10.100 三. 登录后切换root账户这里需要再次输入登录密码。 1sudo -i 四. 赋予sshd_config文件775的权限 1chmod 775 /etc/ssh/sshd_config
         </div>
       </a>
 
@@ -305,68 +679,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2023-07-26 08:55" pubdate>
-              2023-07-26
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/%E8%BF%90%E7%BB%B4/" class="category-chain-item">运维</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2023/07/21/nodejs_warning/" target="_self">
-          <img src="/img/index_img/index_23_nodejswarning.png" srcset="/img/loading.gif" lazyload alt="node升级版本后使用HEXO生成文章时提示警告">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2023/07/21/nodejs_warning/" target="_self">
-          node升级版本后使用HEXO生成文章时提示警告
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt " href="/2023/07/21/nodejs_warning/" target="_self">
-        <div>
-          node升级版本后使用HEXO生成文章时提示警告
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2023-07-21 08:31" pubdate>
-              2023-07-21
+            <time datetime="2023-12-22 11:48" pubdate>
+              2023-12-22
             </time>
           </div>
         
@@ -375,356 +689,7 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/hexo/">#hexo</a>
-            
-              <a href="/tags/nodeJS/">#nodeJS</a>
-            
-              <a href="/tags/npm/">#npm</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2023/07/18/Router_OpenWrt_E8820S/" target="_self">
-          <img src="/img/index_img/index_1_e8820s.png" srcset="/img/loading.gif" lazyload alt="编译中兴E8820s必要的准备工作">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2023/07/18/Router_OpenWrt_E8820S/" target="_self">
-          编译中兴E8820s必要的准备工作
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt " href="/2023/07/18/Router_OpenWrt_E8820S/" target="_self">
-        <div>
-          提示：刷机有风险，操作要有心理准备。
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2023-07-18 16:36" pubdate>
-              2023-07-18
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/OpenWrt/">#OpenWrt</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2023/07/18/Router_OpenWrt_LEDE/" target="_self">
-          <img src="/img/index_img/index_2_OpenWrt.jpg" srcset="/img/loading.gif" lazyload alt="使用ubuntu编译LEDE">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2023/07/18/Router_OpenWrt_LEDE/" target="_self">
-          使用ubuntu编译LEDE
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt " href="/2023/07/18/Router_OpenWrt_LEDE/" target="_self">
-        <div>
-          编译openWrt不能使用root用户，否则报错。使用下面命令新建一个newuser.并为其添加sudo权限。
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2023-07-18 10:36" pubdate>
-              2023-07-18
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/OpenWrt/">#OpenWrt</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2023/07/10/linux_cmd_Route/" target="_self">
-          <img src="/img/index_img/index_3_cmdRoute.png" srcset="/img/loading.gif" lazyload alt="详解 linux 路由 route 命令">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2023/07/10/linux_cmd_Route/" target="_self">
-          详解 linux 路由 route 命令
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt " href="/2023/07/10/linux_cmd_Route/" target="_self">
-        <div>
-          route命令用于查看和操作Linux操作系统中的路由表。它允许您添加，删除和修改路由表的条目，以确定数据包从一台计算机到另一台计算机的传输路径。
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2023-07-10 11:30" pubdate>
-              2023-07-10
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/linux/">#linux</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2023/07/06/linux_Ubuntu_Net/" target="_self">
-          <img src="/img/index_img/index_4_ubutuDNSerror.png" srcset="/img/loading.gif" lazyload alt="Ubuntu域名解析暂时失败">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2023/07/06/linux_Ubuntu_Net/" target="_self">
-          Ubuntu域名解析暂时失败
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt " href="/2023/07/06/linux_Ubuntu_Net/" target="_self">
-        <div>
-          如果之前的网络是正常的，突然出现了这种错误提示，可以使用这个方法试一下。
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2023-07-06 11:36" pubdate>
-              2023-07-06
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/linux/">#linux</a>
-            
-              <a href="/tags/Ubuntu/">#Ubuntu</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2023/06/20/git-GitLab-update/" target="_self">
-          <img src="/img/index_img/index_5_GitlabUpdate.png" srcset="/img/loading.gif" lazyload alt="本地部署的GitLab升级指南">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2023/06/20/git-GitLab-update/" target="_self">
-          本地部署的GitLab升级指南
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt " href="/2023/06/20/git-GitLab-update/" target="_self">
-        <div>
-          gitlab 不支持大版本之间直接升级，需要升级到当前版本的最新版本，然后再升级下一个版本。
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2023-06-20 16:25" pubdate>
-              2023-06-20
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/GitLab/">#GitLab</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2023/05/19/markdown-YuFa/" target="_self">
-          <img src="/img/index_img/index_9_markdown.png" srcset="/img/loading.gif" lazyload alt="MarkDown语法">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2023/05/19/markdown-YuFa/" target="_self">
-          MarkDown语法
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt " href="/2023/05/19/markdown-YuFa/" target="_self">
-        <div>
-          Markdown是一种可以使用普通文本编辑器编写的标记语言,通过简单的标记语法,它可以使普通文本内容具有一定的格式
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2023-05-19 10:01" pubdate>
-              2023-05-19
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/%E5%BF%AB%E6%9F%A5%E6%89%8B%E5%86%8C/" class="category-chain-item">快查手册</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/MarkDown/">#MarkDown</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/02/21/net_HuaweiLACP/" target="_self">
-          <img src="/img/index_img/index_10_huaweiSwitch.png" srcset="/img/loading.gif" lazyload alt="华为交换机链路聚合配置-LACP">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/02/21/net_HuaweiLACP/" target="_self">
-          华为交换机链路聚合配置-LACP
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt " href="/2022/02/21/net_HuaweiLACP/" target="_self">
-        <div>
-          链路聚合一般在二层环境中使用，将多条物理接口划分为一条逻辑接口，实现拓展带宽和冗余连接。
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-02-21 14:38" pubdate>
-              2022-02-21
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2/">#路由交换</a>
+              <a href="/tags/%E7%BE%A4%E6%99%96/">#群晖</a>
             
           </div>
         
@@ -736,7 +701,7 @@
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/#board">3</a><a class="page-number" href="/page/4/#board">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/#board">7</a><a class="extend next" rel="next" href="/page/3/#board"><i class="iconfont icon-arrowright"></i></a>
+      <a class="extend prev" rel="prev" href="/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/#board">3</a><a class="page-number" href="/page/4/#board">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/#board">9</a><a class="extend next" rel="next" href="/page/3/#board"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
 

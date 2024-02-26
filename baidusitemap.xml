@@ -1,6 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://anximin.github.io/2024/02/20/git_gitlab_extend/</loc>
+    <lastmod>2024-02-23</lastmod>
+  </url>
+  <url>
+    <loc>http://anximin.github.io/2024/02/23/git_chengepassword/</loc>
+    <lastmod>2024-02-23</lastmod>
+  </url>
+  <url>
+    <loc>http://anximin.github.io/2023/06/20/git_GitLab_update/</loc>
+    <lastmod>2024-02-22</lastmod>
+  </url>
+  <url>
+    <loc>http://anximin.github.io/2021/07/29/git_push_rejected/</loc>
+    <lastmod>2024-02-21</lastmod>
+  </url>
+  <url>
+    <loc>http://anximin.github.io/2024/01/30/Linux-python-env-virtualenv/</loc>
+    <lastmod>2024-01-30</lastmod>
+  </url>
+  <url>
+    <loc>http://anximin.github.io/2024/01/30/net_routerOS/</loc>
+    <lastmod>2024-01-30</lastmod>
+  </url>
+  <url>
+    <loc>http://anximin.github.io/2024/01/30/Linux-python-env-miniconda/</loc>
+    <lastmod>2024-01-30</lastmod>
+  </url>
+  <url>
+    <loc>http://anximin.github.io/2024/01/29/Win_to_linux_with_smbd/</loc>
+    <lastmod>2024-01-29</lastmod>
+  </url>
+  <url>
+    <loc>http://anximin.github.io/2024/01/19/net_VPNopenvpn/</loc>
+    <lastmod>2024-01-19</lastmod>
+  </url>
+  <url>
+    <loc>http://anximin.github.io/2024/01/19/PVE-zhitong2/</loc>
+    <lastmod>2024-01-19</lastmod>
+  </url>
+  <url>
+    <loc>http://anximin.github.io/2024/01/17/PVE-zhitong/</loc>
+    <lastmod>2024-01-17</lastmod>
+  </url>
+  <url>
+    <loc>http://anximin.github.io/2024/01/16/net_VPNwireguard/</loc>
+    <lastmod>2024-01-16</lastmod>
+  </url>
+  <url>
+    <loc>http://anximin.github.io/2024/01/11/linux_setlocale/</loc>
+    <lastmod>2024-01-11</lastmod>
+  </url>
+  <url>
+    <loc>http://anximin.github.io/2024/01/05/linux_SYSCTL/</loc>
+    <lastmod>2024-01-05</lastmod>
+  </url>
+  <url>
+    <loc>http://anximin.github.io/2024/01/05/linux_ufw/</loc>
+    <lastmod>2024-01-05</lastmod>
+  </url>
+  <url>
+    <loc>http://anximin.github.io/2024/01/05/linux_docker_cmd/</loc>
+    <lastmod>2024-01-05</lastmod>
+  </url>
+  <url>
+    <loc>http://anximin.github.io/2023/12/29/linux_centos7NodeJs18/</loc>
+    <lastmod>2023-12-29</lastmod>
+  </url>
+  <url>
     <loc>http://anximin.github.io/2023/12/26/linux_centos7_Docker/</loc>
     <lastmod>2023-12-26</lastmod>
   </url>
@@ -97,11 +165,11 @@
     <lastmod>2023-07-21</lastmod>
   </url>
   <url>
-    <loc>http://anximin.github.io/2023/05/19/markdown-YuFa/</loc>
+    <loc>http://anximin.github.io/2023/05/19/markdown_YuFa/</loc>
     <lastmod>2023-07-19</lastmod>
   </url>
   <url>
-    <loc>http://anximin.github.io/2021/09/17/JAVA-jdbc-template/</loc>
+    <loc>http://anximin.github.io/2021/09/17/JAVA_jdbc_template/</loc>
     <lastmod>2023-07-19</lastmod>
   </url>
   <url>
@@ -137,19 +205,15 @@
     <lastmod>2023-07-19</lastmod>
   </url>
   <url>
-    <loc>http://anximin.github.io/2021/07/06/git-change-repository/</loc>
+    <loc>http://anximin.github.io/2021/07/06/git_change_repository/</loc>
     <lastmod>2023-07-19</lastmod>
   </url>
   <url>
-    <loc>http://anximin.github.io/2021/07/07/git-srv-build/</loc>
+    <loc>http://anximin.github.io/2021/07/07/git_srv_build/</loc>
     <lastmod>2023-07-19</lastmod>
   </url>
   <url>
-    <loc>http://anximin.github.io/2021/07/07/git-idea-gitlab/</loc>
-    <lastmod>2023-07-19</lastmod>
-  </url>
-  <url>
-    <loc>http://anximin.github.io/2021/07/29/git-push-rejected/</loc>
+    <loc>http://anximin.github.io/2021/07/07/git_idea_gitlab/</loc>
     <lastmod>2023-07-19</lastmod>
   </url>
   <url>
@@ -157,7 +221,7 @@
     <lastmod>2023-07-19</lastmod>
   </url>
   <url>
-    <loc>http://anximin.github.io/2021/07/23/ceph-cephadm/</loc>
+    <loc>http://anximin.github.io/2021/07/23/ceph_cephadm/</loc>
     <lastmod>2023-07-19</lastmod>
   </url>
   <url>
@@ -165,11 +229,11 @@
     <lastmod>2023-07-19</lastmod>
   </url>
   <url>
-    <loc>http://anximin.github.io/2021/07/23/ceph-Octopus/</loc>
+    <loc>http://anximin.github.io/2021/07/23/ceph_Octopus/</loc>
     <lastmod>2023-07-19</lastmod>
   </url>
   <url>
-    <loc>http://anximin.github.io/2021/07/23/ceph-ansible-5.0/</loc>
+    <loc>http://anximin.github.io/2021/07/23/ceph_ansible_5.0/</loc>
     <lastmod>2023-07-19</lastmod>
   </url>
   <url>
@@ -229,10 +293,6 @@
     <lastmod>2023-07-19</lastmod>
   </url>
   <url>
-    <loc>http://anximin.github.io/2023/06/20/git-GitLab-update/</loc>
-    <lastmod>2023-07-19</lastmod>
-  </url>
-  <url>
     <loc>http://anximin.github.io/2023/07/18/Router_OpenWrt_LEDE/</loc>
     <lastmod>2023-07-19</lastmod>
   </url>
@@ -241,7 +301,7 @@
     <lastmod>2023-07-18</lastmod>
   </url>
   <url>
-    <loc>http://anximin.github.io/2021/07/05/Life-mubu/</loc>
+    <loc>http://anximin.github.io/2021/07/05/Life_mubu/</loc>
     <lastmod>2023-06-21</lastmod>
   </url>
   <url>
@@ -249,7 +309,7 @@
     <lastmod>2021-12-14</lastmod>
   </url>
   <url>
-    <loc>http://anximin.github.io/2021/10/22/SO-DO/</loc>
+    <loc>http://anximin.github.io/2021/10/22/SO_DO/</loc>
     <lastmod>2021-10-22</lastmod>
   </url>
   <url>

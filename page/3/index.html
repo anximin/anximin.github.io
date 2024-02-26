@@ -235,23 +235,23 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/02/21/net_HuaweiWeb/" target="_self">
-          <img src="/img/index_img/index_10_huaweiSwitch.png" srcset="/img/loading.gif" lazyload alt="华为交换机启用WEB管理">
+        <a href="/2023/12/20/net_Huawei_resetOSPF/" target="_self">
+          <img src="/img/index_img/index_10_huaweiSwitch.png" srcset="/img/loading.gif" lazyload alt="华为交换机OSPF服务">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2022/02/21/net_HuaweiWeb/" target="_self">
-          华为交换机启用WEB管理
+        <a href="/2023/12/20/net_Huawei_resetOSPF/" target="_self">
+          华为交换机OSPF服务
         </a>
       </h1>
 
       
-      <a class="index-excerpt " href="/2022/02/21/net_HuaweiWeb/" target="_self">
+      <a class="index-excerpt " href="/2023/12/20/net_Huawei_resetOSPF/" target="_self">
         <div>
-          h华为三层交换机是有Web管理端的，但是交换机上的ETH管理口默认没有地址，所以需要配置来实现正常通过浏览器访问WEB管理端。
+          重启OSPF服务进程： 首先确认用户视图 在该视图下输入命令 reset ospf [进程号] process查看当前OSPF状态：display ospf brief OSPF单区域配置 123456ospf 1 router-id 1.1.1.1 #进入ospf视图1代表进程号area 0 #创建区域并进入OSPF区域视图，输入要创建的区域ID，骨干区域即区域0network +IP +匹配码
         </div>
       </a>
 
@@ -259,8 +259,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2022-02-21 14:24" pubdate>
-              2022-02-21
+            <time datetime="2023-12-20 14:40" pubdate>
+              2023-12-20
             </time>
           </div>
         
@@ -281,23 +281,23 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/01/29/ESXi_InstallVib/" target="_self">
-          <img src="/img/index_img/index_12_ESXi.png" srcset="/img/loading.gif" lazyload alt="ESXiInstallVib">
+        <a href="/2023/12/15/linux_centos7_python3-6-8/" target="_self">
+          <img src="/img/index_img/index_0_demo.gif" srcset="/img/loading.gif" lazyload alt="CentOS7下安装python3.8.12">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2022/01/29/ESXi_InstallVib/" target="_self">
-          ESXiInstallVib
+        <a href="/2023/12/15/linux_centos7_python3-6-8/" target="_self">
+          CentOS7下安装python3.8.12
         </a>
       </h1>
 
       
-      <a class="index-excerpt " href="/2022/01/29/ESXi_InstallVib/" target="_self">
+      <a class="index-excerpt " href="/2023/12/15/linux_centos7_python3-6-8/" target="_self">
         <div>
-          “VMware 安装捆绑包”（通常称为 VIB），使第三方和管理员能够更轻松地将软件组件安装到其旗舰虚拟化平台 vSphere ESXi 中。 该过程非常简单，如果您为运行 ESXi 软件的正确版本安装正确的 VIB，通常不会出错。
+          在CentOS7系统下，默认安装的Python版本为2.7.5，如下是安装Python3.8版本的方法。 一、安装依赖环境 命令如下： 1yum install gcc glibc make libffi-devel zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel -y
         </div>
       </a>
 
@@ -305,196 +305,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2022-01-29 09:11" pubdate>
-              2022-01-29
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/ESXi/">#ESXi</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/01/28/ESXi_Qunhui2/" target="_self">
-          <img src="/img/index_img/index_11_heiqunByESXi.jpg" srcset="/img/loading.gif" lazyload alt="部署基于ESXi的群晖【中篇】- 创建虚拟机引导群晖系统">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/01/28/ESXi_Qunhui2/" target="_self">
-          部署基于ESXi的群晖【中篇】- 创建虚拟机引导群晖系统
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt " href="/2022/01/28/ESXi_Qunhui2/" target="_self">
-        <div>
-          准备群晖7.0.1引导文件使用StarWind V2V Image Converter转换引导文件img格式为ESXi系统的vmdk格式。
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-01-28 11:55" pubdate>
-              2022-01-28
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/ESXi/">#ESXi</a>
-            
-              <a href="/tags/%E7%BE%A4%E6%99%96/">#群晖</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/01/28/ESXi_Qunhui1/" target="_self">
-          <img src="/img/index_img/index_11_heiqunByESXi.jpg" srcset="/img/loading.gif" lazyload alt="部署基于ESXi的群晖【上篇】- 安装ESXi并设置直通">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/01/28/ESXi_Qunhui1/" target="_self">
-          部署基于ESXi的群晖【上篇】- 安装ESXi并设置直通
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt " href="/2022/01/28/ESXi_Qunhui1/" target="_self">
-        <div>
-          硬件选择ESXi对硬件兼容性相当不错了，一般电脑都可以正常安装，由于想要提高群晖在ESXi平台下的性能所以有几点必须要考虑：
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-01-28 10:46" pubdate>
-              2022-01-28
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/ESXi/">#ESXi</a>
-            
-              <a href="/tags/%E7%BE%A4%E6%99%96/">#群晖</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/01/27/hexo_installOnWin11/" target="_self">
-          <img src="/img/index_img/index_13_hexoblog.jpg" srcset="/img/loading.gif" lazyload alt="Win11安装git npm nodejs hexo">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/01/27/hexo_installOnWin11/" target="_self">
-          Win11安装git npm nodejs hexo
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt " href="/2022/01/27/hexo_installOnWin11/" target="_self">
-        <div>
-          1.安装git 下载Git  https://git-scm.com/ Git教程 - 廖雪峰的官方网站   2.安装Node.js 下载Node.js Download | Node.js (nodejs.org)  安装时要注意包含环境变量及npm的安装。  命令：node -v查看版本信息。  如果提示命令错误，检查系统环境变量。     3.安装hexo 打开控制台或power shell
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-01-27 16:54" pubdate>
-              2022-01-27
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/hexo/">#hexo</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2021/11/06/linux_Rocky_Mssql/" target="_self">
-          <img src="/img/index_img/index_21_Rocky.png" srcset="/img/loading.gif" lazyload alt="在Rocky系统安装Mssql2017">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/11/06/linux_Rocky_Mssql/" target="_self">
-          在Rocky系统安装Mssql2017
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt " href="/2021/11/06/linux_Rocky_Mssql/" target="_self">
-        <div>
-          最小安装Rocky之后已经具备了网络连接能力。 使用nmcli命令查看网络。 1nmcli device status  使用nmtui配置网络。 1nmtui  配置完成后，必须重启网络服务才能生效。 1systemctl restart NetworkManager  安装MSSQL2017前准备配置mssql源 1curl https://packages.microsoft.com/co
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-11-06 14:10" pubdate>
-              2021-11-06
+            <time datetime="2023-12-15 17:07" pubdate>
+              2023-12-15
             </time>
           </div>
         
@@ -505,7 +317,7 @@
             
               <a href="/tags/linux/">#linux</a>
             
-              <a href="/tags/MSSQL/">#MSSQL</a>
+              <a href="/tags/python/">#python</a>
             
           </div>
         
@@ -517,23 +329,23 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2021/10/22/SO-DO/" target="_self">
-          <img src="/img/index_img/index_0_demo.gif" srcset="/img/loading.gif" lazyload alt="SO_DO">
+        <a href="/2023/12/15/linux_mysql_forgetpwd/" target="_self">
+          <img src="/img/index_img/index_28_mysql.png" srcset="/img/loading.gif" lazyload alt="在Linux环境中的Mysql忘记root密码的恢复方法">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/10/22/SO-DO/" target="_self">
-          SO_DO
+        <a href="/2023/12/15/linux_mysql_forgetpwd/" target="_self">
+          在Linux环境中的Mysql忘记root密码的恢复方法
         </a>
       </h1>
 
       
-      <a class="index-excerpt " href="/2021/10/22/SO-DO/" target="_self">
+      <a class="index-excerpt " href="/2023/12/15/linux_mysql_forgetpwd/" target="_self">
         <div>
-          
+          有些版本的MySQL安装完成后root用户的默认密码不一样，有的是空密码，有的是root,还有的是password ，如果都不是，可以使用下面的方法强制修改。具体如下： 1、首先修改MySQL配置文件为跳过密码验证登录。 1[root@localhost my.cnf.d]# vim /etc/my.cnf  在文件最末尾加上  skip-grant–tables   然后保存配置文件。 2、接下
         </div>
       </a>
 
@@ -541,47 +353,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-10-22 10:00" pubdate>
-              2021-10-22
-            </time>
-          </div>
-        
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2021/10/20/SQL-2K-TEMPDB/" target="_self">
-          <img src="/img/index_img/index_20_SQLsrv.png" srcset="/img/loading.gif" lazyload alt="改变SQLserver中tempdb数据库文件的默认路径">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/10/20/SQL-2K-TEMPDB/" target="_self">
-          改变SQLserver中tempdb数据库文件的默认路径
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt " href="/2021/10/20/SQL-2K-TEMPDB/" target="_self">
-        <div>
-          在SQL Server 2000中，可以改变tempdb数据库文件的默认路径. 一、执行下面语句
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-10-20 16:56" pubdate>
-              2021-10-20
+            <time datetime="2023-12-15 11:26" pubdate>
+              2023-12-15
             </time>
           </div>
         
@@ -590,7 +363,7 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/MSSQL/">#MSSQL</a>
+              <a href="/tags/linux/">#linux</a>
             
           </div>
         
@@ -602,23 +375,23 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2021/10/20/SQL-2K-M/" target="_self">
-          <img src="/img/index_img/index_20_SQLsrv.png" srcset="/img/loading.gif" lazyload alt="SQL Server 2000 大容量内存设置实现方法">
+        <a href="/2023/12/09/net_Huawei_ma5620/" target="_self">
+          <img src="/img/index_img/index_27_MA5620.jpg" srcset="/img/loading.gif" lazyload alt="华为MA5620改为交换机设置的具体步骤">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/10/20/SQL-2K-M/" target="_self">
-          SQL Server 2000 大容量内存设置实现方法
+        <a href="/2023/12/09/net_Huawei_ma5620/" target="_self">
+          华为MA5620改为交换机设置的具体步骤
         </a>
       </h1>
 
       
-      <a class="index-excerpt " href="/2021/10/20/SQL-2K-M/" target="_self">
+      <a class="index-excerpt " href="/2023/12/09/net_Huawei_ma5620/" target="_self">
         <div>
-          标准的 32 位地址最多可映像 4 GB 内存。因此，32 位进程的标准地址空间限制为 4 GB。 默认情况下，在 32 位 Microsoft Windows 操作系统中，将为操作系统保留 2 GB 空间，另外 2 GB 空间可由应用程序使用。
+          初使化： 123enableerase flash data reboot system  操作步骤：  1. 准备：Com 转 网口的数据传输连接线  2. 下载 一个超级终端程序 hyper terminal 3. 数据线Console口上。  4. 启动超级终端程序，位调为9600。链接。 用户名：root ;密码： mduadmin  具体参数设计步骤：   MA5620默认端口是隔离的，
         </div>
       </a>
 
@@ -626,8 +399,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-10-20 09:45" pubdate>
-              2021-10-20
+            <time datetime="2023-12-09 16:25" pubdate>
+              2023-12-09
             </time>
           </div>
         
@@ -636,7 +409,7 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/MSSQL/">#MSSQL</a>
+              <a href="/tags/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2/">#路由交换</a>
             
           </div>
         
@@ -648,23 +421,23 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2021/09/17/JAVA-jdbc-template/" target="_self">
-          <img src="/img/index_img/index_22_JDBCtemplate.png" srcset="/img/loading.gif" lazyload alt="JAVA中的JdbcTemplate详解">
+        <a href="/2023/12/08/net_Huawei_MA5620GPONtoSW/" target="_self">
+          <img src="/img/index_img/index_27_MA5620.jpg" srcset="/img/loading.gif" lazyload alt="华为MA5620 EPON/GPON ONU设备恢复出厂设置密码">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/09/17/JAVA-jdbc-template/" target="_self">
-          JAVA中的JdbcTemplate详解
+        <a href="/2023/12/08/net_Huawei_MA5620GPONtoSW/" target="_self">
+          华为MA5620 EPON/GPON ONU设备恢复出厂设置密码
         </a>
       </h1>
 
       
-      <a class="index-excerpt " href="/2021/09/17/JAVA-jdbc-template/" target="_self">
+      <a class="index-excerpt " href="/2023/12/08/net_Huawei_MA5620GPONtoSW/" target="_self">
         <div>
-          JDBCTemplate是Spring为我们提供的，一组访问访问数据库的类库，Spring对JDBC的封装,通俗点说就是Spring对jdbc的封装的模板
+          配置华为MA5626恢复出厂设置（包括登录密码） 空库文件、配置指南下载地址：链接: https://pan.baidu.com/s/1C4mqtbKYJfwnB-WY-wkeTw?pwd=122m 提取码: 122m  默认用户名：root 默认密码:mduadmin 操作步骤： 1.用串口连接线连接好设备然后打开终端软件连接串口 2.打开设备电源， 当出现 Press &lt;D&gt; ke
         </div>
       </a>
 
@@ -672,8 +445,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-09-17 17:29" pubdate>
-              2021-09-17
+            <time datetime="2023-12-08 16:45" pubdate>
+              2023-12-08
             </time>
           </div>
         
@@ -682,7 +455,255 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/JAVA/">#JAVA</a>
+              <a href="/tags/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2/">#路由交换</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2023/10/30/Win_0xc0000142/" target="_self">
+          <img src="/img/index_img/index_26_error142.jpg" srcset="/img/loading.gif" lazyload alt="错误代码0xc0000142">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2023/10/30/Win_0xc0000142/" target="_self">
+          错误代码0xc0000142
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2023/10/30/Win_0xc0000142/" target="_self">
+        <div>
+          应用程序无法正常启动，错误代码0xc0000142。
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-10-30 11:58" pubdate>
+              2023-10-30
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Windows/">#Windows</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2023/07/26/maintain_hpscanerror/" target="_self">
+          <img src="/img/index_img/index_25_hpscanerror.jpg" srcset="/img/loading.gif" lazyload alt="扫描时提示Video Initialize Error">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2023/07/26/maintain_hpscanerror/" target="_self">
+          扫描时提示Video Initialize Error
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2023/07/26/maintain_hpscanerror/" target="_self">
+        <div>
+          1. 问题描述win10或win11下使用HP扫描软件（scan to）时，经常出现Video initialize Error提示。
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-07-26 08:55" pubdate>
+              2023-07-26
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E8%BF%90%E7%BB%B4/" class="category-chain-item">运维</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2023/07/21/nodejs_warning/" target="_self">
+          <img src="/img/index_img/index_23_nodejswarning.png" srcset="/img/loading.gif" lazyload alt="node升级版本后使用HEXO生成文章时提示警告">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2023/07/21/nodejs_warning/" target="_self">
+          node升级版本后使用HEXO生成文章时提示警告
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2023/07/21/nodejs_warning/" target="_self">
+        <div>
+          node升级版本后使用HEXO生成文章时提示警告
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-07-21 08:31" pubdate>
+              2023-07-21
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/hexo/">#hexo</a>
+            
+              <a href="/tags/nodeJS/">#nodeJS</a>
+            
+              <a href="/tags/npm/">#npm</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2023/07/18/Router_OpenWrt_E8820S/" target="_self">
+          <img src="/img/index_img/index_1_e8820s.png" srcset="/img/loading.gif" lazyload alt="编译中兴E8820s必要的准备工作">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2023/07/18/Router_OpenWrt_E8820S/" target="_self">
+          编译中兴E8820s必要的准备工作
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2023/07/18/Router_OpenWrt_E8820S/" target="_self">
+        <div>
+          提示：刷机有风险，操作要有心理准备。
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-07-18 16:36" pubdate>
+              2023-07-18
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/OpenWrt/">#OpenWrt</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2023/07/18/Router_OpenWrt_LEDE/" target="_self">
+          <img src="/img/index_img/index_2_OpenWrt.jpg" srcset="/img/loading.gif" lazyload alt="使用ubuntu编译LEDE">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2023/07/18/Router_OpenWrt_LEDE/" target="_self">
+          使用ubuntu编译LEDE
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2023/07/18/Router_OpenWrt_LEDE/" target="_self">
+        <div>
+          编译openWrt不能使用root用户，否则报错。使用下面命令新建一个newuser.并为其添加sudo权限。
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-07-18 10:36" pubdate>
+              2023-07-18
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/OpenWrt/">#OpenWrt</a>
             
           </div>
         
@@ -694,7 +715,7 @@
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/page/2/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/#board">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/#board">4</a><a class="page-number" href="/page/5/#board">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/#board">7</a><a class="extend next" rel="next" href="/page/4/#board"><i class="iconfont icon-arrowright"></i></a>
+      <a class="extend prev" rel="prev" href="/page/2/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/#board">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/#board">4</a><a class="page-number" href="/page/5/#board">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/#board">9</a><a class="extend next" rel="next" href="/page/4/#board"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
 

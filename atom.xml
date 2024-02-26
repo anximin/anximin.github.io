@@ -6,7 +6,7 @@
   <link href="http://anximin.github.io/atom.xml" rel="self"/>
   
   <link href="http://anximin.github.io/"/>
-  <updated>2023-12-26T09:44:20.731Z</updated>
+  <updated>2024-02-23T08:45:50.022Z</updated>
   <id>http://anximin.github.io/</id>
   
   <author>
@@ -15,6 +15,366 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>git常见问题</title>
+    <link href="http://anximin.github.io/2024/02/23/git_chengepassword/"/>
+    <id>http://anximin.github.io/2024/02/23/git_chengepassword/</id>
+    <published>2024-02-23T08:37:23.000Z</published>
+    <updated>2024-02-23T08:45:50.022Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;如果每次提交或拉取都需要输入密码&lt;/p&gt;
+&lt;figure class=&quot;highlight llvm&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span</summary>
+        
+      
+    
+    
+    
+    
+    <category term="GitLabr" scheme="http://anximin.github.io/tags/GitLabr/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Gitlab通过LVM无损扩容</title>
+    <link href="http://anximin.github.io/2024/02/20/git_gitlab_extend/"/>
+    <id>http://anximin.github.io/2024/02/20/git_gitlab_extend/</id>
+    <published>2024-02-20T01:47:34.000Z</published>
+    <updated>2024-02-23T08:45:55.327Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h3 id=&quot;一、添加硬盘&quot;&gt;&lt;a href=&quot;#一、添加硬盘&quot; class=&quot;headerlink&quot; title=&quot;一、添加硬盘&quot;&gt;&lt;/a&gt;一、添加硬盘&lt;/h3&gt;&lt;p&gt;无论虚拟机还是物理机，通过各自的方法添加硬盘。&lt;/p&gt;
+&lt;h3</summary>
+        
+      
+    
+    
+    
+    
+    <category term="GitLab" scheme="http://anximin.github.io/tags/GitLab/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>使用virtualenv或virtualenvwrapper创建Python虚拟环境</title>
+    <link href="http://anximin.github.io/2024/01/30/Linux-python-env-virtualenv/"/>
+    <id>http://anximin.github.io/2024/01/30/Linux-python-env-virtualenv/</id>
+    <published>2024-01-30T08:06:22.000Z</published>
+    <updated>2024-01-30T09:17:47.136Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;一、-virtualenv&quot;&gt;&lt;a href=&quot;#一、-virtualenv&quot; class=&quot;headerlink&quot; title=&quot;一、 virtualenv&quot;&gt;&lt;/a&gt;一、 virtualenv&lt;/h2&gt;&lt;p&gt;virtualenv 是目前最流行的 python</summary>
+        
+      
+    
+    
+    
+    
+    <category term="Python" scheme="http://anximin.github.io/tags/Python/"/>
+    
+    <category term="虚拟环境" scheme="http://anximin.github.io/tags/%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>RouterOS软路由常用命令</title>
+    <link href="http://anximin.github.io/2024/01/30/net_routerOS/"/>
+    <id>http://anximin.github.io/2024/01/30/net_routerOS/</id>
+    <published>2024-01-30T07:46:21.000Z</published>
+    <updated>2024-01-30T07:50:33.449Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;&lt;strong&gt;修改用户密码&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;[admin@MikroTik]&amp;gt;/user                #进入操作路径&lt;/p&gt;
+&lt;p&gt;[admin@MikroTik]/user&amp;gt;print             </summary>
+        
+      
+    
+    
+    
+    
+    <category term="RouterOS" scheme="http://anximin.github.io/tags/RouterOS/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>python虚拟环境Miniconda3的安装、配置和使用</title>
+    <link href="http://anximin.github.io/2024/01/30/Linux-python-env-miniconda/"/>
+    <id>http://anximin.github.io/2024/01/30/Linux-python-env-miniconda/</id>
+    <published>2024-01-30T06:53:37.000Z</published>
+    <updated>2024-01-30T06:58:00.141Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;Conda是开放源代码的软件包管理系统和环境管理系统。miniconda是Conda的精简版本，我们一般使用miniconda进行生信上游流程软件的安装。</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Windows直接通过smb读写linux系统文件</title>
+    <link href="http://anximin.github.io/2024/01/29/Win_to_linux_with_smbd/"/>
+    <id>http://anximin.github.io/2024/01/29/Win_to_linux_with_smbd/</id>
+    <published>2024-01-29T03:13:28.000Z</published>
+    <updated>2024-01-29T03:29:11.689Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;一句话：原理是通过samba协议，将Linux的目录挂载到Windows.&lt;/p&gt;
+&lt;h4 id=&quot;1-首先在linux上安装samba&quot;&gt;&lt;a href=&quot;#1-首先在linux上安装samba&quot; class=&quot;headerlink&quot; title=&quot;1.</summary>
+        
+      
+    
+    
+    
+    
+    <category term="linux" scheme="http://anximin.github.io/tags/linux/"/>
+    
+    <category term="smb" scheme="http://anximin.github.io/tags/smb/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>搭建OpenVpn的方法</title>
+    <link href="http://anximin.github.io/2024/01/19/net_VPNopenvpn/"/>
+    <id>http://anximin.github.io/2024/01/19/net_VPNopenvpn/</id>
+    <published>2024-01-19T06:56:34.000Z</published>
+    <updated>2024-01-19T07:05:33.742Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h3 id=&quot;第-1-步：在-Ubuntu-上设置-OpenVpn-服务器&quot;&gt;&lt;a href=&quot;#第-1-步：在-Ubuntu-上设置-OpenVpn-服务器&quot; class=&quot;headerlink&quot; title=&quot;第 1 步：在 Ubuntu 上设置 OpenVpn</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>PVE开启硬件直通功能</title>
+    <link href="http://anximin.github.io/2024/01/19/PVE-zhitong2/"/>
+    <id>http://anximin.github.io/2024/01/19/PVE-zhitong2/</id>
+    <published>2024-01-19T01:57:40.000Z</published>
+    <updated>2024-01-19T02:34:55.013Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;PVE开启网卡直通，显卡直通，USB直通。&lt;/p&gt;
+&lt;h3 id=&quot;第一步：确认自己的主板CPU是否支持Vt-d功能&quot;&gt;&lt;a href=&quot;#第一步：确认自己的主板CPU是否支持Vt-d功能&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>PVE直通网卡和硬盘</title>
+    <link href="http://anximin.github.io/2024/01/17/PVE-zhitong/"/>
+    <id>http://anximin.github.io/2024/01/17/PVE-zhitong/</id>
+    <published>2024-01-17T01:12:02.000Z</published>
+    <updated>2024-01-17T02:44:59.622Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h3 id=&quot;1-说明&quot;&gt;&lt;a href=&quot;#1-说明&quot; class=&quot;headerlink&quot; title=&quot;1. 说明&quot;&gt;&lt;/a&gt;1.</summary>
+        
+      
+    
+    
+    
+    
+    <category term="PVE" scheme="http://anximin.github.io/tags/PVE/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>基于Wireguard技术的个人虚拟网络搭建</title>
+    <link href="http://anximin.github.io/2024/01/16/net_VPNwireguard/"/>
+    <id>http://anximin.github.io/2024/01/16/net_VPNwireguard/</id>
+    <published>2024-01-16T09:42:25.000Z</published>
+    <updated>2024-01-16T09:48:16.194Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;手动安装Wireguard&quot;&gt;&lt;a href=&quot;#手动安装Wireguard&quot; class=&quot;headerlink&quot; title=&quot;手动安装Wireguard&quot;&gt;&lt;/a&gt;手动安装Wireguard&lt;/h2&gt;&lt;h3</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Centos7 提示setlocale:LC_CTYPE:无法改变区域选项（UTF-8）</title>
+    <link href="http://anximin.github.io/2024/01/11/linux_setlocale/"/>
+    <id>http://anximin.github.io/2024/01/11/linux_setlocale/</id>
+    <published>2024-01-11T09:31:16.000Z</published>
+    <updated>2024-01-11T09:39:37.715Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;ol&gt;
+&lt;li&gt;编辑environment文件&lt;/li&gt;
+&lt;/ol&gt;
+ &lt;figure class=&quot;highlight routeros&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span</summary>
+        
+      
+    
+    
+    
+    
+    <category term="linux" scheme="http://anximin.github.io/tags/linux/"/>
+    
+    <category term="centos" scheme="http://anximin.github.io/tags/centos/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>修改Docker中的sysctl.conf文件时提示没有权限</title>
+    <link href="http://anximin.github.io/2024/01/05/linux_SYSCTL/"/>
+    <id>http://anximin.github.io/2024/01/05/linux_SYSCTL/</id>
+    <published>2024-01-05T07:26:13.000Z</published>
+    <updated>2024-01-05T07:33:00.128Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;在容器中修改 /etc/sysctl.conf后需要执行sysctl -p 使之生效。&lt;/p&gt;
+&lt;p&gt;但执行后提示 ` docker error: “Read-only file system”.&lt;/p&gt;
+&lt;p&gt;**解决方法</summary>
+        
+      
+    
+    
+    
+    
+    <category term="linux" scheme="http://anximin.github.io/tags/linux/"/>
+    
+    <category term="docker" scheme="http://anximin.github.io/tags/docker/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>UFW 防火墙命令</title>
+    <link href="http://anximin.github.io/2024/01/05/linux_ufw/"/>
+    <id>http://anximin.github.io/2024/01/05/linux_ufw/</id>
+    <published>2024-01-05T07:16:59.000Z</published>
+    <updated>2024-01-05T07:19:05.116Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h3 id=&quot;关于ufw&quot;&gt;&lt;a href=&quot;#关于ufw&quot; class=&quot;headerlink&quot; title=&quot;关于ufw&quot;&gt;&lt;/a&gt;关于ufw&lt;/h3&gt;&lt;p&gt;ufw（Uncomplicated</summary>
+        
+      
+    
+    
+    
+    
+    <category term="linux" scheme="http://anximin.github.io/tags/linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Docker常用操作命令</title>
+    <link href="http://anximin.github.io/2024/01/05/linux_docker_cmd/"/>
+    <id>http://anximin.github.io/2024/01/05/linux_docker_cmd/</id>
+    <published>2024-01-05T07:10:18.000Z</published>
+    <updated>2024-01-05T07:12:57.085Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h3 id=&quot;一、-Docker-容器命令&quot;&gt;&lt;a href=&quot;#一、-Docker-容器命令&quot; class=&quot;headerlink&quot; title=&quot;一、 Docker 容器命令&quot;&gt;&lt;/a&gt;一、 Docker 容器命令&lt;/h3&gt;&lt;h3 id=&quot;1-拉取镜像&quot;&gt;&lt;a</summary>
+        
+      
+    
+    
+    
+    
+    <category term="docker" scheme="http://anximin.github.io/tags/docker/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>在centos7（7.9）下部署NodeJs18版本的过程</title>
+    <link href="http://anximin.github.io/2023/12/29/linux_centos7NodeJs18/"/>
+    <id>http://anximin.github.io/2023/12/29/linux_centos7NodeJs18/</id>
+    <published>2023-12-28T23:20:56.000Z</published>
+    <updated>2023-12-29T01:05:41.830Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;安装nodejs18.16.0版本后，nodejs和npm都报错，因为centos7不支持。&lt;/p&gt;
+&lt;p&gt;需要升级系统的make、GCC、GLIBC的版本。&lt;/p&gt;
+&lt;h3 id=&quot;1-升级make&quot;&gt;&lt;a href=&quot;#1-升级make&quot;</summary>
+        
+      
+    
+    
+    
+    
+    <category term="nodejs" scheme="http://anximin.github.io/tags/nodejs/"/>
+    
+  </entry>
   
   <entry>
     <title>centos7安装docker和docker-compose</title>
@@ -135,309 +495,6 @@
     
     
     <category term="群晖" scheme="http://anximin.github.io/tags/%E7%BE%A4%E6%99%96/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>华为交换机OSPF服务</title>
-    <link href="http://anximin.github.io/2023/12/20/net_Huawei_resetOSPF/"/>
-    <id>http://anximin.github.io/2023/12/20/net_Huawei_resetOSPF/</id>
-    <published>2023-12-20T06:40:48.000Z</published>
-    <updated>2023-12-20T08:07:27.258Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;&lt;strong&gt;重启OSPF服务进程&lt;/strong&gt;：&lt;/p&gt;
-&lt;p&gt;首先确认用户视图 &lt;Quidway&gt;&lt;br&gt;在该视图下输入命令 reset ospf [进程号] process&lt;br&gt;查看当前OSPF状态：display ospf</summary>
-        
-      
-    
-    
-    
-    
-    <category term="路由交换" scheme="http://anximin.github.io/tags/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>CentOS7下安装python3.8.12</title>
-    <link href="http://anximin.github.io/2023/12/15/linux_centos7_python3-6-8/"/>
-    <id>http://anximin.github.io/2023/12/15/linux_centos7_python3-6-8/</id>
-    <published>2023-12-15T09:07:51.000Z</published>
-    <updated>2023-12-26T06:55:25.872Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;在CentOS7系统下，默认安装的Python版本为2.7.5，如下是安装Python3.8版本的方法。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;一、安装依赖环境&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;命令如下：&lt;/p&gt;
-&lt;figure class=&quot;highlight</summary>
-        
-      
-    
-    
-    
-    
-    <category term="linux" scheme="http://anximin.github.io/tags/linux/"/>
-    
-    <category term="python" scheme="http://anximin.github.io/tags/python/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>在Linux环境中的Mysql忘记root密码的恢复方法</title>
-    <link href="http://anximin.github.io/2023/12/15/linux_mysql_forgetpwd/"/>
-    <id>http://anximin.github.io/2023/12/15/linux_mysql_forgetpwd/</id>
-    <published>2023-12-15T03:26:56.000Z</published>
-    <updated>2023-12-15T03:39:24.630Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;有些版本的MySQL安装完成后root用户的默认密码不一样，有的是空密码，有的是root,还有的是password ，如果都不是，可以使用下面的方法强制修改。具体如下：&lt;/p&gt;
-&lt;p&gt;1、首先修改MySQL配置文件为跳过密码验证登录。&lt;/p&gt;
-&lt;figure</summary>
-        
-      
-    
-    
-    
-    
-    <category term="linux" scheme="http://anximin.github.io/tags/linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>华为MA5620改为交换机设置的具体步骤</title>
-    <link href="http://anximin.github.io/2023/12/09/net_Huawei_ma5620/"/>
-    <id>http://anximin.github.io/2023/12/09/net_Huawei_ma5620/</id>
-    <published>2023-12-09T08:25:45.000Z</published>
-    <updated>2023-12-09T09:11:21.576Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;初使化：&lt;/p&gt;
-&lt;figure class=&quot;highlight gauss&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span</summary>
-        
-      
-    
-    
-    
-    
-    <category term="路由交换" scheme="http://anximin.github.io/tags/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>华为MA5620 EPON/GPON ONU设备恢复出厂设置密码</title>
-    <link href="http://anximin.github.io/2023/12/08/net_Huawei_MA5620GPONtoSW/"/>
-    <id>http://anximin.github.io/2023/12/08/net_Huawei_MA5620GPONtoSW/</id>
-    <published>2023-12-08T08:45:09.000Z</published>
-    <updated>2023-12-15T03:42:41.113Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;配置华为MA5626恢复出厂设置（包括登录密码）&lt;/p&gt;
-&lt;p&gt;空库文件、配置指南下载地址：&lt;br&gt;链接: &lt;a</summary>
-        
-      
-    
-    
-    
-    
-    <category term="路由交换" scheme="http://anximin.github.io/tags/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>错误代码0xc0000142</title>
-    <link href="http://anximin.github.io/2023/10/30/Win_0xc0000142/"/>
-    <id>http://anximin.github.io/2023/10/30/Win_0xc0000142/</id>
-    <published>2023-10-30T03:58:14.000Z</published>
-    <updated>2023-10-30T07:53:14.127Z</updated>
-    
-    
-    <summary type="html">应用程序无法正常启动，错误代码0xc0000142。</summary>
-    
-    
-    
-    
-    <category term="Windows" scheme="http://anximin.github.io/tags/Windows/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>扫描时提示Video Initialize Error</title>
-    <link href="http://anximin.github.io/2023/07/26/maintain_hpscanerror/"/>
-    <id>http://anximin.github.io/2023/07/26/maintain_hpscanerror/</id>
-    <published>2023-07-26T00:55:11.000Z</published>
-    <updated>2023-07-26T01:34:13.441Z</updated>
-    
-    
-    <summary type="html">&lt;h3 id=&quot;1-问题描述&quot;&gt;&lt;a href=&quot;#1-问题描述&quot; class=&quot;headerlink&quot; title=&quot;1. 问题描述&quot;&gt;&lt;/a&gt;1. 问题描述&lt;/h3&gt;&lt;p&gt;win10或win11下使用HP扫描软件（&lt;code&gt;scan to&lt;/code&gt;）时，经常出现&lt;code&gt;Video initialize Error&lt;/code&gt;提示。&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="运维" scheme="http://anximin.github.io/categories/%E8%BF%90%E7%BB%B4/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>node升级版本后使用HEXO生成文章时提示警告</title>
-    <link href="http://anximin.github.io/2023/07/21/nodejs_warning/"/>
-    <id>http://anximin.github.io/2023/07/21/nodejs_warning/</id>
-    <published>2023-07-21T00:31:24.000Z</published>
-    <updated>2023-07-21T00:58:58.296Z</updated>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;node升级版本后使用HEXO生成文章时提示警告&quot;&gt;&lt;a href=&quot;#node升级版本后使用HEXO生成文章时提示警告&quot; class=&quot;headerlink&quot; title=&quot;node升级版本后使用HEXO生成文章时提示警告&quot;&gt;&lt;/a&gt;node升级版本后使用HEXO生成文章时提示警告&lt;/h2&gt;</summary>
-    
-    
-    
-    
-    <category term="hexo" scheme="http://anximin.github.io/tags/hexo/"/>
-    
-    <category term="nodeJS" scheme="http://anximin.github.io/tags/nodeJS/"/>
-    
-    <category term="npm" scheme="http://anximin.github.io/tags/npm/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>编译中兴E8820s必要的准备工作</title>
-    <link href="http://anximin.github.io/2023/07/18/Router_OpenWrt_E8820S/"/>
-    <id>http://anximin.github.io/2023/07/18/Router_OpenWrt_E8820S/</id>
-    <published>2023-07-18T08:36:00.000Z</published>
-    <updated>2023-07-18T10:03:51.481Z</updated>
-    
-    
-    <summary type="html">提示：刷机有风险，操作要有心理准备。</summary>
-    
-    
-    
-    
-    <category term="OpenWrt" scheme="http://anximin.github.io/tags/OpenWrt/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>使用ubuntu编译LEDE</title>
-    <link href="http://anximin.github.io/2023/07/18/Router_OpenWrt_LEDE/"/>
-    <id>http://anximin.github.io/2023/07/18/Router_OpenWrt_LEDE/</id>
-    <published>2023-07-18T02:36:00.000Z</published>
-    <updated>2023-07-19T00:55:39.125Z</updated>
-    
-    
-    <summary type="html">编译openWrt不能使用root用户，否则报错。使用下面命令新建一个newuser.并为其添加sudo权限。</summary>
-    
-    
-    
-    
-    <category term="OpenWrt" scheme="http://anximin.github.io/tags/OpenWrt/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>详解 linux 路由 route 命令</title>
-    <link href="http://anximin.github.io/2023/07/10/linux_cmd_Route/"/>
-    <id>http://anximin.github.io/2023/07/10/linux_cmd_Route/</id>
-    <published>2023-07-10T03:30:00.000Z</published>
-    <updated>2023-07-19T04:00:15.785Z</updated>
-    
-    
-    <summary type="html">route命令用于查看和操作Linux操作系统中的路由表。它允许您添加，删除和修改路由表的条目，以确定数据包从一台计算机到另一台计算机的传输路径。</summary>
-    
-    
-    
-    
-    <category term="linux" scheme="http://anximin.github.io/tags/linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Ubuntu域名解析暂时失败</title>
-    <link href="http://anximin.github.io/2023/07/06/linux_Ubuntu_Net/"/>
-    <id>http://anximin.github.io/2023/07/06/linux_Ubuntu_Net/</id>
-    <published>2023-07-06T03:36:00.000Z</published>
-    <updated>2023-07-19T01:37:57.748Z</updated>
-    
-    
-    <summary type="html">如果之前的网络是正常的，突然出现了这种错误提示，可以使用这个方法试一下。</summary>
-    
-    
-    
-    
-    <category term="linux" scheme="http://anximin.github.io/tags/linux/"/>
-    
-    <category term="Ubuntu" scheme="http://anximin.github.io/tags/Ubuntu/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>本地部署的GitLab升级指南</title>
-    <link href="http://anximin.github.io/2023/06/20/git-GitLab-update/"/>
-    <id>http://anximin.github.io/2023/06/20/git-GitLab-update/</id>
-    <published>2023-06-20T08:25:38.000Z</published>
-    <updated>2023-07-19T01:16:34.362Z</updated>
-    
-    
-    <summary type="html">gitlab 不支持大版本之间直接升级，需要升级到当前版本的最新版本，然后再升级下一个版本。</summary>
-    
-    
-    
-    
-    <category term="GitLab" scheme="http://anximin.github.io/tags/GitLab/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>MarkDown语法</title>
-    <link href="http://anximin.github.io/2023/05/19/markdown-YuFa/"/>
-    <id>http://anximin.github.io/2023/05/19/markdown-YuFa/</id>
-    <published>2023-05-19T02:01:38.000Z</published>
-    <updated>2023-07-19T08:25:58.024Z</updated>
-    
-    
-    <summary type="html">Markdown是一种可以使用普通文本编辑器编写的标记语言,通过简单的标记语法,它可以使普通文本内容具有一定的格式</summary>
-    
-    
-    
-    <category term="快查手册" scheme="http://anximin.github.io/categories/%E5%BF%AB%E6%9F%A5%E6%89%8B%E5%86%8C/"/>
-    
-    
-    <category term="MarkDown" scheme="http://anximin.github.io/tags/MarkDown/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>华为交换机链路聚合配置-LACP</title>
-    <link href="http://anximin.github.io/2022/02/21/net_HuaweiLACP/"/>
-    <id>http://anximin.github.io/2022/02/21/net_HuaweiLACP/</id>
-    <published>2022-02-21T06:38:21.000Z</published>
-    <updated>2023-07-19T03:23:52.312Z</updated>
-    
-    
-    <summary type="html">&lt;p&gt;链路聚合一般在二层环境中使用，将多条物理接口划分为一条逻辑接口，实现拓展带宽和冗余连接。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="路由交换" scheme="http://anximin.github.io/tags/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2/"/>
     
   </entry>
   

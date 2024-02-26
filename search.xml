@@ -3,6 +3,856 @@
   
     
     <entry>
+      <title><![CDATA[git常见问题]]></title>
+      <url>/2024/02/23/git_chengepassword/</url>
+      <content type="html"><![CDATA[<ol>
+<li><p>如果每次提交或拉取都需要输入密码</p>
+<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs llvm">git config --<span class="hljs-keyword">global</span> credential.helper <span class="hljs-keyword">store</span><br></code></pre></td></tr></table></figure>
+<p>再次输入密码后就可以记住密码了。</p>
+</li>
+<li><p>操作时提示错误：remot:HTTP Basic：Access denied</p>
+<figure class="highlight brainfuck"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs brainfuck"><span class="hljs-comment">git</span> <span class="hljs-comment">config</span> --<span class="hljs-comment">system</span> --<span class="hljs-comment">unset</span> <span class="hljs-comment">credential</span><span class="hljs-string">.</span><span class="hljs-comment">helper</span><br></code></pre></td></tr></table></figure>
+<p>再次输入正确的用户名和密码即可。<br>或者清空http验证再试：</p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs livecodeserver">git config -<span class="hljs-built_in">global</span> <span class="hljs-keyword">http</span>.emptyAuth <span class="hljs-literal">true</span><br></code></pre></td></tr></table></figure></li>
+</ol>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> GitLabr </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Gitlab通过LVM无损扩容]]></title>
+      <url>/2024/02/20/git_gitlab_extend/</url>
+      <content type="html"><![CDATA[<h3 id="一、添加硬盘"><a href="#一、添加硬盘" class="headerlink" title="一、添加硬盘"></a>一、添加硬盘</h3><p>无论虚拟机还是物理机，通过各自的方法添加硬盘。</p>
+<h3 id="二、-开机后使用fdisk-l-命令查看新增的硬盘"><a href="#二、-开机后使用fdisk-l-命令查看新增的硬盘" class="headerlink" title="二、 开机后使用fdisk -l 命令查看新增的硬盘"></a>二、 开机后使用fdisk -l 命令查看新增的硬盘</h3><p>磁盘 /dev/sdb：536.9 GB 是新增的硬盘<br>磁盘 /dev/mapper/centos_gitlab-root：18.2 GB 是将进行扩容的目标磁盘</p>
+<figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs tap">[root@gitlab ~]<span class="hljs-comment"># fdisk -l</span><br><br>磁盘 /dev/sda：21.5 GB,<span class="hljs-number"> 21474836480 </span>字节，41943040 个扇区<br>Units = 扇区 of<span class="hljs-number"> 1 </span>*<span class="hljs-number"> 512 </span>=<span class="hljs-number"> 512 </span>bytes<br>扇区大小(逻辑/物理)：512 字节 /<span class="hljs-number"> 512 </span>字节<br>I/O 大小(最小/最佳)：512 字节 /<span class="hljs-number"> 512 </span>字节<br>磁盘标签类型：dos<br>磁盘标识符：0x00003017<br><br>   设备 Boot      Start         End      Blocks   Id  System<br>/dev/sda1   *       <span class="hljs-number"> 2048 </span>   <span class="hljs-number"> 2099199 </span>   <span class="hljs-number"> 1048576 </span> <span class="hljs-number"> 83 </span> Linux<br>/dev/sda2        <span class="hljs-number"> 2099200 </span>  <span class="hljs-number"> 41943039 </span>  <span class="hljs-number"> 19921920 </span>  8e  Linux LVM<br><br>磁盘 /dev/sdb：536.9 GB,<span class="hljs-number"> 536870912000 </span>字节，1048576000 个扇区<br>Units = 扇区 of<span class="hljs-number"> 1 </span>*<span class="hljs-number"> 512 </span>=<span class="hljs-number"> 512 </span>bytes<br>扇区大小(逻辑/物理)：512 字节 /<span class="hljs-number"> 512 </span>字节<br>I/O 大小(最小/最佳)：512 字节 /<span class="hljs-number"> 512 </span>字节<br><br>磁盘 /dev/mapper/centos_gitlab-root：18.2 GB,<span class="hljs-number"> 18249416704 </span>字节，35643392 个扇区<br>Units = 扇区 of<span class="hljs-number"> 1 </span>*<span class="hljs-number"> 512 </span>=<span class="hljs-number"> 512 </span>bytes<br>扇区大小(逻辑/物理)：512 字节 /<span class="hljs-number"> 512 </span>字节<br>I/O 大小(最小/最佳)：512 字节 /<span class="hljs-number"> 512 </span>字节<br><br>磁盘 /dev/mapper/centos_gitlab-swap：2147 MB,<span class="hljs-number"> 2147483648 </span>字节，4194304 个扇区<br>Units = 扇区 of<span class="hljs-number"> 1 </span>*<span class="hljs-number"> 512 </span>=<span class="hljs-number"> 512 </span>bytes<br>扇区大小(逻辑/物理)：512 字节 /<span class="hljs-number"> 512 </span>字节<br>I/O 大小(最小/最佳)：512 字节 /<span class="hljs-number"> 512 </span>字节<br></code></pre></td></tr></table></figure>
+<h3 id="三、对新硬盘分区"><a href="#三、对新硬盘分区" class="headerlink" title="三、对新硬盘分区"></a>三、对新硬盘分区</h3><p>通过fdisk命令对新硬盘进行分区，fdisk + 硬盘名称（根据实际情况）</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><code class="hljs sql">[root<span class="hljs-variable">@gitlab</span> <span class="hljs-operator">~</span>]# fdisk <span class="hljs-operator">/</span>dev<span class="hljs-operator">/</span>sdb<br>欢迎使用 fdisk (util<span class="hljs-operator">-</span>linux <span class="hljs-number">2.23</span><span class="hljs-number">.2</span>)。<br><br>更改将停留在内存中，直到您决定将更改写入磁盘。<br>使用写入命令前请三思。<br><br>Device does <span class="hljs-keyword">not</span> contain a recognized <span class="hljs-keyword">partition</span> <span class="hljs-keyword">table</span><br>使用磁盘标识符 <span class="hljs-number">0x1b8f4ec4</span> 创建新的 DOS 磁盘标签。<br><br>命令(输入 m 获取帮助)：m<br>命令操作<br>   a   toggle a bootable flag<br>   b   edit bsd disklabel<br>   c   toggle the dos compatibility flag<br>   d   <span class="hljs-keyword">delete</span> a <span class="hljs-keyword">partition</span><br>   g   <span class="hljs-keyword">create</span> a <span class="hljs-keyword">new</span> <span class="hljs-keyword">empty</span> GPT <span class="hljs-keyword">partition</span> <span class="hljs-keyword">table</span><br>   G   <span class="hljs-keyword">create</span> an IRIX (SGI) <span class="hljs-keyword">partition</span> <span class="hljs-keyword">table</span><br>   l   list known <span class="hljs-keyword">partition</span> types<br>   m   print this menu<br>   n   <span class="hljs-keyword">add</span> a <span class="hljs-keyword">new</span> <span class="hljs-keyword">partition</span><br>   o   <span class="hljs-keyword">create</span> a <span class="hljs-keyword">new</span> <span class="hljs-keyword">empty</span> DOS <span class="hljs-keyword">partition</span> <span class="hljs-keyword">table</span><br>   p   print the <span class="hljs-keyword">partition</span> <span class="hljs-keyword">table</span><br>   q   quit <span class="hljs-keyword">without</span> saving changes<br>   s   <span class="hljs-keyword">create</span> a <span class="hljs-keyword">new</span> <span class="hljs-keyword">empty</span> Sun disklabel<br>   t   change a <span class="hljs-keyword">partition</span><span class="hljs-string">&#x27;s system id</span><br><span class="hljs-string">   u   change display/entry units</span><br><span class="hljs-string">   v   verify the partition table</span><br><span class="hljs-string">   w   write table to disk and exit</span><br><span class="hljs-string">   x   extra functionality (experts only)</span><br><span class="hljs-string"></span><br><span class="hljs-string">命令(输入 m 获取帮助)：n</span><br><span class="hljs-string">Partition type:</span><br><span class="hljs-string">   p   primary (0 primary, 0 extended, 4 free)</span><br><span class="hljs-string">   e   extended</span><br><span class="hljs-string">Select (default p): p</span><br><span class="hljs-string">分区号 (1-4，默认 1)：1</span><br><span class="hljs-string">起始 扇区 (2048-1048575999，默认为 2048)：</span><br><span class="hljs-string">将使用默认值 2048</span><br><span class="hljs-string">Last 扇区, +扇区 or +size&#123;K,M,G&#125; (2048-1048575999，默认为 1048575999)：</span><br><span class="hljs-string">将使用默认值 1048575999</span><br><span class="hljs-string">分区 1 已设置为 Linux 类型，大小设为 500 GiB</span><br><span class="hljs-string"></span><br><span class="hljs-string">命令(输入 m 获取帮助)：p </span><br><span class="hljs-string"></span><br><span class="hljs-string">磁盘 /dev/sdb：536.9 GB, 536870912000 字节，1048576000 个扇区</span><br><span class="hljs-string">Units = 扇区 of 1 * 512 = 512 bytes</span><br><span class="hljs-string">扇区大小(逻辑/物理)：512 字节 / 512 字节</span><br><span class="hljs-string">I/O 大小(最小/最佳)：512 字节 / 512 字节</span><br><span class="hljs-string">磁盘标签类型：dos</span><br><span class="hljs-string">磁盘标识符：0x1b8f4ec4</span><br><span class="hljs-string"></span><br><span class="hljs-string">   设备 Boot      Start         End      Blocks   Id  System</span><br><span class="hljs-string">/dev/sdb1            2048  1048575999   524286976   83  Linux</span><br><span class="hljs-string"></span><br><span class="hljs-string">命令(输入 m 获取帮助)：wq</span><br><span class="hljs-string">The partition table has been altered!</span><br><span class="hljs-string"></span><br><span class="hljs-string">Calling ioctl() to re-read partition table.</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="四、开始扩容"><a href="#四、开始扩容" class="headerlink" title="四、开始扩容"></a>四、开始扩容</h3><h4 id="使用mkfs-ext4对新创建的分区进行格式化。"><a href="#使用mkfs-ext4对新创建的分区进行格式化。" class="headerlink" title="使用mkfs.ext4对新创建的分区进行格式化。"></a>使用mkfs.ext4对新创建的分区进行格式化。</h4><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">[root@gitlab ~]<span class="hljs-comment"># mkfs.ext4 /dev/sdb1</span><br>mke<span class="hljs-symbol">2f</span>s <span class="hljs-number">1</span>.<span class="hljs-number">42</span>.<span class="hljs-number">9</span> (<span class="hljs-number">28</span>-Dec<span class="hljs-number">-2013</span>)<br><span class="hljs-keyword">Discarding </span>device <span class="hljs-keyword">blocks: </span>完成                            <br>文件系统标签=<br>OS type: Linux<br>块大小=<span class="hljs-number">4096</span> (log=<span class="hljs-number">2</span>)<br>分块大小=<span class="hljs-number">4096</span> (log=<span class="hljs-number">2</span>)<br>Stride=<span class="hljs-number">0</span> <span class="hljs-keyword">blocks, </span>Stripe width=<span class="hljs-number">0</span> <span class="hljs-keyword">blocks</span><br><span class="hljs-keyword"></span><span class="hljs-number">32768000</span> inodes, <span class="hljs-number">131071744</span> <span class="hljs-keyword">blocks</span><br><span class="hljs-keyword"></span><span class="hljs-number">6553587</span> <span class="hljs-keyword">blocks </span>(<span class="hljs-number">5</span>.<span class="hljs-number">00</span>%) reserved for the super user<br>第一个数据块=<span class="hljs-number">0</span><br>Maximum filesystem <span class="hljs-keyword">blocks=2279604224</span><br><span class="hljs-keyword"></span><span class="hljs-number">4000</span> <span class="hljs-keyword">block </span>groups<br><span class="hljs-number">32768</span> <span class="hljs-keyword">blocks </span>per group, <span class="hljs-number">32768</span> fragments per group<br><span class="hljs-number">8192</span> inodes per group<br>Superblock <span class="hljs-keyword">backups </span>stored on <span class="hljs-keyword">blocks: </span><br>        <span class="hljs-number">32768</span>, <span class="hljs-number">98304</span>, <span class="hljs-number">163840</span>, <span class="hljs-number">229376</span>, <span class="hljs-number">294912</span>, <span class="hljs-number">819200</span>, <span class="hljs-number">884736</span>, <span class="hljs-number">1605632</span>, <span class="hljs-number">2654208</span>, <br>        <span class="hljs-number">4096000</span>, <span class="hljs-number">7962624</span>, <span class="hljs-number">11239424</span>, <span class="hljs-number">20480000</span>, <span class="hljs-number">23887872</span>, <span class="hljs-number">71663616</span>, <span class="hljs-number">78675968</span>, <br>        <span class="hljs-number">102400000</span><br><br>Allocating group tables: 完成                            <br>正在写入inode表: 完成                            <br>Creating <span class="hljs-keyword">journal </span>(<span class="hljs-number">32768</span> <span class="hljs-keyword">blocks): </span>完成<br>Writing superblocks <span class="hljs-keyword">and </span>filesystem accounting information: 完成     <br></code></pre></td></tr></table></figure>
+<h4 id="创建物理卷"><a href="#创建物理卷" class="headerlink" title="创建物理卷"></a>创建物理卷</h4><figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs asciidoc">[root@gitlab ~]# pvcreate /dev/sdb1<br><span class="hljs-symbol">WARNING: </span>ext4 signature detected on /dev/sdb1 at offset 1080. Wipe it? [y/n]: y<br><span class="hljs-code">  Wiping ext4 signature on /dev/sdb1.</span><br><span class="hljs-code">  Physical volume &quot;/dev/sdb1&quot; successfully created.</span><br></code></pre></td></tr></table></figure>
+<h4 id="查看当前物理卷属性"><a href="#查看当前物理卷属性" class="headerlink" title="查看当前物理卷属性"></a>查看当前物理卷属性</h4><p>使用pvdisplay命令查看物理卷信息：物理卷名称、所属卷组、卷大小、PE大小、总PE数等。</p>
+<figure class="highlight irpf90"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs irpf90">[root@gitlab ~]# pvdisplay<br>  --- Physical volume ---<br>  PV <span class="hljs-keyword">Name</span>               /dev/sda2<br>  VG <span class="hljs-keyword">Name</span>               centos_gitlab<br>  PV <span class="hljs-built_in">Size</span>               &lt;<span class="hljs-number">19.00</span> GiB / not usable <span class="hljs-number">3.00</span> MiB<br>  <span class="hljs-keyword">Allocatable</span>           yes (but full)<br>  PE <span class="hljs-built_in">Size</span>               <span class="hljs-number">4.00</span> MiB<br>  Total PE              <span class="hljs-number">4863</span><br>  <span class="hljs-keyword">Free</span> PE               <span class="hljs-number">0</span><br>  <span class="hljs-built_in">Allocated</span> PE          <span class="hljs-number">4863</span><br>  PV UUID               Uxxs2H-fqny-<span class="hljs-number">3</span>gjD-eZpq-opJZ-ygIf-fFkhCu<br>   <br>  --- Physical volume ---<br>  PV <span class="hljs-keyword">Name</span>               /dev/sdb1<br>  VG <span class="hljs-keyword">Name</span>               centos_gitlab<br>  PV <span class="hljs-built_in">Size</span>               &lt;<span class="hljs-number">500.00</span> GiB / not usable <span class="hljs-number">3.00</span> MiB<br>  <span class="hljs-keyword">Allocatable</span>           yes <br>  PE <span class="hljs-built_in">Size</span>               <span class="hljs-number">4.00</span> MiB<br>  Total PE              <span class="hljs-number">127999</span><br>  <span class="hljs-keyword">Free</span> PE               <span class="hljs-number">127999</span><br>  <span class="hljs-built_in">Allocated</span> PE          <span class="hljs-number">0</span><br>  PV UUID               OCWyXg-<span class="hljs-number">0</span>HQZ-UydA-DxqB-hUfk-Kk7N-<span class="hljs-number">6</span>T6JEq<br>   <br></code></pre></td></tr></table></figure>
+<h4 id="扩容卷组"><a href="#扩容卷组" class="headerlink" title="扩容卷组"></a>扩容卷组</h4><p><strong>注意：扩充的容量要小于物理卷容量。例如500G的卷添加499.9G</strong></p>
+<figure class="highlight sqf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sqf">[root@gitlab ~]<span class="hljs-meta"># lvextend -L +499.9G /dev/mapper/centos_gitlab-root </span><br>  Rounding <span class="hljs-built_in">size</span> <span class="hljs-keyword">to</span> boundary between physical extents: <span class="hljs-number">499.90</span> GiB.<br>  <span class="hljs-built_in">Size</span> of logical volume centos_gitlab/root changed <span class="hljs-keyword">from</span> &lt;<span class="hljs-number">17.00</span> GiB (<span class="hljs-number">4351</span> extents) <span class="hljs-keyword">to</span> &lt;<span class="hljs-number">516.90</span> GiB (<span class="hljs-number">132326</span> extents).<br>  Logical volume centos_gitlab/root successfully resized.<br></code></pre></td></tr></table></figure>
+<h4 id="使用xfs-growfs命令更新XFS文件系统的大小，（实际增加存储空间）"><a href="#使用xfs-growfs命令更新XFS文件系统的大小，（实际增加存储空间）" class="headerlink" title="使用xfs_growfs命令更新XFS文件系统的大小，（实际增加存储空间）"></a>使用xfs_growfs命令更新XFS文件系统的大小，（实际增加存储空间）</h4><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs routeros">[root@gitlab ~]# xfs_growfs /dev/mapper/centos_gitlab-root <br><span class="hljs-attribute">meta-data</span>=/dev/mapper/centos_gitlab-root <span class="hljs-attribute">isize</span>=512    <span class="hljs-attribute">agcount</span>=4, <span class="hljs-attribute">agsize</span>=1113856 blks<br>         =                       <span class="hljs-attribute">sectsz</span>=512   <span class="hljs-attribute">attr</span>=2, <span class="hljs-attribute">projid32bit</span>=1<br>         =                       <span class="hljs-attribute">crc</span>=1        <span class="hljs-attribute">finobt</span>=0 <span class="hljs-attribute">spinodes</span>=0<br>data     =                       <span class="hljs-attribute">bsize</span>=4096   <span class="hljs-attribute">blocks</span>=4455424, <span class="hljs-attribute">imaxpct</span>=25<br>         =                       <span class="hljs-attribute">sunit</span>=0      <span class="hljs-attribute">swidth</span>=0 blks<br>naming   =version 2              <span class="hljs-attribute">bsize</span>=4096   <span class="hljs-attribute">ascii-ci</span>=0 <span class="hljs-attribute">ftype</span>=1<br>log      =internal               <span class="hljs-attribute">bsize</span>=4096   <span class="hljs-attribute">blocks</span>=2560, <span class="hljs-attribute">version</span>=2<br>         =                       <span class="hljs-attribute">sectsz</span>=512   <span class="hljs-attribute">sunit</span>=0 blks, <span class="hljs-attribute">lazy-count</span>=1<br>realtime =none                   <span class="hljs-attribute">extsz</span>=4096   <span class="hljs-attribute">blocks</span>=0, <span class="hljs-attribute">rtextents</span>=0<br>data blocks changed <span class="hljs-keyword">from</span> 4455424 <span class="hljs-keyword">to</span> 135501824<br></code></pre></td></tr></table></figure>
+<h3 id="五、扩容完成"><a href="#五、扩容完成" class="headerlink" title="五、扩容完成"></a>五、扩容完成</h3><p>查看扩容后的磁盘情况</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs awk">[root@gitlab ~]<span class="hljs-comment"># df -h</span><br>文件系统                        容量  已用  可用 已用% 挂载点<br><span class="hljs-regexp">/dev/m</span>apper<span class="hljs-regexp">/centos_gitlab-root  517G   13G  505G    3% /</span><br>devtmpfs                        <span class="hljs-number">1.9</span>G     <span class="hljs-number">0</span>  <span class="hljs-number">1.9</span>G    <span class="hljs-number">0</span>% /dev<br>tmpfs                           <span class="hljs-number">1.9</span>G   <span class="hljs-number">52</span>K  <span class="hljs-number">1.9</span>G    <span class="hljs-number">1</span>% <span class="hljs-regexp">/dev/</span>shm<br>tmpfs                           <span class="hljs-number">1.9</span>G   <span class="hljs-number">16</span>M  <span class="hljs-number">1.9</span>G    <span class="hljs-number">1</span>% /run<br>tmpfs                           <span class="hljs-number">1.9</span>G     <span class="hljs-number">0</span>  <span class="hljs-number">1.9</span>G    <span class="hljs-number">0</span>% <span class="hljs-regexp">/sys/</span>fs/cgroup<br><span class="hljs-regexp">/dev/</span>sda1                      <span class="hljs-number">1014</span>M  <span class="hljs-number">145</span>M  <span class="hljs-number">870</span>M   <span class="hljs-number">15</span>% /boot<br>tmpfs                           <span class="hljs-number">379</span>M     <span class="hljs-number">0</span>  <span class="hljs-number">379</span>M    <span class="hljs-number">0</span>% <span class="hljs-regexp">/run/u</span>ser/<span class="hljs-number">0</span><br></code></pre></td></tr></table></figure>]]></content>
+      
+        
+        <tags>
+            
+            <tag> GitLab </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[使用virtualenv或virtualenvwrapper创建Python虚拟环境]]></title>
+      <url>/2024/01/30/Linux-python-env-virtualenv/</url>
+      <content type="html"><![CDATA[<h2 id="一、-virtualenv"><a href="#一、-virtualenv" class="headerlink" title="一、 virtualenv"></a>一、 virtualenv</h2><p>virtualenv 是目前最流行的 python 虚拟环境配置工具。它不仅同时支持 python2 和 python3，而且可以为每个虚拟环境指定 python 解释器，并可以选择继承基础版本的包。</p>
+<p>virtualenv 可以说是 venv 的增强版本，不过早在 venv 出现之前，virtualenv 就算是最受欢迎的命令行环境管理工具了。venv 的许多特性也是借鉴的 virtualenv，相比于 venv，其强大之处主要在：</p>
+<ul>
+<li>更快</li>
+<li>扩展性更强</li>
+<li>自动发现并可创建多版本的 Python 环境</li>
+<li>可通过 pip 更新</li>
+<li>丰富的编程接口</li>
+</ul>
+<h3 id="1、安装virtualenv"><a href="#1、安装virtualenv" class="headerlink" title="1、安装virtualenv"></a>1、安装virtualenv</h3><p><strong>使用自己对应安装的pip版本</strong></p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cmake">pip3 <span class="hljs-keyword">install</span> virtualenv<br></code></pre></td></tr></table></figure>
+
+<h3 id="2、常见虚拟环境管理操作"><a href="#2、常见虚拟环境管理操作" class="headerlink" title="2、常见虚拟环境管理操作"></a>2、常见虚拟环境管理操作</h3><p><strong>创建虚拟环境目录</strong></p>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs haskell"><span class="hljs-title">cd</span> /<span class="hljs-class"><span class="hljs-keyword">data</span> virtualenv myenv5</span><br></code></pre></td></tr></table></figure>
+
+<p>它会在当前路径下，创建myenv5的目录，虚拟环境的所有命令和包都在这个目录下。</p>
+<p>bin：存放一些python、pip命令的目录</p>
+<p>virtualenv的软件包管理目录site-package在lib/python3.6/site-packages/下。</p>
+<p><strong>激活虚拟环境</strong></p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs gradle"><span class="hljs-keyword">source</span> <span class="hljs-regexp">/data/my</span>env5<span class="hljs-regexp">/bin/</span>activate<br></code></pre></td></tr></table></figure>
+
+<p><strong>退出虚拟环境：</strong></p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">deactivate</span><br></code></pre></td></tr></table></figure>
+
+<p>删除虚拟环境，只需要将这个虚拟环境目录删除即可。</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">rm</span> -rf myenv<span class="hljs-number">5</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>指定python解释器：</strong></p>
+<p>创建的虚拟环境的python解释器，默认使用virtualenv里的版本。</p>
+<p>如果你是把virtualenv安装在python2里，那默认的就是python2，安装在python3里，默认的就是python3。当然，你也可以自己指定使用哪个解释器版本，比如：</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">virtualenv</span> myvenv<span class="hljs-number">6</span> -p python<span class="hljs-number">3</span>.<span class="hljs-number">9</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>继承基础环境的包</strong></p>
+<p>virtualenv从版本20开始，默认就是’–no-site-packages‘了，默认就是不继承父环境的包。创建的虚拟环境是一个不带任何第三方包的“干净”的Python运行环境。</p>
+<p>如果有教程告诉你，“–no-site-packages选择不继承父环境的包”，这个命令已经废弃了。</p>
+<p>那么，如果你现在想要继承父环境的包，怎么办？使用–system-site-packages</p>
+<p>先在父环境，pip安装一个包jieba</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cmake">pip3 <span class="hljs-keyword">install</span> jieba<br></code></pre></td></tr></table></figure>
+
+<p>创建一个可以访问基础环境包的虚拟环境：</p>
+<figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ada">virtualenv <span class="hljs-comment">--system-site-packages myvenv7</span><br></code></pre></td></tr></table></figure>
+
+<p>进入虚拟目录，查看python版本：</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs gradle">[root@ops-<span class="hljs-number">130</span> data]# cd myvenv7/   <br>[root@ops-<span class="hljs-number">130</span> myvenv7]# <span class="hljs-keyword">source</span> .<span class="hljs-regexp">/bin/</span>activate   <br>(myvenv7) [root@ops-<span class="hljs-number">130</span> myvenv7]# python -V<br>Python <span class="hljs-number">3.6</span>.<span class="hljs-number">15</span><br>(myvenv7) [root@ops-<span class="hljs-number">130</span> myvenv7]# pip -V<br>pip <span class="hljs-number">21.3</span>.<span class="hljs-number">1</span> <span class="hljs-keyword">from</span> <span class="hljs-regexp">/data/my</span>venv7<span class="hljs-regexp">/lib/</span>python3.<span class="hljs-number">6</span> <span class="hljs-regexp">/site-packages/</span>pip (python <span class="hljs-number">3.6</span>)   <br>(myvenv7) [root@ops-<span class="hljs-number">130</span> myvenv7]# ls <span class="hljs-regexp">/data/my</span>venv7<span class="hljs-regexp">/lib/</span>python3.<span class="hljs-number">6</span><span class="hljs-regexp">/site-packages/</span><br></code></pre></td></tr></table></figure>
+
+<p>我们使用python看能否导入父环境的包：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dart">(myvenv7) [root<span class="hljs-meta">@ops</span><span class="hljs-number">-130</span> myvenv7]  # python   Python <span class="hljs-number">3.6</span><span class="hljs-number">.15</span> (<span class="hljs-keyword">default</span>, Dec <span class="hljs-number">31</span> <span class="hljs-number">2021</span>, <span class="hljs-number">15</span>:<span class="hljs-number">08</span>:<span class="hljs-number">17</span>)   [GCC <span class="hljs-number">4.8</span><span class="hljs-number">.5</span> <span class="hljs-number">20150623</span> (Red Hat <span class="hljs-number">4.8</span><span class="hljs-number">.5</span><span class="hljs-number">-39</span>)] <span class="hljs-keyword">on</span> linux   <span class="hljs-built_in">Type</span>   <span class="hljs-string">&quot;help&quot;</span>  ,   <span class="hljs-string">&quot;copyright&quot;</span>  ,   <span class="hljs-string">&quot;credits&quot;</span> or   <span class="hljs-string">&quot;license&quot;</span> <span class="hljs-keyword">for</span> more information.   &gt;&gt;&gt;   <span class="hljs-keyword">import</span> jieba   &gt;&gt;&gt;<br></code></pre></td></tr></table></figure>
+
+<p>没有问题，说明可以访问父环境的包。–system-site-packages生效了。</p>
+<p>其他详细介绍，请参考 virtutalenv 官网：<a href="https://virtualenv.pypa.io/en/latest/reference/">https://virtualenv.pypa.io/en/latest/reference/</a></p>
+<h3 id="3、优缺点："><a href="#3、优缺点：" class="headerlink" title="3、优缺点："></a>3、优缺点：</h3><p>1、跟venv基本一致，功能过于简单，就只是创建个虚拟隔离环境，没有多余功能。</p>
+<p>2、相比venv，它支持在2.x、3.x以及windows，</p>
+<p>3、相比venv，可以指定python版本与选择是否继承父环境的包。（venv也可以指定版本）</p>
+<p>4、这里virtualenv 有些不便，因为virtual的启动、停止脚本都在特定文件夹，可能一段时间后，你可能会有很多个虚拟环境散落在系统各处，你可能忘记它们的名字或者位置。</p>
+<p>这一点远没有pyenv好。</p>
+<h2 id="二、virtualenvwrapper"><a href="#二、virtualenvwrapper" class="headerlink" title="二、virtualenvwrapper"></a>二、virtualenvwrapper</h2><p>鉴于virtualenv不便于对虚拟环境集中管理，所以推荐直接使用virtualenvwrapper。 virtualenvwrapper提供了一系列命令使得和虚拟环境工作变得便利。它把你所有的虚拟环境都放在一个地方。</p>
+<p>官网参考：<a href="https://virtualenvwrapper.readthedocs.io/">https://virtualenvwrapper.readthedocs.io/</a></p>
+<h3 id="1、安装virtualenvwrapper-确保virtualenv已安装"><a href="#1、安装virtualenvwrapper-确保virtualenv已安装" class="headerlink" title="1、安装virtualenvwrapper(确保virtualenv已安装)"></a>1、安装virtualenvwrapper(确保virtualenv已安装)</h3><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs cmake">pip3  <span class="hljs-keyword">install</span> virtualenv<br>pip3  <span class="hljs-keyword">install</span> virtualenvwrapper<br><span class="hljs-comment">#Windows使用该命令</span><br>pip3  <span class="hljs-keyword">install</span> virtualenvwrapper-win<br></code></pre></td></tr></table></figure>
+
+<p>virtualenvwrapper默认将所有的虚拟环境放在～/.virtualenvs目录下管理，可以修改环境变量WORKON_HOME来指定虚拟环境 的保存目录。</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs routeros"><span class="hljs-comment"># 可选</span><br><span class="hljs-comment"># 修改virtualenvwrapper的虚拟环境存放目录</span><br>mkdir -p   /data/virtualenvs/ <br><span class="hljs-comment"># 可选，我们这里安装在默认的</span><br>vim   /etc<span class="hljs-built_in">/profile </span> <br><span class="hljs-comment"># virtualenvwrapper</span><br><span class="hljs-builtin-name">export</span> <span class="hljs-attribute">WORKON_HOME</span>=<span class="hljs-variable">$HOME</span>/.virtualenvs<br><span class="hljs-builtin-name">export</span> <span class="hljs-attribute">PROJECT_HOME</span>=<span class="hljs-variable">$HOME</span>  /Devel<br></code></pre></td></tr></table></figure>
+
+<p>source加载使生效</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs gradle"><span class="hljs-keyword">source</span> <span class="hljs-regexp">/etc/</span>profile<br></code></pre></td></tr></table></figure>
+
+<p>虽然已经pip安装了，但是此时，你依然无法使用virtualenvwrapper</p>
+<p>上面的virtualenvwrapper被安装到了你使用pip3的python环境下，如下：</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs gradle">[root@ops-<span class="hljs-number">130</span>   test  ]  # ls <span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/python3.6/</span>bin<span class="hljs-regexp">/virtualenvwrapper.sh  /u</span>sr<span class="hljs-regexp">/local/</span>python3.<span class="hljs-number">6</span>  <span class="hljs-regexp">/bin/</span>virtualenvwrapper.sh<br></code></pre></td></tr></table></figure>
+
+
+<p>激活virtualenvwrapper</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs gradle"><span class="hljs-keyword">source</span> <span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/python3.6  /</span>bin/virtualenvwrapper.sh<br></code></pre></td></tr></table></figure>
+
+<p>可以将这个命令也一起放到环境变量中，.bashrc</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs awk">vim   <span class="hljs-regexp">/root/</span>.bashrc<br><span class="hljs-comment"># virtualenvwrapper</span><br>export WORKON_HOME=<span class="hljs-variable">$HOME</span>/.virtualenvs<br>export PROJECT_HOME=<span class="hljs-variable">$HOME</span>/Devel  <br>VIRTUALENVWRAPPER_PYTHON=  <span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/python3.6  /</span>bin<span class="hljs-regexp">/python3  source /u</span>sr<span class="hljs-regexp">/local/</span>python3.<span class="hljs-number">6</span>  <span class="hljs-regexp">/bin/</span>virtualenvwrapper.sh<br></code></pre></td></tr></table></figure>
+
+<p>注意：如果你安装的virtualenv不在系统默认的python解释器上，就需要单独指定virtualenvwrapper使用的python路径：VIRTUALENVWRAPPER_PYTHON，否则激活的时候，会报错，如下：</p>
+<p>No module named virtualenvwrapper</p>
+<p>报错，因为它默认使用系统的python路径了。</p>
+<p>添加VIRTUALENVWRAPPER_PYTHON变量即可。</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">export VIRTUALENVWRAPPER_PYTHON=  <span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/python3.6  /</span>bin/python3<br></code></pre></td></tr></table></figure>
+
+<h3 id="2、virtualenvwrapper使用"><a href="#2、virtualenvwrapper使用" class="headerlink" title="2、virtualenvwrapper使用"></a>2、virtualenvwrapper使用</h3><p><strong>创建虚拟环境　mkvirtualenv</strong></p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">mkvirtualenv</span> venv<span class="hljs-number">8</span><br></code></pre></td></tr></table></figure>
+
+<p>虚拟环境目录不会放到当前目录下了，它默认装在了/root/.virtualenvs，所有的虚拟环境都会放到这个目录下</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs gradle">(venv8) [root@ops-<span class="hljs-number">130</span> data]  # ls <span class="hljs-regexp">/root/</span>.virtualenvs<span class="hljs-regexp">/venv8/</span>   bin lib pyvenv.cfg<br></code></pre></td></tr></table></figure>
+
+<p>如果想要指定python版本，可以使用–python命令</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">mkvirtualenv</span> --python=  /usr/local/python<span class="hljs-number">3</span>.<span class="hljs-number">9</span>  /bin/python<span class="hljs-number">3</span> venv<span class="hljs-number">9</span>   <br><span class="hljs-comment"># 有环境变量可以简化   </span><br><span class="hljs-attribute">mkvirtualenv</span> --python=python<span class="hljs-number">3</span>.<span class="hljs-number">9</span> venv<span class="hljs-number">9</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>查看当前的虚拟环境目录</strong></p>
+<figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs gcode"><span class="hljs-comment">(venv9)</span> [root@ops<span class="hljs-number">-130</span> data]  <span class="hljs-attr"># workon  venv8</span>  ve<span class="hljs-symbol">nv9</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>切换虚拟环境</strong></p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs autoit">(venv9) [root<span class="hljs-symbol">@ops</span><span class="hljs-number">-130</span> data]<span class="hljs-meta"># workon venv8  </span><br>(venv8) [root<span class="hljs-symbol">@ops</span><span class="hljs-number">-130</span> data]<span class="hljs-meta"># python -V</span><br>Python <span class="hljs-number">3.6</span><span class="hljs-number">.15</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>退出虚拟环境</strong></p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs autoit">(venv8) [root<span class="hljs-symbol">@ops</span><span class="hljs-number">-130</span> data]<span class="hljs-meta"># deactivate  </span><br>[root<span class="hljs-symbol">@ops</span><span class="hljs-number">-130</span> data]<span class="hljs-meta">#</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>删除虚拟环境</strong></p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">rmvirtualenv</span> venv<span class="hljs-number">8</span><br></code></pre></td></tr></table></figure>
+
+<p>virtualenvwrapper <strong>提供环境名字的tab补全功能</strong>。当您有很多环境， 并且很难记住它们的名字时，这就显得很有用。</p>
+<p>workon 也能停止您当前所在的环境，所以您可以在环境之间快速的切换。</p>
+<p>其它命令参考：<a href="https://virtualenvwrapper.readthedocs.io/en/latest/">https://virtualenvwrapper.readthedocs.io/en/latest/</a></p>
+<h3 id="3、优缺点分析："><a href="#3、优缺点分析：" class="headerlink" title="3、优缺点分析："></a>3、优缺点分析：</h3><p>1、它就是基于virtualenv的封装，将所有虚拟环境整合在一个目录下，默认（~/.virtualenvs）</p>
+<p>2、提供了很多api，可以管理（新增，删除，复制，切换）虚拟环境</p>
+<p>3、支持tab补全，切换环境很方便。</p>
+<p>参考：</p>
+<p><a href="https://zhuanlan.zhihu.com/p/106588887">https://zhuanlan.zhihu.com/p/106588887</a></p>
+<p><a href="https://virtualenv.pypa.io/en/latest/reference/">https://virtualenv.pypa.io/en/latest/reference/</a></p>
+<p><a href="https://virtualenvwrapper.readthedocs.io/">https://virtualenvwrapper.readthedocs.io/</a></p>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> Python </tag>
+            
+            <tag> 虚拟环境 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[RouterOS软路由常用命令]]></title>
+      <url>/2024/01/30/net_routerOS/</url>
+      <content type="html"><![CDATA[<p><strong>修改用户密码</strong></p>
+<p>[admin@MikroTik]&gt;/user                #进入操作路径</p>
+<p>[admin@MikroTik]/user&gt;print              #显示RouterOS用户</p>
+<p>[admin@MikroTik]/user&gt;set admin password=123456    #修改admin用户密码为123456</p>
+<p>[admin@MikroTik] /user&gt; /               #返回根目录</p>
+<p><strong>在当前用户下修改密码</strong></p>
+<p>[admin@MikroTik]&gt;password               #修改本目录用户密码</p>
+<p><strong>备份命令</strong></p>
+<p>[admin@MikroTik]&gt;/system backup              #进入操作路径</p>
+<p>[admin@MikroTik] /system backup&gt;save name=testbackup     #备份名为testbackup</p>
+<p>[admin@MikroTik] /system backup&gt;load name=testbackup     #载入备份testbackup</p>
+<p>[admin@MikroTik]&gt;file print                                  #查看备份情况</p>
+<p><strong>导出指令</strong></p>
+<p>[admin@MikroTik]&gt;ip address print             #查看IP</p>
+<p>[admin@MikroTik]&gt;/ip address                #进入IP操作路径</p>
+<p>[admin@MikroTik]/ip address&gt;export file=address #导出一个名为address的IP地址配置参数</p>
+<p>[admin@MikroTik]&gt;export compact             #查看IP地址配置参数</p>
+<p><strong>系统重启与关机</strong></p>
+<p>[admin@MikroTik]&gt;system reboot             #系统重启</p>
+<p>[admin@MikroTik]&gt;system shutdown           #系统关机</p>
+<p><strong>修改RouterOS主机名</strong></p>
+<p>[admin@MikroTik]&gt;system identity print           #查看RouterOS主机名</p>
+<p>[admin@MikroTik]&gt;system identity set name=MyRouterOS #修改RouterOS主机名为MyRouterOS</p>
+<p><strong>系统资源管理</strong></p>
+<p>[admin@MikroTik] &gt; /system resource             #操作路径</p>
+<p>[admin@MikroTik] /system resource&gt; print       #查看CPU占用率\内存\硬</p>
+<p>盘等使用情况</p>
+<p>[admin@MikroTik] /system resource&gt; monitor      #查看CPU和空闲内存使用情况</p>
+<p><strong>开通ssh远程</strong></p>
+<p>[admin@MikroTik] &gt; ip service print                       #查看服务</p>
+<p>[admin@MikroTik] &gt; ip service enable ssh                 #开启SSH服务</p>
+<p>[admin@MikroTik] &gt; ip service disable ssh                 #关闭SSH服务</p>
+<p>[admin@MikroTik] &gt; ip service set ssh port=22 address=10.8.9.11  #允许10.8.9.11访问SSH访问，其它IP都均被拒绝</p>
+<p><strong>Interface接口基本操作</strong></p>
+<p>[admin@MikroTik] &gt; interface print                       #显示接口状态</p>
+<p>[admin@MikroTik] &gt; interface enable ether1      #启动ether1网卡</p>
+<p>[admin@MikroTik] &gt; interface print stats        #显示接口状态+静态流量</p>
+<p>[admin@MikroTik] &gt; interface monitor-traffic ether1   #监测网卡动态流量</p>
+<p>[admin@MikroTik] &gt; interface ethernet print detail        #显示网卡参数</p>
+<p><strong>IP配置与ARP</strong></p>
+<p>[admin@MikroTik] &gt; ip address add address=192.168.10.1/24 interface=ether2  #添加IP地址到ether2接口上</p>
+<p>[admin@MikroTik] &gt; ip address print                      #显示IP地址</p>
+<p>[admin@MikroTik] &gt; ip arp print                          #显示arp信息</p>
+<p>[admin@MikroTik] &gt; ip arp add address=192.168.10.100 interface=00:23:24:2e:78:3e  #添加静态IP与ARP</p>
+<p>[admin@MikroTik] &gt;/interface ethernet set ether2 arp=reply-only #设置ether2接口非静态的ARP条目将无法与路由进行通信</p>
+<p><strong>防火墙过滤(firewall Filte)—-域名过滤</strong></p>
+<p>[admin@MikroTik]&gt;ip firewall filter add action=drop chain=forward content=<a href="http://www.jd.com/">www.jd.com</a></p>
+<p><strong>防火墙过滤(firewall Filte)—-端口映射将内网主机192.168.10.200的3389端口映射到外网的9999端口</strong></p>
+<p>[admin@MikroTik] &gt; ip firewall nat add chain=dstnat protocol=tcp dst-port=9999 in-interface=WAN action=dst-nat to-addresses=192.168.10.200 to-ports=3389</p>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> RouterOS </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[python虚拟环境Miniconda3的安装、配置和使用]]></title>
+      <url>/2024/01/30/Linux-python-env-miniconda/</url>
+      <content type="html"><![CDATA[<blockquote>
+<p>Conda是开放源代码的软件包管理系统和环境管理系统。miniconda是Conda的精简版本，我们一般使用miniconda进行生信上游流程软件的安装。 相比于其他软件下载方式，其优势在于能简单快捷下载软件及其所需的依赖环境，并且为每个流程创建单独的环境，避免软件之间可能引起的冲突。</p>
+</blockquote>
+<hr>
+<h3 id="1-miniconda3的下载安装"><a href="#1-miniconda3的下载安装" class="headerlink" title="1. miniconda3的下载安装"></a>1. miniconda3的下载安装</h3><ul>
+<li>切换到安装位置（一般为主目录~）， 从中科大镜像下载最新的miniconda3，bash启动安装，一直enter、yes就可以了。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs text">wget https://mirrors.ustc.edu.cn/anaconda/miniconda/Miniconda3-latest-Linux-x86_64.sh<br>#wget -c https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh<br><br>bash  Miniconda-latest-Linux-x86_64.sh<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>若想平时不在conda环境，则需要将.bashrc文件中的conda设置内容注释 。 平时在<del>/miniconda3/bin/下执行 source activate就可使用conda了。 更便捷的方法是在</del>/.bashrc 下添加 ：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">alias condaac=&#x27;source ~/miniconda3/bin/activate&#x27;<br></code></pre></td></tr></table></figure>
+
+<p>设置后使用<code>condaac</code>命令就可以快捷地激活conda环境了</p>
+<p>注释掉conda 启动代码，添加alias</p>
+<hr>
+<h3 id="2-设置conda镜像源"><a href="#2-设置conda镜像源" class="headerlink" title="2. 设置conda镜像源"></a>2. 设置conda镜像源</h3><p>依次输入以下命令设置软件镜像源，并展示镜像源地址，一般设下载地址为清华，也可以选择其他。注意，要用 bioconda 源，必须先设置 conda-forge 源，并且 conda-forge 源优先级是最高的</p>
+<p>清华：<a href="https://link.zhihu.com/?target=https://mirrors.tuna.tsinghua.edu.cn/help/anaconda/">anaconda | 镜像站使用帮助 | 清华大学开源软件镜像站 | Tsinghua Open Source Mirror</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/<br>conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/<br>conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/bioconda/<br>conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/<br>conda config  --set show_channel_urls yes<br></code></pre></td></tr></table></figure>
+
+<p>北外镜像：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs text">conda config --add channels https://mirrors.bfsu.edu.cn/anaconda/pkgs/free/<br>conda config --add channels https://mirrors.bfsu.edu.cn/anaconda/pkgs/main/<br>conda config --add channels https://mirrors.bfsu.edu.cn/anaconda/pkgs/r/<br>conda config --add channels https://mirrors.bfsu.edu.cn/anaconda/cloud/bioconda/<br>conda config --add channels https://mirrors.bfsu.edu.cn/anaconda/cloud/conda-forge/<br>conda config  --set show_channel_urls yes<br></code></pre></td></tr></table></figure>
+
+<p>中科大：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs text">conda config --add channels https://mirrors.ustc.edu.cn/anaconda/pkgs/pro<br>conda config --add channels https://mirrors.ustc.edu.cn/anaconda/pkgs/r<br>conda config --add channels https://mirrors.ustc.edu.cn/anaconda/pkgs/free<br>conda config --add channels https://mirrors.ustc.edu.cn/anaconda/pkgs/main<br>conda config --add channels https://mirrors.ustc.edu.cn/anaconda/cloud/bioconda<br>conda config --add channels https://mirrors.ustc.edu.cn/anaconda/cloud/conda-forge<br>conda config  --set show_channel_urls yes<br></code></pre></td></tr></table></figure>
+
+<p>其他一些命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">conda config --show channels                              #显示镜像源<br>conda config --show-sources                               #显示镜像源<br>conda config --remove channels  https://***              #删除镜像源<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="3-创建流程环境"><a href="#3-创建流程环境" class="headerlink" title="3. 创建流程环境"></a>3. 创建流程环境</h3><ul>
+<li>创建rna流程环境，指定python版本为3，同时下载sra-tools 软件</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs text">conda create -n rna_p3 python=3 sra-tools               <br>conda env list                                      #查看环境<br>conda activate rna_p3                               #进入conda 环境<br>conda deactivate                                    #退出当前conda环境<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>如果想重命名环境：先新建clone再进行删除</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">conda create -n rna --clone rna_p3<br>conda remove -n rna_p3 --all<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="4-软件的下载管理"><a href="#4-软件的下载管理" class="headerlink" title="4. 软件的下载管理"></a>4. 软件的下载管理</h3><p>conda安装包在线查询 <a href="https://anaconda.org/">https://anaconda.org/</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs text">conda install （-y）软件名            # 安装软件<br>conda install 软件名=版本号           # 安装特定版本软件<br>conda search 软件名                   #搜索软件<br>conda list                           # 列出已安装软件<br>conda update  软件名                   #更新软件 <br>conda remove 软件名                   #卸载软件<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="5-在脚本中切换conda环境"><a href="#5-在脚本中切换conda环境" class="headerlink" title="5. 在脚本中切换conda环境"></a>5. 在脚本中切换conda环境</h3><p>若想在脚本中切换conda环境，脚本内容如下，脚本执行完后会自动退回当前环境</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">source  ~/miniconda3/bin/activate  rna_p3<br>  conda info --envs<br>  #####命令<br></code></pre></td></tr></table></figure>
+
+<p>或者先在脚本执行<code>source ~/miniconda3/etc/profile.d/conda.sh</code>，再使用conda命令</p>
+<hr>
+<h3 id="6-环境迁移：导出安装包列表成为yaml文件"><a href="#6-环境迁移：导出安装包列表成为yaml文件" class="headerlink" title="6. 环境迁移：导出安装包列表成为yaml文件"></a>6. 环境迁移：导出安装包列表成为yaml文件</h3><p>如果想要迁移环境中的安装包到其他计算机上，可以导出yaml文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">conda env export --file rna_p3_env.yaml --name rna_p3<br>conda env create -f rna_p3_env.yaml<br></code></pre></td></tr></table></figure>
+
+]]></content>
+      
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Windows直接通过smb读写linux系统文件]]></title>
+      <url>/2024/01/29/Win_to_linux_with_smbd/</url>
+      <content type="html"><![CDATA[<p>一句话：原理是通过samba协议，将Linux的目录挂载到Windows.</p>
+<h4 id="1-首先在linux上安装samba"><a href="#1-首先在linux上安装samba" class="headerlink" title="1. 首先在linux上安装samba"></a>1. 首先在linux上安装samba</h4><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros">apt-<span class="hljs-builtin-name">get</span> install -y samba<br></code></pre></td></tr></table></figure>
+
+<h4 id="2-添加samba用户"><a href="#2-添加samba用户" class="headerlink" title="2. 添加samba用户"></a>2. 添加samba用户</h4><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs css">smbpasswd -<span class="hljs-selector-tag">a</span> yourusername<br></code></pre></td></tr></table></figure>
+
+<h4 id="3-修改samba配置文件"><a href="#3-修改samba配置文件" class="headerlink" title="3. 修改samba配置文件"></a>3. 修改samba配置文件</h4><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs awk">vim <span class="hljs-regexp">/etc/</span>samba/smb.conf<br><span class="hljs-comment"># 在末尾或适当的位置添加属性</span><br><br>[yourusername]<br>    comment = my share<br>    path = <span class="hljs-regexp">/home/my</span>dir<br>    broweable = yes<br>    writeable = yes<br></code></pre></td></tr></table></figure>
+
+<h4 id="4-重启samba服务"><a href="#4-重启samba服务" class="headerlink" title="4. 重启samba服务"></a>4. 重启samba服务</h4><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">systemctl restart smbd</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="5-映射网络驱动器"><a href="#5-映射网络驱动器" class="headerlink" title="5. 映射网络驱动器"></a>5. 映射网络驱动器</h4><p>在Windows上挂载刚才的目录</p>
+<p>在我的电脑（win7叫计算机 win10叫此电脑）右键 -&gt; 映射网络驱动器</p>
+<figure class="highlight taggerscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs taggerscript">文件夹填 <span class="hljs-symbol">\\</span>IP地址或主机名<span class="hljs-symbol">\y</span>ourusername（刚才添加的配置项）<br>勾选 使用其他凭据连接<br>点击完成，输入用户密码即可。<br></code></pre></td></tr></table></figure>
+
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> linux </tag>
+            
+            <tag> smb </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[搭建OpenVpn的方法]]></title>
+      <url>/2024/01/19/net_VPNopenvpn/</url>
+      <content type="html"><![CDATA[<h3 id="第-1-步：在-Ubuntu-上设置-OpenVpn-服务器"><a href="#第-1-步：在-Ubuntu-上设置-OpenVpn-服务器" class="headerlink" title="第 1 步：在 Ubuntu 上设置 OpenVpn 服务器"></a>第 1 步：在 Ubuntu 上设置 OpenVpn 服务器</h3><p><strong>1. 手动安装和配置 OpenVpn 服务器并不是一项简单的事情。我们将使用一个脚本，让你在一分钟内设置自己的安全 OpenVpn 服务器。</strong></p>
+<p><strong>在下载和运行脚本之前，需要得到你的服务器的公网 iP 地址。</strong></p>
+<p><strong>2.可以执行以下命令查看当前公网IP。</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">wget -qO - icanhazip.com<br>**或者**<br>dig +short myip.opendns.com @resolver1.opendns.com<br></code></pre></td></tr></table></figure>
+<p><strong>首先，通过运行以下命令确保所有系统包都是最新的apt终端中的命令。</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">sudo apt update<br>sudo apt upgrade<br></code></pre></td></tr></table></figure>
+
+<p><strong>1-创建要存储OpenVpn配置的目录</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">mkdir OpenVpn<br></code></pre></td></tr></table></figure>
+
+<p><strong>2-然后通过命令下载OpenVpn安装程序脚本</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">wget https://raw.githubusercontent.com/angristan/openvpn-install/master/openvpn-install.sh<br></code></pre></td></tr></table></figure>
+
+<p><strong>3-将文件的模式更改为可执行</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">chmod +x openvpn-install.sh<br></code></pre></td></tr></table></figure>
+
+<p><strong>4-为了运行脚本，您需要具有sudo权限，因此在运行脚本的命令请求中添加sudo，执行</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">sudo ./openvpn-install.sh<br></code></pre></td></tr></table></figure>
+
+<p><strong>或者使用以下另一种脚本部署也是一样：</strong></p>
+<p><strong>2.现在使用 curl 命令行工具下载安装程序脚本，然后使用chmod命令使其文件的模式可执行，如下所示。</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">curl -O https://raw.githubusercontent.com/angristan/openvpn-install/master/openvpn-install.sh<br></code></pre></td></tr></table></figure>
+
+<p><strong>放开文件权限，</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">chmod +x openvpn-install.sh<br></code></pre></td></tr></table></figure>
+
+<p><strong>3.接下来，运行可执行安装程序脚本。</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">sudo bash openvpn-install.sh<br></code></pre></td></tr></table></figure>
+
+<p><strong>第一次执行时，脚本会问你一些问题，仔细阅读并根据你的喜好提供答案，以设置你的 OpenVPN 服务器，默认是你的服务器ip地址，你也可以填写自己解析的域名</strong></p>
+<p><strong>监听端口3种选项，分别是1.默认的1194，2.是自定义端口，3.随机端口，通常默认回车选择1194端口，当然你也可以选择3随机端口，或者自己自定义一个想要的监听端口，</strong></p>
+<p><strong>你想要OpenVPN使用什么协议？选择1.UDP模式，速度会快一些！DNS选项的话，随便选一个</strong></p>
+<p><strong>设置加密设置，可以默认回车，基本上耐心等待跑完就可以使用了，很简单，配置文件在root根目录下xxx.ovpn文件名，下载就可以导入到客户端使用</strong></p>
+<p><strong>加密设置如果选择自定义的话，以下在进行一些选项设置，</strong></p>
+<p><strong>也可以选择默认第1项，下面我还是把设置选项贴出来，大家可以跟着我设置就好</strong></p>
+<h3 id="步骤-2（设置服务器）"><a href="#步骤-2（设置服务器）" class="headerlink" title="步骤 2（设置服务器）"></a>步骤 2（设置服务器）</h3><p>1-保留默认IP并点击“输入”</p>
+<p>2-是否要启用IPv6支持（NAT）？（是/否）： n</p>
+<p>3-您希望OpenVpn侦听哪个端口？端口选择 [1-3]： 1</p>
+<p>4-您希望OpenVpn使用什么协议？协议 [1-2]： 1</p>
+<p>5-您想将哪些DNS解析器与VPN一起使用？DNS[1-12]： 9 谷歌</p>
+<p>6-你想使用压缩吗？[是/否]： n</p>
+<p>7-您要自定义加密设置吗？[是/否]： y</p>
+<p>8-选择要用于数据通道的密码？[1-6]: 1</p>
+<p>9-选择要使用的证书类型？[1-2]: 1</p>
+<p>10-选择要用于证书密钥的曲线？[1-3]: 1</p>
+<p>11-选择要用于控制通道的密码？[1-2]: 1</p>
+<p>12-选择您想使用哪种Diffie-Hllman键？[1-2]: 1</p>
+<p>13-选择您希望将哪条曲线用于ECDH键？[1-3]: 1</p>
+<p>14-您想将哪种摘要算法用于HMAC？[1-3]: 1</p>
+<p>15-您可以为… 控制通道附加安全机制[1-2]：1</p>
+<p>16-按任意键继续…（按回车键）</p>
+<p><strong>最后提示输入名称，必须由字母数字字符组成。它还可以包括下划线或破折号。自己创建一个配置文件名称，</strong></p>
+<p><strong>要用密码保护配置文件吗？输入1</strong></p>
+<p><strong>服务器搭建就到此完成，下载配置文件导入客户端就可以使用了，在root根目录里后缀.ovpn的文件</strong></p>
+<p><strong>接下来，使用以下 systemctl 命令检查其状态，确认OpenVpn服务已启动并正在运行</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">sudo systemctl status openvpn<br></code></pre></td></tr></table></figure>
+
+<p><strong>此外，使用 ss 命令确认OpenVpn守护程序正在侦听您指示脚本使用的端口</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">sudo ss -tupln | grep openvpn<br></code></pre></td></tr></table></figure>
+
+<p><strong>如果您检查您的网络接口，一个新的接口已经为Vpn隧道创建，您可以使用iP命令确认这一点</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">ip add<br></code></pre></td></tr></table></figure>
+
+<p><strong>启动OpenVpn服务，现在，让它在系统启动时自动启动，并检查其状态以确认它已启动并正在运行</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">sudo systemctl start openvpn <br>sudo systemctl enable openvpn <br>sudo systemctl status openvpn<br></code></pre></td></tr></table></figure>
+
+<p><strong>要在操作系统上设置其他 OpenVpn 客户端，请使用以下客户端：</strong></p>
+<ul>
+<li><strong>Windows：官方 OpenVpn 社区客户端。</strong></li>
+<li><strong>Android：适用于 Android 的 OpenVpn 客户端。</strong></li>
+<li><strong>iOS：适用于 iOS 的官方 OpenVpn Connect 客户端。</strong></li>
+</ul>
+<p><a href="https://openvpn.net/community-downloads/">Community Downloads openvpn</a></p>
+<ul>
+<li><strong>双击下载好的exe文件一路下一步直至安装完成</strong></li>
+<li><strong>运行客户端，把配置文件导入客户端，或者把配置文件复制到C:\Program Files\OpenVPN\config里，就可以链接使用了</strong></li>
+</ul>
+<h3 id="或者直接双击ovpn文件"><a href="#或者直接双击ovpn文件" class="headerlink" title="或者直接双击ovpn文件"></a>或者直接双击ovpn文件</h3><p><strong>Windows版OpenVpn客户端安装完成之后，会自动关联ovpn文件，双击即可打开OpenVpn</strong></p>
+<p><strong>设置更多客户端，添加更多用户</strong></p>
+<p><strong>每个配置文件每次可以由一个设备连接，并且对于每个设备，您必须创建一个单独的文件。因此，请再次按照以下步骤创建更多用户：</strong></p>
+<p><strong>1-再次运行脚本</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">sudo ./openvpn-install.sh<br></code></pre></td></tr></table></figure>
+
+<p><strong>2-选择添加</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">1) Add a new user<br></code></pre></td></tr></table></figure>
+
+<p><strong>3-给一个新的用户名</strong></p>
+<p><strong>4-不设置密码</strong></p>
+<p><strong>5-下载.ovpn文件并设置VPN以进行连接</strong></p>
+]]></content>
+      
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[PVE开启硬件直通功能]]></title>
+      <url>/2024/01/19/PVE-zhitong2/</url>
+      <content type="html"><![CDATA[<p>PVE开启网卡直通，显卡直通，USB直通。</p>
+<h3 id="第一步：确认自己的主板CPU是否支持Vt-d功能"><a href="#第一步：确认自己的主板CPU是否支持Vt-d功能" class="headerlink" title="第一步：确认自己的主板CPU是否支持Vt-d功能"></a>第一步：确认自己的主板CPU是否支持Vt-d功能</h3><p>不支持就搞不了直通。intel要b75以上芯片组才支持。也就是说intel4代酷睿处理器以上，都支持。amd不明。</p>
+<p>VT-D是io虚拟化。不是VT-X，以为主板开启虚拟化功能，就能直通了，其实不是！要开启vt-d才能io虚拟化。AMD平台是iommu，某些OEM主板上叫SRIOV。请注意。</p>
+<h3 id="第二步：开启iommu"><a href="#第二步：开启iommu" class="headerlink" title="第二步：开启iommu"></a>第二步：开启iommu</h3><p>#编辑grub，请不要盲目改。根据自己的环境选择设置 </p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs routeros">vi /etc/default/grub <br><span class="hljs-comment">#在里面找到： </span><br><span class="hljs-attribute">GRUB_CMDLINE_LINUX_DEFAULT</span>=<span class="hljs-string">&quot;quiet&quot;</span> <br><span class="hljs-comment">#然后修改为： </span><br><span class="hljs-attribute">GRUB_CMDLINE_LINUX_DEFAULT</span>=<span class="hljs-string">&quot;quiet intel_iommu=on iommu=pt&quot;</span><br><span class="hljs-comment">#如果是amd cpu请改为： </span><br><span class="hljs-attribute">GRUB_CMDLINE_LINUX_DEFAULT</span>=<span class="hljs-string">&quot;quiet amd_iommu=on iommu=pt&quot;</span><br><span class="hljs-comment">#如果是需要显卡直通，建议在cmdline再加一句</span><br><span class="hljs-attribute">video</span>=vesafb:off <span class="hljs-attribute">video</span>=efifb:off <span class="hljs-attribute">video</span>=simplefb:off<br></code></pre></td></tr></table></figure>
+<p>加了之后，pve重启进内核后停留在一个画面，这是正常情况</p>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs nix"><span class="hljs-attr">GRUB_CMDLINE_LINUX_DEFAULT=&quot;quiet</span> <span class="hljs-attr">amd_iommu=on</span> <span class="hljs-attr">iommu=pt</span> <span class="hljs-attr">video=vesafb:off</span> <span class="hljs-attr">video=efifb:off</span> <span class="hljs-attr">video=simplefb:off&quot;</span><br></code></pre></td></tr></table></figure>
+<p>修改完成之后，直接更新grub</p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">update-grub</span><br></code></pre></td></tr></table></figure>
+<p>注意，如果此方法还不能开启iommu，请修改 /etc/kernel/cmdline文件<br>并且使用proxmox-boot-tool refresh 更新启动项</p>
+<h3 id="第三步-加载相应的内核模块"><a href="#第三步-加载相应的内核模块" class="headerlink" title="第三步 加载相应的内核模块"></a>第三步 加载相应的内核模块</h3><figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs arcade">echo vfio &gt;&gt; <span class="hljs-regexp">/etc/m</span>odules <br>echo vfio_iommu_type1 &gt;&gt; <span class="hljs-regexp">/etc/m</span>odules <br>echo vfio_pci &gt;&gt; <span class="hljs-regexp">/etc/m</span>odules echo <br>vfio_virqfd &gt;&gt; <span class="hljs-regexp">/etc/m</span>odules<br></code></pre></td></tr></table></figure>
+<p>使用update-initramfs -k all -u命令更新内核参数-&gt;重启主机</p>
+<h3 id="第四步-验证是否开启iommu"><a href="#第四步-验证是否开启iommu" class="headerlink" title="第四步 验证是否开启iommu"></a>第四步 验证是否开启iommu</h3><p>重启之后，在终端输入<code>dmesg | grep iommu</code>出现如下例子。则代表成功</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">pci</span> <span class="hljs-number">0000</span>:<span class="hljs-number">00</span>:<span class="hljs-number">00</span>.<span class="hljs-number">0</span>: Adding to iommu group <span class="hljs-number">0</span> <br><span class="hljs-attribute">pci</span> <span class="hljs-number">0000</span>:<span class="hljs-number">00</span>:<span class="hljs-number">01</span>.<span class="hljs-number">0</span>: Adding to iommu group <span class="hljs-number">1</span> <br><span class="hljs-attribute">pci</span> <span class="hljs-number">0000</span>:<span class="hljs-number">00</span>:<span class="hljs-number">02</span>.<span class="hljs-number">0</span>: Adding to iommu group <span class="hljs-number">2</span> <br><span class="hljs-attribute">pci</span> <span class="hljs-number">0000</span>:<span class="hljs-number">00</span>:<span class="hljs-number">14</span>.<span class="hljs-number">0</span>: Adding to iommu group <span class="hljs-number">3</span> <br><span class="hljs-attribute">pci</span> <span class="hljs-number">0000</span>:<span class="hljs-number">00</span>:<span class="hljs-number">17</span>.<span class="hljs-number">0</span>: Adding to iommu group <span class="hljs-number">4</span><br></code></pre></td></tr></table></figure>
+<p>此时输入命令</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs awk">find <span class="hljs-regexp">/sys/</span>kernel<span class="hljs-regexp">/iommu_groups/</span> -type l<br><span class="hljs-comment">#出现很多直通组，就代表成功了。如果没有任何东西，就是没有开启</span><br></code></pre></td></tr></table></figure>
+<h3 id="直通显卡"><a href="#直通显卡" class="headerlink" title="直通显卡"></a>直通显卡</h3><h5 id="1-首先屏蔽显卡驱动"><a href="#1-首先屏蔽显卡驱动" class="headerlink" title="1.首先屏蔽显卡驱动"></a>1.首先屏蔽显卡驱动</h5><h6 id="直通AMD显卡，请使用下面命令"><a href="#直通AMD显卡，请使用下面命令" class="headerlink" title="直通AMD显卡，请使用下面命令"></a>直通AMD显卡，请使用下面命令</h6><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">echo <span class="hljs-string">&quot;blacklist radeon&quot;</span> &gt;&gt; <span class="hljs-regexp">/etc/m</span>odprobe.d<span class="hljs-regexp">/blacklist.conf  echo &quot;blacklist amdgpu&quot; &gt;&gt; /</span>etc<span class="hljs-regexp">/modprobe.d/</span>blacklist.conf  <br></code></pre></td></tr></table></figure>
+<h6 id="直通NVIDIA显卡，请使用下面命令"><a href="#直通NVIDIA显卡，请使用下面命令" class="headerlink" title="直通NVIDIA显卡，请使用下面命令"></a>直通NVIDIA显卡，请使用下面命令</h6><figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs arcade">echo <span class="hljs-string">&quot;blacklist nouveau&quot;</span> &gt;&gt; <span class="hljs-regexp">/etc/m</span>odprobe.d/blacklist.conf  <br>echo <span class="hljs-string">&quot;blacklist nvidia&quot;</span> &gt;&gt; <span class="hljs-regexp">/etc/m</span>odprobe.d/blacklist.conf  <br>echo <span class="hljs-string">&quot;blacklist nvidiafb&quot;</span> &gt;&gt; <span class="hljs-regexp">/etc/m</span>odprobe.d/blacklist.conf  <br></code></pre></td></tr></table></figure>
+<h6 id="直通INTEL核显，请使用下面命令，"><a href="#直通INTEL核显，请使用下面命令，" class="headerlink" title="直通INTEL核显，请使用下面命令，"></a>直通INTEL核显，请使用下面命令，</h6><p>注意！如果使用Gvt-G，请不要使用下面的命令 </p>
+<figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs arcade">echo <span class="hljs-string">&quot;blacklist snd_hda_intel&quot;</span> &gt;&gt; <span class="hljs-regexp">/etc/m</span>odprobe.d/blacklist.conf  <br>echo <span class="hljs-string">&quot;blacklist snd_hda_codec_hdmi&quot;</span> &gt;&gt; <span class="hljs-regexp">/etc/m</span>odprobe.d/blacklist.conf  <br>echo <span class="hljs-string">&quot;blacklist i915&quot;</span> &gt;&gt; <span class="hljs-regexp">/etc/m</span>odprobe.d/blacklist.conf  <br></code></pre></td></tr></table></figure>
+
+<h5 id="2、把显卡绑定到vfio-pci"><a href="#2、把显卡绑定到vfio-pci" class="headerlink" title="2、把显卡绑定到vfio-pci"></a>2、把显卡绑定到vfio-pci</h5><p>使用lspci 查看自己的显卡PCI地址，如02:00使用lspci -n 查看显卡的did和vid。我这边是02:00，可以看到下面输出</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">root</span>@pve<span class="hljs-number">1</span>:~# lspci -n<br><span class="hljs-attribute">00</span>:<span class="hljs-number">00</span>.<span class="hljs-number">0</span> <span class="hljs-number">0600</span>: <span class="hljs-number">8086</span>:<span class="hljs-number">3</span>ec<span class="hljs-number">4</span> (rev <span class="hljs-number">0</span>a)<br><span class="hljs-attribute">00</span>:<span class="hljs-number">01</span>.<span class="hljs-number">0</span> <span class="hljs-number">0604</span>: <span class="hljs-number">8086</span>:<span class="hljs-number">1901</span> (rev <span class="hljs-number">0</span>a)<br><span class="hljs-attribute">00</span>:<span class="hljs-number">02</span>.<span class="hljs-number">0</span> <span class="hljs-number">0300</span>: <span class="hljs-number">8086</span>:<span class="hljs-number">3</span>e<span class="hljs-number">9</span>b<span class="hljs-number">00</span>:<span class="hljs-number">14</span>.<span class="hljs-number">0</span> <span class="hljs-number">0</span>c<span class="hljs-number">03</span>: <span class="hljs-number">8086</span>:a<span class="hljs-number">12</span>f (rev <span class="hljs-number">31</span>)<br><span class="hljs-attribute">00</span>:<span class="hljs-number">17</span>.<span class="hljs-number">0</span> <span class="hljs-number">0106</span>: <span class="hljs-number">8086</span>:a<span class="hljs-number">102</span> (rev <span class="hljs-number">31</span>)<br><span class="hljs-attribute">00</span>:<span class="hljs-number">1</span>c.<span class="hljs-number">0</span> <span class="hljs-number">0604</span>: <span class="hljs-number">8086</span>:a<span class="hljs-number">114</span> (rev f<span class="hljs-number">1</span>)<br><span class="hljs-attribute">00</span>:<span class="hljs-number">1</span>d.<span class="hljs-number">0</span> <span class="hljs-number">0604</span>: <span class="hljs-number">8086</span>:a<span class="hljs-number">118</span> (rev f<span class="hljs-number">1</span>)<br><span class="hljs-attribute">00</span>:<span class="hljs-number">1</span>d.<span class="hljs-number">2</span> <span class="hljs-number">0604</span>: <span class="hljs-number">8086</span>:a<span class="hljs-number">11</span>a (rev f<span class="hljs-number">1</span>)<br><span class="hljs-attribute">00</span>:<span class="hljs-number">1</span>d.<span class="hljs-number">3</span> <span class="hljs-number">0604</span>: <span class="hljs-number">8086</span>:a<span class="hljs-number">11</span>b (rev f<span class="hljs-number">1</span>)<br><span class="hljs-attribute">00</span>:<span class="hljs-number">1</span>f.<span class="hljs-number">0</span> <span class="hljs-number">0601</span>: <span class="hljs-number">8086</span>:a<span class="hljs-number">148</span> (rev <span class="hljs-number">31</span>)<br><span class="hljs-attribute">00</span>:<span class="hljs-number">1</span>f.<span class="hljs-number">2</span> <span class="hljs-number">0580</span>: <span class="hljs-number">8086</span>:a<span class="hljs-number">121</span> (rev <span class="hljs-number">31</span>)<br><span class="hljs-attribute">00</span>:<span class="hljs-number">1</span>f.<span class="hljs-number">3</span> <span class="hljs-number">0403</span>: <span class="hljs-number">8086</span>:a<span class="hljs-number">170</span> (rev <span class="hljs-number">31</span>)<br><span class="hljs-attribute">00</span>:<span class="hljs-number">1</span>f.<span class="hljs-number">4</span> <span class="hljs-number">0</span>c<span class="hljs-number">05</span>: <span class="hljs-number">8086</span>:a<span class="hljs-number">123</span> (rev <span class="hljs-number">31</span>)<br><span class="hljs-attribute">00</span>:<span class="hljs-number">1</span>f.<span class="hljs-number">6</span> <span class="hljs-number">0200</span>: <span class="hljs-number">8086</span>:<span class="hljs-number">15</span>b<span class="hljs-number">8</span> (rev <span class="hljs-number">31</span>)<br><span class="hljs-attribute">01</span>:<span class="hljs-number">00</span>.<span class="hljs-number">0</span> <span class="hljs-number">0200</span>: <span class="hljs-number">15</span>b<span class="hljs-number">3</span>:<span class="hljs-number">100302</span>:<span class="hljs-number">00</span>.<span class="hljs-number">0</span> <span class="hljs-number">0100</span>: <span class="hljs-number">10</span>de:<span class="hljs-number">1381</span> (rev <span class="hljs-number">03</span>)<br><span class="hljs-attribute">02</span>:<span class="hljs-number">00</span>.<span class="hljs-number">1</span> <span class="hljs-number">0100</span>: <span class="hljs-number">10</span>de:<span class="hljs-number">0</span>fbc (rev <span class="hljs-number">03</span>)<br><span class="hljs-attribute">03</span>:<span class="hljs-number">00</span>.<span class="hljs-number">0</span> <span class="hljs-number">0108</span>: <span class="hljs-number">8086</span>:f<span class="hljs-number">1</span>a<span class="hljs-number">6</span> (rev <span class="hljs-number">03</span>)<br><span class="hljs-attribute">04</span>:<span class="hljs-number">00</span>.<span class="hljs-number">0</span> <span class="hljs-number">0604</span>: <span class="hljs-number">1</span>b<span class="hljs-number">21</span>:<span class="hljs-number">1080</span> (rev <span class="hljs-number">04</span>)<br></code></pre></td></tr></table></figure>
+<p>02:00.0 02:00.1一个是GPU，一个是声卡，两者都要一起直通，所以通过命令，把2者都绑定到vfio-pci上。</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs awk">echo <span class="hljs-string">&quot;options vfio-pci ids=10de:1381,10de:0fbc&quot;</span> &gt; <span class="hljs-regexp">/etc/m</span>odprobe.d/vfio.conf <br><span class="hljs-comment">#注意，上面这条命令，ids=后面跟直通组的所有设备。中间以英文逗号隔开。自己的设备自己替换。</span><br></code></pre></td></tr></table></figure>
+<p>上述操作完成之后，再检查一下，是否将例子内容替换成自己的。使用以下命令查看。</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs awk">cat <span class="hljs-regexp">/etc/m</span>odprobe.d/blacklist.conf <br>cat <span class="hljs-regexp">/etc/m</span>odprobe.d/vfio.conf<br></code></pre></td></tr></table></figure>
+<h5 id="3、更新内核"><a href="#3、更新内核" class="headerlink" title="3、更新内核"></a>3、更新内核</h5><p>对于nvidia显卡：</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs vim"><span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;options kvm ignore_msrs=1&quot;</span> &gt; /etc/modprobe.d/kvm.<span class="hljs-keyword">conf</span><br><br><span class="hljs-keyword">update</span>-initramfs -<span class="hljs-keyword">k</span> <span class="hljs-keyword">all</span> -<span class="hljs-keyword">u</span><br></code></pre></td></tr></table></figure>
+<p>随后重启</p>
+<h5 id="4、开始直通"><a href="#4、开始直通" class="headerlink" title="4、开始直通"></a>4、开始直通</h5><p>新建一个虚拟机。根据自己的爱好，选择ovmf或者seabios，通常来说两者对独显直通没有影响，建议nvidia 9系以上选择OVMF，其他选择seabios。打开虚拟机面板，正常安装系统，并且开启远程桌面或者安装好向日葵。<br>随后点击添加 PCI设备<br>注意！！！不要勾选主GPU！。如果不能勾选PCIE，那么一定要把虚拟机改成Q35类型。<br>随后开机，如果能正常启动，那么就安装NVIDIA最新驱动。<br>提示：由于某些消费级主板PCI的设计问题，你可能只能直通第一个PCIe x16槽的显卡。 </p>
+<h3 id="核显直通"><a href="#核显直通" class="headerlink" title="核显直通"></a>核显直通</h3><p>如果想要核显显示到显示器。虚拟机请使用Seabios，机型为i440fx并且在bios中开启CSM。<br>核显直通过程与上面的独显直通1-3步骤一样。请参考上文。</p>
+<p>完成了前面的步骤，那么现在就是配置虚拟机。使用命令配置虚拟机</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs vim">qm <span class="hljs-keyword">set</span> <span class="hljs-symbol">&lt;vmid&gt;</span> -<span class="hljs-keyword">args</span> <span class="hljs-string">&quot;-device vfio-pci,host=00:02.0,addr=0x18,x-vga=on,x-igd-opregion=on&quot;</span><br></code></pre></td></tr></table></figure>
+<p>如果你的VMID是101，那么命令应该是</p>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs gams">qm <span class="hljs-keyword">set</span> 101 -args <span class="hljs-comment">&quot;-device vfio-pci,host=00:02.0,addr=0x18,x-vga=on,x-igd-opregion=on&quot;</span><br></code></pre></td></tr></table></figure>
+<p>此种直通是基于UDT模式，适用于5代以上的CPU核显。如果你打算直通到群晖，需要在GUI面板上，将显卡设置成无，添加串口设备用于调试，同时将核显位置绑定到虚拟机的00:02位置，所以应该执行该命令</p>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs gams">qm <span class="hljs-keyword">set</span> 101 -args <span class="hljs-comment">&quot;-device vfio-pci,host=00:02.0,addr=0x02,x-vga=on,x-igd-opregion=on&quot;</span><br></code></pre></td></tr></table></figure>
+<p>如果你把上面的命令输错了，或者有问题，你可以使用命令</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs vim">qm <span class="hljs-keyword">set</span> <span class="hljs-number">101</span> --<span class="hljs-keyword">delete</span> <span class="hljs-keyword">args</span><br></code></pre></td></tr></table></figure>
+<p>删除此args参数，或者修改vm的配置文件如果通过上述操作，核显不能输出到显示器，那么你应该尝试传统方式，即将bios改成seabios，使用传统模式装好系统，开启远程，将显卡设置成无，将核显绑定到00:02位置（和群晖命令相同）。使用远程方式进系统安装驱动。如果上面操作还是不行，请尝试添加vbios，关于什么是vbios，请百度一下，如何提取vbios</p>
+<h3 id="硬盘直通"><a href="#硬盘直通" class="headerlink" title="硬盘直通"></a>硬盘直通</h3><p>此部分请参考 网卡直通</p>
+<h3 id="网卡直通"><a href="#网卡直通" class="headerlink" title="网卡直通"></a>网卡直通</h3><p>正常情况下，网卡直通不会有什么困难。在开启iommu之后，即可在Web页面上，将网卡作为PCIe设备添加即可。但，你需要确保没有直通到PVE的管理网口。否则你的PVE会失联。且PVE没有使用此网卡。<br>注意！由于供应商的问题，可能一张物理网卡会有多个逻辑的网口，这些网口会在同一个PCIe地址上，<br>有2种情况：<br>1、一个网口为PVE管理口，一个网口直通给虚拟机此种情况，请参考上面，进行直通，请勿勾选 所有功能。<br>2、分别直通给虚拟机。由于多个网卡位于同一个PCI地址上，可能会在一个iommu组里，只能将这些网卡同时直通给一个虚拟机，否则会报错。<br>你需要确认网卡是否在同一个iommu组，执行下面命令：</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-keyword">for</span> d <span class="hljs-keyword">in</span> <span class="hljs-regexp">/sys/</span>kernel<span class="hljs-regexp">/iommu_groups/</span>*<span class="hljs-regexp">/devices/</span>*; <span class="hljs-keyword">do</span> n=<span class="hljs-variable">$&#123;d#*/iommu_groups/*&#125;</span>; n=<span class="hljs-variable">$&#123;n%%/*&#125;</span>; printf <span class="hljs-string">&#x27;IOMMU Group %s &#x27;</span> <span class="hljs-string">&quot;$n&quot;</span>; lspci -nns <span class="hljs-string">&quot;$&#123;d##*/&#125;&quot;</span>; done|grep Eth<br></code></pre></td></tr></table></figure>
+
+<p>从输出看，2个I350网卡分别在组19和20上，就意味着可以分开直通给虚拟机。如果同一个iommu组，那么就需要利用PCIe桥的ACS特性，这部分请参考IOMMU是如何划分PCI device group的？<br>情况1: 版本低于7.1你需要安装破解内核，才能开启ACS强制。<br>情况2：PVE版本为7.1+你可以在GRUB上配置一个命令即可完成。<br>    在grub文件里添加一个参数pcie_acs_override=downstreamgrub如下</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-attr">GRUB_DEFAULT</span>=<span class="hljs-number">0</span><br><span class="hljs-attr">GRUB_TIMEOUT</span>=<span class="hljs-number">5</span><br><span class="hljs-attr">GRUB_DISTRIBUTOR</span>=`lsb_release -i -s <span class="hljs-number">2</span>&gt; /dev/null || echo Debian`<br><span class="hljs-attr">GRUB_CMDLINE_LINUX_DEFAULT</span>=<span class="hljs-string">&quot;quiet intel_iommu=on pcie_acs_override=downstream&quot;</span><br><span class="hljs-attr">GRUB_CMDLINE_LINUX</span>=<span class="hljs-string">&quot;&quot;</span> <br></code></pre></td></tr></table></figure>
+<p>随后进行保存，并且更新内核，更新grub</p>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs n1ql"><span class="hljs-keyword">update</span>-grub<br><span class="hljs-keyword">update</span>-initramfs -k <span class="hljs-keyword">all</span> -u <br></code></pre></td></tr></table></figure>
+<p>随后重启</p>
+<h3 id="黑苹果"><a href="#黑苹果" class="headerlink" title="黑苹果"></a>黑苹果</h3><p>虚拟机可以创建黑苹果，随后直通硬件到虚拟机，可以获得相关的性能提升。黑苹果，你需要以PCI方式直通硬件（请勿勾选PCIe)。最好使用免驱显卡，这样可以直接输出到显示器。如果不是免驱显卡，那么请自行进系统之后，配置Opencore。黑苹果不支持gvt-g</p>
+]]></content>
+      
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[PVE直通网卡和硬盘]]></title>
+      <url>/2024/01/17/PVE-zhitong/</url>
+      <content type="html"><![CDATA[<h3 id="1-说明"><a href="#1-说明" class="headerlink" title="1. 说明"></a>1. 说明</h3><p>PVE可以在WEB界面直接直通硬盘，（不是添加EFI磁盘）添加PCI设备，选择硬盘对应的控制器，但是一般的主板在不安装额外的硬盘控制器的情况下只有一个磁盘控制器，而直接直通会造成安装PVE系统的磁盘也被一起直通，导致PVE系统无法启动。所以需要直通单块指定的硬盘。</p>
+<p>网卡可以直接在WEB控制台直接直通，通过添加PCI设备添加即可。</p>
+<h3 id="2-直通前修改系统"><a href="#2-直通前修改系统" class="headerlink" title="2. 直通前修改系统"></a>2. 直通前修改系统</h3><ol>
+<li><p>SSH连接或Shell里面直接输入命令修改grub文件：</p>
+ <figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs gradle">vi <span class="hljs-regexp">/etc/</span><span class="hljs-keyword">default</span>/grub<br># 编辑这个文件，修改GRUB_CMDLINE_LINUX_DEFAULT=<span class="hljs-string">&quot;quiet&quot;</span>为：<br><br>GRUB_CMDLINE_LINUX_DEFAULT=<span class="hljs-string">&quot;quiet intel_iommu=on&quot;</span><br><br>:wq 保存后更新grub,使用命令：<br>update-grub<br></code></pre></td></tr></table></figure></li>
+<li><p>继续编辑modules文件</p>
+ <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs awk">vi <span class="hljs-regexp">/etc/m</span>odules<br><span class="hljs-comment"># 在其中添加下面的内容，如果已有相同内容不用重复添加。</span><br>vfio<br>vfio_iommu_type1<br>vfio_pcioptions<br>vfio_virqfd<br><span class="hljs-comment"># :wq 保存后重启PVE</span><br>reboot<br></code></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="3-开始配置直通"><a href="#3-开始配置直通" class="headerlink" title="3. 开始配置直通"></a>3. 开始配置直通</h3><ol>
+<li><p>查看磁盘详细列表</p>
+<figure class="highlight vala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs vala"><span class="hljs-meta"># 安装 lshw 工具</span><br>apt-<span class="hljs-keyword">get</span> update<br>apt-<span class="hljs-keyword">get</span> install -y lshw<br>lshw -C storage -C disk<br><span class="hljs-meta"># 此命令将列出当前所有被连接的物理磁盘信息</span><br><span class="hljs-meta"># 下面命令列出所有的磁盘设备对应的磁盘ID</span><br>ls -l /dev/disk/by-id/<br></code></pre></td></tr></table></figure></li>
+<li><p>磁盘ID说明</p>
+<p>要直通的是整个磁盘，所以要找到例如sda,sdb,adc……所对应的硬盘ID，不能使用sda1,sda2……sdb1……等，后面带有数值的分区id。</p>
+</li>
+<li><p>使用命令直通硬盘</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-comment"># 格式</span><br>qm set &lt;vm_id&gt; -–&lt;disk_type&gt;[n] <span class="hljs-regexp">/dev/</span>disk<span class="hljs-regexp">/by-id/</span>&lt;type&gt; -<span class="hljs-variable">$brand</span>-<span class="hljs-variable">$model_</span><span class="hljs-variable">$serial_number</span><br><span class="hljs-comment"># 参数说明</span><br>【vm_id】 : <br>之前创建虚拟机时指定的虚拟机ID。<br><br>【&lt;disk_type&gt;[n] 】： <br>磁盘的总线类型及其编号，总线类型可以选择IDE、SATA、VirtIO Block和SCSI类型，编号从<span class="hljs-number">0</span>开始，最大值根据总线接口类型有所不同，IDE为<span class="hljs-number">3</span>，SATA为<span class="hljs-number">5</span>，VirTIO Block为<span class="hljs-number">15</span>，SCSI为<span class="hljs-number">13</span>。<br><br>【<span class="hljs-regexp">/dev/</span>disk<span class="hljs-regexp">/by-id/</span>&lt;type&gt;-<span class="hljs-variable">$brand</span>-<span class="hljs-variable">$model_</span><span class="hljs-variable">$serial_number</span>】 ： <br>为磁盘ID的具体路径和名称。<br></code></pre></td></tr></table></figure></li>
+<li><p>举例：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs shell">   <br>root@pve:~# ls -l /dev/disk/by-id/<br>total 0<br>lrwxrwxrwx 1 root root  9 Jan 17 08:52 ata-Fanxiang_S100Pro_256GB_MX_00000000000020223 -&gt; ../../sdb<br>lrwxrwxrwx 1 root root 10 Jan 17 08:52 ata-Fanxiang_S100Pro_256GB_MX_00000000000020223-part1 -&gt; ../../sdb1<br>lrwxrwxrwx 1 root root 10 Jan 17 08:52 ata-Fanxiang_S100Pro_256GB_MX_00000000000020223-part2 -&gt; ../../sdb2<br>lrwxrwxrwx 1 root root 10 Jan 17 08:52 ata-Fanxiang_S100Pro_256GB_MX_00000000000020223-part3 -&gt; ../../sdb3<br>lrwxrwxrwx 1 root root  9 Jan 17 08:52 ata-WDC_WD10EZEX-08WN4A0_WD-WCC6Y4VNZJA0 -&gt; ../../sda<br>lrwxrwxrwx 1 root root 10 Jan 17 08:52 ata-WDC_WD10EZEX-08WN4A0_WD-WCC6Y4VNZJA0-part1 -&gt; ../../sda1<br>lrwxrwxrwx 1 root root 10 Jan 17 08:52 ata-WDC_WD10EZEX-08WN4A0_WD-WCC6Y4VNZJA0-part2 -&gt; ../../sda2<br>lrwxrwxrwx 1 root root 10 Jan 17 08:52 ata-WDC_WD10EZEX-08WN4A0_WD-WCC6Y4VNZJA0-part5 -&gt; ../../sda5<br>lrwxrwxrwx 1 root root 10 Jan 17 08:52 dm-name-pve-root -&gt; ../../dm-1<br>lrwxrwxrwx 1 root root 10 Jan 17 08:52 dm-name-pve-swap -&gt; ../../dm-0<br>lrwxrwxrwx 1 root root 10 Jan 17 08:52 dm-uuid-LVM-OcdabyFC47cuTSZMEoIWEhnO4Q20Nkcs2Z1z9gpjALc6Tg49Vn1Hc255aiYckSP5 -&gt; ../../dm-0<br>lrwxrwxrwx 1 root root 10 Jan 17 08:52 dm-uuid-LVM-OcdabyFC47cuTSZMEoIWEhnO4Q20NkcsMHSdYsTphGWWjUZn3DfmcZvkRvbedbE3 -&gt; ../../dm-1<br>lrwxrwxrwx 1 root root 10 Jan 17 08:52 lvm-pv-uuid-cAeRJl-Fato-fGWm-2IxV-6SZ2-cTG3-8FmYdf -&gt; ../../sdb3<br>lrwxrwxrwx 1 root root  9 Jan 17 08:52 wwn-0x5000000000000223 -&gt; ../../sdb<br>lrwxrwxrwx 1 root root 10 Jan 17 08:52 wwn-0x5000000000000223-part1 -&gt; ../../sdb1<br>lrwxrwxrwx 1 root root 10 Jan 17 08:52 wwn-0x5000000000000223-part2 -&gt; ../../sdb2<br>lrwxrwxrwx 1 root root 10 Jan 17 08:52 wwn-0x5000000000000223-part3 -&gt; ../../sdb3<br>lrwxrwxrwx 1 root root  9 Jan 17 08:52 wwn-0x50014ee20e906004 -&gt; ../../sda<br>lrwxrwxrwx 1 root root 10 Jan 17 08:52 wwn-0x50014ee20e906004-part1 -&gt; ../../sda1<br>lrwxrwxrwx 1 root root 10 Jan 17 08:52 wwn-0x50014ee20e906004-part2 -&gt; ../../sda2<br>lrwxrwxrwx 1 root root 10 Jan 17 08:52 wwn-0x50014ee20e906004-part5 -&gt; ../../sda5<br><br>如果想要直通sda这块硬盘给101，应使用如下命令：<br>qm set 101 --sata1 /dev/disk/by-id/ata-WDC_WD10EZEX-08WN4A0_WD-WCC6Y4VNZJA0<br>再加一块sdb的话呢：<br>qm set 101 --sata2 /dev/disk/by-id/ata-Fanxiang_S100Pro_256GB_MX_00000000000020223<br><br></code></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="4-导入img磁盘或vof磁盘的命令："><a href="#4-导入img磁盘或vof磁盘的命令：" class="headerlink" title="4. 导入img磁盘或vof磁盘的命令："></a>4. 导入img磁盘或vof磁盘的命令：</h3><ol>
+<li><p>使用WinSCP或其它工具上传虚拟磁盘文件到自定义的目录</p>
+</li>
+<li><p>使用命令转换并导入：</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">qm importdisk <span class="hljs-number">101</span> <span class="hljs-regexp">/root/my</span>disk.img local-lvm <br></code></pre></td></tr></table></figure></li>
+<li><p>说明：</p>
+<p>  101 ：要导入的目标虚拟机ID</p>
+<p>  /root/mydisk.img :  上传的虚拟磁盘文件。</p>
+<p>  local-lvm ： 转换后存入的存储卷。根据实际情况修改。</p>
+</li>
+</ol>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> PVE </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[基于Wireguard技术的个人虚拟网络搭建]]></title>
+      <url>/2024/01/16/net_VPNwireguard/</url>
+      <content type="html"><![CDATA[<h2 id="手动安装Wireguard"><a href="#手动安装Wireguard" class="headerlink" title="手动安装Wireguard"></a>手动安装Wireguard</h2><h3 id="安装Wireguard（ubuntu20-04）"><a href="#安装Wireguard（ubuntu20-04）" class="headerlink" title="安装Wireguard（ubuntu20.04）"></a>安装Wireguard（ubuntu20.04）</h3><figure class="highlight vala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs vala"><span class="hljs-meta">#root权限</span><br>sudo -i<br><br><span class="hljs-meta">#安装wireguard软件</span><br>apt install wireguard resolvconf -y<br><br><span class="hljs-meta">#开启IP转发</span><br>echo <span class="hljs-string">&quot;net.ipv4.ip_forward = 1&quot;</span> &gt;&gt; /etc/sysctl.conf<br>sysctl -p<br></code></pre></td></tr></table></figure>
+
+<h3 id="进入配置路径，调整目录权限"><a href="#进入配置路径，调整目录权限" class="headerlink" title="进入配置路径，调整目录权限"></a>进入配置路径，调整目录权限</h3><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs awk">cd <span class="hljs-regexp">/etc/</span>wireguard/<br>chmod <span class="hljs-number">0777</span> <span class="hljs-regexp">/etc/</span>wireguard<br><br><span class="hljs-comment">#调整目录默认权限</span><br>umask <span class="hljs-number">077</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="生成服务器秘钥"><a href="#生成服务器秘钥" class="headerlink" title="生成服务器秘钥"></a>生成服务器秘钥</h3><figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs axapta"><span class="hljs-meta">#生成私钥</span><br>wg genkey &gt; <span class="hljs-keyword">server</span>.key<br><br><span class="hljs-meta">#通过私钥生成公钥</span><br>wg pubkey &lt; <span class="hljs-keyword">server</span>.key &gt; <span class="hljs-keyword">server</span>.key.pub<br></code></pre></td></tr></table></figure>
+
+<h3 id="生成客户端-client-秘钥"><a href="#生成客户端-client-秘钥" class="headerlink" title="生成客户端(client)秘钥"></a>生成客户端(client)秘钥</h3><figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs axapta"><span class="hljs-meta">#生成私钥</span><br>wg genkey &gt; <span class="hljs-keyword">client</span>.key<br><br><span class="hljs-meta">#通过私钥生成公钥</span><br>wg pubkey &lt; <span class="hljs-keyword">client</span>.key &gt; <span class="hljs-keyword">client</span>.key.pub<br></code></pre></td></tr></table></figure>
+
+<h3 id="显示所有生成的秘钥"><a href="#显示所有生成的秘钥" class="headerlink" title="显示所有生成的秘钥"></a>显示所有生成的秘钥</h3><figure class="highlight sas"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sas">cat server.<span class="hljs-meta">key</span> <span class="hljs-variable">&amp;&amp;</span> cat server.<span class="hljs-meta">key</span>.pub <span class="hljs-variable">&amp;&amp;</span> cat client.<span class="hljs-meta">key</span> <span class="hljs-variable">&amp;&amp;</span> cat client.<span class="hljs-meta">key</span>.pub<br></code></pre></td></tr></table></figure>
+
+<h3 id="自动创建服务器配置文件"><a href="#自动创建服务器配置文件" class="headerlink" title="自动创建服务器配置文件"></a>自动创建服务器配置文件</h3><figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">echo</span> <span class="hljs-string">&quot;</span><br><span class="hljs-attr">[Interface]</span><br><span class="hljs-attr">PrivateKey</span> = <span class="hljs-string">$(cat server.key) # 填写本机的privatekey 内容</span><br><span class="hljs-attr">Address</span> = <span class="hljs-string">10.0.8.1 #本机虚拟局域网IP</span><br><br><span class="hljs-attr">PostUp</span>   = <span class="hljs-string">iptables -A FORWARD -i wg0 -j ACCEPT; iptables -A FORWARD -o wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE</span><br><span class="hljs-attr">PostDown</span> = <span class="hljs-string">iptables -D FORWARD -i wg0 -j ACCEPT; iptables -D FORWARD -o wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE</span><br><span class="hljs-comment">#注意eth0需要为本机网卡名称</span><br><br><span class="hljs-attr">ListenPort</span> = <span class="hljs-string">50814 # 监听端口</span><br><span class="hljs-attr">DNS</span> = <span class="hljs-string">8.8.8.8</span><br><span class="hljs-attr">MTU</span> = <span class="hljs-string">1420</span><br><span class="hljs-attr">[Peer]</span><br><span class="hljs-attr">PublicKey</span> =  <span class="hljs-string">$(cat client.key.pub)  #自动client的公钥</span><br><span class="hljs-attr">AllowedIPs</span> = <span class="hljs-string">10.0.8.10/32 #客户端所使用的IP&quot; &gt; wg0.conf</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="设置服务器开机自启动"><a href="#设置服务器开机自启动" class="headerlink" title="设置服务器开机自启动"></a>设置服务器开机自启动</h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros">systemctl <span class="hljs-builtin-name">enable</span> wg-quick@wg0<br></code></pre></td></tr></table></figure>
+
+<h3 id="启动wireguard"><a href="#启动wireguard" class="headerlink" title="启动wireguard"></a>启动wireguard</h3><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-comment">#启动wg0</span><br><span class="hljs-attribute">wg</span>-quick up wg<span class="hljs-number">0</span><br><span class="hljs-comment">#关闭wg0</span><br><span class="hljs-attribute">wg</span>-quick down wg<span class="hljs-number">0</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="手动创建服务器配置文件（待完成）"><a href="#手动创建服务器配置文件（待完成）" class="headerlink" title="手动创建服务器配置文件（待完成）"></a>手动创建服务器配置文件（待完成）</h3><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">nano <span class="hljs-regexp">/etc/</span>wireguard/wg0.conf<br></code></pre></td></tr></table></figure>
+
+<h3 id="wireguard客户端下载地址"><a href="#wireguard客户端下载地址" class="headerlink" title="wireguard客户端下载地址"></a>wireguard客户端下载地址</h3><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">https:<span class="hljs-regexp">//</span>www.wireguard.com<span class="hljs-regexp">/install/</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="客户端配置"><a href="#客户端配置" class="headerlink" title="客户端配置"></a>客户端配置</h3><figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-section">[Interface]</span><br><span class="hljs-attr">PrivateKey</span> = <span class="hljs-number">6</span>M8HEZioew+vR3i53sPc64Vg40YsuMzh4vI1Lkc88Xo= <span class="hljs-comment">#此处为client1的私钥</span><br><span class="hljs-attr">Address</span> = <span class="hljs-number">10.0</span>.<span class="hljs-number">8.10</span> <span class="hljs-comment">#此处为peer规定的客户端IP</span><br><span class="hljs-attr">MTU</span> = <span class="hljs-number">1500</span><br><br><span class="hljs-section">[Peer]</span><br><span class="hljs-attr">PublicKey</span> = Tt5WEa0Vycf4F+TTjR2TAHDfa2onhh+tY8YOIT3cKjI= <span class="hljs-comment">#此处为server的公钥</span><br><span class="hljs-attr">AllowedIPs</span> = <span class="hljs-number">10.0</span>.<span class="hljs-number">8.0</span>/<span class="hljs-number">24</span> <span class="hljs-comment">#此处为允许的服务器IP</span><br><span class="hljs-attr">Endpoint</span> = <span class="hljs-number">114.132</span>.<span class="hljs-number">56.178</span>:<span class="hljs-number">50814</span> <span class="hljs-comment">#服务器对端IP+端口</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="增加服务器客户端节点client2"><a href="#增加服务器客户端节点client2" class="headerlink" title="增加服务器客户端节点client2"></a>增加服务器客户端节点client2</h3><figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs 1c"><span class="hljs-meta">#生成私钥</span><br>wg genkey &gt; client2.key<br><br><span class="hljs-meta">#通过私钥生成公钥</span><br>wg pubkey &lt; client2.key &gt; client2.key.pub<br><br><span class="hljs-meta">#将peer公钥加入wg0.conf配置</span><br>echo <span class="hljs-string">&quot;</span><br>[Peer]<br>PublicKey =  $(cat client2.key.pub)  <span class="hljs-meta">#自动client2的公钥</span><br>AllowedIPs = <span class="hljs-number">10.0</span>.<span class="hljs-number">8.11</span>/<span class="hljs-number">32</span> <span class="hljs-meta">#客户端Client2所使用的IP&quot; &gt;&gt; wg0.conf</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="使用Docker安装Wireguard"><a href="#使用Docker安装Wireguard" class="headerlink" title="使用Docker安装Wireguard"></a>使用Docker安装Wireguard</h2><h3 id="通过容器安装wg-easy"><a href="#通过容器安装wg-easy" class="headerlink" title="通过容器安装wg-easy"></a>通过容器安装wg-easy</h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs routeros">docker <span class="hljs-builtin-name">run</span> -d \<br>  <span class="hljs-attribute">--name</span>=wg-easy \<br>  -e <span class="hljs-attribute">WG_HOST</span>=111.111.111.111 (🚨这里输入服务器的公网IP) \<br>  -e <span class="hljs-attribute">PASSWORD</span>=passwd111 (🚨这里输入你的密码) \<br>  -e <span class="hljs-attribute">WG_DEFAULT_ADDRESS</span>=10.0.8.x （🚨默认IP地址）\<br>  -e <span class="hljs-attribute">WG_DEFAULT_DNS</span>=114.114.114.114 （🚨默认DNS）\<br>  -e <span class="hljs-attribute">WG_ALLOWED_IPS</span>=10.0.8.0/24 （🚨允许连接的IP段）\<br>  -e <span class="hljs-attribute">WG_PERSISTENT_KEEPALIVE</span>=25 （🚨重连间隔）\<br>  -v ~/.wg-easy:/etc/wireguard \<br>  -p 51820:51820/udp \<br>  -p 51821:51821/tcp \<br>  <span class="hljs-attribute">--cap-add</span>=NET_ADMIN \<br>  <span class="hljs-attribute">--cap-add</span>=SYS_MODULE \<br>  <span class="hljs-attribute">--sysctl</span>=<span class="hljs-string">&quot;net.ipv4.conf.all.src_valid_mark=1&quot;</span> \<br>  <span class="hljs-attribute">--sysctl</span>=<span class="hljs-string">&quot;net.ipv4.ip_forward=1&quot;</span> \<br>  --restart unless-stopped \<br>  weejewel/wg-easy<br></code></pre></td></tr></table></figure>
+
+<h3 id="更新容器命令"><a href="#更新容器命令" class="headerlink" title="更新容器命令"></a>更新容器命令</h3><figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs arduino">docker stop wg-easy<br>docker rm wg-easy<br>docker pull weejewel/wg-easy<br></code></pre></td></tr></table></figure>
+]]></content>
+      
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Centos7 提示setlocale:LC_CTYPE:无法改变区域选项（UTF-8）]]></title>
+      <url>/2024/01/11/linux_setlocale/</url>
+      <content type="html"><![CDATA[<ol>
+<li>编辑environment文件</li>
+</ol>
+ <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs routeros">vi /etc/environment<br><br><span class="hljs-comment"># 添加两行</span><br><span class="hljs-attribute">LANG</span>=en_US.utf-8<br><span class="hljs-attribute">LC_ALL</span>=en_US.utf-8<br></code></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>安装依赖库</li>
+</ol>
+ <figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cmake">yum <span class="hljs-keyword">install</span> glibc-common<br>yum -y <span class="hljs-keyword">install</span> kde-l10n-Chinese telent<br></code></pre></td></tr></table></figure>
+
+<ol start="3">
+<li><p>设置本地语言</p>
+<figure class="highlight dsconfig"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dsconfig"><span class="hljs-string">localectl</span> <span class="hljs-built_in">set-locale</span> <span class="hljs-string">LANG</span>=<span class="hljs-string">zh_CN</span>.<span class="hljs-string">utf8</span><br></code></pre></td></tr></table></figure></li>
+<li><p>修改locale.conf文件</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs awk">vi <span class="hljs-regexp">/etc/</span>locale.conf<br><br><span class="hljs-comment"># 添加下面这句</span><br>LANG=zh_CN.utf8<br></code></pre></td></tr></table></figure></li>
+<li><p>重启系统</p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">reboot</span><br></code></pre></td></tr></table></figure>
+
+</li>
+</ol>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> linux </tag>
+            
+            <tag> centos </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[修改Docker中的sysctl.conf文件时提示没有权限]]></title>
+      <url>/2024/01/05/linux_SYSCTL/</url>
+      <content type="html"><![CDATA[<p>在容器中修改 /etc/sysctl.conf后需要执行sysctl -p 使之生效。</p>
+<p>但执行后提示 ` docker error: “Read-only file system”.</p>
+<p>**解决方法 **</p>
+<p>在创建Docker容器的时候加入 –privileged 即可使容器拥有系统权限。</p>
+<p>例如：</p>
+<figure class="highlight brainfuck"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs brainfuck"><span class="hljs-comment">#</span> <span class="hljs-comment">docker</span> <span class="hljs-comment">run</span> <span class="hljs-literal">-</span><span class="hljs-comment">itd</span> --<span class="hljs-comment">privileged</span> <span class="hljs-literal">-</span><span class="hljs-comment">h</span> <span class="hljs-comment">docker_64</span> --<span class="hljs-comment">name</span> <span class="hljs-comment">docker_64</span> <span class="hljs-comment">centos:latest</span> <span class="hljs-comment">bash</span><br></code></pre></td></tr></table></figure>
+
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> linux </tag>
+            
+            <tag> docker </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[UFW 防火墙命令]]></title>
+      <url>/2024/01/05/linux_ufw/</url>
+      <content type="html"><![CDATA[<h3 id="关于ufw"><a href="#关于ufw" class="headerlink" title="关于ufw"></a>关于ufw</h3><p>ufw（Uncomplicated Firewall）是一个简化的、易于使用的Linux防火墙工具，旨在方便用户管理iptables防火墙规则。它为用户提供了一个直观且易于理解的命令行界面，使得配置防火墙规则变得更加简单。</p>
+<p><strong>ufw的一些主要特点和功能：</strong></p>
+<ol>
+<li><strong>简化的防火墙管理</strong>：ufw提供了一个简洁的命令行界面，让您能够轻松地添加、删除和修改防火墙规则。</li>
+<li><strong>基于iptables</strong>：ufw是基于iptables的，因此它与Linux内核中现有的防火墙技术兼容。它实际上是iptables的一个友好的前端。</li>
+<li><strong>允许和拒绝规则</strong>：您可以使用ufw创建允许和拒绝规则，以控制入站和出站流量。这让您可以精确地控制允许哪些连接进入或离开您的系统。</li>
+<li><strong>放行特定端口、协议和IP</strong>：ufw允许您放行特定端口、协议（TCP或UDP）以及特定来源或目标IP地址的连接。</li>
+<li><strong>限制特定IP访问</strong>：您可以使用ufw限制特定IP地址访问您的系统上的特定端口。</li>
+<li><strong>日志记录</strong>：ufw可以记录防火墙活动，这对于监视您的系统安全和解决网络问题非常有用。</li>
+<li><strong>易于启用和禁用</strong>：ufw可以轻松启用和禁用，让您在需要时可以迅速启用防火墙，或在进行系统维护时暂时关闭防火墙。</li>
+</ol>
+<h3 id="安装ufw"><a href="#安装ufw" class="headerlink" title="安装ufw"></a>安装ufw</h3><p>在 Debian、Ubuntu 或其衍生版本上，打开终端并执行以下命令安装：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs routeros"><span class="hljs-comment"># 安装ufw</span><br>sudo apt-<span class="hljs-builtin-name">get</span> update<br>sudo apt-<span class="hljs-builtin-name">get</span> install ufw<br></code></pre></td></tr></table></figure>
+
+<p>然后启动<code>ufw</code>:</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs routeros"><span class="hljs-comment"># 启动ufw</span><br>sudo ufw <span class="hljs-builtin-name">enable</span><br><span class="hljs-comment"># 设置为开机自启</span><br>sudo systemctl <span class="hljs-builtin-name">enable</span> ufw<br></code></pre></td></tr></table></figure>
+
+<p>执行<code>sudo ufw status</code>查看当前状态，通常有3种状态：</p>
+<ul>
+<li>Status: inactive（未启用）：表示 UFW 没有启用，防火墙处于关闭状态。</li>
+<li>Status: active（已启用）：表示 UFW 已经启用，并且防火墙规则正在应用于系统。</li>
+<li>Status: inactive (dead)（未启用且未运行）：表示 UFW 已被禁用，并且防火墙未在系统中运行。</li>
+</ul>
+<h3 id="ufw放行端口"><a href="#ufw放行端口" class="headerlink" title="ufw放行端口"></a>ufw放行端口</h3><p><strong><code>ufw</code>的命令比<code>firewalld</code>简洁许多，比如你想放行单个端口，只需要执行：</strong></p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-comment"># 将 &lt;port&gt; 替换为你要放行的具体端口号。例如，要放行 TCP 端口 80，可以执行 sudo ufw allow 80。</span><br><span class="hljs-attribute">sudo</span> ufw <span class="hljs-literal">allow</span> &lt;port&gt;<br></code></pre></td></tr></table></figure>
+
+<p><strong>如果需要放行特定协议的端口，我们需要加上协议：</strong></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs xml"># 将 <span class="hljs-tag">&lt;<span class="hljs-name">port</span>&gt;</span> 替换为端口号，<span class="hljs-tag">&lt;<span class="hljs-name">protocol</span>&gt;</span> 替换为协议类型（如 tcp、udp）。例如，要放行 UDP 端口 53，可以执行 sudo ufw allow 53/udp。<br>sudo ufw allow <span class="hljs-tag">&lt;<span class="hljs-name">port</span>&gt;</span>/<span class="hljs-tag">&lt;<span class="hljs-name">protocol</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>放行一个端口范围：</strong></p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs elixir">sudo ufw allow &lt;start-port&gt;<span class="hljs-symbol">:&lt;end-port&gt;/&lt;protocol&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>将 <code>&lt;start-port&gt;</code> 替换为起始端口号，<code>&lt;end-port&gt;</code> 替换为结束端口号,<code>&lt;protocol&gt;</code>为协议。例如，要放行 TCP 端口范围 8000 到 9000，可以执行<code>sudo ufw allow 8000:9000/tcp</code></p>
+<h3 id="ufw删除已经放行的规则或端口"><a href="#ufw删除已经放行的规则或端口" class="headerlink" title="ufw删除已经放行的规则或端口"></a>ufw删除已经放行的规则或端口</h3><p>要在ufw（Uncomplicated Firewall）中删除已添加的规则，您可以通过规则号或者具体的放行条件来删除。以下是两种方法：</p>
+<p><strong>方法1：通过规则号删除</strong></p>
+<p>首先，运行以下命令以查看当前ufw的状态和现有规则：</p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">sudo ufw status numbered</span><br></code></pre></td></tr></table></figure>
+
+<p>这将显示带有编号的规则列表。</p>
+<p>确定您要删除的规则的编号，然后使用以下命令删除它，将<code>[rule_number]</code>替换为实际的规则编号：</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs actionscript">sudo ufw <span class="hljs-keyword">delete</span> [rule_number]<br></code></pre></td></tr></table></figure>
+
+<p>例如，要删除编号为1的规则，运行：</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs actionscript">sudo ufw <span class="hljs-keyword">delete</span> <span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>方法2：通过放行条件删除</strong></p>
+<p>您还可以通过指定放行条件（例如端口和协议）来删除规则。例如，要删除允许TCP端口80的规则，您可以运行：</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">sudo</span> ufw delete <span class="hljs-literal">allow</span> <span class="hljs-number">80</span>/tcp<br></code></pre></td></tr></table></figure>
+
+<p>或者，如果要删除允许UDP端口5000的规则，您可以运行：</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">sudo</span> ufw delete <span class="hljs-literal">allow</span> <span class="hljs-number">5000</span>/udp<br></code></pre></td></tr></table></figure>
+
+<p>删除规则后，再次运行<code>sudo ufw status</code>以确认所选规则已从ufw中删除。</p>
+<h3 id="阻止某个特定的IP"><a href="#阻止某个特定的IP" class="headerlink" title="阻止某个特定的IP"></a>阻止某个特定的IP</h3><p>使用以下命令阻止来自特定IP（例如123.57.22.204）的连接：</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">sudo</span> ufw <span class="hljs-literal">deny</span> from <span class="hljs-number">123.57.22.204</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="允许特定IP访问特定端口"><a href="#允许特定IP访问特定端口" class="headerlink" title="允许特定IP访问特定端口"></a>允许特定IP访问特定端口</h3><p>使用以下命令允许特定IP访问特定端口。将<code>[ip_address]</code>替换为要允许的实际IP地址，将<code>[port_number]</code>替换为要允许访问的实际端口号，将<code>[protocol]</code>替换为<code>tcp</code>或<code>udp</code>，具体取决于您要放行的协议：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs css">sudo ufw allow <span class="hljs-selector-tag">from</span> <span class="hljs-selector-attr">[ip_address]</span> <span class="hljs-selector-tag">to</span> any port <span class="hljs-selector-attr">[port_number]</span>/<span class="hljs-selector-attr">[protocol]</span><br></code></pre></td></tr></table></figure>
+
+<p>例如，要允许IP地址<code>192.168.1.10</code>访问TCP端口<code>22</code>，您可以运行：</p>
+<figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs pf">sudo ufw allow <span class="hljs-keyword">from</span> <span class="hljs-number">192.168</span>.<span class="hljs-number">1.10</span> <span class="hljs-keyword">to</span> <span class="hljs-literal">any</span> <span class="hljs-keyword">port</span> <span class="hljs-number">22</span>/tcp<br></code></pre></td></tr></table></figure>
+
+<p>ufw是一个易于使用且功能强大的防火墙管理工具，它使得在Linux系统上配置防火墙规则变得更加简单。</p>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> linux </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Docker常用操作命令]]></title>
+      <url>/2024/01/05/linux_docker_cmd/</url>
+      <content type="html"><![CDATA[<h3 id="一、-Docker-容器命令"><a href="#一、-Docker-容器命令" class="headerlink" title="一、 Docker 容器命令"></a>一、 Docker 容器命令</h3><h3 id="1-拉取镜像"><a href="#1-拉取镜像" class="headerlink" title="1. 拉取镜像"></a>1. 拉取镜像</h3><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs elixir"><span class="hljs-variable">$ </span>docker pull ubuntu<br></code></pre></td></tr></table></figure>
+
+<h3 id="2-启动容器"><a href="#2-启动容器" class="headerlink" title="2. 启动容器"></a>2. 启动容器</h3><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs applescript">$ docker <span class="hljs-built_in">run</span> -<span class="hljs-keyword">it</span> ubuntu /bin/bash<br></code></pre></td></tr></table></figure>
+
+<p>命令参数说明：</p>
+<p>-i   :  以交互模式运行容器，通过容器内的标准输入/输出进行交互</p>
+<p>-t  :   重新分配一个输入终端</p>
+<p>-d :  指定容器后台运行</p>
+<p>ubuntu :   指定要运行的镜像。 如果本地主机上查找镜像不存在，就会从官方镜像仓库Docker Hub 下载公共镜像。</p>
+<p>/bin/bash :  在容器中运行交互式 shell </p>
+<p>退出容器终端， 输入 exit  或是按下 ctrl +d </p>
+<p><strong>备注：</strong> 该命令实际效果是创建容器；例如：使用同一镜像重复执行二次 <code>docker run -it ubuntu /bin/bash</code> 命令，则创建2个容器。</p>
+<h3 id="3-查看容器"><a href="#3-查看容器" class="headerlink" title="3. 查看容器"></a>3. 查看容器</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-variable">$</span> docker <span class="hljs-built_in">ps</span><br></code></pre></td></tr></table></figure>
+
+<p>注： 不带 -a 时用来查看运行中的容器，带-a时可以查看所有状态的容器</p>
+<h3 id="4-启动已停止运行的容器"><a href="#4-启动已停止运行的容器" class="headerlink" title="4. 启动已停止运行的容器"></a>4. 启动已停止运行的容器</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-variable">$</span> docker <span class="hljs-built_in">start</span> <span class="hljs-number">0</span>e7607613da<br></code></pre></td></tr></table></figure>
+
+<h3 id="5-停止容器"><a href="#5-停止容器" class="headerlink" title="5. 停止容器"></a>5. 停止容器</h3><figure class="highlight gauss"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs gauss">$ docker <span class="hljs-keyword">stop</span> <span class="hljs-number">0e609760</span><span class="hljs-keyword">ed</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="6-进入一个运行中的容器"><a href="#6-进入一个运行中的容器" class="headerlink" title="6. 进入一个运行中的容器"></a>6. 进入一个运行中的容器</h3><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">docker exec -it <span class="hljs-number">0314</span>ghadaf <span class="hljs-regexp">/bin/</span>bash<br></code></pre></td></tr></table></figure>
+
+<h3 id="7-删除容器"><a href="#7-删除容器" class="headerlink" title="7. 删除容器"></a>7. 删除容器</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">docker <span class="hljs-built_in">rm</span> <span class="hljs-operator">-f</span> <span class="hljs-number">18745</span>ajkdg<br></code></pre></td></tr></table></figure>
+
+<p>参数说明： -f   :  强制删除容器。如果不带 -f 参数，只能删除停止运行状态的容器</p>
+<h3 id="8-查看-Docker-标准输出日志"><a href="#8-查看-Docker-标准输出日志" class="headerlink" title="8. 查看 Docker 标准输出日志"></a>8. 查看 Docker 标准输出日志</h3><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs elixir"><span class="hljs-variable">$ </span>docker logs <span class="hljs-number">51</span>dadf1451<br></code></pre></td></tr></table></figure>
+
+<h3 id="9-查看命令帮助"><a href="#9-查看命令帮助" class="headerlink" title="9. 查看命令帮助"></a>9. 查看命令帮助</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">$</span><span class="bash"> docker &lt;COMMOND&gt; --<span class="hljs-built_in">help</span></span><br></code></pre></td></tr></table></figure>
+
+<h3 id="10-容器改名"><a href="#10-容器改名" class="headerlink" title="10. 容器改名"></a>10. 容器改名</h3><figure class="highlight bnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bnf">$ docker rename c7ad <span class="hljs-attribute">&lt;名称&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="二、Dock-镜像命令"><a href="#二、Dock-镜像命令" class="headerlink" title="二、Dock 镜像命令"></a>二、Dock 镜像命令</h3><h3 id="1-查看本地镜像"><a href="#1-查看本地镜像" class="headerlink" title="1. 查看本地镜像"></a>1. 查看本地镜像</h3><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs elixir"><span class="hljs-variable">$ </span>docker images<br></code></pre></td></tr></table></figure>
+
+<p>同一仓库源可以多个TAG ，代表它的不同版本。例如： 使用ubuntu 15.10 版本系统镜像来运行容器，命令如下： </p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs applescript">$ docker <span class="hljs-built_in">run</span> -<span class="hljs-keyword">it</span> ubuntu:<span class="hljs-number">15.10</span> /bin/bash<br></code></pre></td></tr></table></figure>
+
+<p>如果不指定一个镜像的版本标签，那么默认使用最新版本， tag 自动设置为 last </p>
+<h3 id="2-拉取镜像"><a href="#2-拉取镜像" class="headerlink" title="2. 拉取镜像"></a>2. 拉取镜像</h3><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">docker</span> pull ubuntu:<span class="hljs-number">13</span>.<span class="hljs-number">10</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="3-查找镜像"><a href="#3-查找镜像" class="headerlink" title="3. 查找镜像"></a>3. 查找镜像</h3><p>可以在 Docker Hub  网站来搜索镜像，也可以使用 docker search 命令。 如下</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs elixir"><span class="hljs-variable">$ </span>docker search httpd<br></code></pre></td></tr></table></figure>
+
+<p>其中参数： </p>
+<p>NAME: 镜像仓库源的名称</p>
+<p>DESCRIPTION: 镜像的描述</p>
+<p>STARS:  类似 Github 里面的 star，表示点赞、喜欢的意思 </p>
+<p>OFFICIAL: 是否是官方发布</p>
+<p>AUTOMATED:  自动构建</p>
+<h3 id="4-删除镜像"><a href="#4-删除镜像" class="headerlink" title="4. 删除镜像"></a>4. 删除镜像</h3><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs elixir"><span class="hljs-variable">$ </span>docker rmi hello-world<br></code></pre></td></tr></table></figure>
+
+<h3 id="5-设置镜像标签"><a href="#5-设置镜像标签" class="headerlink" title="5. 设置镜像标签"></a>5. 设置镜像标签</h3><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs crmsh">$ docker <span class="hljs-keyword">tag</span> <span class="hljs-title">607601ada</span> centos:test<br></code></pre></td></tr></table></figure>
+
+<p>使用 docker images 命令可查看，ID为 607601ada 的镜像多了一个标签</p>
+<h3 id="三、Docker-Compose"><a href="#三、Docker-Compose" class="headerlink" title="三、Docker Compose"></a>三、Docker Compose</h3><p>Compose 是用于定义和运行多容器 Docker 应用程序的工具， 可以从 YML 文件配置中创建并启动应用程序需要的所有服务。</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">docker-compose 命令 --help 获得一个命令的帮助<br>docker-compose up -d nginx 构建启动nignx容器<br>docker-compose exec nginx <span class="hljs-keyword">bash </span>登录到nginx容器中<br>docker-compose down 此命令将会停止 up 命令所启动的容器，并移除网络<br>docker-compose ps 列出项目中目前的所有容器<br>docker-compose restart nginx 重新启动nginx容器<br>docker-compose <span class="hljs-keyword">build </span>nginx 构建镜像<br>docker-compose <span class="hljs-keyword">build </span>--no-<span class="hljs-keyword">cache </span>nginx 不带缓存的构建<br>docker-compose top 查看各个服务容器内运行的进程<br>docker-compose logs -f nginx 查看nginx的实时日志<br>docker-compose images 列出 Compose 文件包含的镜像<br>docker-compose <span class="hljs-built_in">config</span> 验证文件配置，当配置正确时，不输出任何内容，当文件配置错误，输出错误信息。<br>docker-compose events --<span class="hljs-keyword">json </span>nginx 以<span class="hljs-keyword">json的形式输出nginx的docker日志</span><br><span class="hljs-keyword"></span>docker-compose <span class="hljs-keyword">pause </span>nginx 暂停nignx容器<br>docker-compose unpause nginx 恢复ningx容器<br>docker-compose rm nginx 删除容器（删除前必须关闭容器，执行stop）<br>docker-compose stop nginx 停止nignx容器<br>docker-compose start nginx 启动nignx容器<br>docker-compose restart nginx 重启项目中的nignx容器<br>docker-compose run --no-deps --rm php-fpm php -v 在php-fpm中不启动关联容器，并容器执行php -v 执行完成后删除容器<br></code></pre></td></tr></table></figure>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> docker </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[在centos7（7.9）下部署NodeJs18版本的过程]]></title>
+      <url>/2023/12/29/linux_centos7NodeJs18/</url>
+      <content type="html"><![CDATA[<p>安装nodejs18.16.0版本后，nodejs和npm都报错，因为centos7不支持。</p>
+<p>需要升级系统的make、GCC、GLIBC的版本。</p>
+<h3 id="1-升级make"><a href="#1-升级make" class="headerlink" title="1. 升级make"></a>1. 升级make</h3><pre><code class="hljs">查看升级前的版本：可以发现是GNU Make 3.82
+</code></pre>
+<figure class="highlight vala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs vala"><span class="hljs-meta"># make -v</span><br></code></pre></td></tr></table></figure>
+
+<pre><code class="hljs">下载4.2版本，不能使用更高的版本。
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-comment"># yum -y install wget</span><br>mkdir -p <span class="hljs-regexp">/root/my</span>download &amp;&amp; cd <span class="hljs-regexp">/root/my</span>download<br>wget http:<span class="hljs-regexp">//</span>ftp.gnu.org<span class="hljs-regexp">/pub/g</span>nu<span class="hljs-regexp">/make/m</span>ake-<span class="hljs-number">4.2</span>.tar.gz<br></code></pre></td></tr></table></figure>
+编译安装make4.2
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs awk">cp <span class="hljs-regexp">/root/my</span>download<span class="hljs-regexp">/make-r.2.tar.gz /u</span>sr/src<br>cd <span class="hljs-regexp">/usr/</span>src<br>tar -xf make-<span class="hljs-number">4.2</span>.tar.gz<br>cd make-<span class="hljs-number">4.2</span><br>./configure<br>make -j4<br>make install<br>cd <span class="hljs-regexp">/usr/</span>bin<br>mv make make3.<span class="hljs-number">8</span><br>cp <span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/bin/m</span>ake <span class="hljs-regexp">/usr/</span>bin<br><br></code></pre></td></tr></table></figure>
+已经升级为4.2版本
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">make -v</span><br></code></pre></td></tr></table></figure>
+</code></pre>
+<h3 id="2-升级GCC"><a href="#2-升级GCC" class="headerlink" title="2. 升级GCC"></a>2. 升级GCC</h3><pre><code class="hljs"> 查看当前版本：4.8.5
+ <figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ada">gcc <span class="hljs-comment">--version</span><br></code></pre></td></tr></table></figure>
+ 下载8.1.0版本
+ <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs awk">cd <span class="hljs-regexp">/root/my</span>download<br>wget http:<span class="hljs-regexp">//</span>www.netgull.com<span class="hljs-regexp">/gcc/</span>releases<span class="hljs-regexp">/gcc-8.1.0/g</span>cc-<span class="hljs-number">8.1</span>.<span class="hljs-number">0</span>.tar.gz<br><br></code></pre></td></tr></table></figure>
+ 安装依赖
+ <figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">yum</span> -y install bzip<span class="hljs-number">2</span><br></code></pre></td></tr></table></figure>
+ 编译安装GCC8.1.0版本
+ <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs awk">cp <span class="hljs-regexp">/root/my</span>download<span class="hljs-regexp">/gcc-8.1.0.tar.gz /u</span>sr/src<br>cd <span class="hljs-regexp">/usr/</span>src<br>tar -xf gcc-<span class="hljs-number">8.1</span>.<span class="hljs-number">0</span>.tar.gz<br>cd gcc-<span class="hljs-number">8.1</span>.<span class="hljs-number">0</span><br>.<span class="hljs-regexp">/contrib/</span>download_prerequisites<br>mkdir build<br>cd build<br>../configure --enable-bootstrap --enable-checking=release --enable-languages=c,c++ --disable-multilib<br>make -j4<br>make install<br>cd <span class="hljs-regexp">/usr/</span>bin/<br>mv gcc gcc4.<span class="hljs-number">8.5</span><br>cp <span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/bin/g</span>cc <span class="hljs-regexp">/usr/</span>bin<br></code></pre></td></tr></table></figure>
+查看升级后GCC版本
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs autoit">[root<span class="hljs-symbol">@DockersHK</span> bin]<span class="hljs-meta"># gcc --version</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs avrasm">gcc (GCC) <span class="hljs-number">8.1</span><span class="hljs-number">.0</span><br>Copyright © <span class="hljs-number">2018</span> Free Software Foundation, <span class="hljs-keyword">Inc</span>.<br>本程序是自由软件；请参看源代码的版权声明。本软件没有任何担保；<br>包括没有适销性和某一专用目的下的适用性担保。<br></code></pre></td></tr></table></figure>
+查找最新动态库：
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs autoit">[root<span class="hljs-symbol">@DockersHK</span> bin]<span class="hljs-meta"># find / -name <span class="hljs-string">&quot;libstdc++.so*&quot;</span></span><br></code></pre></td></tr></table></figure>
+</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs /var/lib/docker/overlay2/1931879334e2d9b88d5ef702e2c6a054567c0c594027b3494b88e1b7c4aebb2e/diff/usr/lib/libstdc++.so.6">/var/lib/docker/overlay2/1931879334e2d9b88d5ef702e2c6a054567c0c594027b3494b88e1b7c4aebb2e/diff/usr/lib/libstdc++.so.6.0.28<br>/usr/lib/gcc/x86_64-redhat-linux/4.8.2/32/libstdc++.so<br>/usr/lib/gcc/x86_64-redhat-linux/4.8.2/libstdc++.so<br>/usr/lib64/libstdc++.so.6<br>/usr/lib64/libstdc++.so.6.0.19<br>/usr/share/gdb/auto-load/usr/lib64/libstdc++.so.6.0.19-gdb.py<br>/usr/share/gdb/auto-load/usr/lib64/libstdc++.so.6.0.19-gdb.pyc<br>/usr/share/gdb/auto-load/usr/lib64/libstdc++.so.6.0.19-gdb.pyo<br>/usr/local/lib64/libstdc++.so.6.0.25<br>/usr/local/lib64/libstdc++.so.6<br>/usr/local/lib64/libstdc++.so<br>/usr/local/lib64/libstdc++.so.6.0.25-gdb.py<br>/usr/src/gcc-8.1.0/build/prev-x86_64-pc-linux-gnu/libstdc++-v3/src/.libs/libstdc++.so.6.0.25<br>/usr/src/gcc-8.1.0/build/prev-x86_64-pc-linux-gnu/libstdc++-v3/src/.libs/libstdc++.so.6<br>/usr/src/gcc-8.1.0/build/prev-x86_64-pc-linux-gnu/libstdc++-v3/src/.libs/libstdc++.so<br>/usr/src/gcc-8.1.0/build/x86_64-pc-linux-gnu/libstdc++-v3/src/.libs/libstdc++.so.6.0.25<br>/usr/src/gcc-8.1.0/build/x86_64-pc-linux-gnu/libstdc++-v3/src/.libs/libstdc++.so.6<br>/usr/src/gcc-8.1.0/build/x86_64-pc-linux-gnu/libstdc++-v3/src/.libs/libstdc++.so<br>/usr/src/gcc-8.1.0/build/stage1-x86_64-pc-linux-gnu/libstdc++-v3/src/.libs/libstdc++.so.6.0.25<br>/usr/src/gcc-8.1.0/build/stage1-x86_64-pc-linux-gnu/libstdc++-v3/src/.libs/libstdc++.so.6<br>/usr/src/gcc-8.1.0/build/stage1-x86_64-pc-linux-gnu/libstdc++-v3/src/.libs/libstdc++.so<br>/opt/rh/devtoolset-8/root/usr/lib/gcc/x86_64-redhat-linux/8/32/libstdc++.so<br>/opt/rh/devtoolset-8/root/usr/lib/gcc/x86_64-redhat-linux/8/libstdc++.so<br></code></pre></td></tr></table></figure>
+<p>把找到的最新的动态库libstdc++.so.6.0.25复制至/usr/lib64目录下：</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs gradle">[root@DockersHK bin]# cp <span class="hljs-regexp">/usr/</span>src<span class="hljs-regexp">/gcc-8.1.0/</span>build<span class="hljs-regexp">/stage1-x86_64-pc-linux-gnu/</span>libstdc++-v3<span class="hljs-regexp">/src/</span>.libs<span class="hljs-regexp">/libstdc++.so.6.0.25 /u</span>sr/lib64<br></code></pre></td></tr></table></figure>
+<p>查看默认动态库的版本：</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs elixir">[root<span class="hljs-variable">@DockersHK</span> bin]<span class="hljs-comment"># cd /usr/lib64/</span><br>[root<span class="hljs-variable">@DockersHK</span> lib64]<span class="hljs-comment"># ls -ln libstdc++.so.6</span><br>lrwxrwxrwx. <span class="hljs-number">1</span> 0 0 <span class="hljs-number">19</span> <span class="hljs-number">12</span>月 <span class="hljs-number">27</span> <span class="hljs-number">11</span><span class="hljs-symbol">:</span><span class="hljs-number">39</span> libstdc++.so.<span class="hljs-number">6</span> -&gt; libstdc++.so.<span class="hljs-number">6.0</span>.<span class="hljs-number">19</span><br></code></pre></td></tr></table></figure>
+<p>将默认动态库的软连接指向最新的动态库：</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs elixir">[root<span class="hljs-variable">@DockersHK</span> lib64]<span class="hljs-comment"># mv libstdc++.so.6&#123;,.bak&#125;</span><br>[root<span class="hljs-variable">@DockersHK</span> lib64]<span class="hljs-comment"># ln -sv libstdc++.so.6.0.25 libstdc++.so.6</span><br><span class="hljs-string">&quot;libstdc++.so.6&quot;</span> -&gt; <span class="hljs-string">&quot;libstdc++.so.6.0.25&quot;</span><br></code></pre></td></tr></table></figure>
+<h3 id="3-升级GLIBC"><a href="#3-升级GLIBC" class="headerlink" title="3. 升级GLIBC"></a>3. 升级GLIBC</h3><p>查看升级前版本</p>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs avrasm">[root@DockersHK lib64]<span class="hljs-meta"># ldd --version</span><br><span class="hljs-keyword">ldd</span> (GNU libc) <span class="hljs-number">2.17</span><br>Copyright (C) <span class="hljs-number">2012</span> Free Software Foundation, <span class="hljs-keyword">Inc</span>.<br>This is free software<span class="hljs-comment">; see the source for copying conditions.  There is NO</span><br>warranty<span class="hljs-comment">; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.</span><br>由 Roland McGrath 和 Ulrich Drepper 编写。<br></code></pre></td></tr></table></figure>
+<p>下载2.30版本</p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs autoit">[root<span class="hljs-symbol">@DockersHK</span> ~]<span class="hljs-meta"># cd /root/mydownload</span><br>[root<span class="hljs-symbol">@DockersHK</span> ~]<span class="hljs-meta"># wget http://ftp.gnu.org/pub/gnu/glibc/glibc-2.30.tar.xz</span><br></code></pre></td></tr></table></figure>
+<p>GLIBC从2.29版本开始需要Python3.4以上版本支持</p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs autoit">[root<span class="hljs-symbol">@DockersHK</span> mydownload]<span class="hljs-meta"># python -V</span><br>Python <span class="hljs-number">2.7</span><span class="hljs-number">.5</span><br>[root<span class="hljs-symbol">@DockersHK</span> mydownload]<span class="hljs-meta"># wget https://www.python.org/ftp/python/3.8.0/Python-3.8.0.tar.xz</span><br><br></code></pre></td></tr></table></figure>
+<p>安装依赖软件包</p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs autoit">[root<span class="hljs-symbol">@DockersHK</span> mydownload]<span class="hljs-meta"># yum -y install zlib-devel openssl-devel ncurses-devel readline-devel tk-devel gdbm-devel db4-devel libpcap-devel</span><br></code></pre></td></tr></table></figure>
+<p>编译安装3.8.0版本</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs gradle">[root@DockersHK mydownload]# tar -xf Python-<span class="hljs-number">3.8</span>.<span class="hljs-number">0</span>.tar.xz <br>[root@DockersHK mydownload]# cd Python-<span class="hljs-number">3.8</span>.<span class="hljs-number">0</span><br>[root@DockersHK Python-<span class="hljs-number">3.8</span>.<span class="hljs-number">0</span>]# .<span class="hljs-regexp">/configure --prefix=/u</span>sr<span class="hljs-regexp">/local/</span>python3.<span class="hljs-number">8.0</span><br><br>[root@DockersHK Python-<span class="hljs-number">3.8</span>.<span class="hljs-number">0</span>]# make -j4 &amp;&amp; make install<br><br>[root@DockersHK Python-<span class="hljs-number">3.8</span>.<span class="hljs-number">0</span>]# mv <span class="hljs-regexp">/usr/</span>bin<span class="hljs-regexp">/python /u</span>sr<span class="hljs-regexp">/bin/</span>python2.<span class="hljs-number">7.5</span><br>[root@DockersHK Python-<span class="hljs-number">3.8</span>.<span class="hljs-number">0</span>]# ln -sv <span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/python3.8.0/</span>bin<span class="hljs-regexp">/python3 /u</span>sr<span class="hljs-regexp">/bin/</span>python<br>[root@DockersHK Python-<span class="hljs-number">3.8</span>.<span class="hljs-number">0</span>]# ln -sv <span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/python3.8.0/</span>bin<span class="hljs-regexp">/pip3 /u</span>sr<span class="hljs-regexp">/bin/</span>pip<br></code></pre></td></tr></table></figure>
+<p>配置环境变量：</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs vim">[root@DockersHK Python-<span class="hljs-number">3.8</span>.<span class="hljs-number">0</span>]# <span class="hljs-keyword">vim</span> /etc/<span class="hljs-keyword">profile</span>.d/<span class="hljs-keyword">python3</span>.<span class="hljs-number">8.0</span>.<span class="hljs-keyword">sh</span><br>输入 export PATH=/usr/local/<span class="hljs-keyword">python3</span>.<span class="hljs-number">8.0</span>/bin:$PATH<br>[root@DockersHK Python-<span class="hljs-number">3.8</span>.<span class="hljs-number">0</span>]# . /etc/<span class="hljs-keyword">profile</span>.d/<span class="hljs-keyword">python3</span>.<span class="hljs-number">8.0</span>.<span class="hljs-keyword">sh</span> <br>查看升级后的版本：<br><span class="hljs-keyword">python</span> -V<br></code></pre></td></tr></table></figure>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs awk">vim <span class="hljs-regexp">/usr/</span>bin/yum<br>修改第一行的python为python2.<span class="hljs-number">7.5</span><br>vim <span class="hljs-regexp">/usr/</span>libexec/urlgrabber-ext-down<br>同理<br></code></pre></td></tr></table></figure>
+<p>安装GLIBC 2.30的依赖包</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">yum -y <span class="hljs-keyword">install </span><span class="hljs-keyword">bison </span>texinfo<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs autoit">[root<span class="hljs-symbol">@DockersHK</span> Python<span class="hljs-number">-3.8</span><span class="hljs-number">.0</span>]<span class="hljs-meta"># cd /root/mydownload/</span><br>[root<span class="hljs-symbol">@DockersHK</span> mydownload]<span class="hljs-meta"># tar -xf glibc-2.30.tar.xz </span><br>[root<span class="hljs-symbol">@DockersHK</span> mydownload]<span class="hljs-meta"># cd glibc-2.30</span><br>[root<span class="hljs-symbol">@DockersHK</span> glibc<span class="hljs-number">-2.30</span>]<span class="hljs-meta"># mkdir build</span><br>[root<span class="hljs-symbol">@DockersHK</span> glibc<span class="hljs-number">-2.30</span>]<span class="hljs-meta"># cd build/</span><br>[root<span class="hljs-symbol">@DockersHK</span> build]<span class="hljs-meta"># ../configure --prefix=/usr --disable-profile --enable-add-ons --with-headers=/usr/<span class="hljs-meta-keyword">include</span> --with-binutils=/usr/bin</span><br>[root<span class="hljs-symbol">@DockersHK</span> build]<span class="hljs-meta"># make -j4 &amp;&amp; make install</span><br><br></code></pre></td></tr></table></figure>
+<p>最后提示了两个错误项，但不会影响GLIBC的版本升级。</p>
+<figure class="highlight vbnet"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs vbnet">You should restart this script <span class="hljs-keyword">from</span> your build directory after you<span class="hljs-comment">&#x27;ve</span><br>fixed all problems!<br>Btw. the script doesn<span class="hljs-comment">&#x27;t work if you&#x27;re installing GNU libc not as your</span><br>primary library!<br>make[<span class="hljs-number">1</span>]: *** [Makefile:<span class="hljs-number">111</span>: install] <span class="hljs-keyword">Error</span> <span class="hljs-number">1</span><br>make[<span class="hljs-number">1</span>]: Leaving directory <span class="hljs-comment">&#x27;/root/mydownload/glibc-2.30&#x27;</span><br><span class="hljs-symbol">make:</span> *** [Makefile:<span class="hljs-number">12</span>：install] 错误 <span class="hljs-number">2</span><br>[root@DockersHK build]# <br></code></pre></td></tr></table></figure>
+<p>可以发现GLIBC已经升级为2.30版本</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">[root@DockersHK <span class="hljs-keyword">build]# </span>ldd --version<br>ldd (GNU libc) <span class="hljs-number">2</span>.<span class="hljs-number">30</span><br>Copyright (C) <span class="hljs-number">2019</span> Free Software Foundation, Inc.<br>This is free software<span class="hljs-comment">; see the source for copying conditions.  There is NO</span><br>warranty<span class="hljs-comment">; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.</span><br>Written <span class="hljs-keyword">by </span>Roland McGrath <span class="hljs-keyword">and </span>Ulrich Drepper.<br></code></pre></td></tr></table></figure>
+
+<h3 id="测试阶段"><a href="#测试阶段" class="headerlink" title="测试阶段"></a>测试阶段</h3><figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs coffeescript">[root@DockersHK build]<span class="hljs-comment"># strings /lib64/libc.so.6 | grep ^GLIBC_2.25 | uniq</span><br>GLIBC_2<span class="hljs-number">.25</span><br>[root@DockersHK build]<span class="hljs-comment"># strings /lib64/libc.so.6 | grep ^GLIBC_2.28 | uniq</span><br>GLIBC_2<span class="hljs-number">.28</span><br>[root@DockersHK build]<span class="hljs-comment"># strings /lib64/libc.so.6 | grep ^GLIBC_2.27 | uniq</span><br>GLIBC_2<span class="hljs-number">.27</span><br>[root@DockersHK build]<span class="hljs-comment"># strings /lib64/libstdc++.so.6 | grep ^CXXABI_1.3.9 | uniq</span><br>CXXABI_1<span class="hljs-number">.3</span><span class="hljs-number">.9</span><br>[root@DockersHK build]<span class="hljs-comment"># strings /lib64/libstdc++.so.6 | grep ^GLIBCXX_3.4.20 | uniq</span><br>GLIBCXX_3<span class="hljs-number">.4</span><span class="hljs-number">.20</span><br>[root@DockersHK build]<span class="hljs-comment"># strings /lib64/libstdc++.so.6 | grep ^GLIBCXX_3.4.21 | uniq</span><br>GLIBCXX_3<span class="hljs-number">.4</span><span class="hljs-number">.21</span><br>[root@DockersHK build]<span class="hljs-comment"># node -v</span><br>v18<span class="hljs-number">.16</span><span class="hljs-number">.0</span><br>[root@DockersHK build]<span class="hljs-comment"># npm -v</span><br><span class="hljs-number">9.5</span><span class="hljs-number">.1</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="可选扩展配置"><a href="#可选扩展配置" class="headerlink" title="可选扩展配置"></a>可选扩展配置</h3><p>修改npm源为淘宝</p>
+<figure class="highlight vala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs vala">查看当前源<br><span class="hljs-meta"># npm config get registry</span><br>更换为淘宝源<br><span class="hljs-meta"># npm config set registry https://registry.npmmirror.com</span><br><br></code></pre></td></tr></table></figure>
+<p>配置cnpm包管理工具</p>
+<figure class="highlight vala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs vala"><span class="hljs-meta"># npm install -g cnpm</span><br><span class="hljs-meta"># npm install -g npm@9.6.6</span><br>查看cnpm的版本<br><span class="hljs-meta"># cnpm -v</span><br><br></code></pre></td></tr></table></figure>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> nodejs </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[centos7安装docker和docker-compose]]></title>
       <url>/2023/12/26/linux_centos7_Docker/</url>
       <content type="html"><![CDATA[<h4 id="安装docker"><a href="#安装docker" class="headerlink" title="安装docker"></a>安装docker</h4><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs awk">yum update -y<br>yum install -y yum-utils device-mapper-persistent-data <br><br>yum-config-manager --add-repo https:<span class="hljs-regexp">//mi</span>rrors.aliyun.com<span class="hljs-regexp">/docker-ce/</span>linux<span class="hljs-regexp">/centos/</span>docker-ce.repo<br>sed -i <span class="hljs-string">&#x27;s+download.docker.com+mirrors.aliyun.com/docker-ce+&#x27;</span> <span class="hljs-regexp">/etc/yum</span>.repos.d/docker-ce.repo<br><br>yum -y install docker-ce<br>service docker start<br>systemctl enable docker<br><br><br></code></pre></td></tr></table></figure>
@@ -818,7 +1668,7 @@ State 5 to 1 - 断开连接
     
     <entry>
       <title><![CDATA[本地部署的GitLab升级指南]]></title>
-      <url>/2023/06/20/git-GitLab-update/</url>
+      <url>/2023/06/20/git_GitLab_update/</url>
       <content type="html"><![CDATA[<h3 id="gitLab-升级版本路线"><a href="#gitLab-升级版本路线" class="headerlink" title="gitLab 升级版本路线"></a>gitLab 升级版本路线</h3><p>  gitlab 不支持大版本之间直接升级，需要升级到当前版本的最新版本，然后再升级下一个版本。</p>
 <ul>
 <li>GitLab 8: <code>8.11.Z</code> &gt; <code>8.12.0</code> &gt; <code>8.17.7</code></li>
@@ -828,8 +1678,8 @@ State 5 to 1 - 断开连接
 <li>GitLab 12: <code>12.0.12</code> &gt; <a href="https://docs.gitlab.com/ee/update/index.html#1210"><code>12.1.17</code></a> &gt; <a href="https://docs.gitlab.com/ee/update/index.html#12100"><code>12.10.14</code></a></li>
 <li>GitLab 13: <code>13.0.14</code> &gt; <a href="https://docs.gitlab.com/ee/update/index.html#1310"><code>13.1.11</code></a> &gt; <a href="https://docs.gitlab.com/ee/update/index.html#1388"><code>13.8.8</code></a> &gt; <a href="https://docs.gitlab.com/ee/update/index.html#13120"><code>13.12.15</code></a></li>
 <li>GitLab 14: <a href="https://docs.gitlab.com/ee/update/index.html#1400"><code>14.0.12</code></a> &gt; <a href="https://docs.gitlab.com/ee/update/index.html#1430"><code>14.3.6</code></a> &gt; <a href="https://docs.gitlab.com/ee/update/index.html#1490"><code>14.9.5</code></a> &gt; <a href="https://docs.gitlab.com/ee/update/index.html#14100"><code>14.10.5</code></a></li>
-<li>GitLab 15: <a href="https://docs.gitlab.com/ee/update/index.html#1500"><code>15.0.5</code></a> &gt; <a href="https://docs.gitlab.com/ee/update/index.html#1510"><code>15.1.6</code></a> (for GitLab instances with multiple web nodes) &gt; <a href="https://docs.gitlab.com/ee/update/index.html#1540"><code>15.4.6</code></a> &gt; <a href="https://docs.gitlab.com/ee/update/index.html#15110"><code>15.11.x</code></a></li>
-<li>GitLab 16: <a href="https://gitlab.com/gitlab-org/gitlab/-/releases">latest <code>16.Y.Z</code></a></li>
+<li>GitLab 15: <a href="https://docs.gitlab.com/ee/update/index.html#1500"><code>15.0.5</code></a> &gt; <a href="https://docs.gitlab.com/ee/update/index.html#1510"><code>15.1.6</code></a> (for GitLab instances with multiple web nodes) &gt; <a href="https://docs.gitlab.com/ee/update/index.html#1540"><code>15.4.6</code></a> &gt; <a href="https://docs.gitlab.com/ee/update/index.html#15110"><code>15.11.13</code></a></li>
+<li>GitLab 16: <a href="https://gitlab.com/gitlab-org/gitlab/-/releases"><code>16.0.8</code></a> &gt; <code>16.1.6</code> &gt;<code>16.2.9</code> &gt; <code>16.3.7</code> &gt; <code>16.7.z</code></li>
 </ul>
 <p><a href="https://docs.gitlab.com/ee/update/index.html#upgrade-paths">官方升级路线说明获取地址:https://docs.gitlab.com/ee/update/index.html#upgrade-paths</a></p>
 <h3 id="版本升级包下载，清华大学开源软件镜像站"><a href="#版本升级包下载，清华大学开源软件镜像站" class="headerlink" title="版本升级包下载，清华大学开源软件镜像站"></a>版本升级包下载，清华大学开源软件镜像站</h3><p>  <a href="https://mirrors.tuna.tsinghua.edu.cn/gitlab-ce/">清华大学镜像站：https://mirrors.tuna.tsinghua.edu.cn/gitlab-ce/</a></p>
@@ -873,7 +1723,7 @@ State 5 to 1 - 断开连接
     
     <entry>
       <title><![CDATA[MarkDown语法]]></title>
-      <url>/2023/05/19/markdown-YuFa/</url>
+      <url>/2023/05/19/markdown_YuFa/</url>
       <content type="html"><![CDATA[<h3 id="1-标题"><a href="#1-标题" class="headerlink" title="1. 标题"></a>1. 标题</h3><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs markdown"><span class="hljs-section">我是一级标题</span><br><span class="hljs-section">=================</span><br><span class="hljs-section">我是二级标题</span><br><span class="hljs-section">-----------------</span><br><br><span class="hljs-section"># 一级标题</span><br><span class="hljs-section">## 二级标题</span><br><span class="hljs-section">### 三级标题</span><br><span class="hljs-section">#### 四级标题</span><br><span class="hljs-section">##### 五级标题</span><br><span class="hljs-section">###### 六级标题</span><br></code></pre></td></tr></table></figure>
 
 <h3 id="2-段落格式"><a href="#2-段落格式" class="headerlink" title="2. 段落格式"></a>2. 段落格式</h3><ul>
@@ -1406,7 +2256,7 @@ State 5 to 1 - 断开连接
     
     <entry>
       <title><![CDATA[SO_DO]]></title>
-      <url>/2021/10/22/SO-DO/</url>
+      <url>/2021/10/22/SO_DO/</url>
       <content type="html"></content>
       
         
@@ -1497,7 +2347,7 @@ State 5 to 1 - 断开连接
     
     <entry>
       <title><![CDATA[JAVA中的JdbcTemplate详解]]></title>
-      <url>/2021/09/17/JAVA-jdbc-template/</url>
+      <url>/2021/09/17/JAVA_jdbc_template/</url>
       <content type="html"><![CDATA[<p>JDBCTemplate是Spring为我们提供的，一组访问访问数据库的类库，Spring对JDBC的封装,通俗点说就是Spring对jdbc的封装的模板</p>
 <span id="more"></span>
 <h3 id="Jdbctemplate中含有下面四个方法："><a href="#Jdbctemplate中含有下面四个方法：" class="headerlink" title="Jdbctemplate中含有下面四个方法："></a>Jdbctemplate中含有下面四个方法：</h3><p>query、queryForObject、queryForList、queryForMap</p>
@@ -2901,8 +3751,8 @@ it@Cloud:/$ sudo synopkg uninstall GLPI
     </entry>
     
     <entry>
-      <title><![CDATA[【解决IDEA中】Push to origin/master was rejected错误]]></title>
-      <url>/2021/07/29/git-push-rejected/</url>
+      <title><![CDATA[【解决】IDEA中Push to origin/master was rejected错误]]></title>
+      <url>/2021/07/29/git_push_rejected/</url>
       <content type="html"><![CDATA[<p> 在IDEA中push项目的时候遇到 <code>Push to origin/master was rejected</code>错误提示。</p>
 <p>该错误意思是<code>推送被拒绝</code></p>
 <h4 id="原因是："><a href="#原因是：" class="headerlink" title="原因是："></a>原因是：</h4><span id="more"></span>
@@ -2934,7 +3784,7 @@ it@Cloud:/$ sudo synopkg uninstall GLPI
     
     <entry>
       <title><![CDATA[cephadm部署Octopus + ceph orch命令行工具简单实用]]></title>
-      <url>/2021/07/23/ceph-Octopus/</url>
+      <url>/2021/07/23/ceph_Octopus/</url>
       <content type="html"><![CDATA[<h3 id="Prerequisites"><a href="#Prerequisites" class="headerlink" title="Prerequisites"></a><strong>Prerequisites</strong></h3><p>参考文档：<a href="https://docs.ceph.com/docs/master/cephadm/install/">https://docs.ceph.com/docs/master/cephadm/install/</a></p>
 <p>操作系统版本：CentOS 7.6</p>
 <p>Podman版本：1.4.4</p>
@@ -3075,7 +3925,7 @@ it@Cloud:/$ sudo synopkg uninstall GLPI
     
     <entry>
       <title><![CDATA[ceph-ansible 5.0]]></title>
-      <url>/2021/07/23/ceph-ansible-5.0/</url>
+      <url>/2021/07/23/ceph_ansible_5.0/</url>
       <content type="html"><![CDATA[<h3 id="ceph-ansible-5-0"><a href="#ceph-ansible-5-0" class="headerlink" title="ceph-ansible 5.0"></a>ceph-ansible 5.0</h3><p>优势：需要部署的节点数量越多，ceph-ansible的效率就越高</p>
 <h5 id="版本信息："><a href="#版本信息：" class="headerlink" title="版本信息："></a>版本信息：</h5><p>ceph-ansible:5.0.5    ceph 15.2.11</p>
 <p>os:centos 7.9.2009</p>
@@ -3189,7 +4039,7 @@ it@Cloud:/$ sudo synopkg uninstall GLPI
     
     <entry>
       <title><![CDATA[ceph部署中所需的cephadm文件]]></title>
-      <url>/2021/07/23/ceph-cephadm/</url>
+      <url>/2021/07/23/ceph_cephadm/</url>
       <content type="html"><![CDATA[<p><strong>搭建ceph文件集群存储需要用到cephadm这个文件</strong><br>通常国内的网络是不能wget到这个文件的。最直接有效的方式是手动建立cephadm这个文件，然后再赋予它执行权限<code>chmod +x cephadm</code>，下面是cephadm的完整内容。</p>
 <span id="more"></span>
 
@@ -3499,7 +4349,7 @@ it@Cloud:/$ sudo synopkg uninstall GLPI
     
     <entry>
       <title><![CDATA[IDEA集成GitLab版本控制]]></title>
-      <url>/2021/07/07/git-idea-gitlab/</url>
+      <url>/2021/07/07/git_idea_gitlab/</url>
       <content type="html"><![CDATA[<h3 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h3><ul>
 <li>本地开发环境安装好了git</li>
 <li>IDEA 可正常使用</li>
@@ -3555,7 +4405,7 @@ it@Cloud:/$ sudo synopkg uninstall GLPI
     
     <entry>
       <title><![CDATA[搭建gitlab服务器]]></title>
-      <url>/2021/07/07/git-srv-build/</url>
+      <url>/2021/07/07/git_srv_build/</url>
       <content type="html"><![CDATA[<p>gitlab和github很相似，不过github暂时没有开源版本，项目必须托管到github官方网站，不能本地部署,而且国内访问github并不稳定。考虑到安全费用等因素，决定搭建自己的gitlab服务器。</p>
 <h4 id="获取gitlib资源"><a href="#获取gitlib资源" class="headerlink" title="获取gitlib资源"></a>获取gitlib资源</h4><span id="more"></span>
 <p> 直接从gitlab官方网站下载 </p>
@@ -3581,7 +4431,7 @@ it@Cloud:/$ sudo synopkg uninstall GLPI
     
     <entry>
       <title><![CDATA[git 查看及修改当前应用的仓库地址]]></title>
-      <url>/2021/07/06/git-change-repository/</url>
+      <url>/2021/07/06/git_change_repository/</url>
       <content type="html"><![CDATA[<ol>
 <li>查看当前仓库地址：</li>
 </ol>
@@ -3869,7 +4719,7 @@ it@Cloud:/$ sudo synopkg uninstall GLPI
     
     <entry>
       <title><![CDATA[自制投影幕]]></title>
-      <url>/2021/07/05/Life-mubu/</url>
+      <url>/2021/07/05/Life_mubu/</url>
       <content type="html"><![CDATA[<p><strong>氟硅金属漆</strong></p>
 <p>固定使用，首选4K机型+播放器+音响<br>明基，奥图码，优派，丽迅等等DLP老牌子的产品可以优先看看<br>播放器 芝杜 亿格瑞 海美迪<br>音响 日常使用 回音壁或者5.1套装</p>
 <p>*<em>金属幕布的制作配方<br><em><em>有两种方法：<br><strong>一、高质感氟硅金属漆（这个是金属色）+莹光粉（这个是提高增益的）<br>铁白漆（这个做白色金属硬幕）+莹光粉（这个是提高增益的）</strong><br>用金属漆，但不要用光面漆，要用亚面漆。可视观看度有点小。<br><strong>二、莹光油墨（这个是金属色）+莹光粉</strong><br>（这个是提高增益的用这个效果更佳。观看度也更好）。<br><strong>三、墙体涂料（要选择好点的涂料）+莹光粉+荧光增白济</strong><br>用这个方法做出来和玻珠效果差不多。因墙体发黄快。不建议使用。<br>（在家里做家庭影院是可以使用的，家庭影院就可以不用荧光增白济）<br>根据你想要的增益来增加莹光粉的用料，莹光粉放的多就是增加了增益度<br><strong>制作方法：</strong><br>喷漆要几个步骤来完成：找一块光面比较平整光滑的铝塑板处理，根据你需要尺寸剪裁，投影尺寸见下方，要记得留边，到时还要包边（包边可以用境框做；也可以自己做，用实木做好境框式，然后用尼龙布包边，又高档又好看还会很好的吸光。达到投影的效果更佳）→调好的莹光油墨喷涂1层→调好的莹光油墨喷涂1层，每遍漆后干透再喷第1层，耗时较长。（最用好叫专业的油漆工来喷涂，这样就很平整了）。<br><strong>评论：</strong><br>以上方法用在KTV做是最好的方法。这样成本价比较少。效果佳。如果有人不小心把酒洒上去和蛋糕涂在墙和你做的幕布也没有什么。可以清洗或用湿软布擦干净就OK了。还可以防有些人用烟头烫坏。如果是幕布型就怕客户用烟头烫和洒酒上去，如果是玻珠幕还不能清洗。（如果叫消费者赔就更不讲了，叫服务员赔吗就更不好啦，服务员的一个月工资才那几百块，赔后她们吃西北风去哟），而老板自己又要浪费几百块了，而用这个方法就除去了这些麻烦。到时用久了效果差了，你再喷涂一层就是和新的一样了。<br>幕布投影部尺寸4：3<br>72” 150cm</em> 120cm<br>84” 169cm</em> 127cm<br>100” 203cm * 152cm<br>120” 234cm * 175cm<br>150” 295cm</em>221cm<br>200” 400cm*300cm</p>
@@ -4115,6 +4965,12 @@ document.getElementsByTagName('head')[0].appendChild(oMeta);]]></content>
     </entry>
     
     <entry>
+      <title><![CDATA[404 Not Found：该页无法显示]]></title>
+      <url>//404.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[About me]]></title>
       <url>/about/index.html</url>
       <content type="html"><![CDATA[<p>平淡是生活的本色，有时生活虽然寡淡，但是它很真实也会让你很安心。人生几多繁华，几多坎坷，繁华过后，回归平淡，又是幸福的另外一种体现。<br>过去无法挽回，明天还是未知，只有当下是实实在在的。不要为昨天买单，不要同过去较劲，如果不小心摔倒，爬起来继续奔跑。即使苦难注定要在明天来临，也没必要今天就为它付费。努力照看好今天，明天才会给你惊喜。<br>放下浮躁与焦虑，洞悉人世之理</p>
@@ -4129,26 +4985,20 @@ document.getElementsByTagName('head')[0].appendChild(oMeta);]]></content>
     </entry>
     
     <entry>
-      <title><![CDATA[slides]]></title>
-      <url>/slides/index.html</url>
-      <content type="html"></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[Tags]]></title>
       <url>/tags/index.html</url>
       <content type="html"></content>
     </entry>
     
     <entry>
-      <title><![CDATA[404 Not Found：该页无法显示]]></title>
-      <url>//404.html</url>
+      <title><![CDATA[Project]]></title>
+      <url>/project/index.html</url>
       <content type="html"></content>
     </entry>
     
     <entry>
-      <title><![CDATA[Project]]></title>
-      <url>/project/index.html</url>
+      <title><![CDATA[slides]]></title>
+      <url>/slides/index.html</url>
       <content type="html"></content>
     </entry>
     
