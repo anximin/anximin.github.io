@@ -1,0 +1,822 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/canvas.png">
+  <link rel="icon" href="/img/canvas.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sylar">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="弃我去者，昨日之日不可留；乱我心者，今日之日多烦忧。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Want To">
+<meta property="og:url" content="http://anximin.github.io/page/2/index.html">
+<meta property="og:site_name" content="Want To">
+<meta property="og:description" content="弃我去者，昨日之日不可留；乱我心者，今日之日多烦忧。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="Sylar">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>Want To</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"anximin.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":60,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Want To Top</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/sitemap.xml">
+                <i class="iconfont icon-link-fill"></i>
+                <span>sitmap</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="人生很长又很短，世界繁杂又简单，&lt;br /&gt; 不要看轻自己，努力一些，&lt;br /&gt;  心简单，一切都简单！"></span>
+          
+        </div>
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      <div class="container nopadding-x-md">
+        <div id="board"
+          >
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
+
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2024/03/25/ESP_8266_AT/" target="_self">
+          <img src="/img/index_img/0photo-2.jpg" srcset="/img/loading.gif" lazyload alt="ESP8266使用AT命令操作手册">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2024/03/25/ESP_8266_AT/" target="_self">
+          ESP8266使用AT命令操作手册
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2024/03/25/ESP_8266_AT/" target="_self">
+        <div>
+          AT\r\n            测试AT启动AT+RST\r\n        重启模块AT+GMR\r\n        查看版本信息ATE1\r\n        打开回显ATE0\r\n        关闭回显AT+CWMODE?\r\n  查询WIFI应用模式AT+CUMODE&#x3D; \r\n  设置WIFI应用模式 1：station模式 2：AP模式 3：AP+STATION
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-03-25 10:32" pubdate>
+              2024-03-25
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/ESP/">#ESP</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2024/03/25/Win_set_ip/" target="_self">
+          <img src="/img/index_img/index_0_demo.png" srcset="/img/loading.gif" lazyload alt="Windows中设置网口地址">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2024/03/25/Win_set_ip/" target="_self">
+          Windows中设置网口地址
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2024/03/25/Win_set_ip/" target="_self">
+        <div>
+          使用CMD命令直接设置网卡的IP地址。12345678netsh interface ip set address &quot;以太网&quot; dhcpnetsh interface ip set dns &quot;以太网&quot; dhcpnetsh interface ip set address &quot;以太网&quot; static 10.10.30.94 255.255.2
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-03-25 10:21" pubdate>
+              2024-03-25
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Net/">#Net</a>
+            
+              <a href="/tags/windows/">#windows</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2024/03/22/Linux_ubuntu_mirroraddress/" target="_self">
+          <img src="/img/index_img/index_34_ubuntuaddress.png" srcset="/img/loading.gif" lazyload alt="Ubuntu安装时提示的mirror address设置">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2024/03/22/Linux_ubuntu_mirroraddress/" target="_self">
+          Ubuntu安装时提示的mirror address设置
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2024/03/22/Linux_ubuntu_mirroraddress/" target="_self">
+        <div>
+          在安装Ubantu server版的过程中，有一个设置镜像地址的选项，我们可以设置为清华大学的镜像站点以提高速度。 清华大学开源软件镜像站地址：https://mirrors.tuna.tsinghua.edu.cn 所以这一步可以设置为：https://mirrors.tuna.tsinghua.edu.cn/ubuntu/
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-03-22 08:49" pubdate>
+              2024-03-22
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/linux/">#linux</a>
+            
+              <a href="/tags/Ubuntu/">#Ubuntu</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2024/03/01/Service-CA/" target="_self">
+          <img src="/img/index_img/index_0_demo.png" srcset="/img/loading.gif" lazyload alt="Service_CA">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2024/03/01/Service-CA/" target="_self">
+          Service_CA
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2024/03/01/Service-CA/" target="_self">
+        <div>
+          通过openssl创建CA证书第一步是创建一个秘钥，这个便是CA证书的根本，之后所有的东西都来自这个秘钥： # 通过rsa算法生成2048位长度的秘钥 openssl genrsa -out myCA.key 2048 第二步是通过秘钥加密机构信息形成公钥： # 公钥包含了机构信息，在输入下面的指令之后会有一系列的信息输入，这些信息便是机构信息，公司名称地址什么的 # 这里还有一个过期信息，CA证
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-03-01 07:49" pubdate>
+              2024-03-01
+            </time>
+          </div>
+        
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2024/02/27/net_Speettest_iperf/" target="_self">
+          <img src="/img/index_img/index_0_demo.png" srcset="/img/loading.gif" lazyload alt="网络性能测试【iperf】">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2024/02/27/net_Speettest_iperf/" target="_self">
+          网络性能测试【iperf】
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2024/02/27/net_Speettest_iperf/" target="_self">
+        <div>
+          Iperf 是一个网络性能测试工具。Iperf可以测试最大TCP和UDP带宽性能，具有多种参数和UDP特性，可以根据需要调整，可以报告带宽、延迟抖动和数据包丢失. 安装iPerf下载地址：iperf官网  windows安装：解压即可，使用cmd运行。  Linux安装：   1234567yum install iperf -y# 或者使用下面的命令编译安装wget https://downlo
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-02-27 08:26" pubdate>
+              2024-02-27
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/NETWORK/">#NETWORK</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2024/02/23/git_chengepassword/" target="_self">
+          <img src="/img/index_img/0photo-2.jpg" srcset="/img/loading.gif" lazyload alt="git常见问题">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2024/02/23/git_chengepassword/" target="_self">
+          git常见问题
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2024/02/23/git_chengepassword/" target="_self">
+        <div>
+          如果每次提交或拉取都需要输入密码 1git config --global credential.helper store  再次输入密码后就可以记住密码了。  操作时提示错误：remot:HTTP Basic：Access denied 1git config --system --unset credential.helper  再次输入正确的用户名和密码即可。或者清空http验证再试： 1
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-02-23 16:37" pubdate>
+              2024-02-23
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/GitLab/">#GitLab</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2024/02/20/git_gitlab_extend/" target="_self">
+          <img src="/img/index_img/0photo-2.jpg" srcset="/img/loading.gif" lazyload alt="Gitlab通过LVM无损扩容">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2024/02/20/git_gitlab_extend/" target="_self">
+          Gitlab通过LVM无损扩容
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2024/02/20/git_gitlab_extend/" target="_self">
+        <div>
+          一、添加硬盘无论虚拟机还是物理机，通过各自的方法添加硬盘。 二、 开机后使用fdisk -l 命令查看新增的硬盘磁盘 &#x2F;dev&#x2F;sdb：536.9 GB 是新增的硬盘磁盘 &#x2F;dev&#x2F;mapper&#x2F;centos_gitlab-root：18.2 GB 是将进行扩容的目标磁盘 12345678910111213141516171819202122232
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-02-20 09:47" pubdate>
+              2024-02-20
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/GitLab/">#GitLab</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2024/01/30/Linux_python_env_virtualenv/" target="_self">
+          <img src="/img/index_img/index_0_demo.png" srcset="/img/loading.gif" lazyload alt="使用virtualenv或virtualenvwrapper创建Python虚拟环境">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2024/01/30/Linux_python_env_virtualenv/" target="_self">
+          使用virtualenv或virtualenvwrapper创建Python虚拟环境
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2024/01/30/Linux_python_env_virtualenv/" target="_self">
+        <div>
+          一、 virtualenvvirtualenv 是目前最流行的 python 虚拟环境配置工具。它不仅同时支持 python2 和 python3，而且可以为每个虚拟环境指定 python 解释器，并可以选择继承基础版本的包。 virtualenv 可以说是 venv 的增强版本，不过早在 venv 出现之前，virtualenv 就算是最受欢迎的命令行环境管理工具了。venv 的许多特性也是借鉴
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-01-30 16:06" pubdate>
+              2024-01-30
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Python/">#Python</a>
+            
+              <a href="/tags/%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83/">#虚拟环境</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2024/01/30/net_routerOScmd/" target="_self">
+          <img src="/img/index_img/index_0_demo.gif" srcset="/img/loading.gif" lazyload alt="RouterOS软路由常用命令">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2024/01/30/net_routerOScmd/" target="_self">
+          RouterOS软路由常用命令
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2024/01/30/net_routerOScmd/" target="_self">
+        <div>
+          修改用户密码 [admin@MikroTik]&gt;&#x2F;user                #进入操作路径 [admin@MikroTik]&#x2F;user&gt;print              #显示RouterOS用户 [admin@MikroTik]&#x2F;user&gt;set admin password&#x3D;123456    #修改admin用户密码
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-01-30 15:46" pubdate>
+              2024-01-30
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/NETWORK/">#NETWORK</a>
+            
+              <a href="/tags/RouterOS/">#RouterOS</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2024/01/30/Linux_python_env_miniconda/" target="_self">
+          <img src="/img/index_img/index_0_demo.png" srcset="/img/loading.gif" lazyload alt="python虚拟环境Miniconda3的安装、配置和使用">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2024/01/30/Linux_python_env_miniconda/" target="_self">
+          python虚拟环境Miniconda3的安装、配置和使用
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2024/01/30/Linux_python_env_miniconda/" target="_self">
+        <div>
+          Conda是开放源代码的软件包管理系统和环境管理系统。miniconda是Conda的精简版本，我们一般使用miniconda进行生信上游流程软件的安装。 相比于其他软件下载方式，其优势在于能简单快捷下载软件及其所需的依赖环境，并且为每个流程创建单独的环境，避免软件之间可能引起的冲突。   1. miniconda3的下载安装 切换到安装位置（一般为主目录~）， 从中科大镜像下载最新的minic
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-01-30 14:53" pubdate>
+              2024-01-30
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/python/">#python</a>
+            
+              <a href="/tags/python%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83/">#python虚拟环境</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+
+
+  <nav aria-label="navigation">
+    <span class="pagination" id="pagination">
+      <a class="extend prev" rel="prev" href="/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/#board">3</a><a class="page-number" href="/page/4/#board">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/#board">10</a><a class="extend next" rel="next" href="/page/3/#board"><i class="iconfont icon-arrowright"></i></a>
+    </span>
+  </nav>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

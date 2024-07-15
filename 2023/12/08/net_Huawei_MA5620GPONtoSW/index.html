@@ -1,0 +1,678 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/canvas.png">
+  <link rel="icon" href="/img/canvas.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sylar">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="配置华为MA5626恢复出厂设置（包括登录密码） 空库文件、配置指南下载地址：链接: https:&#x2F;&#x2F;pan.baidu.com&#x2F;s&#x2F;1C4mqtbKYJfwnB-WY-wkeTw?pwd&#x3D;122m 提取码: 122m  默认用户名：root 默认密码:mduadmin 操作步骤： 1.用串口连接线连接好设备然后打开终端软件连接串口 2.打开设备电源， 当出现 Press &lt;D&gt; ke">
+<meta property="og:type" content="article">
+<meta property="og:title" content="华为MA5620 EPON&#x2F;GPON ONU设备恢复出厂设置密码">
+<meta property="og:url" content="http://anximin.github.io/2023/12/08/net_Huawei_MA5620GPONtoSW/index.html">
+<meta property="og:site_name" content="Want To">
+<meta property="og:description" content="配置华为MA5626恢复出厂设置（包括登录密码） 空库文件、配置指南下载地址：链接: https:&#x2F;&#x2F;pan.baidu.com&#x2F;s&#x2F;1C4mqtbKYJfwnB-WY-wkeTw?pwd&#x3D;122m 提取码: 122m  默认用户名：root 默认密码:mduadmin 操作步骤： 1.用串口连接线连接好设备然后打开终端软件连接串口 2.打开设备电源， 当出现 Press &lt;D&gt; ke">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://anximin.github.io/img/index_img/index_27_MA5620.jpg">
+<meta property="article:published_time" content="2023-12-08T08:45:09.000Z">
+<meta property="article:modified_time" content="2024-03-22T01:08:35.247Z">
+<meta property="article:author" content="Sylar">
+<meta property="article:tag" content="NETWORK">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://anximin.github.io/img/index_img/index_27_MA5620.jpg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>华为MA5620 EPON/GPON ONU设备恢复出厂设置密码 - Want To</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"anximin.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":60,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Want To Top</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/sitemap.xml">
+                <i class="iconfont icon-link-fill"></i>
+                <span>sitmap</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="华为MA5620 EPON/GPON ONU设备恢复出厂设置密码"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-12-08 16:45" pubdate>
+          2023年12月8日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.1k 字
+        
+      </span>
+    
+
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">华为MA5620 EPON/GPON ONU设备恢复出厂设置密码</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>配置华为MA5626恢复出厂设置（包括登录密码）</p>
+<p>空库文件、配置指南下载地址：<br>链接: <a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1C4mqtbKYJfwnB-WY-wkeTw?pwd=122m">https://pan.baidu.com/s/1C4mqtbKYJfwnB-WY-wkeTw?pwd=122m</a> 提取码: 122m </p>
+<p><strong>默认用户名：root 默认密码:mduadmin</strong></p>
+<p><strong>操作步骤：</strong></p>
+<p>1.用串口连接线连接好设备然后打开终端软件连接串口</p>
+<p><strong>2.打开设备电源， 当出现 <code>Press &lt;D&gt; key to stop auto-boot </code>时按下<code>D</code>键</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">Platform System start …</span><br><span class="line">Master Core Bios Start!</span><br><span class="line"> Memory Data Bus Test ……………..pass.</span><br><span class="line"> Memory Address Bus Test …………..pass.</span><br><span class="line"> Press &#x27;Ctrl+T&#x27; To Start Memory Complete Test</span><br><span class="line"> Trace code : 0x00000000</span><br><span class="line"> Copy MasterCore Bios From ROM to RAM ………… OK!</span><br><span class="line"> Uncompress MasterCore Bios From ROM to RAM …… OK!</span><br><span class="line">System Vfs init…OK</span><br><span class="line">The latest reboot is caused by : power off</span><br><span class="line">Copyright (c) 1998 - 2014 by Huawei Technologies Co.,Ltd.</span><br><span class="line"> All Rights Reserved.</span><br><span class="line">The last update date of base BIOS A is : Jul 11 2014   09:13:44</span><br><span class="line">===============================================================</span><br><span class="line"> BOARD INFORMATION : </span><br><span class="line">   CPU: ARM Integrator - Cortex A9 (ARM).  Processor  running at 400Mhz</span><br><span class="line">   248M bytes DDRAM, 32M bytes flash memory installed on board</span><br><span class="line">   Baudrate of serial channel is 9600bps</span><br><span class="line">   Board&#x27;s LAN IP address is 10.11.104.2</span><br><span class="line">   Board&#x27;s LAN Subnet mask is 255.255.255.0</span><br><span class="line">   Board&#x27;s LAN MAC address is BC:3F:8F:B4:E1:8B</span><br><span class="line"> ===============================================================</span><br><span class="line">System is booting from base BIOS…</span><br><span class="line">Base BIOS version is 108 </span><br><span class="line">Press &lt;D&gt; key to stop auto-boot    3</span><br></pre></td></tr></table></figure>
+
+<p><strong>3.在Main menu菜单选择1</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Main menu:</span><br><span class="line">==============================================</span><br><span class="line">0    Boot from flash</span><br><span class="line">1    Load files</span><br><span class="line">9    Reboot system</span><br><span class="line"></span><br><span class="line">Please enter a choice : 1 </span><br></pre></td></tr></table></figure>
+
+<p><strong>4.在SubMenu: Load files菜单选择2</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">SubMenu: Load files</span><br><span class="line"> ==============================================</span><br><span class="line"> 0    Back to main menu</span><br><span class="line"> 1    Download program file to flash</span><br><span class="line"> 2    Download Data file to flash</span><br><span class="line"> 3    Download basebios file to flash</span><br><span class="line"> 4    Download cpld file</span><br><span class="line"> 5    Download packet file</span><br><span class="line"> p    Download cold patch</span><br><span class="line"> l    Download any file to flash by tftp</span><br><span class="line"> d    Download program file to ddram</span><br><span class="line"> 6    Download updatetool file to flash</span><br><span class="line"> 7    Download equipment file to flash</span><br><span class="line"> a    Download slave core program file to NOR flash</span><br><span class="line">Please enter a choice : </span><br></pre></td></tr></table></figure>
+
+<p><strong>5.此时选择0，使用串口传输</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Please select load mode[default: 1 -- TFTP load mode]:</span><br><span class="line"> ============================================</span><br><span class="line"> 0  Xmodem load mode</span><br><span class="line"> 1  TFTP load mode</span><br><span class="line"> Q  Quit</span><br><span class="line">Please enter your choice:</span><br></pre></td></tr></table></figure>
+
+<p><strong>波特率选择1，9600BPS</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Please Select download speed:</span><br><span class="line">1.    9600BPS</span><br><span class="line">2.    19200BPS</span><br><span class="line">3.    38400BPS</span><br><span class="line">4.    57600BPS</span><br><span class="line">5.    115200BPS</span><br><span class="line">Select baudrate[default : 1]:  </span><br></pre></td></tr></table></figure>
+
+<p>确认选择，输入y，回车继续</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">You will download file by xmodem at 9600 BPS, are you sure? (y/n) [y]</span><br></pre></td></tr></table></figure>
+
+<p><strong>6.此时设备会处在等待阶段，需要在终端软件上选择发送文件，本文以SecureCRT为例</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Press CTRL+C key to abort!</span><br><span class="line"> Waiting …CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC</span><br></pre></td></tr></table></figure>
+
+<p>在CRT上选择传输-&gt;发送Xmodem</p>
+<p><img src="/../img/content/27/2701.png" srcset="/img/loading.gif" lazyload alt="2701"></p>
+<p>在弹出的窗口选择对应设备型号的空库文件，单击Send，等待上传完成</p>
+<p><img src="/../img/content/27/2702.png" srcset="/img/loading.gif" lazyload alt="2702"></p>
+<p><strong>7.上传完成后，选择0，返回main menu</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">Starting xmodem transfer.  Press Ctrl+C to cancel.</span><br><span class="line"> Transferring Hauwei_MA5626_database…</span><br><span class="line">   100%      43 KB     732 bytes/sec 00:01:01       0 Errors  </span><br><span class="line"> 44658 bytes download OK </span><br><span class="line">  save file to main area…..ok!</span><br><span class="line">  save file to spare area…..ok!</span><br><span class="line"> SubMenu: Load files</span><br><span class="line">  ==============================================</span><br><span class="line">  0    Back to main menu</span><br><span class="line">  1    Download program file to flash</span><br><span class="line">  2    Download Data file to flash</span><br><span class="line">  3    Download basebios file to flash</span><br><span class="line">  4    Download cpld file</span><br><span class="line">  5    Download packet file</span><br><span class="line">  p    Download cold patch</span><br><span class="line">  l    Download any file to flash by tftp</span><br><span class="line">  d    Download program file to ddram</span><br><span class="line">  6    Download updatetool file to flash</span><br><span class="line">  7    Download equipment file to flash</span><br><span class="line">  a    Download slave core program file to NOR flash</span><br><span class="line"> Please enter a choice : </span><br></pre></td></tr></table></figure>
+
+<p> <strong>8.在Main Menu菜单选择9，重启设备</strong><br> <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Main Menu:</span><br><span class="line"> ==============================================</span><br><span class="line"> 0    Boot program</span><br><span class="line"> 1    Load files</span><br><span class="line"> 9    Reboot system</span><br><span class="line"> debugmode            Switch debug mode</span><br><span class="line"> supermode            Switch super mode</span><br><span class="line">Please enter a choice : </span><br></pre></td></tr></table></figure></p>
+<p><strong>9.等待设备重启</strong></p>
+<p>设备重启完成后，输入默认用户名root，默认密码mduadmin，即可登录系统！<br><img src="/../img/content/27/2703.png" srcset="/img/loading.gif" lazyload alt="2703"></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/NETWORK/">#NETWORK</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>华为MA5620 EPON/GPON ONU设备恢复出厂设置密码</div>
+      <div>http://anximin.github.io/2023/12/08/net_Huawei_MA5620GPONtoSW/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Sylar</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年12月8日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/12/09/net_Huawei_ma5620/" title="华为MA5620改为交换机设置的具体步骤">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">华为MA5620改为交换机设置的具体步骤</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/10/30/Win_0xc0000142/" title="错误代码0xc0000142">
+                        <span class="hidden-mobile">错误代码0xc0000142</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

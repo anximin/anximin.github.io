@@ -1,0 +1,664 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/canvas.png">
+  <link rel="icon" href="/img/canvas.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sylar">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="流程方法一：查看分区12345678910[root@srvLessCodeTest ~]# df -h文件系统                 容量  已用  可用 已用% 挂载点devtmpfs                 3.9G     0  3.9G    0% &#x2F;devtmpfs                    3.9G   16K  3.9G    1% &#x2F;dev&#x2F;shmt">
+<meta property="og:type" content="article">
+<meta property="og:title" content="将Centos7的HOME分区空间重新分配给&#x2F;root分区">
+<meta property="og:url" content="http://anximin.github.io/2024/05/22/Linux_LVMcentos7/index.html">
+<meta property="og:site_name" content="Want To">
+<meta property="og:description" content="流程方法一：查看分区12345678910[root@srvLessCodeTest ~]# df -h文件系统                 容量  已用  可用 已用% 挂载点devtmpfs                 3.9G     0  3.9G    0% &#x2F;devtmpfs                    3.9G   16K  3.9G    1% &#x2F;dev&#x2F;shmt">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://anximin.github.io/img/index_img/index_0_demo.png">
+<meta property="article:published_time" content="2024-05-22T03:59:15.000Z">
+<meta property="article:modified_time" content="2024-07-15T09:05:24.840Z">
+<meta property="article:author" content="Sylar">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://anximin.github.io/img/index_img/index_0_demo.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>将Centos7的HOME分区空间重新分配给/root分区 - Want To</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"anximin.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":60,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Want To Top</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/sitemap.xml">
+                <i class="iconfont icon-link-fill"></i>
+                <span>sitmap</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="将Centos7的HOME分区空间重新分配给/root分区"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-05-22 11:59" pubdate>
+          2024年5月22日 中午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.5k 字
+        
+      </span>
+    
+
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">将Centos7的HOME分区空间重新分配给/root分区</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h3 id="流程方法一："><a href="#流程方法一：" class="headerlink" title="流程方法一："></a>流程方法一：</h3><h4 id="查看分区"><a href="#查看分区" class="headerlink" title="查看分区"></a>查看分区</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs sh">[root@srvLessCodeTest ~]<span class="hljs-comment"># df -h</span><br>文件系统                 容量  已用  可用 已用% 挂载点<br>devtmpfs                 3.9G     0  3.9G    0% /dev<br>tmpfs                    3.9G   16K  3.9G    1% /dev/shm<br>tmpfs                    3.9G  9.0M  3.9G    1% /run<br>tmpfs                    3.9G     0  3.9G    0% /sys/fs/cgroup<br>/dev/mapper/centos-root   50G   19G   32G   37% /<br>/dev/sda1               1014M  196M  819M   20% /boot<br>/dev/mapper/centos-home  421G   33M  421G    1% /home<br>tmpfs                    783M     0  783M    0% /run/user/0<br></code></pre></td></tr></table></figure>
+<h4 id="备份home目录"><a href="#备份home目录" class="headerlink" title="备份home目录"></a>备份home目录</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh">[root@srvLessCodeTest ~]<span class="hljs-comment"># mkdir /home-backup</span><br>[root@srvLessCodeTest ~]<span class="hljs-comment"># mv /home/* /home-backup/</span><br></code></pre></td></tr></table></figure>
+<h4 id="移除-home分区"><a href="#移除-home分区" class="headerlink" title="移除&#x2F;home分区"></a>移除&#x2F;home分区</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs sh">[root@srvLessCodeTest ~]<span class="hljs-comment"># umount /home</span><br>[root@srvLessCodeTest ~]<span class="hljs-comment"># </span><br>[root@srvLessCodeTest ~]<span class="hljs-comment"># lvremove /dev/centos/home </span><br>Do you really want to remove active logical volume centos/home? [y/n]: y<br>  Logical volume <span class="hljs-string">&quot;home&quot;</span> successfully removed<br>[root@srvLessCodeTest ~]<span class="hljs-comment"># </span><br></code></pre></td></tr></table></figure>
+<h4 id="查看VG空间"><a href="#查看VG空间" class="headerlink" title="查看VG空间"></a>查看VG空间</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs shell">[root@srvLessCodeTest ~]# vgdisplay <br>  --- Volume group ---<br>  VG Name               centos<br>  System ID             <br>  Format                lvm2<br>  Metadata Areas        1<br>  Metadata Sequence No  5<br>  VG Access             read/write<br>  VG Status             resizable<br>  MAX LV                0<br>  Cur LV                2<br>  Open LV               2<br>  Max PV                0<br>  Cur PV                1<br>  Act PV                1<br>  VG Size               &lt;479.00 GiB<br>  PE Size               4.00 MiB<br>  Total PE              122623<br>  Alloc PE / Size       14816 / &lt;57.88 GiB<br>  Free  PE / Size       107807 / 421.12 GiB<br>  VG UUID               dJSZJu-XpUR-0ThA-esuO-1Avs-3S4Q-Mb7zTp<br><br></code></pre></td></tr></table></figure>
+<h4 id="重新创建home卷"><a href="#重新创建home卷" class="headerlink" title="重新创建home卷"></a>重新创建home卷</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs sh"><br>[root@srvLessCodeTest ~]<span class="hljs-comment"># lvcreate -L 64G -n home centos</span><br>WARNING: xfs signature detected on /dev/centos/home at offset 0. Wipe it? [y/n]: y<br>  Wiping xfs signature on /dev/centos/home.<br>  Logical volume <span class="hljs-string">&quot;home&quot;</span> created.<br>[root@srvLessCodeTest ~]<span class="hljs-comment"># </span><br></code></pre></td></tr></table></figure>
+<h4 id="查看卷空间"><a href="#查看卷空间" class="headerlink" title="查看卷空间"></a>查看卷空间</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><code class="hljs sh">[root@srvLessCodeTest ~]<span class="hljs-comment"># lvdisplay</span><br>  --- Logical volume ---<br>  LV Path                /dev/centos/swap<br>  LV Name                swap<br>  VG Name                centos<br>  LV UUID                SzSQ5r-NL2Q-OQHE-7fy7-TGUZ-u2Jf-dMIAtL<br>  LV Write Access        <span class="hljs-built_in">read</span>/write<br>  LV Creation host, time srvlesscode.china.local, 2024-03-19 11:11:34 +0800<br>  LV Status              available<br>  <span class="hljs-comment"># open                 2</span><br>  LV Size                &lt;7.88 GiB<br>  Current LE             2016<br>  Segments               1<br>  Allocation             inherit<br>  Read ahead sectors     auto<br>  - currently <span class="hljs-built_in">set</span> to     8192<br>  Block device           253:1<br>   <br>  --- Logical volume ---<br>  LV Path                /dev/centos/root<br>  LV Name                root<br>  VG Name                centos<br>  LV UUID                wi7SQ8-qKfQ-tzth-vCzj-1FDJ-B7Yi-AFzVPn<br>  LV Write Access        <span class="hljs-built_in">read</span>/write<br>  LV Creation host, time srvlesscode.china.local, 2024-03-19 11:11:36 +0800<br>  LV Status              available<br>  <span class="hljs-comment"># open                 1</span><br>  LV Size                50.00 GiB<br>  Current LE             12800<br>  Segments               1<br>  Allocation             inherit<br>  Read ahead sectors     auto<br>  - currently <span class="hljs-built_in">set</span> to     8192<br>  Block device           253:0<br>   <br>  --- Logical volume ---<br>  LV Path                /dev/centos/home<br>  LV Name                home<br>  VG Name                centos<br>  LV UUID                C6AzYU-1Tvp-cV9Z-8I9q-ntdf-nTHm-pcNADc<br>  LV Write Access        <span class="hljs-built_in">read</span>/write<br>  LV Creation host, time srvLessCodeTest.china.local, 2024-05-22 12:08:26 +0800<br>  LV Status              available<br>  <span class="hljs-comment"># open                 0</span><br>  LV Size                64.00 GiB<br>  Current LE             16384<br>  Segments               1<br>  Allocation             inherit<br>  Read ahead sectors     auto<br>  - currently <span class="hljs-built_in">set</span> to     8192<br>  Block device           253:2<br>   <br></code></pre></td></tr></table></figure>
+<h4 id="格式化新home卷"><a href="#格式化新home卷" class="headerlink" title="格式化新home卷"></a>格式化新home卷</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs sh">[root@srvLessCodeTest ~]<span class="hljs-comment"># mkfs -t xfs /dev/centos/home </span><br>Discarding blocks...Done.<br>meta-data=/dev/centos/home       isize=512    agcount=4, agsize=4194304 blks<br>         =                       sectsz=512   attr=2, projid32bit=1<br>         =                       crc=1        finobt=0, sparse=0<br>data     =                       bsize=4096   blocks=16777216, imaxpct=25<br>         =                       sunit=0      swidth=0 blks<br>naming   =version 2              bsize=4096   ascii-ci=0 ftype=1<br><span class="hljs-built_in">log</span>      =internal <span class="hljs-built_in">log</span>           bsize=4096   blocks=8192, version=2<br>         =                       sectsz=512   sunit=0 blks, lazy-count=1<br>realtime =none                   extsz=4096   blocks=0, rtextents=0<br></code></pre></td></tr></table></figure>
+<h4 id="挂载-home卷"><a href="#挂载-home卷" class="headerlink" title="挂载&#x2F;home卷"></a>挂载&#x2F;home卷</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">[root@srvLessCodeTest ~]<span class="hljs-comment"># mount /dev/centos/home /home</span><br></code></pre></td></tr></table></figure>
+<h4 id="恢复home分区文件"><a href="#恢复home分区文件" class="headerlink" title="恢复home分区文件"></a>恢复home分区文件</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh">[root@srvLessCodeTest ~]<span class="hljs-comment"># mv /home-backup/* /home</span><br>[root@srvLessCodeTest ~]<span class="hljs-comment"># rm -rf /home-backup</span><br></code></pre></td></tr></table></figure>
+<h4 id="再次查看卷组剩余空间"><a href="#再次查看卷组剩余空间" class="headerlink" title="再次查看卷组剩余空间"></a>再次查看卷组剩余空间</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs sh">[root@srvLessCodeTest ~]<span class="hljs-comment"># vgdisplay </span><br>  --- Volume group ---<br>  VG Name               centos<br>  System ID             <br>  Format                lvm2<br>  Metadata Areas        1<br>  Metadata Sequence No  6<br>  VG Access             <span class="hljs-built_in">read</span>/write<br>  VG Status             resizable<br>  MAX LV                0<br>  Cur LV                3<br>  Open LV               3<br>  Max PV                0<br>  Cur PV                1<br>  Act PV                1<br>  VG Size               &lt;479.00 GiB<br>  PE Size               4.00 MiB<br>  Total PE              122623<br>  Alloc PE / Size       31200 / &lt;121.88 GiB<br>  Free  PE / Size       91423 / 357.12 GiB<br>  VG UUID               dJSZJu-XpUR-0ThA-esuO-1Avs-3S4Q-Mb7zTp<br></code></pre></td></tr></table></figure>
+<h4 id="扩展-root分区"><a href="#扩展-root分区" class="headerlink" title="扩展&#x2F;root分区"></a>扩展&#x2F;root分区</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sh">[root@srvLessCodeTest ~]<span class="hljs-comment"># lvextend -L +357.12G /dev/centos/root</span><br>  Rounding size to boundary between physical extents: 357.12 GiB.<br>  Size of logical volume centos/root changed from 50.00 GiB (12800 extents) to 407.12 GiB (104223 extents).<br>  Logical volume centos/root successfully resized.<br></code></pre></td></tr></table></figure>
+<h4 id="使用xfs-growfs命令扩展-root分区的XFS文件系统【操作完成】"><a href="#使用xfs-growfs命令扩展-root分区的XFS文件系统【操作完成】" class="headerlink" title="使用xfs_growfs命令扩展&#x2F;root分区的XFS文件系统【操作完成】"></a>使用xfs_growfs命令扩展&#x2F;root分区的XFS文件系统【操作完成】</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs sh">[root@srvLessCodeTest ~]<span class="hljs-comment"># xfs_growfs /dev/centos/root </span><br>meta-data=/dev/mapper/centos-root isize=512    agcount=4, agsize=3276800 blks<br>         =                       sectsz=512   attr=2, projid32bit=1<br>         =                       crc=1        finobt=0 spinodes=0<br>data     =                       bsize=4096   blocks=13107200, imaxpct=25<br>         =                       sunit=0      swidth=0 blks<br>naming   =version 2              bsize=4096   ascii-ci=0 ftype=1<br><span class="hljs-built_in">log</span>      =internal               bsize=4096   blocks=6400, version=2<br>         =                       sectsz=512   sunit=0 blks, lazy-count=1<br>realtime =none                   extsz=4096   blocks=0, rtextents=0<br>data blocks changed from 13107200 to 106724352<br></code></pre></td></tr></table></figure>
+
+<h3 id="流程方法二："><a href="#流程方法二：" class="headerlink" title="流程方法二："></a>流程方法二：</h3><h4 id="查看磁盘使用情况"><a href="#查看磁盘使用情况" class="headerlink" title="查看磁盘使用情况"></a>查看磁盘使用情况</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">df</span> -h<br></code></pre></td></tr></table></figure>
+
+<h4 id="备份分区文件"><a href="#备份分区文件" class="headerlink" title="备份分区文件"></a>备份分区文件</h4><figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs arduino">tar cvf /data/home.tar /home<br></code></pre></td></tr></table></figure>
+
+<h4 id="卸载删除-home分区"><a href="#卸载删除-home分区" class="headerlink" title="卸载删除&#x2F;home分区"></a>卸载删除&#x2F;home分区</h4><figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs arduino">umount /home<br>lvremove /dev/mapper/centos-home	【按Y】<br></code></pre></td></tr></table></figure>
+
+<h4 id="扩展-root逻辑卷"><a href="#扩展-root逻辑卷" class="headerlink" title="扩展&#x2F;root逻辑卷"></a>扩展&#x2F;root逻辑卷</h4><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">lvextend</span> -L +<span class="hljs-number">315</span>G /dev/mapper/centos-root<br></code></pre></td></tr></table></figure>
+
+<h4 id="扩展文件系统"><a href="#扩展文件系统" class="headerlink" title="扩展文件系统"></a>扩展文件系统</h4><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">xfs_growfs <span class="hljs-regexp">/dev/m</span>apper/centos-root<br></code></pre></td></tr></table></figure>
+
+<h4 id="重建-home逻辑卷"><a href="#重建-home逻辑卷" class="headerlink" title="重建&#x2F;home逻辑卷"></a>重建&#x2F;home逻辑卷</h4><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">lvcreate</span> -L <span class="hljs-number">64</span>.<span class="hljs-number">18</span>G /dev/mapper/centos-home<br></code></pre></td></tr></table></figure>
+
+<h4 id="创建-home文件系统"><a href="#创建-home文件系统" class="headerlink" title="创建&#x2F;home文件系统"></a>创建&#x2F;home文件系统</h4><figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs arduino">mkfs.xfs /dev/mapper/centos-home<br></code></pre></td></tr></table></figure>
+
+<h4 id="重新挂载-home分区"><a href="#重新挂载-home分区" class="headerlink" title="重新挂载&#x2F;home分区"></a>重新挂载&#x2F;home分区</h4><figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs arduino">mount /dev/mapper/centos-home<br></code></pre></td></tr></table></figure>
+
+<h4 id="恢复并删除备份"><a href="#恢复并删除备份" class="headerlink" title="恢复并删除备份"></a>恢复并删除备份</h4><figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs haskell"><span class="hljs-title">tar</span> xvf /<span class="hljs-class"><span class="hljs-keyword">data</span>/home.tar -<span class="hljs-type">C</span> /</span><br><span class="hljs-title">rm</span> -rf /<span class="hljs-class"><span class="hljs-keyword">data</span>/home.tar</span><br></code></pre></td></tr></table></figure>
+<h4 id="【完成扩展】可查看分区结果"><a href="#【完成扩展】可查看分区结果" class="headerlink" title="【完成扩展】可查看分区结果"></a>【完成扩展】可查看分区结果</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">df</span> -h<br></code></pre></td></tr></table></figure>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>将Centos7的HOME分区空间重新分配给/root分区</div>
+      <div>http://anximin.github.io/2024/05/22/Linux_LVMcentos7/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Sylar</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年5月22日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/05/22/Linux_ubuntu_IP/" title="Ubuntu修改IP地址">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Ubuntu修改IP地址</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/04/30/Virtualization_vcenter/" title="vCenter6.7问题集合">
+                        <span class="hidden-mobile">vCenter6.7问题集合</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

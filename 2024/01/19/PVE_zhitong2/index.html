@@ -1,0 +1,683 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/canvas.png">
+  <link rel="icon" href="/img/canvas.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sylar">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="PVE开启网卡直通，显卡直通，USB直通。 第一步：确认自己的主板CPU是否支持Vt-d功能不支持就搞不了直通。intel要b75以上芯片组才支持。也就是说intel4代酷睿处理器以上，都支持。amd不明。 VT-D是io虚拟化。不是VT-X，以为主板开启虚拟化功能，就能直通了，其实不是！要开启vt-d才能io虚拟化。AMD平台是iommu，某些OEM主板上叫SRIOV。请注意。 第二步：开启io">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PVE开启硬件直通功能">
+<meta property="og:url" content="http://anximin.github.io/2024/01/19/PVE_zhitong2/index.html">
+<meta property="og:site_name" content="Want To">
+<meta property="og:description" content="PVE开启网卡直通，显卡直通，USB直通。 第一步：确认自己的主板CPU是否支持Vt-d功能不支持就搞不了直通。intel要b75以上芯片组才支持。也就是说intel4代酷睿处理器以上，都支持。amd不明。 VT-D是io虚拟化。不是VT-X，以为主板开启虚拟化功能，就能直通了，其实不是！要开启vt-d才能io虚拟化。AMD平台是iommu，某些OEM主板上叫SRIOV。请注意。 第二步：开启io">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-01-19T01:57:40.000Z">
+<meta property="article:modified_time" content="2024-01-19T02:34:55.013Z">
+<meta property="article:author" content="Sylar">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>PVE开启硬件直通功能 - Want To</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"anximin.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":60,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Want To Top</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/sitemap.xml">
+                <i class="iconfont icon-link-fill"></i>
+                <span>sitmap</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="PVE开启硬件直通功能"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-01-19 09:57" pubdate>
+          2024年1月19日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.1k 字
+        
+      </span>
+    
+
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">PVE开启硬件直通功能</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>PVE开启网卡直通，显卡直通，USB直通。</p>
+<h3 id="第一步：确认自己的主板CPU是否支持Vt-d功能"><a href="#第一步：确认自己的主板CPU是否支持Vt-d功能" class="headerlink" title="第一步：确认自己的主板CPU是否支持Vt-d功能"></a>第一步：确认自己的主板CPU是否支持Vt-d功能</h3><p>不支持就搞不了直通。intel要b75以上芯片组才支持。也就是说intel4代酷睿处理器以上，都支持。amd不明。</p>
+<p>VT-D是io虚拟化。不是VT-X，以为主板开启虚拟化功能，就能直通了，其实不是！要开启vt-d才能io虚拟化。AMD平台是iommu，某些OEM主板上叫SRIOV。请注意。</p>
+<h3 id="第二步：开启iommu"><a href="#第二步：开启iommu" class="headerlink" title="第二步：开启iommu"></a>第二步：开启iommu</h3><p>#编辑grub，请不要盲目改。根据自己的环境选择设置 </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/default/grub </span><br><span class="line">#在里面找到： </span><br><span class="line">GRUB_CMDLINE_LINUX_DEFAULT=&quot;quiet&quot; </span><br><span class="line">#然后修改为： </span><br><span class="line">GRUB_CMDLINE_LINUX_DEFAULT=&quot;quiet intel_iommu=on iommu=pt&quot;</span><br><span class="line">#如果是amd cpu请改为： </span><br><span class="line">GRUB_CMDLINE_LINUX_DEFAULT=&quot;quiet amd_iommu=on iommu=pt&quot;</span><br><span class="line">#如果是需要显卡直通，建议在cmdline再加一句</span><br><span class="line">video=vesafb:off video=efifb:off video=simplefb:off</span><br></pre></td></tr></table></figure>
+<p>加了之后，pve重启进内核后停留在一个画面，这是正常情况</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GRUB_CMDLINE_LINUX_DEFAULT=&quot;quiet amd_iommu=on iommu=pt video=vesafb:off video=efifb:off video=simplefb:off&quot;</span><br></pre></td></tr></table></figure>
+<p>修改完成之后，直接更新grub</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">update-grub</span><br></pre></td></tr></table></figure>
+<p>注意，如果此方法还不能开启iommu，请修改 &#x2F;etc&#x2F;kernel&#x2F;cmdline文件<br>并且使用proxmox-boot-tool refresh 更新启动项</p>
+<h3 id="第三步-加载相应的内核模块"><a href="#第三步-加载相应的内核模块" class="headerlink" title="第三步 加载相应的内核模块"></a>第三步 加载相应的内核模块</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">echo vfio &gt;&gt; /etc/modules </span><br><span class="line">echo vfio_iommu_type1 &gt;&gt; /etc/modules </span><br><span class="line">echo vfio_pci &gt;&gt; /etc/modules echo </span><br><span class="line">vfio_virqfd &gt;&gt; /etc/modules</span><br></pre></td></tr></table></figure>
+<p>使用update-initramfs -k all -u命令更新内核参数-&gt;重启主机</p>
+<h3 id="第四步-验证是否开启iommu"><a href="#第四步-验证是否开启iommu" class="headerlink" title="第四步 验证是否开启iommu"></a>第四步 验证是否开启iommu</h3><p>重启之后，在终端输入<code>dmesg | grep iommu</code>出现如下例子。则代表成功</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">pci 0000:00:00.0: Adding to iommu group 0 </span><br><span class="line">pci 0000:00:01.0: Adding to iommu group 1 </span><br><span class="line">pci 0000:00:02.0: Adding to iommu group 2 </span><br><span class="line">pci 0000:00:14.0: Adding to iommu group 3 </span><br><span class="line">pci 0000:00:17.0: Adding to iommu group 4</span><br></pre></td></tr></table></figure>
+<p>此时输入命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">find /sys/kernel/iommu_groups/ -type l</span><br><span class="line">#出现很多直通组，就代表成功了。如果没有任何东西，就是没有开启</span><br></pre></td></tr></table></figure>
+<h3 id="直通显卡"><a href="#直通显卡" class="headerlink" title="直通显卡"></a>直通显卡</h3><h5 id="1-首先屏蔽显卡驱动"><a href="#1-首先屏蔽显卡驱动" class="headerlink" title="1.首先屏蔽显卡驱动"></a>1.首先屏蔽显卡驱动</h5><h6 id="直通AMD显卡，请使用下面命令"><a href="#直通AMD显卡，请使用下面命令" class="headerlink" title="直通AMD显卡，请使用下面命令"></a>直通AMD显卡，请使用下面命令</h6><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;blacklist radeon&quot; &gt;&gt; /etc/modprobe.d/blacklist.conf  echo &quot;blacklist amdgpu&quot; &gt;&gt; /etc/modprobe.d/blacklist.conf  </span><br></pre></td></tr></table></figure>
+<h6 id="直通NVIDIA显卡，请使用下面命令"><a href="#直通NVIDIA显卡，请使用下面命令" class="headerlink" title="直通NVIDIA显卡，请使用下面命令"></a>直通NVIDIA显卡，请使用下面命令</h6><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;blacklist nouveau&quot; &gt;&gt; /etc/modprobe.d/blacklist.conf  </span><br><span class="line">echo &quot;blacklist nvidia&quot; &gt;&gt; /etc/modprobe.d/blacklist.conf  </span><br><span class="line">echo &quot;blacklist nvidiafb&quot; &gt;&gt; /etc/modprobe.d/blacklist.conf  </span><br></pre></td></tr></table></figure>
+<h6 id="直通INTEL核显，请使用下面命令，"><a href="#直通INTEL核显，请使用下面命令，" class="headerlink" title="直通INTEL核显，请使用下面命令，"></a>直通INTEL核显，请使用下面命令，</h6><p>注意！如果使用Gvt-G，请不要使用下面的命令 </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;blacklist snd_hda_intel&quot; &gt;&gt; /etc/modprobe.d/blacklist.conf  </span><br><span class="line">echo &quot;blacklist snd_hda_codec_hdmi&quot; &gt;&gt; /etc/modprobe.d/blacklist.conf  </span><br><span class="line">echo &quot;blacklist i915&quot; &gt;&gt; /etc/modprobe.d/blacklist.conf  </span><br></pre></td></tr></table></figure>
+
+<h5 id="2、把显卡绑定到vfio-pci"><a href="#2、把显卡绑定到vfio-pci" class="headerlink" title="2、把显卡绑定到vfio-pci"></a>2、把显卡绑定到vfio-pci</h5><p>使用lspci 查看自己的显卡PCI地址，如02:00使用lspci -n 查看显卡的did和vid。我这边是02:00，可以看到下面输出</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">root@pve1:~# lspci -n</span><br><span class="line">00:00.0 0600: 8086:3ec4 (rev 0a)</span><br><span class="line">00:01.0 0604: 8086:1901 (rev 0a)</span><br><span class="line">00:02.0 0300: 8086:3e9b00:14.0 0c03: 8086:a12f (rev 31)</span><br><span class="line">00:17.0 0106: 8086:a102 (rev 31)</span><br><span class="line">00:1c.0 0604: 8086:a114 (rev f1)</span><br><span class="line">00:1d.0 0604: 8086:a118 (rev f1)</span><br><span class="line">00:1d.2 0604: 8086:a11a (rev f1)</span><br><span class="line">00:1d.3 0604: 8086:a11b (rev f1)</span><br><span class="line">00:1f.0 0601: 8086:a148 (rev 31)</span><br><span class="line">00:1f.2 0580: 8086:a121 (rev 31)</span><br><span class="line">00:1f.3 0403: 8086:a170 (rev 31)</span><br><span class="line">00:1f.4 0c05: 8086:a123 (rev 31)</span><br><span class="line">00:1f.6 0200: 8086:15b8 (rev 31)</span><br><span class="line">01:00.0 0200: 15b3:100302:00.0 0100: 10de:1381 (rev 03)</span><br><span class="line">02:00.1 0100: 10de:0fbc (rev 03)</span><br><span class="line">03:00.0 0108: 8086:f1a6 (rev 03)</span><br><span class="line">04:00.0 0604: 1b21:1080 (rev 04)</span><br></pre></td></tr></table></figure>
+<p>02:00.0 02:00.1一个是GPU，一个是声卡，两者都要一起直通，所以通过命令，把2者都绑定到vfio-pci上。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;options vfio-pci ids=10de:1381,10de:0fbc&quot; &gt; /etc/modprobe.d/vfio.conf </span><br><span class="line">#注意，上面这条命令，ids=后面跟直通组的所有设备。中间以英文逗号隔开。自己的设备自己替换。</span><br></pre></td></tr></table></figure>
+<p>上述操作完成之后，再检查一下，是否将例子内容替换成自己的。使用以下命令查看。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/modprobe.d/blacklist.conf </span><br><span class="line">cat /etc/modprobe.d/vfio.conf</span><br></pre></td></tr></table></figure>
+<h5 id="3、更新内核"><a href="#3、更新内核" class="headerlink" title="3、更新内核"></a>3、更新内核</h5><p>对于nvidia显卡：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;options kvm ignore_msrs=1&quot; &gt; /etc/modprobe.d/kvm.conf</span><br><span class="line"></span><br><span class="line">update-initramfs -k all -u</span><br></pre></td></tr></table></figure>
+<p>随后重启</p>
+<h5 id="4、开始直通"><a href="#4、开始直通" class="headerlink" title="4、开始直通"></a>4、开始直通</h5><p>新建一个虚拟机。根据自己的爱好，选择ovmf或者seabios，通常来说两者对独显直通没有影响，建议nvidia 9系以上选择OVMF，其他选择seabios。打开虚拟机面板，正常安装系统，并且开启远程桌面或者安装好向日葵。<br>随后点击添加 PCI设备<br>注意！！！不要勾选主GPU！。如果不能勾选PCIE，那么一定要把虚拟机改成Q35类型。<br>随后开机，如果能正常启动，那么就安装NVIDIA最新驱动。<br>提示：由于某些消费级主板PCI的设计问题，你可能只能直通第一个PCIe x16槽的显卡。 </p>
+<h3 id="核显直通"><a href="#核显直通" class="headerlink" title="核显直通"></a>核显直通</h3><p>如果想要核显显示到显示器。虚拟机请使用Seabios，机型为i440fx并且在bios中开启CSM。<br>核显直通过程与上面的独显直通1-3步骤一样。请参考上文。</p>
+<p>完成了前面的步骤，那么现在就是配置虚拟机。使用命令配置虚拟机</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">qm set &lt;vmid&gt; -args &quot;-device vfio-pci,host=00:02.0,addr=0x18,x-vga=on,x-igd-opregion=on&quot;</span><br></pre></td></tr></table></figure>
+<p>如果你的VMID是101，那么命令应该是</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">qm set 101 -args &quot;-device vfio-pci,host=00:02.0,addr=0x18,x-vga=on,x-igd-opregion=on&quot;</span><br></pre></td></tr></table></figure>
+<p>此种直通是基于UDT模式，适用于5代以上的CPU核显。如果你打算直通到群晖，需要在GUI面板上，将显卡设置成无，添加串口设备用于调试，同时将核显位置绑定到虚拟机的00:02位置，所以应该执行该命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">qm set 101 -args &quot;-device vfio-pci,host=00:02.0,addr=0x02,x-vga=on,x-igd-opregion=on&quot;</span><br></pre></td></tr></table></figure>
+<p>如果你把上面的命令输错了，或者有问题，你可以使用命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">qm set 101 --delete args</span><br></pre></td></tr></table></figure>
+<p>删除此args参数，或者修改vm的配置文件如果通过上述操作，核显不能输出到显示器，那么你应该尝试传统方式，即将bios改成seabios，使用传统模式装好系统，开启远程，将显卡设置成无，将核显绑定到00:02位置（和群晖命令相同）。使用远程方式进系统安装驱动。如果上面操作还是不行，请尝试添加vbios，关于什么是vbios，请百度一下，如何提取vbios</p>
+<h3 id="硬盘直通"><a href="#硬盘直通" class="headerlink" title="硬盘直通"></a>硬盘直通</h3><p>此部分请参考 网卡直通</p>
+<h3 id="网卡直通"><a href="#网卡直通" class="headerlink" title="网卡直通"></a>网卡直通</h3><p>正常情况下，网卡直通不会有什么困难。在开启iommu之后，即可在Web页面上，将网卡作为PCIe设备添加即可。但，你需要确保没有直通到PVE的管理网口。否则你的PVE会失联。且PVE没有使用此网卡。<br>注意！由于供应商的问题，可能一张物理网卡会有多个逻辑的网口，这些网口会在同一个PCIe地址上，<br>有2种情况：<br>1、一个网口为PVE管理口，一个网口直通给虚拟机此种情况，请参考上面，进行直通，请勿勾选 所有功能。<br>2、分别直通给虚拟机。由于多个网卡位于同一个PCI地址上，可能会在一个iommu组里，只能将这些网卡同时直通给一个虚拟机，否则会报错。<br>你需要确认网卡是否在同一个iommu组，执行下面命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">for d in /sys/kernel/iommu_groups/*/devices/*; do n=$&#123;d#*/iommu_groups/*&#125;; n=$&#123;n%%/*&#125;; printf &#x27;IOMMU Group %s &#x27; &quot;$n&quot;; lspci -nns &quot;$&#123;d##*/&#125;&quot;; done|grep Eth</span><br></pre></td></tr></table></figure>
+
+<p>从输出看，2个I350网卡分别在组19和20上，就意味着可以分开直通给虚拟机。如果同一个iommu组，那么就需要利用PCIe桥的ACS特性，这部分请参考IOMMU是如何划分PCI device group的？<br>情况1: 版本低于7.1你需要安装破解内核，才能开启ACS强制。<br>情况2：PVE版本为7.1+你可以在GRUB上配置一个命令即可完成。<br>    在grub文件里添加一个参数pcie_acs_override&#x3D;downstreamgrub如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">GRUB_DEFAULT=0</span><br><span class="line">GRUB_TIMEOUT=5</span><br><span class="line">GRUB_DISTRIBUTOR=`lsb_release -i -s 2&gt; /dev/null || echo Debian`</span><br><span class="line">GRUB_CMDLINE_LINUX_DEFAULT=&quot;quiet intel_iommu=on pcie_acs_override=downstream&quot;</span><br><span class="line">GRUB_CMDLINE_LINUX=&quot;&quot; </span><br></pre></td></tr></table></figure>
+<p>随后进行保存，并且更新内核，更新grub</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">update-grub</span><br><span class="line">update-initramfs -k all -u </span><br></pre></td></tr></table></figure>
+<p>随后重启</p>
+<h3 id="黑苹果"><a href="#黑苹果" class="headerlink" title="黑苹果"></a>黑苹果</h3><p>虚拟机可以创建黑苹果，随后直通硬件到虚拟机，可以获得相关的性能提升。黑苹果，你需要以PCI方式直通硬件（请勿勾选PCIe)。最好使用免驱显卡，这样可以直接输出到显示器。如果不是免驱显卡，那么请自行进系统之后，配置Opencore。黑苹果不支持gvt-g</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>PVE开启硬件直通功能</div>
+      <div>http://anximin.github.io/2024/01/19/PVE_zhitong2/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Sylar</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年1月19日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/01/19/net_VPNopenvpn/" title="搭建OpenVpn的方法">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">搭建OpenVpn的方法</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/01/17/PVE_zhitong/" title="PVE直通网卡和硬盘">
+                        <span class="hidden-mobile">PVE直通网卡和硬盘</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

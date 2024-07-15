@@ -1,0 +1,873 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/canvas.png">
+  <link rel="icon" href="/img/canvas.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sylar">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="node1 node2    hostname: filer1eth0: 10.10.10.101eth1: 10.10.100.101600MB Meta partition8GB+ Data partition hostname: filer2eth0: 10.10.10.102eth1: 10.10.100.102600MB Meta partition8GB+ Data partit">
+<meta property="og:type" content="article">
+<meta property="og:title" content="openfiler集群部署过程">
+<meta property="og:url" content="http://anximin.github.io/2021/08/03/NAS_openfiler_cluster_build/index.html">
+<meta property="og:site_name" content="Want To">
+<meta property="og:description" content="node1 node2    hostname: filer1eth0: 10.10.10.101eth1: 10.10.100.101600MB Meta partition8GB+ Data partition hostname: filer2eth0: 10.10.10.102eth1: 10.10.100.102600MB Meta partition8GB+ Data partit">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://anximin.github.io/img/index_img/index_7_openfiler.png">
+<meta property="article:published_time" content="2021-08-03T00:16:15.000Z">
+<meta property="article:modified_time" content="2024-02-27T00:33:02.860Z">
+<meta property="article:author" content="Sylar">
+<meta property="article:tag" content="NAS">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="openfiler">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://anximin.github.io/img/index_img/index_7_openfiler.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>openfiler集群部署过程 - Want To</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"anximin.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":60,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Want To Top</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/sitemap.xml">
+                <i class="iconfont icon-link-fill"></i>
+                <span>sitmap</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="openfiler集群部署过程"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2021-08-03 08:16" pubdate>
+          2021年8月3日 早上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          30k 字
+        
+      </span>
+    
+
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">openfiler集群部署过程</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <table>
+<thead>
+<tr>
+<th>node1</th>
+<th>node2</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>hostname: filer1<br />eth0: 10.10.10.101<br />eth1: 10.10.100.101<br />600MB Meta partition<br />8GB+ Data partition</td>
+<td>hostname: filer2<br />eth0: 10.10.10.102<br />eth1: 10.10.100.102<br />600MB Meta partition<br />8GB+ Data partition</td>
+</tr>
+</tbody></table>
+<p>virtualip: 10.10.10.100 ( 不要在任何网卡配置，后面在corosync中配置 )</p>
+<span id="more"></span>
+
+<p>网卡信息</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">[root@filer1 ~]<span class="comment"># ip addr</span></span><br><span class="line">1: lo: &lt;LOOPBACK,UP,10000&gt; mtu 16436 qdisc noqueue </span><br><span class="line">    <span class="built_in">link</span>/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</span><br><span class="line">    inet 127.0.0.1/8 scope host lo</span><br><span class="line">    inet6 ::1/128 scope host </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">2: eth2: &lt;BROADCAST,MULTICAST&gt; mtu 1500 qdisc noop qlen 1000</span><br><span class="line">    <span class="built_in">link</span>/ether 1c:87:2c:47:db:1f brd ff:ff:ff:ff:ff:ff</span><br><span class="line">3: eth0: &lt;BROADCAST,MULTICAST,UP,10000&gt; mtu 1500 qdisc mq qlen 1000</span><br><span class="line">    <span class="built_in">link</span>/ether 00:1b:21:89:43:6c brd ff:ff:ff:ff:ff:ff</span><br><span class="line">    inet 10.10.10.101/24 brd 10.10.10.255 scope global eth0</span><br><span class="line">    inet6 fe80::21b:21ff:fe89:436c/64 scope <span class="built_in">link</span> </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">4: eth1: &lt;BROADCAST,MULTICAST,UP,10000&gt; mtu 1500 qdisc mq qlen 1000</span><br><span class="line">    <span class="built_in">link</span>/ether 00:1b:21:89:43:6d brd ff:ff:ff:ff:ff:ff</span><br><span class="line">    inet 10.10.100.101/24 brd 10.10.100.255 scope global eth1</span><br><span class="line">    inet6 fe80::21b:21ff:fe89:436d/64 scope <span class="built_in">link</span> </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">[root@filer2 ~]<span class="comment"># ip addr</span></span><br><span class="line">1: lo: &lt;LOOPBACK,UP,10000&gt; mtu 16436 qdisc noqueue </span><br><span class="line">    <span class="built_in">link</span>/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</span><br><span class="line">    inet 127.0.0.1/8 scope host lo</span><br><span class="line">    inet6 ::1/128 scope host </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">2: eth2: &lt;BROADCAST,MULTICAST&gt; mtu 1500 qdisc noop qlen 1000</span><br><span class="line">    <span class="built_in">link</span>/ether 10:c3:7b:93:2b:21 brd ff:ff:ff:ff:ff:ff</span><br><span class="line">3: eth0: &lt;BROADCAST,MULTICAST,UP,10000&gt; mtu 1500 qdisc mq qlen 1000</span><br><span class="line">    <span class="built_in">link</span>/ether 00:1b:21:89:42:40 brd ff:ff:ff:ff:ff:ff</span><br><span class="line">    inet 10.10.10.102/24 brd 10.10.10.255 scope global eth0</span><br><span class="line">    inet6 fe80::21b:21ff:fe89:4240/64 scope <span class="built_in">link</span> </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">4: eth1: &lt;BROADCAST,MULTICAST,UP,10000&gt; mtu 1500 qdisc mq qlen 1000</span><br><span class="line">    <span class="built_in">link</span>/ether 00:1b:21:89:42:41 brd ff:ff:ff:ff:ff:ff</span><br><span class="line">    inet 10.10.100.102/24 brd 10.10.100.255 scope global eth1</span><br><span class="line">    inet6 fe80::21b:21ff:fe89:4241/64 scope <span class="built_in">link</span> </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br></pre></td></tr></table></figure>
+
+<h4 id="修改hosts"><a href="#修改hosts" class="headerlink" title="修改hosts"></a>修改hosts</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@filer1 ~]<span class="comment"># vi /etc/hosts                                                                                  </span></span><br><span class="line"><span class="comment"># Do not remove the following line, or various programs</span></span><br><span class="line"><span class="comment"># that require network functionality will fail.</span></span><br><span class="line">127.0.0.1               filer1 localhost.localdomain localhost</span><br><span class="line">::1             localhost6.localdomain6 localhost6</span><br><span class="line">10.10.10.102    filer2</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@filer2 ~]<span class="comment"># vi /etc/hosts                                                                                  </span></span><br><span class="line"><span class="comment"># Do not remove the following line, or various programs</span></span><br><span class="line"><span class="comment"># that require network functionality will fail.</span></span><br><span class="line">127.0.0.1               filer2 localhost.localdomain localhost</span><br><span class="line">::1             localhost6.localdomain6 localhost6</span><br><span class="line">10.10.10.101    filer1</span><br></pre></td></tr></table></figure>
+
+<h4 id="SSH互信"><a href="#SSH互信" class="headerlink" title="SSH互信"></a>SSH互信</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">[root@filer1 ~]<span class="comment"># ssh-keygen -t dsa</span></span><br><span class="line"></span><br><span class="line">Generating public/private dsa key pair.</span><br><span class="line">Enter file <span class="keyword">in</span> <span class="built_in">which</span> to save the key (/root/.ssh/id_dsa): </span><br><span class="line">Created directory <span class="string">&#x27;/root/.ssh&#x27;</span>.</span><br><span class="line">Enter passphrase (empty <span class="keyword">for</span> no passphrase): </span><br><span class="line">Enter same passphrase again: </span><br><span class="line">Your identification has been saved <span class="keyword">in</span> /root/.ssh/id_dsa.</span><br><span class="line">Your public key has been saved <span class="keyword">in</span> /root/.ssh/id_dsa.pub.</span><br><span class="line">The key fingerprint is:</span><br><span class="line">99:47:bf:53:30:4f:ff:7c:b4:5e:1f:52:02:7b:fe:36 root@filer1</span><br><span class="line">The key<span class="string">&#x27;s randomart image is:</span></span><br><span class="line"><span class="string">+--[ DSA 1024]----+</span></span><br><span class="line"><span class="string">|                 |</span></span><br><span class="line"><span class="string">|                 |</span></span><br><span class="line"><span class="string">|          ..o .  |</span></span><br><span class="line"><span class="string">|         + .o= . |</span></span><br><span class="line"><span class="string">|        S ...oo.o|</span></span><br><span class="line"><span class="string">|         .  ooooo|</span></span><br><span class="line"><span class="string">|            oo o=|</span></span><br><span class="line"><span class="string">|             .+E=|</span></span><br><span class="line"><span class="string">|              .oo|</span></span><br><span class="line"><span class="string">+-----------------+</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">[root@filer1 ~]# ssh-copy-id -i /root/.ssh/id_dsa.pub filer2</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">The authenticity of host &#x27;</span>filer2 (10.10.10.102)<span class="string">&#x27; can&#x27;</span>t be established.</span><br><span class="line">RSA key fingerprint is f8:7a:34:27:6c:5f:bc:cc:53:1f:49:1d:0d:88:4a:ec.</span><br><span class="line">Are you sure you want to <span class="built_in">continue</span> connecting (<span class="built_in">yes</span>/no)? <span class="built_in">yes</span></span><br><span class="line">Warning: Permanently added <span class="string">&#x27;filer2,10.10.10.102&#x27;</span> (RSA) to the list of known hosts.</span><br><span class="line">root@filer2<span class="string">&#x27;s password: </span></span><br><span class="line"><span class="string">Now try logging into the machine, with &quot;ssh &#x27;</span>filer2<span class="string">&#x27;&quot;, and check in:</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  .ssh/authorized_keys</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">to make sure we haven&#x27;</span>t added extra keys that you weren<span class="string">&#x27;t expecting.</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">[root@filer2 ~]<span class="comment"># ssh-keygen -t dsa</span></span><br><span class="line"></span><br><span class="line">Generating public/private dsa key pair.</span><br><span class="line">Enter file <span class="keyword">in</span> <span class="built_in">which</span> to save the key (/root/.ssh/id_dsa): </span><br><span class="line">Created directory <span class="string">&#x27;/root/.ssh&#x27;</span>.</span><br><span class="line">Enter passphrase (empty <span class="keyword">for</span> no passphrase): </span><br><span class="line">Enter same passphrase again: </span><br><span class="line">Your identification has been saved <span class="keyword">in</span> /root/.ssh/id_dsa.</span><br><span class="line">Your public key has been saved <span class="keyword">in</span> /root/.ssh/id_dsa.pub.</span><br><span class="line">The key fingerprint is:</span><br><span class="line">27:77:a9:ed:1c:d8:2e:9d:23:1e:b1:27:98:75:62:66 root@filer2</span><br><span class="line">The key<span class="string">&#x27;s randomart image is:</span></span><br><span class="line"><span class="string">+--[ DSA 1024]----+</span></span><br><span class="line"><span class="string">|                 |</span></span><br><span class="line"><span class="string">|                 |</span></span><br><span class="line"><span class="string">|                 |</span></span><br><span class="line"><span class="string">|             .   |</span></span><br><span class="line"><span class="string">|        S E +    |</span></span><br><span class="line"><span class="string">|         @ @     |</span></span><br><span class="line"><span class="string">|        o *.=.   |</span></span><br><span class="line"><span class="string">|          oB+.   |</span></span><br><span class="line"><span class="string">|         ..o+.   |</span></span><br><span class="line"><span class="string">+-----------------+</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">[root@filer2 ~]# ssh-copy-id -i /root/.ssh/id_dsa.pub filer1</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">The authenticity of host &#x27;</span>filer1 (10.10.10.101)<span class="string">&#x27; can&#x27;</span>t be established.</span><br><span class="line">RSA key fingerprint is 2d:f6:80:73:6e:e5:42:03:26:f6:c5:23:57:2f:42:fb.</span><br><span class="line">Are you sure you want to <span class="built_in">continue</span> connecting (<span class="built_in">yes</span>/no)? <span class="built_in">yes</span></span><br><span class="line">Warning: Permanently added <span class="string">&#x27;filer1,10.10.10.101&#x27;</span> (RSA) to the list of known hosts.</span><br><span class="line">root@filer1<span class="string">&#x27;s password: </span></span><br><span class="line"><span class="string">Now try logging into the machine, with &quot;ssh &#x27;</span>filer1<span class="string">&#x27;&quot;, and check in:</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  .ssh/authorized_keys</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">to make sure we haven&#x27;</span>t added extra keys that you weren<span class="string">&#x27;t expecting.</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="准备分区"><a href="#准备分区" class="headerlink" title="准备分区"></a>准备分区</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br></pre></td><td class="code"><pre><span class="line">[root@filer1 ~]<span class="comment"># fdisk -l</span></span><br><span class="line"></span><br><span class="line">Disk /dev/sda: 500.1 GB, 500107862016 bytes</span><br><span class="line">255 heads, 63 sectors/track, 60801 cylinders, total 976773168 sectors</span><br><span class="line">Units = sectors of 1 * 512 = 512 bytes</span><br><span class="line">Sector size (logical/physical): 512 bytes / 512 bytes</span><br><span class="line">I/O size (minimum/optimal): 512 bytes / 512 bytes</span><br><span class="line">Disk identifier: 0x1c041c04</span><br><span class="line"></span><br><span class="line">   Device Boot      Start         End      Blocks   Id  System</span><br><span class="line"></span><br><span class="line">Disk /dev/sdb: 250.1 GB, 250059350016 bytes</span><br><span class="line">255 heads, 63 sectors/track, 30401 cylinders, total 488397168 sectors</span><br><span class="line">Units = sectors of 1 * 512 = 512 bytes</span><br><span class="line">Sector size (logical/physical): 512 bytes / 512 bytes</span><br><span class="line">I/O size (minimum/optimal): 512 bytes / 512 bytes</span><br><span class="line">Disk identifier: 0x9f02b0bc</span><br><span class="line"></span><br><span class="line">   Device Boot      Start         End      Blocks   Id  System</span><br><span class="line">/dev/sdb1   *          63     1028159      514048+  83  Linux</span><br><span class="line">/dev/sdb2         1028160    17800019     8385930   83  Linux</span><br><span class="line">/dev/sdb3        17800020    21992984     2096482+  82  Linux swap / Solaris</span><br><span class="line"></span><br><span class="line">[root@filer1 ~]<span class="comment"># fdisk /dev/sda</span></span><br><span class="line"></span><br><span class="line">Command (m <span class="keyword">for</span> <span class="built_in">help</span>): p</span><br><span class="line"></span><br><span class="line">Disk /dev/sda: 500.1 GB, 500107862016 bytes</span><br><span class="line">255 heads, 63 sectors/track, 60801 cylinders, total 976773168 sectors</span><br><span class="line">Units = sectors of 1 * 512 = 512 bytes</span><br><span class="line">Sector size (logical/physical): 512 bytes / 512 bytes</span><br><span class="line">I/O size (minimum/optimal): 512 bytes / 512 bytes</span><br><span class="line">Disk identifier: 0x1c041c04</span><br><span class="line"></span><br><span class="line">   Device Boot      Start         End      Blocks   Id  System</span><br><span class="line"></span><br><span class="line">Command (m <span class="keyword">for</span> <span class="built_in">help</span>): n</span><br><span class="line">Command action</span><br><span class="line">   e   extended</span><br><span class="line">   p   primary partition (1-4)</span><br><span class="line">p</span><br><span class="line">Partition number (1-4, default 1): </span><br><span class="line">Using default value 1</span><br><span class="line">First sector (2048-976773167, default 2048): </span><br><span class="line">Using default value 2048</span><br><span class="line">Last sector, +sectors or +size&#123;K,M,G&#125; (2048-976773167, default 976773167): +600M</span><br><span class="line"></span><br><span class="line">Command (m <span class="keyword">for</span> <span class="built_in">help</span>): n</span><br><span class="line">Command action</span><br><span class="line">   e   extended</span><br><span class="line">   p   primary partition (1-4)</span><br><span class="line">p</span><br><span class="line">Partition number (1-4, default 2): </span><br><span class="line">Using default value 2</span><br><span class="line">First sector (1230848-976773167, default 1230848): </span><br><span class="line">Using default value 1230848</span><br><span class="line">Last sector, +sectors or +size&#123;K,M,G&#125; (1230848-976773167, default 976773167): +2048^H^H^H^H^H^H^Hfffd</span><br><span class="line">Unsupported sufffd<span class="string">&#x27;.&#x27;</span></span><br><span class="line">Supported: 10^N: KB (KiloByte), MB (MegaByte), GB (GigaByte)</span><br><span class="line">            2^N: K  (KibiByte), M  (MebiByte), G  (GibiByte)</span><br><span class="line">Last sector, +sectors or +size&#123;K,M,G&#125; (1230848-976773167, default 976773167): +8G</span><br><span class="line"></span><br><span class="line">Command (m <span class="keyword">for</span> <span class="built_in">help</span>): p</span><br><span class="line"></span><br><span class="line">Disk /dev/sda: 500.1 GB, 500107862016 bytes</span><br><span class="line">255 heads, 63 sectors/track, 60801 cylinders, total 976773168 sectors</span><br><span class="line">Units = sectors of 1 * 512 = 512 bytes</span><br><span class="line">Sector size (logical/physical): 512 bytes / 512 bytes</span><br><span class="line">I/O size (minimum/optimal): 512 bytes / 512 bytes</span><br><span class="line">Disk identifier: 0x1c041c04</span><br><span class="line"></span><br><span class="line">   Device Boot      Start         End      Blocks   Id  System</span><br><span class="line">/dev/sda1            2048     1230847      614400   83  Linux</span><br><span class="line">/dev/sda2         1230848    18008063     8388608   83  Linux</span><br><span class="line"></span><br><span class="line">Command (m <span class="keyword">for</span> <span class="built_in">help</span>): t</span><br><span class="line">Partition number (1-4): 2</span><br><span class="line">Hex code (<span class="built_in">type</span> L to list codes): 8e</span><br><span class="line">Changed system <span class="built_in">type</span> of partition 2 to 8e (Linux LVM)</span><br><span class="line"></span><br><span class="line">Command (m <span class="keyword">for</span> <span class="built_in">help</span>): p</span><br><span class="line"></span><br><span class="line">Disk /dev/sda: 500.1 GB, 500107862016 bytes</span><br><span class="line">255 heads, 63 sectors/track, 60801 cylinders, total 976773168 sectors</span><br><span class="line">Units = sectors of 1 * 512 = 512 bytes</span><br><span class="line">Sector size (logical/physical): 512 bytes / 512 bytes</span><br><span class="line">I/O size (minimum/optimal): 512 bytes / 512 bytes</span><br><span class="line">Disk identifier: 0x1c041c04</span><br><span class="line"></span><br><span class="line">   Device Boot      Start         End      Blocks   Id  System</span><br><span class="line">/dev/sda1            2048     1230847      614400   83  Linux</span><br><span class="line">/dev/sda2         1230848    18008063     8388608   8e  Linux LVM</span><br><span class="line"></span><br><span class="line">Command (m <span class="keyword">for</span> <span class="built_in">help</span>): w</span><br><span class="line">The partition table has been altered!</span><br><span class="line"></span><br><span class="line">Calling ioctl() to re-read partition table.</span><br><span class="line">Syncing disks.</span><br><span class="line">[root@filer1 ~]<span class="comment"># partprobe</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line">[root@filer2 ~]<span class="comment"># fdisk -l</span></span><br><span class="line"></span><br><span class="line">Disk /dev/sda: 500.1 GB, 500107862016 bytes</span><br><span class="line">255 heads, 63 sectors/track, 60801 cylinders, total 976773168 sectors</span><br><span class="line">Units = sectors of 1 * 512 = 512 bytes</span><br><span class="line">Sector size (logical/physical): 512 bytes / 4096 bytes</span><br><span class="line">I/O size (minimum/optimal): 4096 bytes / 4096 bytes</span><br><span class="line">Disk identifier: 0x1c041c04</span><br><span class="line"></span><br><span class="line">   Device Boot      Start         End      Blocks   Id  System</span><br><span class="line"></span><br><span class="line">Disk /dev/sdb: 160.0 GB, 160040803840 bytes</span><br><span class="line">255 heads, 63 sectors/track, 19457 cylinders, total 312579695 sectors</span><br><span class="line">Units = sectors of 1 * 512 = 512 bytes</span><br><span class="line">Sector size (logical/physical): 512 bytes / 512 bytes</span><br><span class="line">I/O size (minimum/optimal): 512 bytes / 512 bytes</span><br><span class="line">Disk identifier: 0x1c041c04</span><br><span class="line"></span><br><span class="line">   Device Boot      Start         End      Blocks   Id  System</span><br><span class="line">/dev/sdb1   *          63     1028159      514048+  83  Linux</span><br><span class="line">/dev/sdb2         1028160    17800019     8385930   83  Linux</span><br><span class="line">/dev/sdb3        17800020    21992984     2096482+  82  Linux swap / Solaris</span><br><span class="line"></span><br><span class="line">[root@filer2 ~]<span class="comment"># fdisk /dev/sda</span></span><br><span class="line"></span><br><span class="line">The device presents a logical sector size that is smaller than</span><br><span class="line">the physical sector size. Aligning to a physical sector (or optimal</span><br><span class="line">I/O) size boundary is recommended, or performance may be impacted.</span><br><span class="line"></span><br><span class="line">Command (m <span class="keyword">for</span> <span class="built_in">help</span>): p</span><br><span class="line"></span><br><span class="line">Disk /dev/sda: 500.1 GB, 500107862016 bytes</span><br><span class="line">255 heads, 63 sectors/track, 60801 cylinders, total 976773168 sectors</span><br><span class="line">Units = sectors of 1 * 512 = 512 bytes</span><br><span class="line">Sector size (logical/physical): 512 bytes / 4096 bytes</span><br><span class="line">I/O size (minimum/optimal): 4096 bytes / 4096 bytes</span><br><span class="line">Disk identifier: 0x1c041c04</span><br><span class="line"></span><br><span class="line">   Device Boot      Start         End      Blocks   Id  System</span><br><span class="line"></span><br><span class="line">Command (m <span class="keyword">for</span> <span class="built_in">help</span>): n</span><br><span class="line">Command action</span><br><span class="line">   e   extended</span><br><span class="line">   p   primary partition (1-4)</span><br><span class="line">p</span><br><span class="line">Partition number (1-4, default 1): </span><br><span class="line">Using default value 1</span><br><span class="line">First sector (2048-976773167, default 2048): </span><br><span class="line">Using default value 2048</span><br><span class="line">Last sector, +sectors or +size&#123;K,M,G&#125; (2048-976773167, default 976773167): +600M</span><br><span class="line"></span><br><span class="line">Command (m <span class="keyword">for</span> <span class="built_in">help</span>): n</span><br><span class="line">Command action</span><br><span class="line">   e   extended</span><br><span class="line">   p   primary partition (1-4)</span><br><span class="line">p</span><br><span class="line">Partition number (1-4, default 2): </span><br><span class="line">Using default value 2</span><br><span class="line">First sector (1230848-976773167, default 1230848): </span><br><span class="line">Using default value 1230848</span><br><span class="line">Last sector, +sectors or +size&#123;K,M,G&#125; (1230848-976773167, default 976773167): +8G</span><br><span class="line"></span><br><span class="line">Command (m <span class="keyword">for</span> <span class="built_in">help</span>): t</span><br><span class="line">Partition number (1-4): 2</span><br><span class="line">Hex code (<span class="built_in">type</span> L to list codes): 8e</span><br><span class="line">Changed system <span class="built_in">type</span> of partition 2 to 8e (Linux LVM)</span><br><span class="line"></span><br><span class="line">Command (m <span class="keyword">for</span> <span class="built_in">help</span>): p</span><br><span class="line"></span><br><span class="line">Disk /dev/sda: 500.1 GB, 500107862016 bytes</span><br><span class="line">255 heads, 63 sectors/track, 60801 cylinders, total 976773168 sectors</span><br><span class="line">Units = sectors of 1 * 512 = 512 bytes</span><br><span class="line">Sector size (logical/physical): 512 bytes / 4096 bytes</span><br><span class="line">I/O size (minimum/optimal): 4096 bytes / 4096 bytes</span><br><span class="line">Disk identifier: 0x1c041c04</span><br><span class="line"></span><br><span class="line">   Device Boot      Start         End      Blocks   Id  System</span><br><span class="line">/dev/sda1            2048     1230847      614400   83  Linux</span><br><span class="line">/dev/sda2         1230848    18008063     8388608   8e  Linux LVM</span><br><span class="line"></span><br><span class="line">Command (m <span class="keyword">for</span> <span class="built_in">help</span>): w</span><br><span class="line">The partition table has been altered!</span><br><span class="line"></span><br><span class="line">Calling ioctl() to re-read partition table.</span><br><span class="line">Syncing disks.</span><br><span class="line">[root@filer2 ~]<span class="comment"># partprobe</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="配置DRBD"><a href="#配置DRBD" class="headerlink" title="配置DRBD"></a>配置DRBD</h4><h5 id="修改配置文件drbd-conf"><a href="#修改配置文件drbd-conf" class="headerlink" title="修改配置文件drbd.conf"></a>修改配置文件drbd.conf</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">[root@filer1 ~]<span class="comment"># vi /etc/drbd.conf</span></span><br><span class="line"><span class="comment"># You can find an example in  /usr/share/doc/drbd.../drbd.conf.example</span></span><br><span class="line"></span><br><span class="line">include <span class="string">&quot;drbd.d/global_common.conf&quot;</span>;</span><br><span class="line"><span class="comment">#include &quot;drbd.d/*.res&quot;;</span></span><br><span class="line">resource meta &#123;</span><br><span class="line"> on filer1 &#123;</span><br><span class="line">   device /dev/drbd0;</span><br><span class="line">   disk /dev/sda1;</span><br><span class="line">   address 10.10.100.101:7788;</span><br><span class="line">   meta-disk internal;</span><br><span class="line"> &#125;</span><br><span class="line"> on filer2 &#123;</span><br><span class="line">   device /dev/drbd0;</span><br><span class="line">   disk /dev/sda1;</span><br><span class="line">   address 10.10.100.102:7788;</span><br><span class="line">   meta-disk internal;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br><span class="line">resource data1 &#123;</span><br><span class="line"> on filer1 &#123;</span><br><span class="line">   device /dev/drbd1;</span><br><span class="line">   disk /dev/sda2;</span><br><span class="line">   address 10.10.100.101:7789;</span><br><span class="line">   meta-disk internal;</span><br><span class="line"> &#125;</span><br><span class="line"> on filer2 &#123;</span><br><span class="line">   device /dev/drbd1;</span><br><span class="line">   disk /dev/sda2;</span><br><span class="line">   address 10.10.100.102:7789;</span><br><span class="line">   meta-disk internal;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>复制，使两个节点相同：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@filer1 etc]<span class="comment"># scp /etc/drbd.conf filer2:/etc/drbd.conf</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="修改global-common-conf-配置文件（根据实际带宽修改rate属性）"><a href="#修改global-common-conf-配置文件（根据实际带宽修改rate属性）" class="headerlink" title="修改global_common.conf 配置文件（根据实际带宽修改rate属性）"></a>修改<code>global_common.conf</code> 配置文件（根据实际带宽修改rate属性）</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">[root@filer1 ~]<span class="comment"># vi /etc/drbd.d/global_common.conf </span></span><br><span class="line">global &#123;</span><br><span class="line">        usage-count <span class="built_in">yes</span>;</span><br><span class="line">        <span class="comment"># minor-count dialog-refresh disable-ip-verification</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">common &#123;</span><br><span class="line">        protocol C; <span class="comment"># 使用C协议，即：所有节点写入成功后再返回。</span></span><br><span class="line"></span><br><span class="line">        handlers &#123;</span><br><span class="line">                pri-on-incon-degr <span class="string">&quot;/usr/lib/drbd/notify-pri-on-incon-degr.sh; /usr/lib/drbd/notify-emergency-reboot.sh; echo b &gt; /proc/sysrq-trigger ; reboot -f&quot;</span>;</span><br><span class="line">                pri-lost-after-sb <span class="string">&quot;/usr/lib/drbd/notify-pri-lost-after-sb.sh; /usr/lib/drbd/notify-emergency-reboot.sh; echo b &gt; /proc/sysrq-trigger ; reboot -f&quot;</span>;</span><br><span class="line">                local-io-error <span class="string">&quot;/usr/lib/drbd/notify-io-error.sh; /usr/lib/drbd/notify-emergency-shutdown.sh; echo o &gt; /proc/sysrq-trigger ; halt -f&quot;</span>;</span><br><span class="line">                <span class="comment"># fence-peer &quot;/usr/lib/drbd/crm-fence-peer.sh&quot;;</span></span><br><span class="line">                <span class="comment"># split-brain &quot;/usr/lib/drbd/notify-split-brain.sh root&quot;;</span></span><br><span class="line">                <span class="comment"># out-of-sync &quot;/usr/lib/drbd/notify-out-of-sync.sh root&quot;;</span></span><br><span class="line">                <span class="comment"># before-resync-target &quot;/usr/lib/drbd/snapshot-resync-target-lvm.sh -p 15 -- -c 16k&quot;;</span></span><br><span class="line">                <span class="comment"># after-resync-target /usr/lib/drbd/unsnapshot-resync-target-lvm.sh;</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        startup &#123;</span><br><span class="line">                <span class="comment"># wfc-timeout degr-wfc-timeout outdated-wfc-timeout wait-after-sb</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        disk &#123;</span><br><span class="line">                <span class="comment"># on-io-error fencing use-bmbv no-disk-barrier no-disk-flushes</span></span><br><span class="line">                <span class="comment"># no-disk-drain no-md-flushes max-bio-bvecs</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        net &#123;</span><br><span class="line">                <span class="comment"># sndbuf-size rcvbuf-size timeout connect-int ping-int ping-timeout max-buffers</span></span><br><span class="line">                <span class="comment"># max-epoch-size ko-count allow-two-primaries cram-hmac-alg shared-secret</span></span><br><span class="line">                <span class="comment"># after-sb-0pri after-sb-1pri after-sb-2pri data-integrity-alg no-tcp-cork</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        syncer &#123;</span><br><span class="line">                rate 100M; <span class="comment"># 根据数据同步网卡的带宽修改，我的是千兆，所以设置100M。</span></span><br><span class="line">                <span class="comment"># rate after al-extents use-rle cpu-mask verify-alg csums-alg</span></span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>复制，使两个节点相同。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@filer1 etc]<span class="comment"># scp /etc/drbd.d/global_common.conf filer2:/etc/drbd.d/global_common.conf</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="创建元数据"><a href="#创建元数据" class="headerlink" title="创建元数据"></a>创建元数据</h4><p>（如果提示需要清除分区数据，执行 #<code>dd if=/dev/zero of=/dev/sda1</code> <code>sda1</code>修改为对应的分区）</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@filer1 etc]<span class="comment"># drbdadm create-md meta</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">  --==  Thank you <span class="keyword">for</span> participating <span class="keyword">in</span> the global usage survey  ==--</span><br><span class="line">The server<span class="string">&#x27;s response is:</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">md_offset 629141504</span></span><br><span class="line"><span class="string">al_offset 629108736</span></span><br><span class="line"><span class="string">bm_offset 629088256</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Found some data</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"> ==&gt; This might destroy existing data! &lt;==</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Do you want to proceed?</span></span><br><span class="line"><span class="string">[need to type &#x27;</span><span class="built_in">yes</span><span class="string">&#x27; to confirm] yes</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Writing meta data...</span></span><br><span class="line"><span class="string">initializing activity log</span></span><br><span class="line"><span class="string">NOT initialized bitmap</span></span><br><span class="line"><span class="string">New drbd meta data block successfully created.</span></span><br><span class="line"><span class="string">success</span></span><br></pre></td></tr></table></figure>
+<p>最好输入两次创建元数据命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">[root@filer2 ~]<span class="comment"># drbdadm create-md meta</span></span><br><span class="line">md_offset 629141504</span><br><span class="line">al_offset 629108736</span><br><span class="line">bm_offset 629088256</span><br><span class="line"></span><br><span class="line">Found some data</span><br><span class="line"></span><br><span class="line"> ==&gt; This might destroy existing data! &lt;==</span><br><span class="line"></span><br><span class="line">Do you want to proceed?</span><br><span class="line">[need to <span class="built_in">type</span> <span class="string">&#x27;yes&#x27;</span> to confirm] <span class="built_in">yes</span></span><br><span class="line"></span><br><span class="line">You want me to create a v08 style flexible-size internal meta data block.</span><br><span class="line">There appears to be a v08 flexible-size internal meta data block</span><br><span class="line">already <span class="keyword">in</span> place on /dev/sda1 at byte offset 629141504</span><br><span class="line">Do you really want to overwrite the existing v08 meta-data?</span><br><span class="line">[need to <span class="built_in">type</span> <span class="string">&#x27;yes&#x27;</span> to confirm] <span class="built_in">yes</span></span><br><span class="line"></span><br><span class="line">Writing meta data...</span><br><span class="line">initializing activity <span class="built_in">log</span></span><br><span class="line">NOT initialized bitmap</span><br><span class="line">New drbd meta data block successfully created.</span><br></pre></td></tr></table></figure>
+
+<p>创建data1元数据分区也是一样：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">[root@filer1 etc]<span class="comment"># drbdadm create-md data1</span></span><br><span class="line">md_offset 8589930496</span><br><span class="line">al_offset 8589897728</span><br><span class="line">bm_offset 8589635584</span><br><span class="line"></span><br><span class="line">Found some data</span><br><span class="line"></span><br><span class="line"> ==&gt; This might destroy existing data! &lt;==</span><br><span class="line"></span><br><span class="line">Do you want to proceed?</span><br><span class="line">[need to <span class="built_in">type</span> <span class="string">&#x27;yes&#x27;</span> to confirm] <span class="built_in">yes</span></span><br><span class="line"></span><br><span class="line">Writing meta data...</span><br><span class="line">initializing activity <span class="built_in">log</span></span><br><span class="line">NOT initialized bitmap</span><br><span class="line">New drbd meta data block successfully created.</span><br><span class="line">success</span><br><span class="line">[root@filer1 etc]<span class="comment"># drbdadm create-md data1</span></span><br><span class="line">md_offset 8589930496</span><br><span class="line">al_offset 8589897728</span><br><span class="line">bm_offset 8589635584</span><br><span class="line"></span><br><span class="line">Found some data</span><br><span class="line"></span><br><span class="line"> ==&gt; This might destroy existing data! &lt;==</span><br><span class="line"></span><br><span class="line">Do you want to proceed?</span><br><span class="line">[need to <span class="built_in">type</span> <span class="string">&#x27;yes&#x27;</span> to confirm] <span class="built_in">yes</span></span><br><span class="line"></span><br><span class="line">You want me to create a v08 style flexible-size internal meta data block.</span><br><span class="line">There appears to be a v08 flexible-size internal meta data block</span><br><span class="line">already <span class="keyword">in</span> place on /dev/sda2 at byte offset 8589930496</span><br><span class="line">Do you really want to overwrite the existing v08 meta-data?</span><br><span class="line">[need to <span class="built_in">type</span> <span class="string">&#x27;yes&#x27;</span> to confirm] <span class="built_in">yes</span></span><br><span class="line"></span><br><span class="line">Writing meta data...</span><br><span class="line">initializing activity <span class="built_in">log</span></span><br><span class="line">NOT initialized bitmap</span><br><span class="line">New drbd meta data block successfully created.</span><br></pre></td></tr></table></figure>
+
+<p>注意：在两个节点都要执行。</p>
+<p>（有时如果提示需要清除分区数据，执行 #<code>dd if=/dev/zero of=/dev/sda1</code> <code>sda1</code>是对应的分区）。</p>
+<h4 id="启动drbd服务"><a href="#启动drbd服务" class="headerlink" title="启动drbd服务"></a>启动drbd服务</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@filer1 ~]<span class="comment"># service drbd start</span></span><br><span class="line">[root@filer2 ~]<span class="comment"># service drbd start</span></span><br></pre></td></tr></table></figure>
+
+<p>查看drbd状态的三种方法：（<code>cat /proc/drbd</code> <code>drbd-overview</code> <code>service drbd status</code>）</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@filer1 etc]<span class="comment"># more /proc/drbd</span></span><br><span class="line">version: 8.3.10 (api:88/proto:86-96)</span><br><span class="line">GIT-<span class="built_in">hash</span>: 5c0b0469666682443d4785d90a2c603378f9017b build by phil@fat-tyre, 2011-01-28 12:17:35</span><br><span class="line"> 0: cs:Connected ro:Secondary/Secondary ds:Inconsistent/Inconsistent C r-----</span><br><span class="line">    ns:0 nr:0 dw:0 dr:0 al:0 bm:0 lo:0 pe:0 ua:0 ap:0 ep:1 wo:b oos:614344</span><br><span class="line"> 1: cs:Connected ro:Secondary/Secondary ds:Inconsistent/Inconsistent C r-----</span><br><span class="line">    ns:0 nr:0 dw:0 dr:0 al:0 bm:0 lo:0 pe:0 ua:0 ap:0 ep:1 wo:b oos:8388316</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@filer2 ~]<span class="comment"># drbd-overview</span></span><br><span class="line">  0:meta   Connected Secondary/Secondary Inconsistent/Inconsistent C r----- </span><br><span class="line">  1:data1  Connected Secondary/Secondary Inconsistent/Inconsistent C r----- </span><br></pre></td></tr></table></figure>
+
+<p>此时双节点都是备用状态，并没有同步数据，需要定义一个主节点：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@filer1 ~]<span class="comment"># drbdsetup /dev/drbd0 primary -o</span></span><br><span class="line">[root@filer1 ~]<span class="comment"># drbdsetup /dev/drbd1 primary -o</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">[root@filer1 ~]<span class="comment"># more /proc/drbd                                   </span></span><br><span class="line">version: 8.3.10 (api:88/proto:86-96)</span><br><span class="line">GIT-<span class="built_in">hash</span>: 5c0b0469666682443d4785d90a2c603378f9017b build by phil@fat-tyre, 2011-01-28 12:17:35</span><br><span class="line"> 0: cs:SyncSource ro:Primary/Secondary ds:UpToDate/Inconsistent C r-----</span><br><span class="line">    ns:11520 nr:0 dw:0 dr:12192 al:0 bm:0 lo:0 pe:0 ua:0 ap:0 ep:1 wo:b oos:602824</span><br><span class="line">        [&gt;....................] <span class="built_in">sync</span><span class="string">&#x27;ed:  2.0% (602824/614344)K</span></span><br><span class="line"><span class="string">        finish: 0:07:47 speed: 1,280 (1,280) K/sec</span></span><br><span class="line"><span class="string"> 1: cs:SyncSource ro:Primary/Secondary ds:UpToDate/Inconsistent C r-----</span></span><br><span class="line"><span class="string">    ns:6272 nr:0 dw:0 dr:6944 al:0 bm:0 lo:0 pe:0 ua:0 ap:0 ep:1 wo:b oos:8382044</span></span><br><span class="line"><span class="string">        [&gt;....................] sync&#x27;</span>ed:  0.1% (8184/8188)M</span><br><span class="line">        finish: 1:27:18 speed: 1,568 (1,568) K/sec</span><br><span class="line">        </span><br><span class="line">[root@filer1 ~]<span class="comment"># drbd-overview</span></span><br><span class="line">  0:meta   SyncSource Primary/Secondary UpToDate/Inconsistent C r----- </span><br><span class="line">        [&gt;....................] <span class="built_in">sync</span><span class="string">&#x27;ed:  4.0% (590536/614344)K</span></span><br><span class="line"><span class="string">  1:data1  SyncSource Primary/Secondary UpToDate/Inconsistent C r----- </span></span><br><span class="line"><span class="string">        [&gt;....................] sync&#x27;</span>ed:  0.3% (8172/8188)M</span><br><span class="line">        </span><br><span class="line">[root@filer1 ~]<span class="comment"># service drbd status</span></span><br><span class="line">drbd driver loaded OK; device status:</span><br><span class="line">version: 8.3.10 (api:88/proto:86-96)</span><br><span class="line">GIT-<span class="built_in">hash</span>: 5c0b0469666682443d4785d90a2c603378f9017b build by phil@fat-tyre, 2011-01-28 12:17:35</span><br><span class="line">m:res    cs          ro                 ds                     p  mounted  fstype</span><br><span class="line">...      <span class="built_in">sync</span><span class="string">&#x27;ed:    0.5%               (8156/8188)M</span></span><br><span class="line"><span class="string">...      sync&#x27;</span>ed:    6.7%               (576200/614344)K</span><br><span class="line">0:meta   SyncSource  Primary/Secondary  UpToDate/Inconsistent  C</span><br><span class="line">1:data1  SyncSource  Primary/Secondary  UpToDate/Inconsistent  C</span><br></pre></td></tr></table></figure>
+
+<p>从上面看到三种查看状态方法的区别</p>
+<p>节点<code>filer2</code> 查看状态，此时两个节点自动开始同步数据了。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@filer2 ~]<span class="comment"># drbd-overview</span></span><br><span class="line">  0:meta   SyncTarget Secondary/Primary Inconsistent/UpToDate C r----- </span><br><span class="line">        [=========&gt;..........] <span class="built_in">sync</span><span class="string">&#x27;ed: 52.0% (298312/614344)K</span></span><br><span class="line"><span class="string">  1:data1  SyncTarget Secondary/Primary Inconsistent/UpToDate C r----- </span></span><br><span class="line"><span class="string">        [&gt;....................] sync&#x27;</span>ed:  3.8% (7888/8188)M</span><br></pre></td></tr></table></figure>
+
+<p>同步完成</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@filer1 ~]<span class="comment"># drbd-overview</span></span><br><span class="line">  0:meta   Connected Secondary/Primary UpToDate/UpToDate C r----- </span><br><span class="line">  1:data1  Connected Secondary/Primary UpToDate/UpToDate C r----- </span><br></pre></td></tr></table></figure>
+
+<h3 id="配置元数据分区"><a href="#配置元数据分区" class="headerlink" title="配置元数据分区"></a>配置元数据分区</h3><p>文件系统的挂载只能在Primary节点进行，因此，也只有在设置了主节点后才能对drbd设备进行格式化。现在可以在作为<code>主节点</code>的<code>filer91</code>上进行了，格式化后把它挂载到&#x2F;meta目录上，过程如下：</p>
+<p>格式化meta分区</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">[root@filer1 ~]<span class="comment"># mkfs.ext3 /dev/drbd0</span></span><br><span class="line">mke2fs 1.41.14 (22-Dec-2010)</span><br><span class="line">Filesystem label=</span><br><span class="line">OS <span class="built_in">type</span>: Linux</span><br><span class="line">Block size=4096 (<span class="built_in">log</span>=2)</span><br><span class="line">Fragment size=4096 (<span class="built_in">log</span>=2)</span><br><span class="line">Stride=0 blocks, Stripe width=0 blocks</span><br><span class="line">38400 inodes, 153586 blocks</span><br><span class="line">7679 blocks (5.00%) reserved <span class="keyword">for</span> the super user</span><br><span class="line">First data block=0</span><br><span class="line">Maximum filesystem blocks=159383552</span><br><span class="line">5 block <span class="built_in">groups</span></span><br><span class="line">32768 blocks per group, 32768 fragments per group</span><br><span class="line">7680 inodes per group</span><br><span class="line">Superblock backups stored on blocks: </span><br><span class="line">        32768, 98304</span><br><span class="line"></span><br><span class="line">Writing inode tables: <span class="keyword">done</span>                            </span><br><span class="line">Creating journal (4096 blocks): <span class="keyword">done</span></span><br><span class="line">Writing superblocks and filesystem accounting information: <span class="keyword">done</span></span><br><span class="line"></span><br><span class="line">This filesystem will be automatically checked every 39 mounts or</span><br><span class="line">180 days, whichever comes first.  Use tune2fs -c or -i to override.</span><br></pre></td></tr></table></figure>
+
+<p>停止openfiler 服务，准备迁移openfiler系统文件</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@filer1 ~]<span class="comment"># service openfiler stop</span></span><br><span class="line">Stopping openfiler:                                        [  OK  ]</span><br></pre></td></tr></table></figure>
+
+<p>迁移openfiler<strong>文件至meta分区</strong>(一行一行执行)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">mkdir /meta</span><br><span class="line">mount /dev/drbd0 /meta</span><br><span class="line">mv /opt/openfiler/ /opt/openfiler.local</span><br><span class="line">mkdir -p /meta/opt</span><br><span class="line">cp -a /opt/openfiler.local /meta/opt/openfiler</span><br><span class="line">ln -s /meta/opt/openfiler /opt/openfiler</span><br><span class="line">rm -rf /meta/opt/openfiler/sbin/openfiler</span><br><span class="line">ln -s /usr/sbin/httpd /meta/opt/openfiler/sbin/openfiler</span><br><span class="line">rm -rf /meta/opt/openfiler/etc/rsync.xml</span><br><span class="line">ln -s /opt/openfiler.local/etc/rsync.xml /meta/opt/openfiler/etc/</span><br><span class="line">mkdir -p /meta/etc/httpd/conf.d</span><br></pre></td></tr></table></figure>
+
+<p>迁移Samba&#x2F;NFS&#x2F;ISCSI&#x2F;PROFTPD 配置<strong>文件至 Meta 分区</strong>(一行一行执行)</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">root@filer1 ~<span class="comment"># service nfslock stop</span></span><br><span class="line">root@filer1 ~<span class="comment"># umount -a -t rpc-pipefs</span></span><br><span class="line">root@filer1 ~<span class="comment"># mkdir /meta/etc     (有可能会提示已经存在，如存在跳过此步，不用创建)</span></span><br><span class="line">root@filer1 ~<span class="comment"># mv /etc/samba/ /meta/etc/</span></span><br><span class="line">root@filer1 ~<span class="comment"># ln -s /meta/etc/samba/ /etc/samba</span></span><br><span class="line">root@filer1 ~<span class="comment"># mkdir -p /meta/var/spool</span></span><br><span class="line">root@filer1 ~<span class="comment"># mv /var/spool/samba/ /meta/var/spool/</span></span><br><span class="line">root@filer1 ~<span class="comment"># ln -s /meta/var/spool/samba/ /var/spool/samba</span></span><br><span class="line">root@filer1 ~<span class="comment"># mkdir -p /meta/var/lib</span></span><br><span class="line">root@filer1 ~<span class="comment"># mv /var/lib/nfs/ /meta/var/lib/</span></span><br><span class="line">root@filer1 ~<span class="comment"># ln -s /meta/var/lib/nfs/ /var/lib/nfs</span></span><br><span class="line">root@filer1 ~<span class="comment"># mv /etc/exports /meta/etc/</span></span><br><span class="line">root@filer1 ~<span class="comment"># ln -s /meta/etc/exports /etc/exports</span></span><br><span class="line">root@filer1 ~<span class="comment"># mv /etc/ietd.conf /meta/etc/</span></span><br><span class="line">root@filer1 ~<span class="comment"># ln -s /meta/etc/ietd.conf /etc/ietd.conf</span></span><br><span class="line">root@filer1 ~<span class="comment"># mv /etc/initiators.allow /meta/etc/</span></span><br><span class="line">root@filer1 ~<span class="comment"># ln -s /meta/etc/initiators.allow /etc/initiators.allow</span></span><br><span class="line">root@filer1 ~<span class="comment"># mv /etc/initiators.deny /meta/etc/</span></span><br><span class="line">root@filer1 ~<span class="comment"># ln -s /meta/etc/initiators.deny /etc/initiators.deny</span></span><br><span class="line">root@filer1 ~<span class="comment"># mv /etc/proftpd /meta/etc/</span></span><br><span class="line">root@filer1 ~<span class="comment"># ln -s /meta/etc/proftpd/ /etc/proftpd</span></span><br></pre></td></tr></table></figure>
+
+<p>配置openfiler的HTTPD模块</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@filer91 ~<span class="comment"># rm -rf /opt/openfiler/etc/httpd/modules</span></span><br><span class="line">root@filer91 ~<span class="comment"># ln -s /usr/lib64/httpd/modules /opt/openfiler/etc/httpd/modules</span></span><br></pre></td></tr></table></figure>
+
+<p>现在尝试启动openfiler服务</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@filer91 ~<span class="comment"># service openfiler start</span></span><br></pre></td></tr></table></figure>
+
+<p>配置另一个节点</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">root@filer92 ~<span class="comment"># service openfiler stop</span></span><br><span class="line">root@filer92 ~<span class="comment"># mkdir /meta</span></span><br><span class="line">root@filer92 ~<span class="comment"># mv /opt/openfiler/ /opt/openfiler.local</span></span><br><span class="line">root@filer92 ~<span class="comment"># ln -s /meta/opt/openfiler /opt/openfiler</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">root@filer92 ~<span class="comment"># service nfslock stop</span></span><br><span class="line">root@filer92 ~<span class="comment"># umount -a -t rpc-pipefs</span></span><br><span class="line">root@filer92 ~<span class="comment"># rm -rf /etc/samba/</span></span><br><span class="line">root@filer92 ~<span class="comment"># ln -s /meta/etc/samba/ /etc/samba</span></span><br><span class="line">root@filer92 ~<span class="comment"># rm -rf /var/spool/samba/</span></span><br><span class="line">root@filer92 ~<span class="comment"># ln -s /meta/var/spool/samba/ /var/spool/samba</span></span><br><span class="line">root@filer92 ~<span class="comment"># rm -rf /var/lib/nfs/</span></span><br><span class="line">root@filer92 ~<span class="comment"># ln -s /meta/var/lib/nfs/ /var/lib/nfs</span></span><br><span class="line">root@filer92 ~<span class="comment"># rm -rf /etc/exports</span></span><br><span class="line">root@filer92 ~<span class="comment"># ln -s /meta/etc/exports /etc/exports</span></span><br><span class="line">root@filer92 ~<span class="comment"># rm -rf /etc/ietd.conf</span></span><br><span class="line">root@filer92 ~<span class="comment"># ln -s /meta/etc/ietd.conf /etc/ietd.conf</span></span><br><span class="line">root@filer92 ~<span class="comment"># rm -rf /etc/initiators.allow</span></span><br><span class="line">root@filer92 ~<span class="comment"># ln -s /meta/etc/initiators.allow /etc/initiators.allow</span></span><br><span class="line">root@filer92 ~<span class="comment"># rm -rf /etc/initiators.deny</span></span><br><span class="line">root@filer92 ~<span class="comment"># ln -s /meta/etc/initiators.deny /etc/initiators.deny</span></span><br><span class="line">root@filer92 ~<span class="comment"># rm -rf /etc/proftpd</span></span><br><span class="line">root@filer92 ~<span class="comment"># ln -s /meta/etc/proftpd/ /etc/proftpd</span></span><br></pre></td></tr></table></figure>
+
+<p>准备数据存储分区</p>
+<p>编辑LVM规则</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@filer1 ~]<span class="comment"># vi /etc/lvm/lvm.conf</span></span><br></pre></td></tr></table></figure>
+
+<p>找到行：<code>filer = [ &quot;a/.*/&quot;]</code> 替换为 <code>filter = [ &quot;a|drbd[0-9]|&quot;, &quot;r|.*|&quot; ]</code></p>
+<p>复制，使两节点相同：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@filer1 ~]<span class="comment"># scp /etc/lvm/lvm.conf filer2:/etc/lvm/lvm.conf</span></span><br></pre></td></tr></table></figure>
+
+<p>创建将要使用的分区(只能在主节点操作)</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@filer1 ~]<span class="comment"># pvcreate /dev/drbd1</span></span><br><span class="line">[root@filer1 ~]<span class="comment"># vgcreate data /dev/drbd1</span></span><br><span class="line">[root@filer1 ~]<span class="comment"># lvcreate -L 300M -n filer data</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>开始corosync配置</strong></p>
+<h5 id="创建corosync的KEY"><a href="#创建corosync的KEY" class="headerlink" title="创建corosync的KEY"></a>创建corosync的KEY</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@filer2 ~]<span class="comment"># corosync-keygen</span></span><br><span class="line">Corosync Cluster Engine Authentication key generator.</span><br><span class="line">Gathering 1024 bits <span class="keyword">for</span> key from /dev/random.</span><br><span class="line">Press keys on your keyboard to generate entropy.</span><br><span class="line">Press keys on your keyboard to generate entropy (bits = 128).</span><br></pre></td></tr></table></figure>
+
+<p>这一步需要在<strong>真实的控制台</strong>键入任意字符</p>
+<p>拷贝authkey到另一节点</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@filer2 ~]<span class="comment"># scp /etc/corosync/authkey filer1:/etc/corosync/authkey </span></span><br></pre></td></tr></table></figure>
+
+<p>在新节点更改authkey文件的权限</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@filer1 /]<span class="comment"># chmod 400 /etc/corosync/authkey</span></span><br></pre></td></tr></table></figure>
+
+<p>创建一个pcmk文件</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@filer1 /]<span class="comment"># vi /etc/corosync/service.d/pcmk</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">service &#123;</span><br><span class="line">        # Load the Pacemaker Cluster Resource Manager</span><br><span class="line">        name: pacemaker</span><br><span class="line">        ver:  0</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>拷贝到另一节点</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@filer1 /]<span class="comment"># scp /etc/corosync/service.d/pcmk filer2:/etc/corosync/service.d/pcmk</span></span><br></pre></td></tr></table></figure>
+
+<p>创建<code> corosync.conf</code>文件</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">[root@filer1 /]<span class="comment"># vi /etc/corosync/corosync.conf</span></span><br><span class="line"><span class="comment"># Please read the corosync.conf.5 manual page</span></span><br><span class="line">compatibility: whitetank</span><br><span class="line">totem &#123;</span><br><span class="line">        version: 2</span><br><span class="line">        secauth: off</span><br><span class="line">        threads: 0</span><br><span class="line">        interface &#123;</span><br><span class="line">                ringnumber: 0</span><br><span class="line">                bindnetaddr: 10.10.100.0  <span class="comment"># 修改对应的数据同步网段</span></span><br><span class="line">                mcastaddr: 226.94.1.1</span><br><span class="line">                mcastport: 5405</span><br><span class="line">                ttl: 1</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br><span class="line">logging &#123;</span><br><span class="line">        fileline: off</span><br><span class="line">        to_stderr: no</span><br><span class="line">        to_logfile: <span class="built_in">yes</span></span><br><span class="line">        to_syslog: <span class="built_in">yes</span></span><br><span class="line">        logfile: /var/log/cluster/corosync.log</span><br><span class="line">        debug: off</span><br><span class="line">        timestamp: on</span><br><span class="line">        logger_subsys &#123;</span><br><span class="line">                subsys: AMF</span><br><span class="line">                debug: off</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br><span class="line">amf &#123;</span><br><span class="line">        mode: disabled</span><br><span class="line">                &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>复制到另一节点</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@filer1 /]<span class="comment"># scp /etc/corosync/corosync.conf filer2:/etc/corosync/corosync.conf</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="首次启动corosync服务之前的准备工作"><a href="#首次启动corosync服务之前的准备工作" class="headerlink" title="首次启动corosync服务之前的准备工作"></a>首次启动corosync服务之前的准备工作</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@filer1 ~]<span class="comment"># chkconfig --level 2345 openfiler off</span></span><br><span class="line">[root@filer1 ~]<span class="comment"># chkconfig --level 2345 nfslock off</span></span><br><span class="line">[root@filer1 ~]<span class="comment"># chkconfig --level 2345 corosync on</span></span><br></pre></td></tr></table></figure>
+
+<p>在两个节点都进行上面三个操作。</p>
+<p>（另外重启过后不用启动DRBD服务，corosync将会接管它们）</p>
+<h5 id="检查corosync状态"><a href="#检查corosync状态" class="headerlink" title="检查corosync状态"></a>检查corosync状态</h5><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@filer1 ~]<span class="comment"># ps auxf</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">root      1452  0.0  0.1 534468  4024 ?        Ssl  14:28   0:00 corosync</span><br><span class="line">root      1458  0.0  0.0  66084  2744 ?        S    14:28   0:00  \_ /usr/lib64/heartbeat/stonithd</span><br><span class="line">106       1459  0.0  0.1  67744  4944 ?        S    14:28   0:00  \_ /usr/lib64/heartbeat/cib</span><br><span class="line">root      1460  0.0  0.0  70840  2224 ?        S    14:28   0:00  \_ /usr/lib64/heartbeat/lrmd</span><br><span class="line">106       1461  0.0  0.0  66448  3048 ?        S    14:28   0:00  \_ /usr/lib64/heartbeat/attrd</span><br><span class="line">106       1462  0.0  0.0  68940  2660 ?        S    14:28   0:00  \_ /usr/lib64/heartbeat/pengine</span><br><span class="line">106       1463  0.0  0.0  76776  3388 ?        S    14:28   0:00  \_ /usr/lib64/heartbeat/crmd</span><br></pre></td></tr></table></figure>
+
+<p>查看Corosync同步状态</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[root@filer1 ~]<span class="comment"># crm_mon --one-shot -V</span></span><br><span class="line">crm_mon[1722]: 2021/08/16_14:36:24 ERROR: unpack_resources: Resource start-up disabled since no STONITH resources have been defined</span><br><span class="line">crm_mon[1722]: 2021/08/16_14:36:24 ERROR: unpack_resources: Either configure some or <span class="built_in">disable</span> STONITH with the stonith-enabled option</span><br><span class="line">crm_mon[1722]: 2021/08/16_14:36:24 ERROR: unpack_resources: NOTE: Clusters with shared data need STONITH to ensure data integrity</span><br><span class="line">============</span><br><span class="line">Last updated: Mon Aug 16 14:36:24 2021</span><br><span class="line">Stack: openais</span><br><span class="line">Current DC: filer2 - partition with quorum</span><br><span class="line">Version: 1.1.2-c6b59218ee949eebff30e837ff6f3824ed0ab86b</span><br><span class="line">2 Nodes configured, 2 expected votes</span><br><span class="line">0 Resources configured.</span><br><span class="line">============</span><br><span class="line"></span><br><span class="line">Online: [ filer1 filer2 ]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>开始配置Corosync任务</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#进入配置模式</span></span><br><span class="line">root@filer01~<span class="comment"># crm configure</span></span><br><span class="line"><span class="comment">#禁用stonith功能，corosync默认是启用stonith功能的，没有stonith设备，若直接去配置资源的话，verif会报错，无法commit</span></span><br><span class="line"><span class="comment"># property的用法和格式【usage: property [$id=&lt;set_id&gt;] &lt;option&gt;=&lt;value&gt; 】</span></span><br><span class="line">crm(live)configure<span class="comment"># property stonith-enabled=false</span></span><br><span class="line"><span class="comment">#检查设置的属性是否正确</span></span><br><span class="line">crm(live)configure<span class="comment"># verify</span></span><br><span class="line"><span class="comment">#忽略法定票数 只有一个节点时也提供资源服务</span></span><br><span class="line">crm(live)configure<span class="comment"># property no-quorum-policy=ignore</span></span><br><span class="line"><span class="comment"># 定义资源粘性</span></span><br><span class="line">crm(live)configure<span class="comment"># rsc_defaults resource-stickiness=100</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#开始定义资源</span></span><br><span class="line"><span class="comment"># 定义虚拟IP资源：【clusterIP 资源类型ocf:heartbeat:IPaddr2 参数ip=&quot;10.10.10.90&quot;……】</span></span><br><span class="line">crm(live)configure<span class="comment"># primitive ClusterIP ocf:heartbeat:IPaddr2 params ip=10.10.10.100 cidr_netmask=24 op monitor interval=30s</span></span><br><span class="line"><span class="comment">#定义文件系统资源，切换节点后自动挂载【定义meta分区资源】。</span></span><br><span class="line">crm(live)configure<span class="comment"># primitive MetaFS ocf:heartbeat:Filesystem params device=&quot;/dev/drbd0&quot; directory=&quot;/meta&quot; fstype=&quot;ext3&quot;</span></span><br><span class="line"><span class="comment">#定义LVM资源，</span></span><br><span class="line">crm(live)configure<span class="comment"># primitive lvmdata ocf:heartbeat:LVM params volgrpname=&quot;data&quot;</span></span><br><span class="line"><span class="comment">#定义DRBD资源</span></span><br><span class="line">crm(live)configure<span class="comment"># primitive drbd_meta ocf:linbit:drbd params drbd_resource=&quot;meta&quot; op monitor interval=&quot;15s&quot;</span></span><br><span class="line">crm(live)configure<span class="comment"># primitive drbd_data ocf:linbit:drbd params drbd_resource=&quot;data1&quot; op monitor interval=&quot;15s&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义openfiler资源： 资源类型lsb</span></span><br><span class="line">crm(live)configure<span class="comment"># primitive openfiler lsb:openfiler</span></span><br><span class="line">crm(live)configure<span class="comment"># primitive iscsi lsb:iscsi-target</span></span><br><span class="line">crm(live)configure<span class="comment"># primitive samba lsb:smb</span></span><br><span class="line">crm(live)configure<span class="comment"># primitive nfs lsb:nfs</span></span><br><span class="line">crm(live)configure<span class="comment"># primitive nfslock lsb:nfslock</span></span><br><span class="line"><span class="comment">#定义资源组</span></span><br><span class="line">crm(live)configure<span class="comment"># group g_drbd drbd_meta drbd_data</span></span><br><span class="line">crm(live)configure<span class="comment"># group g_services MetaFS lvmdata openfiler ClusterIP iscsi samba nfs nfslock</span></span><br><span class="line"><span class="comment">#定义有主从属性的资源</span></span><br><span class="line">crm(live)configure<span class="comment"># ms ms_g_drbd g_drbd meta master-max=1 master-node-max=1 clone-max=2 clone-node-max=1 notify=true</span></span><br><span class="line"><span class="comment">#定义绑定约束：约束资源组g_services必须运行在ms_g_drbd的主节点上。</span></span><br><span class="line">crm(live)configure<span class="comment"># colocation c_g_services_on_g_drbd inf: g_services ms_g_drbd:Master</span></span><br><span class="line"><span class="comment">#定义顺序约束：只有ms_g_drbd资源准备好时才能开始启动g_services资源组。</span></span><br><span class="line">crm(live)configure<span class="comment"># order o_g_servicesafter_g_drbd inf: ms_g_drbd:promote g_services:start</span></span><br><span class="line"><span class="comment">#提交修改</span></span><br><span class="line">crm(live)configure<span class="comment"># commit</span></span><br></pre></td></tr></table></figure>
+
+<p>此时集群已经生效</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">[root@filer1 ~]<span class="comment"># crm_mon</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Attempting connection to the cluster...</span><br><span class="line">============</span><br><span class="line">Last updated: Tue Aug 17 07:55:40 2021</span><br><span class="line">Stack: openais</span><br><span class="line">Current DC: filer2 - partition with quorum</span><br><span class="line">Version: 1.1.2-c6b59218ee949eebff30e837ff6f3824ed0ab86b</span><br><span class="line">2 Nodes configured, 2 expected votes</span><br><span class="line">2 Resources configured.</span><br><span class="line">============</span><br><span class="line"></span><br><span class="line">Online: [ filer1 filer2 ]</span><br><span class="line"></span><br><span class="line"> Resource Group: g_services</span><br><span class="line">     MetaFS     (ocf::heartbeat:Filesystem):    Started filer2</span><br><span class="line">     lvmdata    (ocf::heartbeat:LVM):   Started filer2</span><br><span class="line">     openfiler  (lsb:openfiler):        Started filer2</span><br><span class="line">     ClusterIP  (ocf::heartbeat:IPaddr2):       Started filer2</span><br><span class="line">     iscsi      (lsb:iscsi-target):     Started filer2</span><br><span class="line">     samba      (lsb:smb):      Started filer2</span><br><span class="line">     nfs        (lsb:nfs):      Started filer2</span><br><span class="line">     nfslock    (lsb:nfslock):  Started filer2</span><br><span class="line"> Master/Slave Set: ms_g_drbd</span><br><span class="line">     Masters: [ filer2 ]</span><br><span class="line">     Slaves: [ filer1 ]</span><br><span class="line"></span><br><span class="line">Connection was reset.</span><br></pre></td></tr></table></figure>
+
+<p>其它教程的说法，此时就已经完美完成了。而实际测试过程发现下面几个问题：</p>
+<ol>
+<li><p>使用reboot重启主节点时，lvmdata资源会卡住。从节点无法接管。</p>
+<p> 临时的解决办法：直接将主节点断电可正常切换。</p>
+</li>
+<li><p>当切换节点后，新的主节点不能自动挂载lv。</p>
+<p>临时解决办法：</p>
+<p> 将主节点的<code>/mnt</code> 目录移动到<code>/meta</code>中.再创建软连接到原来的位置。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@filer1 ~]<span class="comment"># mv /mnt /meta/</span></span><br><span class="line">[root@filer1 ~]<span class="comment"># ln -s /meta/mnt /mnt</span></span><br></pre></td></tr></table></figure>
+
+<p>在从节点直接删除<code>/mnt</code> ,同样创建软连接。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@filer2 /]<span class="comment"># ln -s /meta/mnt /mnt</span></span><br></pre></td></tr></table></figure>
+
+<p>修改corosync配置</p>
+<p> 定义新资源（mount_lv1：资源名，&#x2F;dev&#x2F;data&#x2F;ftp：openfiler中创建的lv，&#x2F;mnt&#x2F;data&#x2F;ftp：对应挂载点, ext3：必须和格式化lv时相同），<strong>注意</strong>：必须使用openfilerWEB控制台创建LV,再设置对应如下的参数。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">crm(live)configure<span class="comment"># primitive mount_lv1 ocf:heartbeat:Filesystem params device=/dev/data/ftp directory=/mnt/data/ftp fstype=ext3 </span></span><br></pre></td></tr></table></figure>
+
+<p>编辑资源组g_services，加入新定义的资源，<em>注意group里是从左向右依次启动的，所以要注意添加位置</em>。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">crm(live)configure<span class="comment"># edit g_services</span></span><br><span class="line"></span><br><span class="line">group g_services MetaFS lvmdata openfiler ClusterIP mount_lv1 iscsi samba nfs nfslock</span><br></pre></td></tr></table></figure>
+
+<p>最后提交修改</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">crm(live)configure<span class="comment"># commit</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>发现<code>Shares</code>项目中没有之前创建的LV:<code>filer</code> . 修改openfiler的配置文件：volumes.xml</p>
+ <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@filer1 ~]<span class="comment"># vi /meta/opt/openfiler/etc/volumes.xml</span></span><br><span class="line"></span><br><span class="line">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> ?&gt;</span><br><span class="line">&lt;volumes&gt;</span><br><span class="line">        &lt;volume <span class="built_in">id</span>=<span class="string">&quot;ftp&quot;</span> name=<span class="string">&quot;FTP&quot;</span> mountpoint=<span class="string">&quot;/mnt/data/ftp/&quot;</span> vg=<span class="string">&quot;data&quot;</span> fstype=<span class="string">&quot;ext3&quot;</span> /&gt;</span><br><span class="line">        &lt;volume <span class="built_in">id</span>=<span class="string">&quot;filer&quot;</span> name=<span class="string">&quot;Filer&quot;</span> mountpoint=<span class="string">&quot;/mnt/data/filer&quot;</span> vg=<span class="string">&quot;data&quot;</span> fstype=<span class="string">&quot;ext3&quot;</span> /&gt;</span><br><span class="line">&lt;/volumes&gt;</span><br></pre></td></tr></table></figure>
+
+<p> 在刷新WEB控制台，发现filer显示正常，但是此时的LV:filer是无法管理的，在Volumes中删除此LV，然后可再创建相同或不同名称的LV。</p>
+</li>
+<li><p>openfiler控制台中无法创建新的VG，只能在资源定义的VG（data）中创建lv。<strong>空间扩容受局限</strong></p>
+<p> 临时解决办法：先编辑drbd资源，创建新的data2资源，再编辑corosync定义资源，然后加入g_drbd资源组。</p>
+<p> 首先设置所有节点开机不启动corosync</p>
+ <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@filer91 ~]<span class="comment"># chkconfig --level 2345 corosync off</span></span><br><span class="line">[root@filer92 ~]<span class="comment"># chkconfig --level 2345 corosync off</span></span><br></pre></td></tr></table></figure>
+
+<p> 重启后所有的集群服务都没有启动，包括drbd服务。准备好符合要求的lvm分区。（此例：&#x2F;dev&#x2F;sdc1）</p>
+<p> 编辑&#x2F;etc&#x2F;drbd.conf  添加新资源，并复制到另一节点。</p>
+ <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">resource data2 &#123;	<span class="comment"># 资源名称不要和其它资源相同</span></span><br><span class="line"> on filer91 &#123;</span><br><span class="line">   device /dev/drbd2; <span class="comment"># 注意块设备名称</span></span><br><span class="line">   disk /dev/sdc1;</span><br><span class="line">   address 10.10.100.91:7782; <span class="comment"># 端口不要和其它资源相同</span></span><br><span class="line">   meta-disk internal;</span><br><span class="line"> &#125;</span><br><span class="line"> on filer92 &#123;</span><br><span class="line">   device /dev/drbd2; <span class="comment"># 注意块设备名称</span></span><br><span class="line">   disk /dev/sdc1;</span><br><span class="line">   address 10.10.100.92:7782; <span class="comment"># 端口不要和其它资源相同</span></span><br><span class="line">   meta-disk internal;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 创建新的元数据 ：如果提示需要清除数据，执行：<code>dd if=/dev/zero of=/dev/sdc1</code></p>
+ <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@filer91 ~]<span class="comment"># drbdadm create-md data2  # 建议运行两次</span></span><br><span class="line">[root@filer92 ~]<span class="comment"># drbdadm create-md data2  # 另一个节点也要运行</span></span><br></pre></td></tr></table></figure>
+
+<p> 启动两个节点的DRBD服务</p>
+ <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@filer91 ~]<span class="comment"># service drbd start</span></span><br><span class="line">[root@filer92 ~]<span class="comment"># service drbd start</span></span><br></pre></td></tr></table></figure>
+
+<p> 使用<code>drbd-overview</code> 查看当前哪个是主节点<code>primary</code> 在主节点上设置新的<code>drbd2</code>为主资源。</p>
+ <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#  drbdsetup /dev/drbd2 primary -o  # 这一步执行后，drbd会自动开始同步。</span></span><br></pre></td></tr></table></figure>
+
+<p> 完成同步后，创建drbd2分区</p>
+ <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">root@filer91 ~<span class="comment"># pvcreate /dev/drbd2</span></span><br><span class="line"><span class="comment">#此处理应添加进原来的VG：data ,但我在虚机环境中测试结果是添加了新的PV后，不能对data进行管理了。</span></span><br><span class="line"><span class="comment"># 所以新建一个VG：data2</span></span><br><span class="line">root@filer91 ~<span class="comment"># vgcreate data2 /dev/drbd2</span></span><br><span class="line"><span class="comment"># 为确保可用，先手动添加一个lv,然后在控制台删除。</span></span><br><span class="line">root@filer91 ~<span class="comment"># lvcreate -L 400M -n filer2 data2</span></span><br><span class="line">root@filer91 ~<span class="comment"># mkfs.ext3 /dev/data2/filer2</span></span><br></pre></td></tr></table></figure>
+
+<p> 设置所有节点开机启动corosync，然后重启所有节点。</p>
+ <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@filer91 ~]<span class="comment"># chkconfig --level 2345 corosync on</span></span><br><span class="line">[root@filer92 ~]<span class="comment"># chkconfig --level 2345 corosync on</span></span><br></pre></td></tr></table></figure>
+
+<p> 修改corosync配置(任意节点)</p>
+ <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 进入配置模式</span></span><br><span class="line">[root@filer01~]<span class="comment"># crm configure</span></span><br><span class="line"><span class="comment"># 定义VG资源</span></span><br><span class="line">crm(live)configure<span class="comment"># primitive lvmdata2 ocf:heartbeat:LVM params volgrpname=&quot;data2&quot;</span></span><br><span class="line"><span class="comment"># 定义drbd资源</span></span><br><span class="line">crm(live)configure<span class="comment"># primitive drbd_data2 ocf:linbit:drbd params drbd_resource=&quot;data2&quot; op monitor interval=&quot;15s&quot;</span></span><br><span class="line"><span class="comment"># 编辑 drbd资源组 加入drbd_drbd2资源</span></span><br><span class="line">crm(live)configure<span class="comment"># edit g_drbd </span></span><br><span class="line">group g_drbd drbd_meta drbd_data drbd_drbd2</span><br><span class="line"><span class="comment"># 编辑 g_services资源组 加入lvmdata2资源，注意位置。</span></span><br><span class="line">crm(live)configure<span class="comment"># edit g_services</span></span><br><span class="line">group g_services MetaFS lvmdata lvmdata2 openfiler ClusterIP mount_lv1 iscsi samba nfs nfslock</span><br><span class="line"><span class="comment"># 提交</span></span><br><span class="line">crm(live)configure<span class="comment"># commit</span></span><br></pre></td></tr></table></figure>
+
+<p> 此时检查集群状态，应该已经启动完成了。</p>
+ <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@filer01~]<span class="comment"># crm_mon</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+<h4 id="corosync约束"><a href="#corosync约束" class="headerlink" title="corosync约束"></a>corosync约束</h4><p><strong>资源约束定义</strong></p>
+<p>  若想将多个资源运行在同一个节点上，则，做成组，或定义排列约束。</p>
+<p>  资源约束则用以指定在哪些群集节点上运行资源，以何种顺序装载资源，以及特定资源依赖于哪些其它资源。</p>
+<p>  pacemaker共给我们提供了三种资源约束方法：</p>
+<p>  1）Resource Location(资源位置）:定义资源可以、不可以或尽可能在哪些节点上运行；<br>  2）Resource Collocation(资源排列）：排列约束定义集群资源可以、不可以在某个节点上同时运行；<br>  3）Resource Order(资源顺序)：顺序约束定义集群资源在节点上启动的顺序；</p>
+<p><strong>定义约束示例（排列约束、顺序约束）</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">crm(live)configure<span class="comment"># colocation drbd_with_ms_mfsdrbd inf: drbdfs ms_mfsdrbd:Master	【注：挂载资源追随drbd主资源】</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">crm(live)configure<span class="comment"># order drbd_after_ms_mfsdrbd mandatory: ms_mfsdrbd:promote drbdfs:start	【注：节点上存在drbdMaster才能启动drbdfs服务】</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">crm(live)configure<span class="comment"># colocation mfsserver_with_drbdfs inf: mfsserver drbdfs	【注：mfs服务追随挂载资源】</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">crm(live)configure<span class="comment"># order mfsserver_after_drbdfs mandatory: drbdfs:start mfsserver:start	【注：drbdfs服务启动才能启动mfs服务】</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">crm(live)configure<span class="comment"># colocation vip_with_mfsserver inf: vip mfsserver	【注：vip追随mfs服务】</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">crm(live)configure<span class="comment"># order vip_before_mfsserver mandatory: vip mfsserver	【注：vip启动才能启动mfs服务】</span></span><br></pre></td></tr></table></figure>
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/NAS/">#NAS</a>
+      
+        <a href="/tags/linux/">#linux</a>
+      
+        <a href="/tags/openfiler/">#openfiler</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>openfiler集群部署过程</div>
+      <div>http://anximin.github.io/2021/08/03/NAS_openfiler_cluster_build/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Sylar</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2021年8月3日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/08/05/Linux_drbd_naolie/" title="认识DRDB并应用-2：解决脑裂问题">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">认识DRDB并应用-2：解决脑裂问题</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/08/02/Linux_drdb/" title="认识DRDB并应用-1：DRDB是什么">
+                        <span class="hidden-mobile">认识DRDB并应用-1：DRDB是什么</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

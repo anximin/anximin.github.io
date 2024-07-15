@@ -1,0 +1,849 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/canvas.png">
+  <link rel="icon" href="/img/canvas.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sylar">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="一、概述  DRBD(Distributed Replicated Block Device)是一个用软件实现的、无共享的、服务器之间镜像块设备内容的存储复制解决方案。 DRBD的核心功能通过Linux的内核实现，DRBD工作在系统内核空间，最接近系统的IO栈，它直接复制的二进制数据，故速度很快，因此它没有上层的功能比如检测到EXT3文件系统的崩溃。 对于用户来说，一个DRBD设备，就像是一块物理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="认识DRDB并应用-1：DRDB是什么">
+<meta property="og:url" content="http://anximin.github.io/2021/08/02/Linux_drdb/index.html">
+<meta property="og:site_name" content="Want To">
+<meta property="og:description" content="一、概述  DRBD(Distributed Replicated Block Device)是一个用软件实现的、无共享的、服务器之间镜像块设备内容的存储复制解决方案。 DRBD的核心功能通过Linux的内核实现，DRBD工作在系统内核空间，最接近系统的IO栈，它直接复制的二进制数据，故速度很快，因此它没有上层的功能比如检测到EXT3文件系统的崩溃。 对于用户来说，一个DRBD设备，就像是一块物理">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://anximin.github.io/img/index_img/index_6_DRBD.png">
+<meta property="article:published_time" content="2021-08-02T07:16:56.000Z">
+<meta property="article:modified_time" content="2023-07-19T01:27:04.342Z">
+<meta property="article:author" content="Sylar">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="openfiler">
+<meta property="article:tag" content="drbd">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://anximin.github.io/img/index_img/index_6_DRBD.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>认识DRDB并应用-1：DRDB是什么 - Want To</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"anximin.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":60,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Want To Top</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/sitemap.xml">
+                <i class="iconfont icon-link-fill"></i>
+                <span>sitmap</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="认识DRDB并应用-1：DRDB是什么"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2021-08-02 15:16" pubdate>
+          2021年8月2日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          12k 字
+        
+      </span>
+    
+
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">认识DRDB并应用-1：DRDB是什么</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p><strong>一、概述</strong></p>
+<ul>
+<li>DRBD(Distributed Replicated Block Device)是一个用软件实现的、无共享的、服务器之间镜像块设备内容的存储复制解决方案。</li>
+<li>DRBD的核心功能通过Linux的内核实现，DRBD工作在系统内核空间，最接近系统的IO栈，它直接复制的二进制数据，故速度很快，因此它没有上层的功能比如检测到EXT3文件系统的崩溃。</li>
+<li>对于用户来说，一个DRBD设备，就像是一块物理的磁盘，可以在上面内创建文件系统。DRBD需要在底层设备之上构建出一个块设备。DRBD所支持的底层设备包括磁盘(或是磁盘的一个分区)、soft raid 设备、LVM的逻辑卷等块设备。</li>
+</ul>
+<p><strong>二、DRBD特性</strong></p>
+<ul>
+<li><p>一般只能做主从，主的资源为设primary，能不受限制进行读写操作，可以创建文件系统，可以使用裸设备,甚至直接io；从的的资源设为secondary连挂载都不能，并且只能一个主节点，一个从节点，不能一主多从，正是因为这样在集群中只能有一个节点可以随时操作数据，这种模式可用在任何的文件系统上（EXT3、EXT4、XFS等等）。</p>
+</li>
+<li><p>DRBD8.0之后支持双主模式。在双主模式下，任何资源在任何特定的时间，集群中都存在两个主节点。由于双方数据存在并发的可能性，这种模式需要一个共享的集群文件系统(如GFS和OCFS2)，利用分布式的锁机制进行管理。部署双主模式时，DRBD是负载均衡的集群，需要从两个并发的主节点中选取一个首选的访问数据。这种模式默认是禁用的，如果要是用的话必须在配置文件中进行声明。</p>
+</li>
+<li><p>DRBD本身没有故障转移能力，当主节点挂了，需要借助高可用集群服务来把保证故障转移(fail-over)的能力，将从提升为主。</p>
+</li>
+<li><p>DRDB本身没有探测对方是否宕机的方法,需要借助高可用集群服务来实现此功能。</p>
+</li>
+</ul>
+<p><strong>三、DRBD数据同步模式</strong></p>
+<ul>
+<li><p>异步：当数据写到磁盘上，并且复制的数据已经被放到本地的tcp缓冲区等待发送以后，就认为写入完成。(在一个节点发生故障时，可能发生数据丢失，因为被写入到远程节点上的数据可能仍在发送队列。尽管，在故障转移节点上的数据是一致的，但没有及时更新。这通常是用于地理上分开的节点。)</p>
+</li>
+<li><p>半同步：当数据已经写到磁盘上，并且复制的数据已经被放到对端的tcp缓冲区等待写入，就认为写入完成。(数据丢失可能发生在参加的两个节点同时故障的情况下，因为在飞行中的数据可能不会被提交到磁盘。)</p>
+</li>
+<li><p>同步： 本地和对端的磁盘都已经确认了写操作完成，写入才被认为完成。(没有任何数据丢失，所以这是一个群集节点的流行模式，但I&#x2F;O吞吐量依赖于网络带宽。)</p>
+</li>
+</ul>
+<p> DRBD 的复制模型是靠protocol关键字来定义的：protocol A表示异步；protocol B表示半同步；protocol C表示同步，默认为protocol C。</p>
+<p><strong>四、DRBD脑裂(split brain)</strong></p>
+<p>  split brain实际上是指在某种情况下，造成DRBD的两个节点断开连接，都以primary的身份来运行。当DRBD某primary节点连接对方节点准备发送信息的时候，如果发现对方也是primary状态，那么会立刻自行断开连接，并认定当前已经发生split brain，这时候会在系统日志中记录以下信息：“Split-Brain detected,dropping connection!”当发生split brain之后，如果查看连接状态，其中至少会有一个是StandAlone状态，另外一个可能也是StandAlone（如果是同时发现split brain状态），也有可能是WFConnection的状态。</p>
+<p>对于脑裂,DRBD有四中处理方式:</p>
+<ul>
+<li><p>新成为主节点的把数据丢弃,再同步老节点的数据</p>
+</li>
+<li><p>把老的主节点的数据丢弃,再同步新节点的数据</p>
+</li>
+<li><p>谁的数据修改的少,谁主动丢弃数据</p>
+</li>
+<li><p>如果有个节点从没发生过数据修改,那就不用动</p>
+<p>  自动裂脑自动修复能不能被接受取决于对数据丢失的容忍性。例如，财务的数据库对于任何修改的丢失都是不能容忍的，这 表示不管在什么情况下都需要手工修复裂脑问题。因此，是否启用裂脑自动修复需要考虑具体情况。</p>
+</li>
+</ul>
+<p><strong>五、metadata</strong></p>
+<p>  DRBD将数据的各种信息块保存在一个专用的区域里，这些metadata包括DRBD设备的大小、产生的标识、活动日志、快速同步的位图。</p>
+<p>  metadata的存储方式有内部和外部两种方式，使用方式可以在资源配置中定义。</p>
+<p>__1.内部(internal)__：metadata存放在同一块硬盘或分区的最后的位置上</p>
+<ul>
+<li><p>优点：metadata和数据是在一起，如果硬盘损坏，metadata同样就没有了，但在恢复的时候，metadata也会一起被恢复回来</p>
+</li>
+<li><p>缺点：metadata和数据在同一块硬盘上，磁盘I&#x2F;O负载大。因为写请求会触发metadata的更新，每一次写操作就会造成两次磁头读写移动。</p>
+</li>
+</ul>
+<p>__2.外部(external)__：metadata存放在和数据磁盘分开的独立的块设备上</p>
+<ul>
+<li>优点：写操作更流畅</li>
+<li>缺点：metadata和数据不在一起，所以如果数据盘出现故障，在更换新盘的时候就需要人为的干预来进行新硬盘的同步。</li>
+</ul>
+<p><strong>六、DRBD的版本</strong></p>
+<pre><code class="hljs">Linux内核2.6.33以后，DRBD内核模块代码直接被整合进Linux内核中，使用DRBD只需安装用户空间管理工具。
+
+在kernel 2.6.33以前的版本版本中，需要同时安装内核模块和用户空间管理工具。
+
+内核模块程序包版本必须要系统内核保持匹配，使用uname -r查看内核版本，然后使用相对应的内核模块。
+
+用户空间管理工具就不那么严格要求。
+</code></pre>
+<p><strong>七、DRBD配置工具和配置文件</strong></p>
+<p><strong>1.配置工具</strong></p>
+<ul>
+<li><p>drbdadm：户空间的工具，管理&#x2F;etc&#x2F;drbd.conf，向drbdsetup和drbdmeta发送指令。</p>
+</li>
+<li><p>drbdsetup：配置装载进kernel的DRBD模块，很少直接用。</p>
+</li>
+<li><p>drbdmeta：管理META数据结构，一般是修复DRDB时才使用。</p>
+</li>
+</ul>
+<p><strong>2.配置文件</strong></p>
+<p>  DRBD的主配置文件为&#x2F;etc&#x2F;drbd.conf；<br>  为了管理的便捷性，目前通常会将些配置文件分成多个部分，且都保存至&#x2F;etc&#x2F;drbd.d目录中，主配置文件中仅使用”include”指令将这些配置文件片断整合起来。&#x2F;etc&#x2F;drbd.d目录中的配置文件为global_common.conf和所有以.res结尾的文件。<br>  global_common.conf中主要定义global段和common段。</p>
+<ul>
+<li>global段必须位于配置文件的最开始处，可以定义的参数仅有minor-count, dialog-refresh, disable-ip-verification和usage-count。</li>
+<li>common段则用于定义被每一个资源默认继承的参数，<br> common段并非必须，但建议将多个资源共享的参数定义为common段中的参数以降低配置文件的复杂度。</li>
+</ul>
+<p>每一个.res的文件用于定义一个资源，内里有一个resource段，包含：</p>
+<ul>
+<li><p>Resource name：可以是除了空白字符的任意的ACSII码字符</p>
+</li>
+<li><p>DRBD device：在双方节点上，此DRBD设备的设备文件；一般为&#x2F;dev&#x2F;drbdN，其主设备号147</p>
+</li>
+<li><p>Disk configuration：在双方节点上，各自提供的存储设备</p>
+</li>
+<li><p>Nerwork configuration：双方数据同步时所使用的网络属性</p>
+</li>
+</ul>
+<p>每一个资源段的定义中至少要包含两个host子段，以定义此资源关联至的节点，其它参数均可以从common段或drbd的默认中进行继承。</p>
+<p><strong>八、安装配置DRBD</strong></p>
+<p><strong>1.安装DRBD</strong></p>
+<p>  node1&#x2F;node2均安装</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">//确定内核版本<br><span class="hljs-comment"># uname -r</span><br>//安装与版本对应的内核模块和用户空间管理工具<br><span class="hljs-comment"># yum -y install drbd-8.4.3-33.el6.x86_64.rpm drbd-kmdl-2.6.32-431.el6-8.4.3-33.el6.x86_64.rpm1.2.3.4.</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>2.配置DRBD</strong></p>
+<ul>
+<li>node1</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">[root@node1 ~]<span class="hljs-comment"># vim /etc/drbd.conf     //查看主配置文件</span><br><span class="hljs-comment"># You can find an example in  /usr/share/doc/drbd.../drbd.conf.example</span><br>include <span class="hljs-string">&quot;drbd.d/global_common.conf&quot;</span>;<br>include <span class="hljs-string">&quot;drbd.d/*.res&quot;</span>;1.2.3.4.<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><code class="hljs bash">//修改全局配置文件<br><span class="hljs-comment"># vim /etc/drbd.d/global_common.conf</span><br>global &#123;   //全局配置<br>        usage-count no;  <span class="hljs-comment">#让linbit公司收集目前drbd的使用情况，yes为参加，我们这里不参加设置为no</span><br>        <span class="hljs-comment"># minor-count dialog-refresh disable-ip-verification</span><br>&#125;<br>common &#123;<br>        handlers &#123;    <span class="hljs-comment">#处理器</span><br>                <span class="hljs-comment"># These are EXAMPLE handlers only.</span><br>                <span class="hljs-comment"># They may have severe implications,</span><br>                <span class="hljs-comment"># like hard resetting the node under certain circumstances.</span><br>                <span class="hljs-comment"># Be careful when chosing your poison.</span><br>                pri-on-incon-degr <span class="hljs-string">&quot;/usr/lib/drbd/notify-pri-on-incon-degr.sh; /usr/lib/drbd/notify-emergency-reboot.sh; echo b &gt; /proc/sysrq-trigger ; reboot -f&quot;</span>;<br>                // 定义了如果主节点降级了怎么处理的<br>                pri-lost-after-sb <span class="hljs-string">&quot;/usr/lib/drbd/notify-pri-lost-after-sb.sh; /usr/lib/drbd/notify-emergency-reboot.sh; echo b &gt; /proc/sysrq-trigger ; reboot -f&quot;</span>;<br>                //这个定义了如果有脑裂了之后找不到主节点怎么处理的<br>                local-io-error <span class="hljs-string">&quot;/usr/lib/drbd/notify-io-error.sh; /usr/lib/drbd/notify-emergency-shutdown.sh; echo o &gt; /proc/sysrq-trigger ; halt -f&quot;</span>;<br>                //定义了一旦本地节点发生IO错误时应该怎么处理<br>                <span class="hljs-comment"># fence-peer &quot;/usr/lib/drbd/crm-fence-peer.sh&quot;;</span><br>                <span class="hljs-comment"># split-brain &quot;/usr/lib/drbd/notify-split-brain.sh root&quot;;</span><br>                <span class="hljs-comment"># out-of-sync &quot;/usr/lib/drbd/notify-out-of-sync.sh root&quot;;</span><br>                <span class="hljs-comment"># before-resync-target &quot;/usr/lib/drbd/snapshot-resync-target-lvm.sh -p 15 -- -c 16k&quot;;</span><br>                <span class="hljs-comment"># after-resync-target /usr/lib/drbd/unsnapshot-resync-target-lvm.sh;</span><br>        &#125;<br>        startup &#123;    //定义一个节点启动时另一个节点应该怎么做          <br>                <span class="hljs-comment"># wfc-timeout    //等待另一个节点上线的超时时长</span><br>                <span class="hljs-comment"># degr-wfc-timeout   //等待超时后做降级处理</span><br>                <span class="hljs-comment"># outdated-wfc-timeout  //过期的等待超时</span><br>                <span class="hljs-comment"># wait-after-sb   //脑裂之后等待多长时长</span><br>        &#125;<br>        options &#123;<br>                <span class="hljs-comment"># cpu-mask on-no-data-accessible</span><br>        &#125;<br>        disk &#123;<br>                on-io-error detach;  <span class="hljs-comment">#同步错误的做法是分离</span><br>                <span class="hljs-comment"># size max-bio-bvecs on-io-error fencing disk-barrier disk-flushes</span><br>                <span class="hljs-comment"># disk-drain md-flushes resync-rate resync-after al-extents</span><br>                <span class="hljs-comment"># c-plan-ahead c-delay-target c-fill-target c-max-rate</span><br>                <span class="hljs-comment"># c-min-rate disk-timeout</span><br>        &#125;<br>        net &#123;<br>                protocol C;<br>                cram-hmac-alg <span class="hljs-string">&quot;sha1&quot;</span>;  <span class="hljs-comment">#设置加密算法sha1</span><br>                shared-secret <span class="hljs-string">&quot;mydrbd&quot;</span>;  <span class="hljs-comment">#设置加密key</span><br>                <span class="hljs-comment"># protocol timeout max-epoch-size max-buffers unplug-watermark</span><br>                <span class="hljs-comment"># connect-int ping-int sndbuf-size rcvbuf-size ko-count</span><br>                <span class="hljs-comment"># allow-two-primaries cram-hmac-alg shared-secret after-sb-0pri</span><br>                <span class="hljs-comment"># after-sb-1pri after-sb-2pri always-asbp rr-conflict</span><br>                <span class="hljs-comment"># ping-timeout data-integrity-alg tcp-cork on-congestion</span><br>                <span class="hljs-comment"># congestion-fill congestion-extents csums-alg verify-alg</span><br>                <span class="hljs-comment"># use-rle</span><br>        &#125;<br>        syncer &#123;    <span class="hljs-comment"># 同步相关的设置</span><br>                rate 1000M; <span class="hljs-comment">#设置重新同步(re-synchronization)速度</span><br>        <span class="hljs-comment">#re-synchronization时候，如果有大量不一致的数据，</span><br>        <span class="hljs-comment">#我们不可能将所有带宽都分配给drbd做re- synchronization，</span><br>        <span class="hljs-comment">#这样会影响对外提提供服务。rate的设置需要考虑IO能力。</span><br>        <span class="hljs-comment">#一般来说，设置网络IO能力和磁盘IO能力中最小者的30%的带宽给re- synchronization是比较合适的（官方说明）</span><br>        <span class="hljs-comment"># drbd还提供了一个临时的rate更改命令，可以临时性的更改syncer的rate 值：</span><br>        <span class="hljs-comment">#drbdsetup /dev/drbd0 syncer -r 100M</span><br>        <span class="hljs-comment">#这样就临时的设置为100M。</span><br>        <span class="hljs-comment">#结束之后，通过</span><br>        <span class="hljs-comment">#drbdadm adjust resource_name 来让drbd按照配置中的rate工作。</span><br>        &#125;<br>&#125;1.2.3.4.5.6.7.8.9.10.11.……<br></code></pre></td></tr></table></figure>
+
+<p><strong>3.为节点准备磁盘分区</strong></p>
+<p>  node1&#x2F;node2都需要准备，分好区不需要格式化，系统能识别就行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># fdisk /dev/sda    //具体不详述</span><br><span class="hljs-comment"># kpart -af /dev/sda</span><br><span class="hljs-comment"># partx  -a /dev/sda   //一次识别不出来，可以多重复几次1.2.3.</span><br></code></pre></td></tr></table></figure>
+
+<p>  顺便同步时间，均设置</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># crontab -e</span><br>*/5 * * * * /usr/sbin/ntpdate  172.16.0.1 &amp;&gt; /dev/null1.2.<br></code></pre></td></tr></table></figure>
+
+<p><strong>4.定义资源</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># cd /etc/drbd.d/</span><br><span class="hljs-comment"># vim mystore.res</span><br>resource mystore &#123;            <span class="hljs-comment">#定义一个资源，用关键字resource；</span><br>  on node1.hoo.com &#123;          <span class="hljs-comment">#on说明在哪个节点上，跟uname -n保持一致</span><br>    device    /dev/drbd0;     <span class="hljs-comment">#在磁盘上表现的drbd叫什么名；</span><br>    disk      /dev/sda5;      <span class="hljs-comment">#所使用的磁盘设备是哪个；</span><br>    address   172.16.1.11:7789;  <span class="hljs-comment">#监听的套接字,默认监听在7789端口上；</span><br>    meta-disk internal;         <span class="hljs-comment">#内部存放metadata</span><br>  &#125;<br>  on node2.hoo.com &#123;<br>    device    /dev/drbd0;<br>    disk      /dev/sda5;<br>    address   172.16.1.12:7789;<br>    meta-disk internal;<br>  &#125;<br>&#125;1.2.3.4.5.6.7.8.9.10.11.12.13.14.15.16.<br></code></pre></td></tr></table></figure>
+
+<p><strong>5.同步配置文件</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># scp global_common.conf mystore.res node2:/etc/drbd.d/1.</span><br></code></pre></td></tr></table></figure>
+
+
+<p><strong>6.初始化资源</strong></p>
+<p>  node1&#x2F;node2均初始化</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># drbdadm create-md mystore1.</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>7.启动DRBD服务</strong></p>
+<p>  node1&#x2F;node2均启动</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># service drbd start1.</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>8.查看启动状态</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash">//以下两种方式均可查看<br><span class="hljs-comment"># cat /proc/drbd</span><br>或<br><span class="hljs-comment"># drbd-overview</span><br>//初始化后，两个节点均处于Secondary状态1.2.3.4.5.<br></code></pre></td></tr></table></figure>
+
+
+<p><strong>9.选择主节点</strong></p>
+<p> 将node1提升为主节点</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">[root@node1 ~]<span class="hljs-comment"># drbdadm primary --force mystore1.</span><br></code></pre></td></tr></table></figure>
+<p>  观察</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># drbd-overview</span><br>//两节点开始同步数据1.2.<br></code></pre></td></tr></table></figure>
+
+<p><strong>10.格式化并挂载</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">[root@node1 ~]<span class="hljs-comment"># mke2fs  -t ext4 /dev/drbd0</span><br>[root@node1 ~]<span class="hljs-comment"># mkdir /drbd</span><br>[root@node1 ~]<span class="hljs-comment"># mount /dev/drbd0 /drbd1.2.3.</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>11.测试</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs bash">//复制文件到DRBD设备<br>[root@node1 ~]<span class="hljs-comment"># cd /drbd/</span><br>[root@node1 drbd]<span class="hljs-comment"># cp /etc/inittab /drbd/</span><br>//角色转换，将node1降级<br>[root@node1 ~]<span class="hljs-comment"># drbdadm secondary mystore  </span><br>//将node2提升为主<br>[root@node2 ~]<span class="hljs-comment"># drbdadm primary mystore</span><br>[root@node2 ~]<span class="hljs-comment"># mkdir /drbd</span><br>[root@node2 ~]<span class="hljs-comment"># mount /dev/drbd0 /drbd</span><br>[root@node2 ~]<span class="hljs-comment"># cd /drbd</span><br>[root@node2 ~]<span class="hljs-comment"># ls</span><br>     //inittab文件存在<br></code></pre></td></tr></table></figure>
+
+<p><strong>九、corosync结合pacemaker，实现DRBD高可用</strong></p>
+<p><strong>1.搭建集群</strong></p>
+<p>  <strong>a).配置主机名</strong></p>
+<p>   节点名称很关键，集群每个节的名称都得能互相解析。&#x2F;etc&#x2F;hosts中的主机名配置结果必须跟”uname -n”的解析的结果一致。</p>
+<p>  node1&#x2F;node2都添加：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs sh">node1示例：<br><span class="hljs-comment"># vim /etc/hosts</span><br>172.16.1.11 node1.hoo.com node1<br>172.16.1.12 node2.hoo.com node2<br><span class="hljs-comment"># ifconfig eth0 172.16.1.11  up</span><br><span class="hljs-comment"># hostname node1.hoo.com</span><br><span class="hljs-comment"># uname -n</span><br><span class="hljs-comment"># vim /etc/sysconfig/network</span><br><br>//重启才生效，<span class="hljs-built_in">source</span>也不生效<br>hostname =node1.hoo.com<br></code></pre></td></tr></table></figure>
+
+<p>  <strong>b).配置node之间SSH互信</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs sh">node1:<br><span class="hljs-comment">#ssh-keygen  -t rsa -f ~/.ssh/id_rsa  -P &#x27;&#x27;</span><br><span class="hljs-comment"># ssh-copy-id -i .ssh/id_rsa.pub root@node2.hoo.com</span><br>node1:<br><span class="hljs-comment">#ssh-keygen  -t rsa -f ~/.ssh/id_rsa  -P &#x27;&#x27;</span><br><span class="hljs-comment">#ssh-copy-id -i .ssh/id_rsa.pub root@node1.hoo.com</span><br>node1：测试<br><span class="hljs-comment">#ssh node2.hoo.com ‘date’;date</span><br></code></pre></td></tr></table></figure>
+
+<p>  <strong>c).安装corosync和pacemaker</strong></p>
+<p> 所有节点均安装</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># yum install corosync pacemaker -y</span><br><span class="hljs-comment"># rpm -ql corosync</span><br>//配置目录`：/etc/corosync<br>//配置模板`：/etc/corosync/corosync.conf.example<br>//服务器脚本`：/etc/rc.d/init.d/corosync<br></code></pre></td></tr></table></figure>
+
+<p>  <strong>d).安装资源管理器客户端命令接口工具crmsh</strong></p>
+<p> 从pacemaker 1.1.8开始，crmsh发展成了一个独立项目，叫crmsh。pacemaker默认不提供命令接口工具，需要单独安装crmsh。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sh">//crmsh 依赖pssh <br><span class="hljs-comment"># yum -y install pssh-2.3.1-2.el6.x86_64.rpm</span><br><span class="hljs-comment"># yum -y install crmsh-1.2.6-4.el6.x86_64.rpm</span><br></code></pre></td></tr></table></figure>
+
+<p>  <strong>e).主配置文件</strong></p>
+<p>[root@node1 ~]# cd &#x2F;etc&#x2F;corosync&#x2F;<br>[root@node1 corosync]# cp corosync.conf.example corosync.conf<br>[root@node1 corosync]# vi corosync.conf</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><code class="hljs sh">compatibility: whitetank<br>totem &#123;  <span class="hljs-comment">#图腾，定义集群中各节点中通信机制以及参数</span><br>    version: 2   <span class="hljs-comment">#图腾的协议版本号，不修改</span><br>    secauth: on  <span class="hljs-comment">#安全认证功能是否启用，当使用aisexec时，会非常消耗CPU</span><br>    threads: 2   <span class="hljs-comment">#实现认证时的并行线程数，0表示默认配置</span><br>    interface &#123;   <span class="hljs-comment"># 指定在哪个接口发心跳信息，子模块</span><br>        ringnumber: 0   <span class="hljs-comment">#冗余环号，节点有多个网卡是可定义，避免心跳信息成环。</span><br>        bindnetaddr: 192.168.1.0 <span class="hljs-comment">#心跳组播地址</span><br>        mcastaddr: 226.94.8.8 <span class="hljs-comment">#组播传播心跳信息   </span><br>        mcastport: 5405   <span class="hljs-comment">#心跳组播使用端口</span><br>        ttl: 1   <span class="hljs-comment">#表示只向外播一次</span><br>    &#125;   <br>&#125;<br>logging &#123;  <span class="hljs-comment"># 跟日志相关</span><br>    fileline: off   <span class="hljs-comment">#指定要打印的行</span><br>    to_stderr: no   <span class="hljs-comment">#是否发送到标准错误输出，即屏幕</span><br>    to_logfile: <span class="hljs-built_in">yes</span>   <span class="hljs-comment">#记录到日志文件</span><br>    to_syslog: no   <span class="hljs-comment">#记录到系统日志</span><br>    logfile: /var/log/cluster/corosync.log <span class="hljs-comment">#日志位置   </span><br>    debug: off   <span class="hljs-comment">#是否启动调试</span><br>    timestamp: on   <span class="hljs-comment">#是否打印时间戳</span><br>    logger_subsys &#123;   <span class="hljs-comment">#日志的子系统</span><br>        subsys: AMF   <br>        debug: off   <br>    &#125;   <br>&#125;<br>amf &#123;  跟编程接口相关的<br>    mode: disabled   <br>&#125;<br><span class="hljs-comment">#启用pacemaker</span><br>service &#123;  <br>    ver: 0   <br>    name: pacemaker   <span class="hljs-comment">#定义corosync启动时同时启动pacemaker</span><br>&#125;<br>aisexec &#123;  <span class="hljs-comment">#表示启动ais的功能时，以哪个用户的身份运行,这个块可不定义，corosync默认就是以root身份运行的</span><br>    user: root   <br>    group: root   <br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+<p>  <strong>f).生成认证key</strong></p>
+<p> 用corosync-keygen生成key时，由于要使用&#x2F;dev&#x2F;random生成随机数，因此如果新装的系统操作不多，如果没有足够的熵，狂敲键盘即可，随意敲，敲够即可。（关于random使用键盘敲击产生随机数的原理可自行google）</p>
+<p> 实验演示没有足够的熵，这里将采用投机的方式，生产环境，切切不可。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs shell">//投机的认证方式<br><span class="hljs-meta prompt_"># </span><span class="language-bash"><span class="hljs-built_in">mv</span> /dev/random /dev/lala</span><br><span class="hljs-meta prompt_"># </span><span class="language-bash"><span class="hljs-built_in">ln</span> /dev/urandom /dev/random  //将随机数生成器链接至伪随机数生成器</span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">corosync-keygen   //生成密钥文件，用于节点通信，会生成authkey文件</span><br><span class="hljs-meta prompt_"># </span><span class="language-bash"><span class="hljs-built_in">rm</span> -rf /dev/random     //删除链接</span><br><span class="hljs-meta prompt_"># </span><span class="language-bash"><span class="hljs-built_in">mv</span> /dev/lala /dev/random   //还原随机数生成器</span><br></code></pre></td></tr></table></figure>
+
+<p>  <strong>g).copy配置给node2</strong></p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs autoit">[root<span class="hljs-symbol">@node1</span> corosync]<span class="hljs-meta"># scp authkey corosync.conf node2:/etc/corosync/</span><br></code></pre></td></tr></table></figure>
+
+<p>  <strong>h).启动corosync</strong></p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs autoit">[root<span class="hljs-symbol">@node1</span> corosync]<span class="hljs-meta"># service corosync start</span><br>[root<span class="hljs-symbol">@node1</span> corosync]<span class="hljs-meta"># ssh node2  <span class="hljs-string">&quot;service corosync start&quot;</span></span><br></code></pre></td></tr></table></figure>
+
+<p>  <strong>i).检查启动情况</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs shell">//`查看corosync引擎是否正常启动<br>[root@node1 corosync]# grep -e &quot;Corosync Cluster Engine&quot; -e &quot;configuration file&quot; /var/log/messages<br>//`查看初始化节点通知是否正常发出<br>[root@node1 corosync]# grep  TOTEM  /var/log/messages<br>//`检查启动过程中是否有错误产生<br>[root@node1 corosync]# grep ERROR: /var/log/messages | grep -v unpack_resources<br>//`查看pacemaker是否正常启动<br>[root@node1 corosync]# grep pcmk_startup /var/log/messages<br></code></pre></td></tr></table></figure>
+
+
+
+<p><strong>2.实现DRBD高可用</strong></p>
+<p><strong>a).关闭drbd并设置开机不启动</strong></p>
+<p>  node1&#x2F;node2均设置</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># service drbd stop</span><br><span class="hljs-comment"># chkconfig drbd off</span><br><span class="hljs-comment"># chkconfig drbd --list1.2.3.</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>b).添加drbd资源</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs bash">[root@node1 ~]<span class="hljs-comment"># crm</span><br>crm(live)<span class="hljs-comment"># configure</span><br>crm(live)configure<span class="hljs-comment"># property stonith-enabled=false    //禁用stonith</span><br>crm(live)configure<span class="hljs-comment"># property no-quorum-policy=ignore  //双节点设置忽略</span><br>crm(live)configure<span class="hljs-comment"># rsc_defaults resource-stickiness=100 //资源粘性</span><br>crm(live)configure<span class="hljs-comment"># verify</span><br>crm(live)configure<span class="hljs-comment"># commit</span><br>crm(live)configure<span class="hljs-comment"># show</span><br>crm(live)configure<span class="hljs-comment"># meta ocf:linbit:drbd   //查看drbd的详细信息</span><br>crm(live)configure<span class="hljs-comment"># primitive drbdstore ocf:linbit:drbd params drbd_resource=mystore op monitor role=Master interval=30s timeout=20s op monitor role=Slave interval=60s timeout=20s op start timeout=240s op stop timeout=100s</span><br>            //`定义资源<br>crm(live)configure<span class="hljs-comment"># verify</span><br>crm(live)configure<span class="hljs-comment"># master ms_drbdstore drbdstore meta master-max=1 master-node-max=1 clone-max=2 clone-node-max=1 notify=”True”</span><br>            //`定义主资源<br>crm(live)configure<span class="hljs-comment"># verify</span><br>crm(live)configure<span class="hljs-comment"># commit1.2.3.4.5.6.7.8.9.10.11.12.13.14.15.16.</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>c).添加文件系统资源</strong></p>
+<p>  定义文件系统资源，让服务器切换时自动挂载</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">crm(live)configure<span class="hljs-comment"># primitive drbdfs ocf:heartbeat:Filesystem params device=/dev/drbd0 directory=/drbd fstype=ext4 op monitor interval=30s timeout=40s on-fail-restart op start timeout=60 op stop timeout=60</span><br>crm(live)configure<span class="hljs-comment"># verify</span><br>crm(live)configure<span class="hljs-comment"># commit1.2.3.</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>d).定义约束</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash">//`定义排列约束：<br><span class="hljs-comment"># collocation drbdfs_with_ms_drbdstore_master inf: drbdfs ms_drbdstore:Master</span><br>//`drbd与文件系统在一起<br><span class="hljs-comment"># verify</span><br>//`定义顺序约束：<br><span class="hljs-comment"># order drbdfs_after_ms_drbdstore_master mandatory: ms_drbdstore:promote drbdfs:start</span><br><span class="hljs-comment"># show</span><br><span class="hljs-comment"># commit1.2.3.4.5.6.7.8.</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>e).测试</strong></p>
+<p>复制</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs bash">//`查看节点状态<br>crm(live)<span class="hljs-comment"># status</span><br>//`显示node2为主<br>//`验证挂载：<br>[root@node2 drbd]<span class="hljs-comment">#ls</span><br>//`显示: inittab  lost+found<br>//`手动改变节点的主从<br>crm(live)<span class="hljs-comment"># node standby node2.hoo.com   把node2降级为备用</span><br>//`node1验证挂载信息<br>[root@node1 drbd]<span class="hljs-comment">#ls</span><br></code></pre></td></tr></table></figure>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/linux/">#linux</a>
+      
+        <a href="/tags/openfiler/">#openfiler</a>
+      
+        <a href="/tags/drbd/">#drbd</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>认识DRDB并应用-1：DRDB是什么</div>
+      <div>http://anximin.github.io/2021/08/02/Linux_drdb/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Sylar</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2021年8月2日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/08/03/NAS_openfiler_cluster_build/" title="openfiler集群部署过程">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">openfiler集群部署过程</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/07/31/Linux_partition/" title="Linux的mbr与gpt分区">
+                        <span class="hidden-mobile">Linux的mbr与gpt分区</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

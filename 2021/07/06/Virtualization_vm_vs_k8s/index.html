@@ -1,0 +1,715 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/canvas.png">
+  <link rel="icon" href="/img/canvas.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sylar">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="原文链接： 概述 容器技术是最近几年非常热门的技术，它似乎就是为云端的应用量身定制的，所以它也被贴上了云原生应用 (Cloud Native Application) 技术的标签。目前最为流行的容器管理调度平台是 Kubernetes (缩写为 K8s)，是 Google 为支持大批量容器而开发的企业级运行平台，可以支持负载均衡、高可靠等生产级功能。VMware 在 VMworld 2017 上也">
+<meta property="og:type" content="article">
+<meta property="og:title" content="VMware虚拟化与Kubernetes（K8s）类比阐述">
+<meta property="og:url" content="http://anximin.github.io/2021/07/06/Virtualization_vm_vs_k8s/index.html">
+<meta property="og:site_name" content="Want To">
+<meta property="og:description" content="原文链接： 概述 容器技术是最近几年非常热门的技术，它似乎就是为云端的应用量身定制的，所以它也被贴上了云原生应用 (Cloud Native Application) 技术的标签。目前最为流行的容器管理调度平台是 Kubernetes (缩写为 K8s)，是 Google 为支持大批量容器而开发的企业级运行平台，可以支持负载均衡、高可靠等生产级功能。VMware 在 VMworld 2017 上也">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/1334057/202004/1334057-20200411070936750-609735838.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/1334057/202004/1334057-20200411071146823-2114924848.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/1334057/202004/1334057-20200411071302629-1024262882.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/1334057/202004/1334057-20200411071340894-1014455674.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/1334057/202004/1334057-20200411071426220-1570153840.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/1334057/202004/1334057-20200411071453572-1810066969.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/1334057/202004/1334057-20200411071523376-1975566637.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/1334057/202004/1334057-20200411071550286-1551293581.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/1334057/202004/1334057-20200411071613788-934274145.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/1334057/202004/1334057-20200411071642793-282475466.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/1334057/202004/1334057-20200411071703524-950126513.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/1334057/202004/1334057-20200411071730266-1326662310.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/1334057/202004/1334057-20200411074324152-736006386.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/1334057/202004/1334057-20200411074402846-1936464859.png">
+<meta property="article:published_time" content="2021-07-06T08:59:15.000Z">
+<meta property="article:modified_time" content="2021-08-21T03:34:56.516Z">
+<meta property="article:author" content="Sylar">
+<meta property="article:tag" content="虚拟化">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://img2020.cnblogs.com/blog/1334057/202004/1334057-20200411070936750-609735838.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>VMware虚拟化与Kubernetes（K8s）类比阐述 - Want To</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"anximin.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":60,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Want To Top</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/sitemap.xml">
+                <i class="iconfont icon-link-fill"></i>
+                <span>sitmap</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="VMware虚拟化与Kubernetes（K8s）类比阐述"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2021-07-06 16:59" pubdate>
+          2021年7月6日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.8k 字
+        
+      </span>
+    
+
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">VMware虚拟化与Kubernetes（K8s）类比阐述</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/easonscx/p/12677559.html">原文链接：</a></p>
+<p>概述</p>
+<p>容器技术是最近几年非常热门的技术，它似乎就是为云端的应用量身定制的，所以它也被贴上了云原生应用 (Cloud Native Application) 技术的标签。目前最为流行的容器管理调度平台是 Kubernetes (缩写为 K8s)，是 Google 为支持大批量容器而开发的企业级运行平台，可以支持负载均衡、高可靠等生产级功能。VMware 在 VMworld 2017 上也宣布了跟 Pivotal、Google 合作开发的 VMware Pivotal Container Service，这是一个商用的 K8s 平台，简称 PKS (中间的K代表 Kubernetes)。</p>
+<p>现在专门为 VMware 用户写了这篇文章，利用你所熟悉的 vSphere 平台来跟 K8s 作一个类比，从而帮助你快速了解 K8s。</p>
+<span id="more"></span>
+
+<p><img src="https://img2020.cnblogs.com/blog/1334057/202004/1334057-20200411070936750-609735838.png" srcset="/img/loading.gif" lazyload alt="Kubernetes 和 vSphere 的总体架构对比"></p>
+<p>vSphere 平台和 Kubernetes 的总体对比</p>
+<p>那么到底什么是 Kubernetes 呢? 简单来说，K8s 和容器的关系就相当于vSphere和虚机的关系。在 VMware 发展早期的时候，那时候只有 VMware Workstation，后来出现了基于vCenter 和ESXi 的VI&#x2F;vSphere 体系架构，从而使虚拟化步入了数据中心。同样的，容器一开始的时候只有一个简单的容器引擎 Docker，K8s 的出现为容器提供了一个生产级的运行环境。把 vSphere 和 K8s 平台肩并肩放在一起比较的话，你会发现它们的概念有很多类似之处，这可以帮助我们很快地理解 K8s 技术的各种细节。</p>
+<p><img src="https://img2020.cnblogs.com/blog/1334057/202004/1334057-20200411071146823-2114924848.png" srcset="/img/loading.gif" lazyload alt="虚拟化技术和容器技术演进的对比"></p>
+<p>系统架构</p>
+<p>就像 vSphere 平台上的 vCenter 和 ESXi 主机， K8s 平台上也有对应的概念：Master 和节点 (node)， Master 起到的作用就跟 vCenter 一样，对整个 K8s 集群进行管理，它也是工作负载管理 API 的访问入口。跟 ESXi 主机对应的就是K8s节点，节点是 K8s 集群中的计算资源，容器就是运行在节点上，节点可以是虚机或者物理服务器。K8s 也有一个类似于 vCenter DB 的数据库 “etcd”，它以的“键-值”方式存储了整个集群的配置和状态。<br><img src="https://img2020.cnblogs.com/blog/1334057/202004/1334057-20200411071302629-1024262882.png" srcset="/img/loading.gif" lazyload><br>跟 vSphere 不同的是，K8s Master上也能运行容器负载，当然 vCenter Server 上是不运行虚机的。虽然 K8s Master 也是一种计算资源，但是一般只在上面运行系统管理相关的容器应用，普通的应用负载不应该放在 Master 上。</p>
+<p>vSphere 有GUI 管理界面 Web Client 和命令行管理接口 vCLI 和 Power CLI，K8s 也提供了GUI 界面或命令行来管理 K8s 集群。下面截屏是使用命令 “kubectl.exe” 来管理K8s 集群的例子，我们可以看到这个集群有一个 Master (vkubemaster007) 和4个节点 (vkubemode017~18)，K8s 的版本是v1.6.5，节点上的操作系统是Ubuntu 16.04。<br><img src="https://img2020.cnblogs.com/blog/1334057/202004/1334057-20200411071340894-1014455674.png" srcset="/img/loading.gif" lazyload alt="K8s 的命令行管理界面"></p>
+<p>工作负载</p>
+<p>vSphere 中的工作负载调度单位是虚机， K8s 中的调度单位是Pod；一台ESXi 主机上可以运行多个虚机，一个 K8s 节点上也可以运行多个 Pod，每个 Pod 都有一个独立的 IP 地址来跟其他的 Pod 相通讯。在vSphere 环境中，应用运行在虚机的操作系统中，K8s 平台上应用运行在容器里；一个虚机中只能运行一个操作系统实例，而一个 Pod 中可以运行多个容器实例。K8s 会考虑到 Pod 的关联性而把 Pod 中的容器实例运行在同一个节点上，从而让他们共享同一个运行环境；一般是把一个应用和它相关的辅助模块设计在同一个 Pod 中，然后作为一个整体来进行调度运行。<br><img src="https://img2020.cnblogs.com/blog/1334057/202004/1334057-20200411071426220-1570153840.png" srcset="/img/loading.gif" lazyload></p>
+<p>系统管理</p>
+<p>我们使用 Web Client 来管理 vSphere 集群，K8s 也有一个图形化的管理界面Dashboard，同 Web Client 一样，这也是一个基于 Web 的应用。Dashboard 的功能也变得越来越强大，它可以实现大部分的 K8s 集群管理功能，而不用输入很长的 kubectl 命令。<br><img src="https://img2020.cnblogs.com/blog/1334057/202004/1334057-20200411071453572-1810066969.png" srcset="/img/loading.gif" lazyload></p>
+<p>系统配置</p>
+<p>K8s 可以通过一个YAML (Yet Another Markup Language) 文件来定义和描述 K8s 集群的配置和状态，然后就可以基于该文件创建整个 K8s 集群，K8s 会尽力地保持集群运行在指定的状态。例如，如果你指定了某一个 Pod 要有4个副本，K8s 就会监控所有这些 Pod 的运行，如果有任何一个 Pod 工作异常的话，它就会设法修复这个状态，实在不行的话就另启一个 Pod 副本。</p>
+<p>要理解 YAML 配置文件的话，你可以把它对应为虚机的 .VMX 文件，或是 Virtual Appliance 的 .OVF 文件。当然，YAML 配置文件在 K8s 中不仅用于定义集群，也用于定义其他的组件，如： 副本集合、服务、部署等。<br><img src="https://img2020.cnblogs.com/blog/1334057/202004/1334057-20200411071523376-1975566637.png" srcset="/img/loading.gif" lazyload></p>
+<p>虚拟集群</p>
+<p>vSphere 中为了管理资源的分配专门有一个“资源池 (Resource Pool)”的概念，就像是在物理集群中划分出了一些小的虚拟集群，vSphere 利用资源池来控制资源的分配。K8s 也有类似的概念叫“namespaces”，namespace 的主要用途是创建多租户环境，也可以在上面指定资源配额 (Resource Quota) 。<br><img src="https://img2020.cnblogs.com/blog/1334057/202004/1334057-20200411071550286-1551293581.png" srcset="/img/loading.gif" lazyload></p>
+<p>资源管理</p>
+<p>vSphere 需要指定每一个 Resource Pool 的资源分配限额，K8s 可以在 namespace 上设置资源配额 (Resource Quotas) 来控制资源分配，这是在 YAML 配置文件中定义的。<br><img src="https://img2020.cnblogs.com/blog/1334057/202004/1334057-20200411071613788-934274145.png" srcset="/img/loading.gif" lazyload></p>
+<p>工作负载标记</p>
+<p>这在 vSphere 和 K8s 中几乎是完全一致的，vSphere 使用 tag 标签来标识虚机，而 K8s 使用标签 (label) 来标识容器。所不同的是，K8s 中标签是必须的，而不是可选的。<br><img src="https://img2020.cnblogs.com/blog/1334057/202004/1334057-20200411071642793-282475466.png" srcset="/img/loading.gif" lazyload></p>
+<p>计算冗余</p>
+<p>vSphere 中有 Fault Tolerance 技术来提供计算资源的冗余，受保护的虚机运行在一台服务器上，另一台服务器上有一个从被保护虚机复制而来的影子 (Shadow)，FT 技术通过 Lockstep 来同步主虚机和影子虚机之间的数据和状态。正常情况下影子虚机是不工作的，当主服务器宕机时，影子虚机立刻被激活成主虚机，并继续主虚机工作；这时 vSphere 会设法在集群中找到另一台合适的服务器，在上面从新的主虚机复制出新的影子虚机，以继续对主虚机进行保护。</p>
+<p>K8s 中也有相应的资源冗余机制，ReplicaSets 用于指定一个 Pod 需要运行的实例数量，K8s 会自动维持实例的数量，任何一个实例由于故障原因宕掉了，K8s 马上会自动启动一个新的实例补上。当然两者基本的工作原理是不一样的，K8s 中的所有实例正常情况都是在工作的，在多个实例间均衡工作负载，而不存在主备的概念，这是由云原生应用的本质所决定的。<br><img src="https://img2020.cnblogs.com/blog/1334057/202004/1334057-20200411071703524-950126513.png" srcset="/img/loading.gif" lazyload></p>
+<p>负载均衡</p>
+<p>vSphere 并不内置有负载均衡功能，一般是通过虚拟的 (如NSX) 或物理的 (如F5) 负载均衡器来把服务请求平均分配给多台虚机。负载均衡也有多种配置模式，以单肩模式 (one-armed) 为例，我们把网络流量东西向地均衡分配给虚机。</p>
+<p>K8s 中也有类似的概念“Service”，是一组一起协作的 Pod，每个 Pod 都被定义了一个标签选择器 (label selector)。K8s Service 也有多种配置模式，例如“ClusterIP“模式，每个 Service 都被分配了一个外部可见的静态 IP 地址和 DNS 域名以便于被访问到，负载流量以轮循 (round-robin) 的方式分配给每一个 Pod。其他的模式如 “NodePort” ，以不同端口访问节点的流量会被映射到不同的 Pod；当然也可以配成 “LoadBalancer” 模式来使用外部的负载均衡器。<br><img src="https://img2020.cnblogs.com/blog/1334057/202004/1334057-20200411071730266-1326662310.png" srcset="/img/loading.gif" lazyload><br>K8s 还有另外一种非常重要的负载均衡机制 “Ingress Controller”，一个 ingress-controller 以 Pod 的形式存在，并且分配有一个外部可见的 IP 地址，该 IP 地址对应着一个含有通配符的 DNS 记录，ingress-controller 根据预先设定的规则来把流量分配给不同的 Pod。例如下图中的 IP 地址 192.168.100.244 对应 DNS 域名 sphinx-v*.esxcloud.net，访问sphinx-v1.esxcloud.net 的流量会被重定向给 “sphinx-svc-1”，而访问sphinx-v2.esxcloud.net 的流量被重定向给 “sphinx-svc2”。<br><img src="https://img2020.cnblogs.com/blog/1334057/202004/1334057-20200411074324152-736006386.png" srcset="/img/loading.gif" lazyload></p>
+<p>存储与网络</p>
+<p>当谈到Kubernetes时，存储和网络是很多主题。在简介博客文章中几乎不可能简短地谈论这两个主题，但是您可以确定，我很快将针对每个主题的不同概念和选项撰写详细博客。现在，让我们快速检查一下网络堆栈在Kubernetes中是如何工作的，因为我们将在下一部分中对其进行依赖。<br>Kubernetes具有不同的网络“插件”，您可以使用它们来设置节点和Pod网络。常见的插件之一是“ kubenet”，它目前在诸如Google Cloud Provider（GCP）和Amazon Web Services之类的巨型云上使用。我将在此处简要介绍GCP实施，然后再向您展示一个实际示例，以便您自己在Google容器引擎（GKE）上进行研究。<br><img src="https://img2020.cnblogs.com/blog/1334057/202004/1334057-20200411074402846-1936464859.png" srcset="/img/loading.gif" lazyload></p>
+<p>乍一看这可能有点太多，但是希望您能够在本博文结束时理解所有内容。首先，我们看到这里有两个Kubernetes节点：节点1和节点（m）。每个节点都像任何Linux机器一样具有eth0接口，并且该接口具有指向外部世界的IP地址-在我们的示例中为子网10.140.0.0&#x2F;24。上游L3设备充当我们路由流量的默认网关。这可能是您数据中心中的L3交换机，也可能是公共云（如GCP）中的VPC路由器，我们将在后面看到。到目前为止，一切都很好？</p>
+<p>接下来，我们在节点内部看到一个cbr0 桥接口。该接口具有IP子网的默认网关-如果是节点1，则为10.40.1.0&#x2F;24。该子网由Kubernetes分配给每个节点。后者通常有一个&#x2F; 24子网，但是在NSX-T的情况下，您可以控制它，正如我们在以后的文章中将看到的那样。目前，该子网是我们将为其分配Pod的IP地址的子网。节点1内的任何Pod将从该子网范围获得IP地址-在本例中，Pod 1的IP地址为10.40.1.10。但是请注意，此容器内有两个嵌套容器。请记住，吊舱可以运行一个或多个在功能方面紧密耦合在一起的容器。这就是我们在这里看到的。容器1侦听端口80，而容器2侦听端口90。两个容器共享相同的IP地址10.40.1.10。但他们不拥有该网络名称空间。好了，那么谁拥有这个网络堆栈呢？实际上，这是一个特殊的容器，我们称之为“暂停容器”。您在图中将其视为该容器与外部世界的接口。它拥有此网络堆栈，包括IP地址10.40.1.10，并且，当然，它使用端口80将流量转发到容器1，使用端口90将流量转发到容器2。</p>
+<p>现在您应该问，流量如何转发到外部世界？您会看到我们在此处启用了标准Linux IP转发，以将流量从cbr0转发到eth0。很好，但是L3设备如何知道如何将其转发到目的地？在此特定示例中，我们这里没有动态路由来通告此网络。因此，这就是为什么我们需要在该L3设备上拥有某种“静态路由”，才能知道为了到达子网10.40.1.0&#x2F;24，您的入口点是节点1的外部IP（10.140.0.11） ，并且为了到达子网10.40.2.0&#x2F;24，您的下一个希望是IP地址为10.140.0.12的节点（m）。</p>
+<p>很好，但是您必须考虑这是管理网络的不切实际的方法。当您随着集群扩展时，这将是网络管理员维护所有这些路由的绝对噩梦。没错，这就是为什么我们需要Kuberentes中诸如CNI（容器网络插件）之类的解决方案来使用联网机制来为您管理此解决方案的原因。NSX-T是其中一种针对网络和安全堆栈具有强大设计的解决方案。</p>
+<p>记住，我们在这里检查的是kubenet插件，而不是CNI。前者是GKE所使用的，并且它们执行此操作的方式非常吸引人，因为它在其云上是完全可编程和自动化的。这些子网分配和关联的路由将由GCP为您处理，我们将在下一部分中看到。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E8%BF%90%E7%BB%B4/" class="category-chain-item">运维</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E8%99%9A%E6%8B%9F%E5%8C%96/">#虚拟化</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>VMware虚拟化与Kubernetes（K8s）类比阐述</div>
+      <div>http://anximin.github.io/2021/07/06/Virtualization_vm_vs_k8s/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Sylar</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2021年7月6日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/07/06/git_change_repository/" title="git 查看及修改当前应用的仓库地址">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">git 查看及修改当前应用的仓库地址</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/07/06/Hexo_doc_top/" title="hexo 文章置顶功能">
+                        <span class="hidden-mobile">hexo 文章置顶功能</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

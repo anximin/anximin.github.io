@@ -1,0 +1,681 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/canvas.png">
+  <link rel="icon" href="/img/canvas.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sylar">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="gitlab 不支持大版本之间直接升级，需要升级到当前版本的最新版本，然后再升级下一个版本。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="本地部署的GitLab升级指南">
+<meta property="og:url" content="http://anximin.github.io/2023/06/20/git_GitLab_update/index.html">
+<meta property="og:site_name" content="Want To">
+<meta property="og:description" content="gitlab 不支持大版本之间直接升级，需要升级到当前版本的最新版本，然后再升级下一个版本。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://anximin.github.io/img/index_img/index_5_GitlabUpdate.png">
+<meta property="article:published_time" content="2023-06-20T08:25:38.000Z">
+<meta property="article:modified_time" content="2024-02-22T10:03:18.209Z">
+<meta property="article:author" content="Sylar">
+<meta property="article:tag" content="GitLab">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://anximin.github.io/img/index_img/index_5_GitlabUpdate.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>本地部署的GitLab升级指南 - Want To</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"anximin.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":60,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Want To Top</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/sitemap.xml">
+                <i class="iconfont icon-link-fill"></i>
+                <span>sitmap</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="本地部署的GitLab升级指南"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-06-20 16:25" pubdate>
+          2023年6月20日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.1k 字
+        
+      </span>
+    
+
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">本地部署的GitLab升级指南</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h3 id="gitLab-升级版本路线"><a href="#gitLab-升级版本路线" class="headerlink" title="gitLab 升级版本路线"></a>gitLab 升级版本路线</h3><p>  gitlab 不支持大版本之间直接升级，需要升级到当前版本的最新版本，然后再升级下一个版本。</p>
+<ul>
+<li>GitLab 8: <code>8.11.Z</code> &gt; <code>8.12.0</code> &gt; <code>8.17.7</code></li>
+<li>GitLab 9: <code>9.0.13</code> &gt; <code>9.5.10</code></li>
+<li>GitLab 10: <code>10.0.7</code> &gt; <code>10.8.7</code></li>
+<li>GitLab 11: <code>11.0.6</code> &gt; <a target="_blank" rel="noopener" href="https://docs.gitlab.com/ee/update/index.html#1200"><code>11.11.8</code></a></li>
+<li>GitLab 12: <code>12.0.12</code> &gt; <a target="_blank" rel="noopener" href="https://docs.gitlab.com/ee/update/index.html#1210"><code>12.1.17</code></a> &gt; <a target="_blank" rel="noopener" href="https://docs.gitlab.com/ee/update/index.html#12100"><code>12.10.14</code></a></li>
+<li>GitLab 13: <code>13.0.14</code> &gt; <a target="_blank" rel="noopener" href="https://docs.gitlab.com/ee/update/index.html#1310"><code>13.1.11</code></a> &gt; <a target="_blank" rel="noopener" href="https://docs.gitlab.com/ee/update/index.html#1388"><code>13.8.8</code></a> &gt; <a target="_blank" rel="noopener" href="https://docs.gitlab.com/ee/update/index.html#13120"><code>13.12.15</code></a></li>
+<li>GitLab 14: <a target="_blank" rel="noopener" href="https://docs.gitlab.com/ee/update/index.html#1400"><code>14.0.12</code></a> &gt; <a target="_blank" rel="noopener" href="https://docs.gitlab.com/ee/update/index.html#1430"><code>14.3.6</code></a> &gt; <a target="_blank" rel="noopener" href="https://docs.gitlab.com/ee/update/index.html#1490"><code>14.9.5</code></a> &gt; <a target="_blank" rel="noopener" href="https://docs.gitlab.com/ee/update/index.html#14100"><code>14.10.5</code></a></li>
+<li>GitLab 15: <a target="_blank" rel="noopener" href="https://docs.gitlab.com/ee/update/index.html#1500"><code>15.0.5</code></a> &gt; <a target="_blank" rel="noopener" href="https://docs.gitlab.com/ee/update/index.html#1510"><code>15.1.6</code></a> (for GitLab instances with multiple web nodes) &gt; <a target="_blank" rel="noopener" href="https://docs.gitlab.com/ee/update/index.html#1540"><code>15.4.6</code></a> &gt; <a target="_blank" rel="noopener" href="https://docs.gitlab.com/ee/update/index.html#15110"><code>15.11.13</code></a></li>
+<li>GitLab 16: <a target="_blank" rel="noopener" href="https://gitlab.com/gitlab-org/gitlab/-/releases"><code>16.0.8</code></a> &gt; <code>16.1.6</code> &gt;<code>16.2.9</code> &gt; <code>16.3.7</code> &gt; <code>16.7.z</code></li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://docs.gitlab.com/ee/update/index.html#upgrade-paths">官方升级路线说明获取地址:https://docs.gitlab.com/ee/update/index.html#upgrade-paths</a></p>
+<h3 id="版本升级包下载，清华大学开源软件镜像站"><a href="#版本升级包下载，清华大学开源软件镜像站" class="headerlink" title="版本升级包下载，清华大学开源软件镜像站"></a>版本升级包下载，清华大学开源软件镜像站</h3><p>  <a target="_blank" rel="noopener" href="https://mirrors.tuna.tsinghua.edu.cn/gitlab-ce/">清华大学镜像站：https://mirrors.tuna.tsinghua.edu.cn/gitlab-ce/</a></p>
+<p>  <strong>gitlab-ces</strong>代表社区版。</p>
+<h3 id="升级前检查"><a href="#升级前检查" class="headerlink" title="升级前检查"></a>升级前检查</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo gitlab-rake gitlab:check</span><br></pre></td></tr></table></figure>
+
+<p>  出现任何错误参考官方解决办法：<a target="_blank" rel="noopener" href="https://docs.gitlab.com/ee/update/plan_your_upgrade.html#troubleshooting">Create a GitLab upgrade plan | GitLab</a></p>
+<h3 id="开始升级操作"><a href="#开始升级操作" class="headerlink" title="开始升级操作"></a>开始升级操作</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#升级每个包都必须使用相同的步骤。</span><br><span class="line">1. sudo gitlab-ctl reconfigure</span><br><span class="line">#这一步执行无错再向下进行。</span><br><span class="line">2. sudo yum -y install gitlab-ce-xx.x.x-ce.0.el7.x86_64.rpm</span><br><span class="line">#升级到最后一个包后，还要运行一次</span><br><span class="line">3. sudo gitlab-ctl reconfigure</span><br><span class="line">4. sudo gitlab-ctl restart</span><br></pre></td></tr></table></figure>
+
+<h3 id="升级中可能遇到的错误。"><a href="#升级中可能遇到的错误。" class="headerlink" title="升级中可能遇到的错误。"></a>升级中可能遇到的错误。</h3><ol>
+<li><p>运行gitlab-ctl reconfigure时错误：<br><code>rails_migration[gitlab-rails] (gitlab::database_migrations line 51) had an error: Mixlib::ShellOut::ShellCommandFailed: bash[migrate gitlab-rails database ] (/opt/gitlab/embedded/cookbooks/cache/cookbooks/gitlab/resources/rails_migration.rb line 16) had an error: Mixlib::ShellOut::ShellCommandFailed: Command execution failed. STDOUT/STDERR suppressed for sensitive resource</code></p>
+<p>处理办法：执行 下列命令</p>
+<ul>
+<li><code> sudo gitlab-rake db:migrate</code></li>
+<li><code>sudo gitlab-rake gitlab:background_migrations:finalize[ProjectNamespaces::BackfillProjectNamespaces,projects,id,&#39;[null\,&quot;up&quot;]&#39;]</code></li>
+<li>再次执行<code>sudo gitlab-ctl reconfigure</code></li>
+</ul>
+</li>
+<li><p>升级时<code>RuntimeError: gitlab_rails[&#39;smtp_tls&#39;] and gitlab_rails[&#39;smtp_enable_starttls_auto&#39;] are mutually exclusive</code>错误。</p>
+<p>错误原因是：在配置文件<code>/etc/gitlab/gitlab.rb</code>中，同时配置了<code>smtp_tls</code>和<code>smtp_enable_starttls_auto</code>为<code>true</code>，把其中一个设置为false就行了。具体哪一个设置为false，就要看你的smtp供应商提供的是什么加密协议。</p>
+</li>
+<li><p>数据库版本错误</p>
+<p>报错：<code>Retry the upgrade after upgrading your PostgreSQL version.</code></p>
+<p>原因： 从GitLab15版开始，PostgreSQL需要使用13以上版本。正常情况安装升级包时，会自动升级PostgreSQL版本。一些莫名原因造成升级失败，手动升级即可。</p>
+<p>处理办法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#升级PostgreSQL默认升级到最新，可使用-V指定版本。</span><br><span class="line">sudo gitlab-ctl pg-upgrade</span><br><span class="line">#查询当前版本号。</span><br><span class="line">sudo gitlab-psql select --version</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>  <a target="_blank" rel="noopener" href="https://docs.gitlab.com/omnibus/settings/database.html#gitlab-160-and-later">PostgreSQL相关操作说明：https://docs.gitlab.com/omnibus/settings/database.html#gitlab-160-and-later</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/GitLab/">#GitLab</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>本地部署的GitLab升级指南</div>
+      <div>http://anximin.github.io/2023/06/20/git_GitLab_update/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Sylar</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年6月20日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/07/06/Linux_Ubuntu_Net/" title="Ubuntu域名解析暂时失败">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Ubuntu域名解析暂时失败</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/05/19/markdown_YuFa/" title="MarkDown语法">
+                        <span class="hidden-mobile">MarkDown语法</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,663 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/canvas.png">
+  <link rel="icon" href="/img/canvas.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sylar">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="一、添加硬盘无论虚拟机还是物理机，通过各自的方法添加硬盘。 二、 开机后使用fdisk -l 命令查看新增的硬盘磁盘 &#x2F;dev&#x2F;sdb：536.9 GB 是新增的硬盘磁盘 &#x2F;dev&#x2F;mapper&#x2F;centos_gitlab-root：18.2 GB 是将进行扩容的目标磁盘 12345678910111213141516171819202122232">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Gitlab通过LVM无损扩容">
+<meta property="og:url" content="http://anximin.github.io/2024/02/20/git_gitlab_extend/index.html">
+<meta property="og:site_name" content="Want To">
+<meta property="og:description" content="一、添加硬盘无论虚拟机还是物理机，通过各自的方法添加硬盘。 二、 开机后使用fdisk -l 命令查看新增的硬盘磁盘 &#x2F;dev&#x2F;sdb：536.9 GB 是新增的硬盘磁盘 &#x2F;dev&#x2F;mapper&#x2F;centos_gitlab-root：18.2 GB 是将进行扩容的目标磁盘 12345678910111213141516171819202122232">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://anximin.github.io/img/index_img/0photo-2.jpg">
+<meta property="article:published_time" content="2024-02-20T01:47:34.000Z">
+<meta property="article:modified_time" content="2024-07-15T08:52:29.220Z">
+<meta property="article:author" content="Sylar">
+<meta property="article:tag" content="GitLab">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://anximin.github.io/img/index_img/0photo-2.jpg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>Gitlab通过LVM无损扩容 - Want To</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"anximin.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":60,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Want To Top</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/sitemap.xml">
+                <i class="iconfont icon-link-fill"></i>
+                <span>sitmap</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Gitlab通过LVM无损扩容"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-02-20 09:47" pubdate>
+          2024年2月20日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.7k 字
+        
+      </span>
+    
+
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Gitlab通过LVM无损扩容</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h3 id="一、添加硬盘"><a href="#一、添加硬盘" class="headerlink" title="一、添加硬盘"></a>一、添加硬盘</h3><p>无论虚拟机还是物理机，通过各自的方法添加硬盘。</p>
+<h3 id="二、-开机后使用fdisk-l-命令查看新增的硬盘"><a href="#二、-开机后使用fdisk-l-命令查看新增的硬盘" class="headerlink" title="二、 开机后使用fdisk -l 命令查看新增的硬盘"></a>二、 开机后使用fdisk -l 命令查看新增的硬盘</h3><p>磁盘 &#x2F;dev&#x2F;sdb：536.9 GB 是新增的硬盘<br>磁盘 &#x2F;dev&#x2F;mapper&#x2F;centos_gitlab-root：18.2 GB 是将进行扩容的目标磁盘</p>
+<figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs tap">[root@gitlab ~]<span class="hljs-comment"># fdisk -l</span><br><br>磁盘 /dev/sda：21.5 GB,<span class="hljs-number"> 21474836480 </span>字节，41943040 个扇区<br>Units = 扇区 of<span class="hljs-number"> 1 </span>*<span class="hljs-number"> 512 </span>=<span class="hljs-number"> 512 </span>bytes<br>扇区大小(逻辑/物理)：512 字节 /<span class="hljs-number"> 512 </span>字节<br>I/O 大小(最小/最佳)：512 字节 /<span class="hljs-number"> 512 </span>字节<br>磁盘标签类型：dos<br>磁盘标识符：0x00003017<br><br>   设备 Boot      Start         End      Blocks   Id  System<br>/dev/sda1   *       <span class="hljs-number"> 2048 </span>   <span class="hljs-number"> 2099199 </span>   <span class="hljs-number"> 1048576 </span> <span class="hljs-number"> 83 </span> Linux<br>/dev/sda2        <span class="hljs-number"> 2099200 </span>  <span class="hljs-number"> 41943039 </span>  <span class="hljs-number"> 19921920 </span>  8e  Linux LVM<br><br>磁盘 /dev/sdb：536.9 GB,<span class="hljs-number"> 536870912000 </span>字节，1048576000 个扇区<br>Units = 扇区 of<span class="hljs-number"> 1 </span>*<span class="hljs-number"> 512 </span>=<span class="hljs-number"> 512 </span>bytes<br>扇区大小(逻辑/物理)：512 字节 /<span class="hljs-number"> 512 </span>字节<br>I/O 大小(最小/最佳)：512 字节 /<span class="hljs-number"> 512 </span>字节<br><br>磁盘 /dev/mapper/centos_gitlab-root：18.2 GB,<span class="hljs-number"> 18249416704 </span>字节，35643392 个扇区<br>Units = 扇区 of<span class="hljs-number"> 1 </span>*<span class="hljs-number"> 512 </span>=<span class="hljs-number"> 512 </span>bytes<br>扇区大小(逻辑/物理)：512 字节 /<span class="hljs-number"> 512 </span>字节<br>I/O 大小(最小/最佳)：512 字节 /<span class="hljs-number"> 512 </span>字节<br><br>磁盘 /dev/mapper/centos_gitlab-swap：2147 MB,<span class="hljs-number"> 2147483648 </span>字节，4194304 个扇区<br>Units = 扇区 of<span class="hljs-number"> 1 </span>*<span class="hljs-number"> 512 </span>=<span class="hljs-number"> 512 </span>bytes<br>扇区大小(逻辑/物理)：512 字节 /<span class="hljs-number"> 512 </span>字节<br>I/O 大小(最小/最佳)：512 字节 /<span class="hljs-number"> 512 </span>字节<br></code></pre></td></tr></table></figure>
+
+<h3 id="三、对新硬盘分区"><a href="#三、对新硬盘分区" class="headerlink" title="三、对新硬盘分区"></a>三、对新硬盘分区</h3><p>通过fdisk命令对新硬盘进行分区，fdisk + 硬盘名称（根据实际情况）</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><code class="hljs sql">[root<span class="hljs-variable">@gitlab</span> <span class="hljs-operator">~</span>]# fdisk <span class="hljs-operator">/</span>dev<span class="hljs-operator">/</span>sdb<br>欢迎使用 fdisk (util<span class="hljs-operator">-</span>linux <span class="hljs-number">2.23</span><span class="hljs-number">.2</span>)。<br><br>更改将停留在内存中，直到您决定将更改写入磁盘。<br>使用写入命令前请三思。<br><br>Device does <span class="hljs-keyword">not</span> contain a recognized <span class="hljs-keyword">partition</span> <span class="hljs-keyword">table</span><br>使用磁盘标识符 <span class="hljs-number">0x1b8f4ec4</span> 创建新的 DOS 磁盘标签。<br><br>命令(输入 m 获取帮助)：m<br>命令操作<br>   a   toggle a bootable flag<br>   b   edit bsd disklabel<br>   c   toggle the dos compatibility flag<br>   d   <span class="hljs-keyword">delete</span> a <span class="hljs-keyword">partition</span><br>   g   <span class="hljs-keyword">create</span> a <span class="hljs-keyword">new</span> <span class="hljs-keyword">empty</span> GPT <span class="hljs-keyword">partition</span> <span class="hljs-keyword">table</span><br>   G   <span class="hljs-keyword">create</span> an IRIX (SGI) <span class="hljs-keyword">partition</span> <span class="hljs-keyword">table</span><br>   l   list known <span class="hljs-keyword">partition</span> types<br>   m   print this menu<br>   n   <span class="hljs-keyword">add</span> a <span class="hljs-keyword">new</span> <span class="hljs-keyword">partition</span><br>   o   <span class="hljs-keyword">create</span> a <span class="hljs-keyword">new</span> <span class="hljs-keyword">empty</span> DOS <span class="hljs-keyword">partition</span> <span class="hljs-keyword">table</span><br>   p   print the <span class="hljs-keyword">partition</span> <span class="hljs-keyword">table</span><br>   q   quit <span class="hljs-keyword">without</span> saving changes<br>   s   <span class="hljs-keyword">create</span> a <span class="hljs-keyword">new</span> <span class="hljs-keyword">empty</span> Sun disklabel<br>   t   change a <span class="hljs-keyword">partition</span><span class="hljs-string">&#x27;s system id</span><br><span class="hljs-string">   u   change display/entry units</span><br><span class="hljs-string">   v   verify the partition table</span><br><span class="hljs-string">   w   write table to disk and exit</span><br><span class="hljs-string">   x   extra functionality (experts only)</span><br><span class="hljs-string"></span><br><span class="hljs-string">命令(输入 m 获取帮助)：n</span><br><span class="hljs-string">Partition type:</span><br><span class="hljs-string">   p   primary (0 primary, 0 extended, 4 free)</span><br><span class="hljs-string">   e   extended</span><br><span class="hljs-string">Select (default p): p</span><br><span class="hljs-string">分区号 (1-4，默认 1)：1</span><br><span class="hljs-string">起始 扇区 (2048-1048575999，默认为 2048)：</span><br><span class="hljs-string">将使用默认值 2048</span><br><span class="hljs-string">Last 扇区, +扇区 or +size&#123;K,M,G&#125; (2048-1048575999，默认为 1048575999)：</span><br><span class="hljs-string">将使用默认值 1048575999</span><br><span class="hljs-string">分区 1 已设置为 Linux 类型，大小设为 500 GiB</span><br><span class="hljs-string"></span><br><span class="hljs-string">命令(输入 m 获取帮助)：p </span><br><span class="hljs-string"></span><br><span class="hljs-string">磁盘 /dev/sdb：536.9 GB, 536870912000 字节，1048576000 个扇区</span><br><span class="hljs-string">Units = 扇区 of 1 * 512 = 512 bytes</span><br><span class="hljs-string">扇区大小(逻辑/物理)：512 字节 / 512 字节</span><br><span class="hljs-string">I/O 大小(最小/最佳)：512 字节 / 512 字节</span><br><span class="hljs-string">磁盘标签类型：dos</span><br><span class="hljs-string">磁盘标识符：0x1b8f4ec4</span><br><span class="hljs-string"></span><br><span class="hljs-string">   设备 Boot      Start         End      Blocks   Id  System</span><br><span class="hljs-string">/dev/sdb1            2048  1048575999   524286976   83  Linux</span><br><span class="hljs-string"></span><br><span class="hljs-string">命令(输入 m 获取帮助)：wq</span><br><span class="hljs-string">The partition table has been altered!</span><br><span class="hljs-string"></span><br><span class="hljs-string">Calling ioctl() to re-read partition table.</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="四、开始扩容"><a href="#四、开始扩容" class="headerlink" title="四、开始扩容"></a>四、开始扩容</h3><h4 id="使用mkfs-ext4对新创建的分区进行格式化。"><a href="#使用mkfs-ext4对新创建的分区进行格式化。" class="headerlink" title="使用mkfs.ext4对新创建的分区进行格式化。"></a>使用mkfs.ext4对新创建的分区进行格式化。</h4><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">[root@gitlab ~]<span class="hljs-comment"># mkfs.ext4 /dev/sdb1</span><br>mke<span class="hljs-symbol">2f</span>s <span class="hljs-number">1</span>.<span class="hljs-number">42</span>.<span class="hljs-number">9</span> (<span class="hljs-number">28</span>-Dec<span class="hljs-number">-2013</span>)<br><span class="hljs-keyword">Discarding </span>device <span class="hljs-keyword">blocks: </span>完成                            <br>文件系统标签=<br>OS type: Linux<br>块大小=<span class="hljs-number">4096</span> (log=<span class="hljs-number">2</span>)<br>分块大小=<span class="hljs-number">4096</span> (log=<span class="hljs-number">2</span>)<br>Stride=<span class="hljs-number">0</span> <span class="hljs-keyword">blocks, </span>Stripe width=<span class="hljs-number">0</span> <span class="hljs-keyword">blocks</span><br><span class="hljs-keyword"></span><span class="hljs-number">32768000</span> inodes, <span class="hljs-number">131071744</span> <span class="hljs-keyword">blocks</span><br><span class="hljs-keyword"></span><span class="hljs-number">6553587</span> <span class="hljs-keyword">blocks </span>(<span class="hljs-number">5</span>.<span class="hljs-number">00</span>%) reserved for the super user<br>第一个数据块=<span class="hljs-number">0</span><br>Maximum filesystem <span class="hljs-keyword">blocks=2279604224</span><br><span class="hljs-keyword"></span><span class="hljs-number">4000</span> <span class="hljs-keyword">block </span>groups<br><span class="hljs-number">32768</span> <span class="hljs-keyword">blocks </span>per group, <span class="hljs-number">32768</span> fragments per group<br><span class="hljs-number">8192</span> inodes per group<br>Superblock <span class="hljs-keyword">backups </span>stored on <span class="hljs-keyword">blocks: </span><br>        <span class="hljs-number">32768</span>, <span class="hljs-number">98304</span>, <span class="hljs-number">163840</span>, <span class="hljs-number">229376</span>, <span class="hljs-number">294912</span>, <span class="hljs-number">819200</span>, <span class="hljs-number">884736</span>, <span class="hljs-number">1605632</span>, <span class="hljs-number">2654208</span>, <br>        <span class="hljs-number">4096000</span>, <span class="hljs-number">7962624</span>, <span class="hljs-number">11239424</span>, <span class="hljs-number">20480000</span>, <span class="hljs-number">23887872</span>, <span class="hljs-number">71663616</span>, <span class="hljs-number">78675968</span>, <br>        <span class="hljs-number">102400000</span><br><br>Allocating group tables: 完成                            <br>正在写入inode表: 完成                            <br>Creating <span class="hljs-keyword">journal </span>(<span class="hljs-number">32768</span> <span class="hljs-keyword">blocks): </span>完成<br>Writing superblocks <span class="hljs-keyword">and </span>filesystem accounting information: 完成     <br></code></pre></td></tr></table></figure>
+
+<h4 id="创建物理卷"><a href="#创建物理卷" class="headerlink" title="创建物理卷"></a>创建物理卷</h4><figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs asciidoc">[root@gitlab ~]# pvcreate /dev/sdb1<br><span class="hljs-symbol">WARNING: </span>ext4 signature detected on /dev/sdb1 at offset 1080. Wipe it? [y/n]: y<br><span class="hljs-code">  Wiping ext4 signature on /dev/sdb1.</span><br><span class="hljs-code">  Physical volume &quot;/dev/sdb1&quot; successfully created.</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="查看当前物理卷属性"><a href="#查看当前物理卷属性" class="headerlink" title="查看当前物理卷属性"></a>查看当前物理卷属性</h4><p>使用pvdisplay命令查看物理卷信息：物理卷名称、所属卷组、卷大小、PE大小、总PE数等。</p>
+<figure class="highlight irpf90"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs irpf90">[root@gitlab ~]# pvdisplay<br>  --- Physical volume ---<br>  PV <span class="hljs-keyword">Name</span>               /dev/sda2<br>  VG <span class="hljs-keyword">Name</span>               centos_gitlab<br>  PV <span class="hljs-built_in">Size</span>               &lt;<span class="hljs-number">19.00</span> GiB / not usable <span class="hljs-number">3.00</span> MiB<br>  <span class="hljs-keyword">Allocatable</span>           yes (but full)<br>  PE <span class="hljs-built_in">Size</span>               <span class="hljs-number">4.00</span> MiB<br>  Total PE              <span class="hljs-number">4863</span><br>  <span class="hljs-keyword">Free</span> PE               <span class="hljs-number">0</span><br>  <span class="hljs-built_in">Allocated</span> PE          <span class="hljs-number">4863</span><br>  PV UUID               Uxxs2H-fqny-<span class="hljs-number">3</span>gjD-eZpq-opJZ-ygIf-fFkhCu<br><br>  --- Physical volume ---<br>  PV <span class="hljs-keyword">Name</span>               /dev/sdb1<br>  VG <span class="hljs-keyword">Name</span>               centos_gitlab<br>  PV <span class="hljs-built_in">Size</span>               &lt;<span class="hljs-number">500.00</span> GiB / not usable <span class="hljs-number">3.00</span> MiB<br>  <span class="hljs-keyword">Allocatable</span>           yes <br>  PE <span class="hljs-built_in">Size</span>               <span class="hljs-number">4.00</span> MiB<br>  Total PE              <span class="hljs-number">127999</span><br>  <span class="hljs-keyword">Free</span> PE               <span class="hljs-number">127999</span><br>  <span class="hljs-built_in">Allocated</span> PE          <span class="hljs-number">0</span><br>  PV UUID               OCWyXg-<span class="hljs-number">0</span>HQZ-UydA-DxqB-hUfk-Kk7N-<span class="hljs-number">6</span>T6JEq<br><br></code></pre></td></tr></table></figure>
+
+<h4 id="扩容卷组"><a href="#扩容卷组" class="headerlink" title="扩容卷组"></a>扩容卷组</h4><p><strong>注意：扩充的容量要小于物理卷容量。例如500G的卷添加499.9G</strong></p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs applescript">[root@gitlab ~]<span class="hljs-comment"># lvextend -L +499.9G /dev/mapper/centos_gitlab-root </span><br>  Rounding size <span class="hljs-keyword">to</span> boundary <span class="hljs-keyword">between</span> physical extents: <span class="hljs-number">499.90</span> GiB.<br>  Size <span class="hljs-keyword">of</span> logical volume centos_gitlab/root changed <span class="hljs-keyword">from</span> &lt;<span class="hljs-number">17.00</span> GiB (<span class="hljs-number">4351</span> extents) <span class="hljs-keyword">to</span> &lt;<span class="hljs-number">516.90</span> GiB (<span class="hljs-number">132326</span> extents).<br>  Logical volume centos_gitlab/root successfully resized.<br></code></pre></td></tr></table></figure>
+
+<h4 id="使用xfs-growfs命令更新XFS文件系统的大小，（实际增加存储空间）"><a href="#使用xfs-growfs命令更新XFS文件系统的大小，（实际增加存储空间）" class="headerlink" title="使用xfs_growfs命令更新XFS文件系统的大小，（实际增加存储空间）"></a>使用xfs_growfs命令更新XFS文件系统的大小，（实际增加存储空间）</h4><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs routeros">[root@gitlab ~]# xfs_growfs /dev/mapper/centos_gitlab-root <br><span class="hljs-attribute">meta-data</span>=/dev/mapper/centos_gitlab-root <span class="hljs-attribute">isize</span>=512    <span class="hljs-attribute">agcount</span>=4, <span class="hljs-attribute">agsize</span>=1113856 blks<br>         =                       <span class="hljs-attribute">sectsz</span>=512   <span class="hljs-attribute">attr</span>=2, <span class="hljs-attribute">projid32bit</span>=1<br>         =                       <span class="hljs-attribute">crc</span>=1        <span class="hljs-attribute">finobt</span>=0 <span class="hljs-attribute">spinodes</span>=0<br>data     =                       <span class="hljs-attribute">bsize</span>=4096   <span class="hljs-attribute">blocks</span>=4455424, <span class="hljs-attribute">imaxpct</span>=25<br>         =                       <span class="hljs-attribute">sunit</span>=0      <span class="hljs-attribute">swidth</span>=0 blks<br>naming   =version 2              <span class="hljs-attribute">bsize</span>=4096   <span class="hljs-attribute">ascii-ci</span>=0 <span class="hljs-attribute">ftype</span>=1<br>log      =internal               <span class="hljs-attribute">bsize</span>=4096   <span class="hljs-attribute">blocks</span>=2560, <span class="hljs-attribute">version</span>=2<br>         =                       <span class="hljs-attribute">sectsz</span>=512   <span class="hljs-attribute">sunit</span>=0 blks, <span class="hljs-attribute">lazy-count</span>=1<br>realtime =none                   <span class="hljs-attribute">extsz</span>=4096   <span class="hljs-attribute">blocks</span>=0, <span class="hljs-attribute">rtextents</span>=0<br>data blocks changed <span class="hljs-keyword">from</span> 4455424 <span class="hljs-keyword">to</span> 135501824<br></code></pre></td></tr></table></figure>
+
+<h3 id="五、扩容完成"><a href="#五、扩容完成" class="headerlink" title="五、扩容完成"></a>五、扩容完成</h3><p>查看扩容后的磁盘情况</p>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs crystal">[root<span class="hljs-variable">@gitlab</span> ~]<span class="hljs-comment"># df -h</span><br>文件系统                        容量  已用  可用 已用% 挂载点<br><span class="hljs-regexp">/dev/mapper</span><span class="hljs-regexp">/centos_gitlab-root  517G   13G  505G    3% /</span><br>devtmpfs                        <span class="hljs-number">1.9</span>G     <span class="hljs-number">0</span>  <span class="hljs-number">1.9</span>G    <span class="hljs-number">0</span>% <span class="hljs-regexp">/dev</span><br><span class="hljs-regexp">tmpfs                           1.9G   52K  1.9G    1% /dev</span><span class="hljs-regexp">/shm</span><br><span class="hljs-regexp">tmpfs                           1.9G   16M  1.9G    1% /run</span><br>tmpfs                           <span class="hljs-number">1.9</span>G     <span class="hljs-number">0</span>  <span class="hljs-number">1.9</span>G    <span class="hljs-number">0</span>% <span class="hljs-regexp">/sys/fs</span><span class="hljs-regexp">/cgroup</span><br><span class="hljs-regexp">/dev</span><span class="hljs-regexp">/sda1                      1014M  145M  870M   15% /boot</span><br>tmpfs                           <span class="hljs-number">379</span>M     <span class="hljs-number">0</span>  <span class="hljs-number">379</span>M    <span class="hljs-number">0</span>% <span class="hljs-regexp">/run/user</span><span class="hljs-regexp">/0</span><br></code></pre></td></tr></table></figure>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/GitLab/">#GitLab</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Gitlab通过LVM无损扩容</div>
+      <div>http://anximin.github.io/2024/02/20/git_gitlab_extend/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Sylar</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年2月20日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/02/23/git_chengepassword/" title="git常见问题">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">git常见问题</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/01/30/Linux_python_env_virtualenv/" title="使用virtualenv或virtualenvwrapper创建Python虚拟环境">
+                        <span class="hidden-mobile">使用virtualenv或virtualenvwrapper创建Python虚拟环境</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

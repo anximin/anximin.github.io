@@ -1,0 +1,696 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/canvas.png">
+  <link rel="icon" href="/img/canvas.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sylar">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="ROS的防火墙配置方案&#x2F;ip firewall address-list add address&#x3D;192.168.100.1 comment&#x3D;”onuconf: local ONU address” list&#x3D;local_onu_ipv4add address&#x3D;172.16.1.0&#x2F;24 comment&#x3D;”lanconf: lo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RouterOS的优化配置方案">
+<meta property="og:url" content="http://anximin.github.io/2024/03/25/net_routerOS_config/index.html">
+<meta property="og:site_name" content="Want To">
+<meta property="og:description" content="ROS的防火墙配置方案&#x2F;ip firewall address-list add address&#x3D;192.168.100.1 comment&#x3D;”onuconf: local ONU address” list&#x3D;local_onu_ipv4add address&#x3D;172.16.1.0&#x2F;24 comment&#x3D;”lanconf: lo">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://anximin.github.io/img/index_img/index_0_demo.png">
+<meta property="article:published_time" content="2024-03-25T02:53:41.000Z">
+<meta property="article:modified_time" content="2024-07-15T09:06:05.136Z">
+<meta property="article:author" content="Sylar">
+<meta property="article:tag" content="NETWORK">
+<meta property="article:tag" content="RouterOS">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://anximin.github.io/img/index_img/index_0_demo.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>RouterOS的优化配置方案 - Want To</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"anximin.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":60,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Want To Top</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/sitemap.xml">
+                <i class="iconfont icon-link-fill"></i>
+                <span>sitmap</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="RouterOS的优化配置方案"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-03-25 10:53" pubdate>
+          2024年3月25日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          13k 字
+        
+      </span>
+    
+
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">RouterOS的优化配置方案</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="ROS的防火墙配置方案"><a href="#ROS的防火墙配置方案" class="headerlink" title="ROS的防火墙配置方案"></a>ROS的防火墙配置方案</h2><p>&#x2F;ip firewall address-list</p>
+<p>add address&#x3D;192.168.100.1 comment&#x3D;”onuconf: local ONU address” list&#x3D;local_onu_ipv4<br>add address&#x3D;172.16.1.0&#x2F;24 comment&#x3D;”lanconf: local LAN address” list&#x3D;local_lan_ipv4</p>
+<p>add address&#x3D;172.16.1.2 comment&#x3D;”lanconf: local DNS server” list&#x3D;local_dns_ipv4<br>add address&#x3D;172.16.1.3 comment&#x3D;”lanconf: local DNS server” list&#x3D;local_dns_ipv4<br>add address&#x3D;172.16.1.50 comment&#x3D;”lanconf: local DNS server” list&#x3D;local_dns_ipv4</p>
+<p>add address&#x3D;0.0.0.0&#x2F;8 comment&#x3D;”defconf: RFC6890 - this network” list&#x3D;no_forward_ipv4<br>add address&#x3D;169.254.0.0&#x2F;16 comment&#x3D;”defconf: RFC6890 - link local” list&#x3D;no_forward_ipv4<br>add address&#x3D;224.0.0.0&#x2F;4 comment&#x3D;”defconf: RFC5771 - multicast” list&#x3D;no_forward_ipv4<br>add address&#x3D;255.255.255.255&#x2F;32 comment&#x3D;”defconf: RFC6890 - limited broadcast” list&#x3D;no_forward_ipv4</p>
+<p>add address&#x3D;127.0.0.0&#x2F;8 comment&#x3D;”defconf: RFC6890 - loopback” list&#x3D;bad_ipv4<br>add address&#x3D;192.0.0.0&#x2F;24 comment&#x3D;”defconf: RFC6890 - reserved” list&#x3D;bad_ipv4<br>add address&#x3D;192.0.2.0&#x2F;24 comment&#x3D;”defconf: RFC6890 - TEST-NET-1” list&#x3D;bad_ipv4<br>add address&#x3D;198.51.100.0&#x2F;24 comment&#x3D;”defconf: RFC6890 - TEST-NET-2” list&#x3D;bad_ipv4<br>add address&#x3D;203.0.113.0&#x2F;24 comment&#x3D;”defconf: RFC6890 - TEST-NET-3” list&#x3D;bad_ipv4<br>add address&#x3D;240.0.0.0&#x2F;4 comment&#x3D;”defconf: RFC6890 - reserved” list&#x3D;bad_ipv4</p>
+<p>add address&#x3D;0.0.0.0&#x2F;8 comment&#x3D;”defconf: RFC6890 - this network” list&#x3D;not_global_ipv4<br>add address&#x3D;10.0.0.0&#x2F;8 comment&#x3D;”defconf: RFC6890 - private networks” list&#x3D;not_global_ipv4<br>add address&#x3D;100.64.0.0&#x2F;10 comment&#x3D;”defconf: RFC6890 - shared address” list&#x3D;not_global_ipv4<br>add address&#x3D;169.254.0.0&#x2F;16 comment&#x3D;”defconf: RFC6890 - link local” list&#x3D;not_global_ipv4<br>add address&#x3D;172.16.0.0&#x2F;12 comment&#x3D;”defconf: RFC6890 - private networks” list&#x3D;not_global_ipv4<br>add address&#x3D;192.0.0.0&#x2F;29 comment&#x3D;”defconf: RFC6890 - DS-Lite” list&#x3D;not_global_ipv4<br>add address&#x3D;192.168.0.0&#x2F;16 comment&#x3D;”defconf: RFC6890 - private networks” list&#x3D;not_global_ipv4<br>add address&#x3D;198.18.0.0&#x2F;15 comment&#x3D;”defconf: RFC6890 - benchmarking” list&#x3D;not_global_ipv4<br>add address&#x3D;255.255.255.255&#x2F;32 comment&#x3D;”defconf: RFC6890 - limited broadcast” list&#x3D;not_global_ipv4</p>
+<p>add address&#x3D;224.0.0.0&#x2F;4 comment&#x3D;”defconf: RFC5771 - multicast” list&#x3D;bad_src_ipv4<br>add address&#x3D;255.255.255.255&#x2F;32 comment&#x3D;”defconf: RFC6890 - limited broadcast” list&#x3D;bad_src_ipv4<br>add address&#x3D;0.0.0.0&#x2F;8 comment&#x3D;”defconf: RFC6890 - this network” list&#x3D;bad_dst_ipv4</p>
+<p>add address&#x3D;0.0.0.0 comment&#x3D;”ddosconf: DDoS” list&#x3D;ddos_targets_ipv4<br>add address&#x3D;0.0.0.0 comment&#x3D;”ddosconf: DDoS” list&#x3D;ddos_attackers_ipv4</p>
+<p>&#x2F;ip firewall filter</p>
+<p>add action&#x3D;accept chain&#x3D;input comment&#x3D;”defconf: accept ICMP after RAW” protocol&#x3D;icmp<br>add action&#x3D;accept chain&#x3D;input comment&#x3D;”defconf: accept established,related,untracked” connection-state&#x3D;established,related,untracked<br>add action&#x3D;drop chain&#x3D;input comment&#x3D;”defconf: drop invalid” connection-state&#x3D;invalid<br>add action&#x3D;drop chain&#x3D;input comment&#x3D;”defconf: drop all not from LAN” in-interface-list&#x3D;!LAN</p>
+<p>add action&#x3D;fasttrack-connection chain&#x3D;forward comment&#x3D;”defconf: fasttrack” connection-state&#x3D;established,related<br>add action&#x3D;accept chain&#x3D;forward comment&#x3D;”defconf: accept established,related,untracked” connection-state&#x3D;established,related,untracked<br>add action&#x3D;drop chain&#x3D;forward comment&#x3D;”defconf: drop invalid” connection-state&#x3D;invalid<br>add action&#x3D;drop chain&#x3D;forward comment&#x3D;”defconf: drop all from WAN not DSTNATed” connection-nat-state&#x3D;!dstnat connection-state&#x3D;new in-interface-list&#x3D;WAN log&#x3D;yes log-prefix&#x3D;”[wan-not-dnat]”<br>add action&#x3D;drop chain&#x3D;forward comment&#x3D;”onuconf: drop all from ONU not DSTNATed” connection-nat-state&#x3D;!dstnat connection-state&#x3D;new in-interface-list&#x3D;ONU log&#x3D;yes log-prefix&#x3D;”[onu-not-dnat]”<br>add action&#x3D;drop chain&#x3D;forward comment&#x3D;”defconf: drop bad forward IPs” src-address-list&#x3D;no_forward_ipv4<br>add action&#x3D;drop chain&#x3D;forward comment&#x3D;”defconf: drop bad forward IPs” dst-address-list&#x3D;no_forward_ipv4</p>
+<p>add action&#x3D;jump chain&#x3D;forward comment&#x3D;”ddosconf: DDoS SYN-ACK” protocol&#x3D;tcp tcp-flags&#x3D;syn,ack jump-target&#x3D;detect-syn-ack<br>add action&#x3D;return chain&#x3D;detect-syn-ack comment&#x3D;”ddosconf: DDoS SYN-ACK” dst-limit&#x3D;64,64,src-and-dst-addresses&#x2F;10s<br>add action&#x3D;add-dst-to-address-list chain&#x3D;detect-syn-ack comment&#x3D;”ddosconf: DDoS SYN-ACK” address-list&#x3D;ddos_targets_ipv4 address-list-timeout&#x3D;10m<br>add action&#x3D;add-src-to-address-list chain&#x3D;detect-syn-ack comment&#x3D;”ddosconf: DDoS SYN-ACK” address-list&#x3D;ddos_attackers_ipv4 address-list-timeout&#x3D;10m log&#x3D;yes log-prefix&#x3D;”[sa-flood-ipv4]”</p>
+<p>add action&#x3D;jump chain&#x3D;forward comment&#x3D;”ddosconf: DDoS” connection-state&#x3D;new jump-target&#x3D;detect-ddos<br>add action&#x3D;return chain&#x3D;detect-ddos comment&#x3D;”ddosconf: DDoS” dst-limit&#x3D;256,256,src-and-dst-addresses&#x2F;10s<br>add action&#x3D;add-dst-to-address-list chain&#x3D;detect-ddos comment&#x3D;”ddosconf: DDoS” address-list&#x3D;ddos_targets_ipv4 address-list-timeout&#x3D;10m<br>add action&#x3D;add-src-to-address-list chain&#x3D;detect-ddos comment&#x3D;”ddosconf: DDoS” address-list&#x3D;ddos_attackers_ipv4 address-list-timeout&#x3D;10m log&#x3D;yes log-prefix&#x3D;”[ddos-ipv4]”</p>
+<p>&#x2F;ip firewall nat</p>
+<p>add action&#x3D;masquerade chain&#x3D;srcnat comment&#x3D;”defconf: masquerade IPv4” out-interface-list&#x3D;WAN<br>add action&#x3D;masquerade chain&#x3D;srcnat comment&#x3D;”onuconf: access to ONU” out-interface-list&#x3D;ONU src-address-list&#x3D;local_lan_ipv4 dst-address-list&#x3D;local_onu_ipv4</p>
+<p>add action&#x3D;accept chain&#x3D;dstnat comment&#x3D;”lanconf: accept local DNS server’s query (UDP)” dst-port&#x3D;53 in-interface-list&#x3D;LAN protocol&#x3D;udp src-address-list&#x3D;local_dns_ipv4<br>add action&#x3D;accept chain&#x3D;dstnat comment&#x3D;”lanconf: accept local DNS server’s query (TCP)” dst-port&#x3D;53 in-interface-list&#x3D;LAN protocol&#x3D;tcp src-address-list&#x3D;local_dns_ipv4<br>add action&#x3D;redirect chain&#x3D;dstnat comment&#x3D;”lanconf: redirect DNS query (UDP)” dst-port&#x3D;53 in-interface-list&#x3D;LAN protocol&#x3D;udp to-ports&#x3D;53<br>add action&#x3D;redirect chain&#x3D;dstnat comment&#x3D;”lanconf: redirect DNS query (TCP)” dst-port&#x3D;53 in-interface-list&#x3D;LAN protocol&#x3D;tcp to-ports&#x3D;53</p>
+<p>&#x2F;ip firewall mangle</p>
+<p>add action&#x3D;change-mss chain&#x3D;forward comment&#x3D;”defconf: fix IPv4 mss for WAN” new-mss&#x3D;clamp-to-pmtu passthrough&#x3D;yes protocol&#x3D;tcp tcp-flags&#x3D;syn<br>add action&#x3D;accept chain&#x3D;prerouting comment&#x3D;”onuconf: access to ONU” src-address-list&#x3D;local_lan_ipv4 dst-address-list&#x3D;local_onu_ipv4</p>
+<p>&#x2F;ip firewall raw</p>
+<p>add action&#x3D;accept chain&#x3D;prerouting comment&#x3D;”defconf: enable for transparent firewall” disabled&#x3D;yes</p>
+<p>add action&#x3D;drop chain&#x3D;prerouting comment&#x3D;”ddosconf: DDoS” dst-address-list&#x3D;ddos_targets_ipv4 src-address-list&#x3D;ddos_attackers_ipv4</p>
+<p>add action&#x3D;accept chain&#x3D;prerouting comment&#x3D;”defconf: accept DHCPv4 discover” dst-address&#x3D;255.255.255.255 dst-port&#x3D;67 in-interface-list&#x3D;LAN protocol&#x3D;udp src-address&#x3D;0.0.0.0 src-port&#x3D;68</p>
+<p>add action&#x3D;drop chain&#x3D;prerouting comment&#x3D;”defconf: drop bogon IPs” src-address-list&#x3D;bad_ipv4<br>add action&#x3D;drop chain&#x3D;prerouting comment&#x3D;”defconf: drop bogon IPs” dst-address-list&#x3D;bad_ipv4<br>add action&#x3D;drop chain&#x3D;prerouting comment&#x3D;”defconf: drop bad SRC IPv4” src-address-list&#x3D;bad_src_ipv4<br>add action&#x3D;drop chain&#x3D;prerouting comment&#x3D;”defconf: drop bad DST IPv4” dst-address-list&#x3D;bad_dst_ipv4</p>
+<p>add action&#x3D;drop chain&#x3D;prerouting comment&#x3D;”defconf: drop non global from WAN” in-interface-list&#x3D;WAN src-address-list&#x3D;not_global_ipv4<br>add action&#x3D;drop chain&#x3D;prerouting comment&#x3D;”defconf: drop forward to local LAN from WAN” in-interface-list&#x3D;WAN dst-address-list&#x3D;local_lan_ipv4 log&#x3D;yes log-prefix&#x3D;”[wan-to-lan]”</p>
+<p>add action&#x3D;drop chain&#x3D;prerouting comment&#x3D;”onuconf: drop if not from ONU address” in-interface-list&#x3D;ONU src-address-list&#x3D;!local_onu_ipv4<br>add action&#x3D;drop chain&#x3D;prerouting comment&#x3D;”onuconf: drop forward to local LAN from ONU” in-interface-list&#x3D;ONU dst-address-list&#x3D;local_lan_ipv4 log&#x3D;yes log-prefix&#x3D;”[onu-to-lan]”</p>
+<p>add action&#x3D;drop chain&#x3D;prerouting comment&#x3D;”defconf: drop if not from default IPv4 range” in-interface-list&#x3D;LAN src-address-list&#x3D;!local_lan_ipv4</p>
+<p>add action&#x3D;drop chain&#x3D;prerouting comment&#x3D;”defconf: drop UDP port 0” port&#x3D;0 protocol&#x3D;udp log&#x3D;yes log-prefix&#x3D;”[udp-port-0]”</p>
+<p>add action&#x3D;jump chain&#x3D;prerouting comment&#x3D;”defconf: jump to TCP chain” jump-target&#x3D;bad-tcp protocol&#x3D;tcp<br>add action&#x3D;jump chain&#x3D;prerouting comment&#x3D;”defconf: jump to ICMP chain” jump-target&#x3D;icmp4 protocol&#x3D;icmp</p>
+<p>add action&#x3D;accept chain&#x3D;prerouting comment&#x3D;”defconf: accept everything else from LAN” in-interface-list&#x3D;LAN<br>add action&#x3D;accept chain&#x3D;prerouting comment&#x3D;”defconf: accept everything else from WAN” in-interface-list&#x3D;WAN<br>add action&#x3D;accept chain&#x3D;prerouting comment&#x3D;”onuconf: accept everything else from ONU” in-interface-list&#x3D;ONU</p>
+<p>add action&#x3D;drop chain&#x3D;prerouting comment&#x3D;”defconf: drop the rest”</p>
+<p>add action&#x3D;drop chain&#x3D;bad-tcp comment&#x3D;”defconf: drop TCP port 0” port&#x3D;0 protocol&#x3D;tcp log&#x3D;yes log-prefix&#x3D;”[tcp-port-0]”<br>add action&#x3D;drop chain&#x3D;bad-tcp comment&#x3D;”defconf: TCP flag filter” protocol&#x3D;tcp tcp-flags&#x3D;!fin,!syn,!rst,!ack<br>add action&#x3D;drop chain&#x3D;bad-tcp comment&#x3D;”defconf: drop flags fin,syn” protocol&#x3D;tcp tcp-flags&#x3D;fin,syn<br>add action&#x3D;drop chain&#x3D;bad-tcp comment&#x3D;”defconf: drop flags fin,rst” protocol&#x3D;tcp tcp-flags&#x3D;fin,rst<br>add action&#x3D;drop chain&#x3D;bad-tcp comment&#x3D;”defconf: drop flags fin,!ack” protocol&#x3D;tcp tcp-flags&#x3D;fin,!ack<br>add action&#x3D;drop chain&#x3D;bad-tcp comment&#x3D;”defconf: drop flags fin,urg” protocol&#x3D;tcp tcp-flags&#x3D;fin,urg<br>add action&#x3D;drop chain&#x3D;bad-tcp comment&#x3D;”defconf: drop flags syn,rst” protocol&#x3D;tcp tcp-flags&#x3D;syn,rst<br>add action&#x3D;drop chain&#x3D;bad-tcp comment&#x3D;”defconf: drop flags rst,urg” protocol&#x3D;tcp tcp-flags&#x3D;rst,urg</p>
+<p>add action&#x3D;accept chain&#x3D;icmp4 comment&#x3D;”defconf: echo reply” icmp-options&#x3D;0:0 protocol&#x3D;icmp</p>
+<p>add action&#x3D;drop chain&#x3D;icmp4 comment&#x3D;”onuconf: drop other ICMP from ONU” protocol&#x3D;icmp in-interface-list&#x3D;ONU log&#x3D;yes log-prefix&#x3D;”[onu-icmp]”</p>
+<p>add action&#x3D;accept chain&#x3D;icmp4 comment&#x3D;”defconf: host unreachable” icmp-options&#x3D;3:1 protocol&#x3D;icmp<br>add action&#x3D;accept chain&#x3D;icmp4 comment&#x3D;”defconf: port unreachable” icmp-options&#x3D;3:3 protocol&#x3D;icmp<br>add action&#x3D;accept chain&#x3D;icmp4 comment&#x3D;”defconf: fragmentation needed” icmp-options&#x3D;3:4 protocol&#x3D;icmp<br>add action&#x3D;accept chain&#x3D;icmp4 comment&#x3D;”defconf: time exceeded” icmp-options&#x3D;11:0-255 protocol&#x3D;icmp</p>
+<p>add action&#x3D;drop chain&#x3D;icmp4 comment&#x3D;”lanconf: drop other ICMP from WAN” protocol&#x3D;icmp in-interface-list&#x3D;WAN</p>
+<p>add action&#x3D;accept chain&#x3D;icmp4 comment&#x3D;”defconf: net unreachable” icmp-options&#x3D;3:0 protocol&#x3D;icmp<br>add action&#x3D;accept chain&#x3D;icmp4 comment&#x3D;”defconf: protocol unreachable” icmp-options&#x3D;3:2 protocol&#x3D;icmp</p>
+<p>add action&#x3D;accept chain&#x3D;icmp4 comment&#x3D;”lanconf: echo to local device” icmp-options&#x3D;8:0 protocol&#x3D;icmp dst-address-list&#x3D;local_lan_ipv4<br>add action&#x3D;accept chain&#x3D;icmp4 comment&#x3D;”onuconf: echo to ONU” icmp-options&#x3D;8:0 protocol&#x3D;icmp dst-address-list&#x3D;local_onu_ipv4<br>add action&#x3D;drop chain&#x3D;icmp4 comment&#x3D;”lanconf: echo to non global” icmp-options&#x3D;8:0 protocol&#x3D;icmp dst-address-list&#x3D;not_global_ipv4<br>add action&#x3D;accept chain&#x3D;icmp4 comment&#x3D;”lanconf: echo to WAN” icmp-options&#x3D;8:0 protocol&#x3D;icmp</p>
+<p>add action&#x3D;drop chain&#x3D;icmp4 comment&#x3D;”defconf: drop all other ICMP” protocol&#x3D;icmp</p>
+<p>&#x2F;ip firewall connection tracking</p>
+<p>set tcp-syn-sent-timeout&#x3D;120s<br>set tcp-syn-received-timeout&#x3D;60s<br>set tcp-established-timeout&#x3D;7440s<br>set tcp-fin-wait-timeout&#x3D;120s<br>set tcp-close-wait-timeout&#x3D;60s<br>set tcp-last-ack-timeout&#x3D;30s<br>set tcp-time-wait-timeout&#x3D;120s<br>set tcp-close-timeout&#x3D;10s<br>set tcp-max-retrans-timeout&#x3D;300s<br>set tcp-unacked-timeout&#x3D;300s<br>set udp-timeout&#x3D;30s<br>set udp-stream-timeout&#x3D;120s<br>set icmp-timeout&#x3D;30s<br>set generic-timeout&#x3D;600s</p>
+<p>&#x2F;ip settings<br>set max-neighbor-entries&#x3D;1024 rp-filter&#x3D;loose tcp-syncookies&#x3D;yes</p>
+<p>&#x2F;ip neighbor discovery-settings<br>set discover-interface-list&#x3D;none</p>
+<p>&#x2F;ip proxy<br>set enabled&#x3D;no</p>
+<p>&#x2F;ip socks<br>set enabled&#x3D;no</p>
+<p>&#x2F;ip upnp<br>set enabled&#x3D;no</p>
+<p>&#x2F;ip cloud<br>set ddns-enabled&#x3D;no update-time&#x3D;no</p>
+<p>&#x2F;ip ssh<br>set strong-crypto&#x3D;yes</p>
+<p>&#x2F;tool mac-server<br>set allowed-interface-list&#x3D;none</p>
+<p>&#x2F;tool mac-server mac-winbox<br>set allowed-interface-list&#x3D;none</p>
+<p>&#x2F;tool mac-server ping<br>set enabled&#x3D;no</p>
+<p>&#x2F;tool bandwidth-server<br>set enabled&#x3D;no</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/NETWORK/">#NETWORK</a>
+      
+        <a href="/tags/RouterOS/">#RouterOS</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>RouterOS的优化配置方案</div>
+      <div>http://anximin.github.io/2024/03/25/net_routerOS_config/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Sylar</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年3月25日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/03/25/Win_Powershell_err1/" title="PowerShell遇到问题：cannot be loaded because running scripts is disabled on this system.">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">PowerShell遇到问题：cannot be loaded because running scripts is disabled on this system.</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/03/25/ESP_8266_AT/" title="ESP8266使用AT命令操作手册">
+                        <span class="hidden-mobile">ESP8266使用AT命令操作手册</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

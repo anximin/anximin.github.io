@@ -1,0 +1,810 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/canvas.png">
+  <link rel="icon" href="/img/canvas.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sylar">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="弃我去者，昨日之日不可留；乱我心者，今日之日多烦忧。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Want To">
+<meta property="og:url" content="http://anximin.github.io/index.html">
+<meta property="og:site_name" content="Want To">
+<meta property="og:description" content="弃我去者，昨日之日不可留；乱我心者，今日之日多烦忧。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="Sylar">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>Want To</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"anximin.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":60,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Want To Top</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/sitemap.xml">
+                <i class="iconfont icon-link-fill"></i>
+                <span>sitmap</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="人生很长又很短，世界繁杂又简单，&lt;br /&gt; 不要看轻自己，努力一些，&lt;br /&gt;  心简单，一切都简单！"></span>
+          
+        </div>
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      <div class="container nopadding-x-md">
+        <div id="board"
+          >
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
+
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2024/07/04/net_Huawei_tls/" target="_self">
+          <img src="/img/index_img/0wring.jpg" srcset="/img/loading.gif" lazyload alt="使用浏览器登录华为提示“ERR_SSL_VERSION_OR_CIPHER_MISMATCH”">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2024/07/04/net_Huawei_tls/" target="_self">
+          使用浏览器登录华为提示“ERR_SSL_VERSION_OR_CIPHER_MISMATCH”
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2024/07/04/net_Huawei_tls/" target="_self">
+        <div>
+          设备型号: AR101W-S软件版本: V200R010C10SPC700系统软件: AR100-S-V200R010C10SPC700.cc  浏览器输入http://192.168.1.1/，会跳转到https://192.168.1.1/。 此网站无法提供安全连接192.168.1.1 使用了不受支持的协议。ERR_SSL_VERSION_OR_CIPHER_MISMATCH协议不受支持客户
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-07-04 16:20" pubdate>
+              2024-07-04
+            </time>
+          </div>
+        
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2024/05/27/Linux_lesscode_deploy/" target="_self">
+          <img src="/img/index_img/0photo-2.jpg" srcset="/img/loading.gif" lazyload alt="织信低代码平台部署手册">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2024/05/27/Linux_lesscode_deploy/" target="_self">
+          织信低代码平台部署手册
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2024/05/27/Linux_lesscode_deploy/" target="_self">
+        <div>
+          一、前期准备 操作系统选择centos7.9.2009（系统镜像推荐：CentOS-7-x86_64-Everything-2207-02.iso） SSH连接工具 系统配置推荐 16核16G内存的虚拟机，磁盘480G精简置备（可多磁盘：系统盘50G）。  二、系统安装 安装过程中选择最小安装即可，可勾选开发工具、安全性工具、系统管理工具。 单机部署的情况下，选择系统盘自动配置分区即可。 设置网络
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-05-27 16:31" pubdate>
+              2024-05-27
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/linux/">#linux</a>
+            
+              <a href="/tags/LessCode/">#LessCode</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2024/05/22/Linux_ubuntu_IP/" target="_self">
+          <img src="/img/index_img/index_0_demo.png" srcset="/img/loading.gif" lazyload alt="Ubuntu修改IP地址">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2024/05/22/Linux_ubuntu_IP/" target="_self">
+          Ubuntu修改IP地址
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2024/05/22/Linux_ubuntu_IP/" target="_self">
+        <div>
+          在Ubuntu中修改IP地址，可以通过命令行界面使用netplan或nmtui工具。 使用netplan的方法：1.     找到配置文件，通常在/etc/netplan/目录下。文件名可能是01-netcfg.yaml，50-cloud-init.yaml或类似。 2.     使用文本编辑器（如nano或vim）编辑该文件。 3.     修改配置以设置静态IP或其他网络设置。 例:设置静态I
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-05-22 14:21" pubdate>
+              2024-05-22
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/linux/">#linux</a>
+            
+              <a href="/tags/Ubuntu/">#Ubuntu</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2024/05/22/Linux_LVMcentos7/" target="_self">
+          <img src="/img/index_img/index_0_demo.png" srcset="/img/loading.gif" lazyload alt="将Centos7的HOME分区空间重新分配给/root分区">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2024/05/22/Linux_LVMcentos7/" target="_self">
+          将Centos7的HOME分区空间重新分配给/root分区
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2024/05/22/Linux_LVMcentos7/" target="_self">
+        <div>
+          流程方法一：查看分区12345678910[root@srvLessCodeTest ~]# df -h文件系统                 容量  已用  可用 已用% 挂载点devtmpfs                 3.9G     0  3.9G    0% /devtmpfs                    3.9G   16K  3.9G    1% /dev/shmt
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-05-22 11:59" pubdate>
+              2024-05-22
+            </time>
+          </div>
+        
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2024/04/30/Virtualization_vcenter/" target="_self">
+          <img src="/img/index_img/index_0_demo.gif" srcset="/img/loading.gif" lazyload alt="vCenter6.7问题集合">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2024/04/30/Virtualization_vcenter/" target="_self">
+          vCenter6.7问题集合
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2024/04/30/Virtualization_vcenter/" target="_self">
+        <div>
+          一、 后台root账户无法登录原因分析：首先确认了密码一定对。那么问题就是vCenter创建后root密码默认90天过期，过期后不能登录WEBvCenter. 解决：通过SSH终端命令讲密码设置为永不过期 方法： 1234567891011Use service-control command to manage applmgmt service    * List APIs: &quot;hel
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-04-30 15:46" pubdate>
+              2024-04-30
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/vCenter/">#vCenter</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2024/04/07/Linux_Ubuntu_ssh/" target="_self">
+          <img src="/img/index_img/index_0_demo.png" srcset="/img/loading.gif" lazyload alt="Ubuntu安装后不能SSH连接">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2024/04/07/Linux_Ubuntu_ssh/" target="_self">
+          Ubuntu安装后不能SSH连接
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2024/04/07/Linux_Ubuntu_ssh/" target="_self">
+        <div>
+          一、首先确保SSH服务开启1sudo /etc/init.d/ssh start 二、修改SSH配置文件由于ubuntu默认是不允许root用户远程登录的，所以要特意开启ROOT用户的远程配置。 1sudo vim /etc/ssh/sshd_config 找到#PermitRootLogin yes 把前面的#号删除，保存。 三、重启SSH服务1sudo service ssh restart
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-04-07 10:13" pubdate>
+              2024-04-07
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/linux/">#linux</a>
+            
+              <a href="/tags/ubuntu/">#ubuntu</a>
+            
+              <a href="/tags/ssh/">#ssh</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2024/03/25/JS-clipboardjs/" target="_self">
+          <img src="/img/index_img/0photo-2.jpg" srcset="/img/loading.gif" lazyload alt="JS_clipboardjs">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2024/03/25/JS-clipboardjs/" target="_self">
+          JS_clipboardjs
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2024/03/25/JS-clipboardjs/" target="_self">
+        <div>
+          安装1npm install clipboard --save  或下载文件，引入项目。https://github.com/zenorocha/clipboard.js/archive/master.zip 使用1&lt;script src=&quot;dist/clipboard.min.js&quot;&gt;&lt;/script&gt;  创建对象，例如： 1new Clipboard
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-03-25 17:05" pubdate>
+              2024-03-25
+            </time>
+          </div>
+        
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2024/03/25/Win_outlook_skype/" target="_self">
+          <img src="/img/index_img/index_0_demo.png" srcset="/img/loading.gif" lazyload alt="Outlook中Skype会议按钮丢失">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2024/03/25/Win_outlook_skype/" target="_self">
+          Outlook中Skype会议按钮丢失
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2024/03/25/Win_outlook_skype/" target="_self">
+        <div>
+          Outlook中Skype会议按钮丢失问题原因Outlook中Skype会议COM加载项不能自动加载 解决方案： 方案一：直接使用管理员模式打开Outlook；(不推荐)  方案二：使用管理员模式打开Outlook，在加载项中删除Skype会议的COM组件，然后重新添加（删除与添加都需要在管理员模式下运行Outlook）#有时候没有效果，可以选择第三种方法  方案三：在注册表中的当前用户的注册表项
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-03-25 16:47" pubdate>
+              2024-03-25
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/windows/">#windows</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2024/03/25/Win_Powershell_err1/" target="_self">
+          <img src="/img/index_img/0wring.jpg" srcset="/img/loading.gif" lazyload alt="PowerShell遇到问题：cannot be loaded because running scripts is disabled on this system.">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2024/03/25/Win_Powershell_err1/" target="_self">
+          PowerShell遇到问题：cannot be loaded because running scripts is disabled on this system.
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2024/03/25/Win_Powershell_err1/" target="_self">
+        <div>
+          在PowerShell运行ps1文件会得到下面的错误:1File \Test.ps1 cannot be loaded because the execution of scripts is disabled on this system. Please see &quot;get- help about_signing&quot; for more details.  原因是：PowerShel
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-03-25 14:03" pubdate>
+              2024-03-25
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Windows/">#Windows</a>
+            
+              <a href="/tags/PowerShell/">#PowerShell</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2024/03/25/net_routerOS_config/" target="_self">
+          <img src="/img/index_img/index_0_demo.png" srcset="/img/loading.gif" lazyload alt="RouterOS的优化配置方案">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2024/03/25/net_routerOS_config/" target="_self">
+          RouterOS的优化配置方案
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2024/03/25/net_routerOS_config/" target="_self">
+        <div>
+          ROS的防火墙配置方案&#x2F;ip firewall address-list add address&#x3D;192.168.100.1 comment&#x3D;”onuconf: local ONU address” list&#x3D;local_onu_ipv4add address&#x3D;172.16.1.0&#x2F;24 comment&#x3D;”lanconf: lo
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-03-25 10:53" pubdate>
+              2024-03-25
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/NETWORK/">#NETWORK</a>
+            
+              <a href="/tags/RouterOS/">#RouterOS</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+
+
+  <nav aria-label="navigation">
+    <span class="pagination" id="pagination">
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/#board">2</a><a class="page-number" href="/page/3/#board">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/#board">10</a><a class="extend next" rel="next" href="/page/2/#board"><i class="iconfont icon-arrowright"></i></a>
+    </span>
+  </nav>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

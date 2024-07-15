@@ -1,0 +1,663 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/canvas.png">
+  <link rel="icon" href="/img/canvas.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sylar">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="提示：刷机有风险，操作要有心理准备。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="编译中兴E8820s必要的准备工作">
+<meta property="og:url" content="http://anximin.github.io/2023/07/18/net_OpenWrt_E8820S/index.html">
+<meta property="og:site_name" content="Want To">
+<meta property="og:description" content="提示：刷机有风险，操作要有心理准备。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://anximin.github.io/img/index_img/index_1_e8820s.png">
+<meta property="article:published_time" content="2023-07-18T08:36:00.000Z">
+<meta property="article:modified_time" content="2023-07-18T10:03:51.481Z">
+<meta property="article:author" content="Sylar">
+<meta property="article:tag" content="OpenWrt">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://anximin.github.io/img/index_img/index_1_e8820s.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>编译中兴E8820s必要的准备工作 - Want To</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"anximin.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":60,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Want To Top</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/sitemap.xml">
+                <i class="iconfont icon-link-fill"></i>
+                <span>sitmap</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="编译中兴E8820s必要的准备工作"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-07-18 16:36" pubdate>
+          2023年7月18日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          6.3k 字
+        
+      </span>
+    
+
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">编译中兴E8820s必要的准备工作</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="编译中兴E8820s必要的准备工作"><a href="#编译中兴E8820s必要的准备工作" class="headerlink" title="编译中兴E8820s必要的准备工作"></a>编译中兴E8820s必要的准备工作</h1><h2 id="1-备份固件及刷入不死系统"><a href="#1-备份固件及刷入不死系统" class="headerlink" title="1.备份固件及刷入不死系统"></a>1.备份固件及刷入不死系统</h2><p><em>提示：刷机有风险，操作要有心理准备。</em></p>
+<p>两种方法：</p>
+<h3 id="1-1-拆机TTL方式（推荐）"><a href="#1-1-拆机TTL方式（推荐）" class="headerlink" title="1.1 拆机TTL方式（推荐）"></a>1.1 拆机TTL方式（推荐）</h3><p>准备一个格式为FAT文件系统的U盘，USB转串口连线路由内，路由器不要插电源，打开SSH客户端软件（SecureCRT&#x2F;XShell）连接串口，在登录界面，输入如下用户名密码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zte_wrt   /    12345!@#$%</span><br></pre></td></tr></table></figure>
+<p>成功进入系统后，插入U盘， 转到 目录 “&#x2F;mnt&#x2F;usb1_1”, 应该能看到我们的U盘，<br>使用如下命令备份编程器固件，并刷入breed.<br>不死breed采用（breed-mt7621-zte-e8820s.bin）或（breed-mt7621-hiwifi-hc5962.bin）。在<a target="_blank" rel="noopener" href="https://breed.hackpascal.net/">https://breed.hackpascal.net/</a> 下载将相应的breed.bin 拷贝到U盘根目录。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#cd   /mnt/usb1_1</span><br><span class="line">#cat  /dev/mtd0  &gt; full.bin</span><br><span class="line">#cat /dev/mtd1  &gt; Bootloader.bin</span><br><span class="line">#cat breed.bin  &gt; /dev/mtdblock1</span><br><span class="line">#reboot</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-2-免拆刷入Breed系统。"><a href="#1-2-免拆刷入Breed系统。" class="headerlink" title="1.2 免拆刷入Breed系统。"></a>1.2 免拆刷入Breed系统。</h3><p>给电脑的有线网卡设置固定IP：192.168.1.2 掩码：255.255.255.0 其它无所谓可不填。<br>把*breed.bin 重命名为<code>ZTE_img.bin</code>。<br>打开Tftp64软件，目录填入ZTE_img.bin所在的目录，服务网卡选设置了IP的网卡。<br>按住复位键通电开机，tftpd64软件界面出现100%的那一行就说明刷机成功。</p>
+<p>重启路由器，使用192.168.1.1就可以进入Breed了，第一时间备份固件，重要提示：备份编程器固件full 。它是制作eeprom的必备原料，尽量使用自己路由的。如果不小心丢了，也可以下载一个别人发不出来的凑合一下。</p>
+<h2 id="2-制作eeprom-bin文件"><a href="#2-制作eeprom-bin文件" class="headerlink" title="2.制作eeprom.bin文件"></a>2.制作eeprom.bin文件</h2><p>1)打开Winhex, 新建一个大小为256KB的空白文件eeprom.bin, 然后用FF填充整个文件。<br>2)打开full.bin(上述备份的编程器固件), 偏移0x0036F000处(以 “03 76 xx xx”开头)，大小为0x130的部分为2.4G-wifi硬件及参数等，复制并写入eeprom.bin的开头0x00000000处。<br>3)full.bin文件的偏移0x0036F800处(以 “62 76 xx xx”开头)，大小为0x1F0的内容，为5G-WIFI硬件及参数等，复制并写入eeprom.bin文件的偏移0X00008000处。<br>4)转到eeprom.bin文件的偏移0xE000处，分别写入MAC地址，其中后一个MAC地址的最后一位为前一个MAC地址的最后一位加一。<br>5)在0x81E0处，写入16进制数值：“C0 81 82 C3 04 45 46 07 08 09”</p>
+<p>在eeprom.bin文件的偏移 0x4处，可以写入2.4GWifi的MAC地址； 在偏移 0x8004处，可以写入5GWIFI的MAC地址。</p>
+<p>备注：在编程器固件full.bin的0x220000处，为MAC地址，以及SN序列号, 原厂的wifi信息等。</p>
+<h2 id="3-修改源码文件"><a href="#3-修改源码文件" class="headerlink" title="3.修改源码文件"></a>3.修改源码文件</h2><h3 id="3-1-修改mt7621-mk文件"><a href="#3-1-修改mt7621-mk文件" class="headerlink" title="3.1 修改mt7621.mk文件"></a>3.1 修改mt7621.mk文件</h3><p>官方的源码中不含中兴E8820S这个设备，LEDE的源码中是有的，但是刷机后所有的Lan口变成了一个LAN交换机，而且无线功能经常无法启用。所以无论你使用官方还是LEDE的库，修改一下源码都是必要的。</p>
+<p>假定你已经克隆下了OpenWrt源码，进入到openwrt或lede目录开始。<br>向 target&#x2F;linux&#x2F;ramips&#x2F;image&#x2F;makefile中(或image目录下的mt7621.mk)写入新设备（<em>ramips是平台型号</em>），如果是LEDE源码修改对应项即可。如果是官方源码只添加E8820S部分v2部分不能添加。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">define Device/zte_e8820s</span><br><span class="line">  $(Device/dsa-migration)</span><br><span class="line">  $(Device/uimage-lzma-loader)</span><br><span class="line">  BLOCKSIZE := 128k</span><br><span class="line">  PAGESIZE := 2048</span><br><span class="line">  KERNEL_SIZE := 4096k</span><br><span class="line">  UBINIZE_OPTS := -E 5</span><br><span class="line">  IMAGE_SIZE := 130304k</span><br><span class="line">  IMAGES += factory.bin</span><br><span class="line">  IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata</span><br><span class="line">  IMAGE/factory.bin := append-kernel | pad-to $$(KERNEL_SIZE) | append-ubi | \</span><br><span class="line">	check-size</span><br><span class="line">  DEVICE_VENDOR := ZTE</span><br><span class="line">  DEVICE_MODEL := E8820S</span><br><span class="line">  DEVICE_PACKAGES := kmod-mt7603 kmod-mt76x2 kmod-usb3 uboot-envtools</span><br><span class="line">endef</span><br><span class="line">TARGET_DEVICES += zte_e8820s</span><br><span class="line"></span><br><span class="line">define Device/zte_e8820v2</span><br><span class="line">  $(Device/dsa-migration)</span><br><span class="line">  $(Device/uimage-lzma-loader)</span><br><span class="line">  IMAGE_SIZE := 16064k</span><br><span class="line">  DEVICE_VENDOR := ZTE</span><br><span class="line">  DEVICE_MODEL := E8820V2</span><br><span class="line">  DEVICE_PACKAGES := kmod-mt7603 kmod-mt76x2 kmod-usb2 \</span><br><span class="line">	  kmod-usb-ledtrig-usbport</span><br><span class="line">endef</span><br><span class="line">TARGET_DEVICES += zte_e8820v2</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-2-添加或替换dts文件。"><a href="#3-2-添加或替换dts文件。" class="headerlink" title="3.2 添加或替换dts文件。"></a>3.2 添加或替换dts文件。</h3><p>在target&#x2F;linux&#x2F;ramips&#x2F;dts&#x2F;目录中新建<code>mt7621_zte_e8820s.dts</code>文件。</p>
+<p>如果像上面一样加入了其它硬件如zte_e8820v2,还要加入<code>mt7621_zte_e8820v2.dts</code>。如果没有这个对应的dts文件，编译时会报错。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br></pre></td><td class="code"><pre><span class="line">#include &quot;mt7621.dtsi&quot;</span><br><span class="line"></span><br><span class="line">#include &lt;dt-bindings/gpio/gpio.h&gt;</span><br><span class="line">#include &lt;dt-bindings/input/input.h&gt;</span><br><span class="line"></span><br><span class="line">/ &#123;</span><br><span class="line">	compatible = &quot;zte,e8820s&quot;, &quot;mediatek,mt7621-soc&quot;;</span><br><span class="line">	model = &quot;ZTE E8820S&quot;;</span><br><span class="line"></span><br><span class="line">	aliases &#123;</span><br><span class="line">		led-boot = &amp;led_sys;</span><br><span class="line">		led-failsafe = &amp;led_sys;</span><br><span class="line">		led-running = &amp;led_sys;</span><br><span class="line">		led-upgrade = &amp;led_sys;</span><br><span class="line">	&#125;;</span><br><span class="line"></span><br><span class="line">	leds &#123;</span><br><span class="line">		compatible = &quot;gpio-leds&quot;;</span><br><span class="line"></span><br><span class="line">		led_sys: sys &#123;</span><br><span class="line">			label = &quot;white:sys&quot;;</span><br><span class="line">			gpios = &lt;&amp;gpio 3 GPIO_ACTIVE_LOW&gt;;</span><br><span class="line">		&#125;;</span><br><span class="line"></span><br><span class="line">	&#125;;</span><br><span class="line"></span><br><span class="line">	keys &#123;</span><br><span class="line">		compatible = &quot;gpio-keys&quot;;</span><br><span class="line"></span><br><span class="line">		reset &#123;</span><br><span class="line">			label = &quot;reset&quot;;</span><br><span class="line">			gpios = &lt;&amp;gpio 18 GPIO_ACTIVE_LOW&gt;;</span><br><span class="line">			linux,code = &lt;KEY_RESTART&gt;;</span><br><span class="line">		&#125;;</span><br><span class="line"></span><br><span class="line">		wps &#123;</span><br><span class="line">			label = &quot;wps&quot;;</span><br><span class="line">			gpios = &lt;&amp;gpio 8 GPIO_ACTIVE_LOW&gt;;</span><br><span class="line">			linux,code = &lt;KEY_WPS_BUTTON&gt;;</span><br><span class="line">		&#125;;</span><br><span class="line"></span><br><span class="line">		wifi &#123;</span><br><span class="line">			label = &quot;wifi&quot;;</span><br><span class="line">			gpios = &lt;&amp;gpio 10 GPIO_ACTIVE_LOW&gt;;</span><br><span class="line">			linux,code = &lt;KEY_RFKILL&gt;;</span><br><span class="line">		&#125;;</span><br><span class="line">	&#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">&amp;nand &#123;</span><br><span class="line">	status = &quot;okay&quot;;</span><br><span class="line"></span><br><span class="line">	partitions &#123;</span><br><span class="line">		compatible = &quot;fixed-partitions&quot;;</span><br><span class="line">		#address-cells = &lt;1&gt;;</span><br><span class="line">		#size-cells = &lt;1&gt;;</span><br><span class="line"></span><br><span class="line">		partition@0 &#123;</span><br><span class="line">			label = &quot;u-boot&quot;;</span><br><span class="line">			reg = &lt;0x0 0x80000&gt;;</span><br><span class="line">			read-only;</span><br><span class="line">		&#125;;</span><br><span class="line"></span><br><span class="line">		partition@80000 &#123;</span><br><span class="line">			label = &quot;u-boot-env&quot;;</span><br><span class="line">			reg = &lt;0x80000 0x80000&gt;;</span><br><span class="line">			read-only;</span><br><span class="line">		&#125;;</span><br><span class="line"></span><br><span class="line">		factory: partition@100000 &#123;</span><br><span class="line">			label = &quot;factory&quot;;</span><br><span class="line">			reg = &lt;0x100000 0x40000&gt;;</span><br><span class="line">			read-only;</span><br><span class="line">		&#125;;</span><br><span class="line"></span><br><span class="line">		partition@140000 &#123;</span><br><span class="line">			label = &quot;kernel&quot;;</span><br><span class="line">			reg = &lt;0x140000 0x400000&gt;;</span><br><span class="line">		&#125;;</span><br><span class="line"></span><br><span class="line">		partition@540000 &#123;</span><br><span class="line">			label = &quot;ubi&quot;;</span><br><span class="line">			reg = &lt;0x540000 0x7A00000&gt;;</span><br><span class="line">		&#125;;</span><br><span class="line">	&#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">&amp;pcie &#123;</span><br><span class="line">	status = &quot;okay&quot;;</span><br><span class="line">	reset-gpios = &lt;&amp;gpio 19 GPIO_ACTIVE_LOW&gt;,</span><br><span class="line">				  &lt;&amp;gpio 4 GPIO_ACTIVE_LOW&gt;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">&amp;pcie0 &#123;</span><br><span class="line">	wifi@0,0 &#123;</span><br><span class="line">		compatible = &quot;mediatek,mt76&quot;;</span><br><span class="line">		reg = &lt;0x0000 0 0 0 0&gt;;</span><br><span class="line">		mediatek,mtd-eeprom = &lt;&amp;factory 0x0000&gt;;</span><br><span class="line">		nvmem-cells = &lt;&amp;macaddr_factory_e000&gt;;</span><br><span class="line">		nvmem-cell-names = &quot;mac-address&quot;;</span><br><span class="line"></span><br><span class="line">		led &#123;</span><br><span class="line">			led-active-low;</span><br><span class="line">		&#125;;</span><br><span class="line">	&#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">&amp;pcie1 &#123;</span><br><span class="line">	wifi@0,0 &#123;</span><br><span class="line">		compatible = &quot;mediatek,mt76&quot;;</span><br><span class="line">		reg = &lt;0x0000 0 0 0 0&gt;;</span><br><span class="line">		mediatek,mtd-eeprom = &lt;&amp;factory 0x8000&gt;;</span><br><span class="line">		nvmem-cells = &lt;&amp;macaddr_factory_e006&gt;;</span><br><span class="line">		nvmem-cell-names = &quot;mac-address&quot;;</span><br><span class="line">		ieee80211-freq-limit = &lt;5000000 6000000&gt;;</span><br><span class="line"></span><br><span class="line">		led &#123;</span><br><span class="line">			led-sources = &lt;2&gt;;</span><br><span class="line">			led-active-low;</span><br><span class="line">		&#125;;</span><br><span class="line">	&#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">&amp;gmac0 &#123;</span><br><span class="line">	nvmem-cells = &lt;&amp;macaddr_factory_e000&gt;;</span><br><span class="line">	nvmem-cell-names = &quot;mac-address&quot;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">&amp;gmac1 &#123;</span><br><span class="line">	status = &quot;okay&quot;;</span><br><span class="line">	label = &quot;wan&quot;;</span><br><span class="line">	phy-handle = &lt;&amp;ethphy4&gt;;</span><br><span class="line"></span><br><span class="line">	nvmem-cells = &lt;&amp;macaddr_factory_e000&gt;;</span><br><span class="line">	nvmem-cell-names = &quot;mac-address&quot;;</span><br><span class="line">	mac-address-increment = &lt;1&gt;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">&amp;mdio &#123;</span><br><span class="line">	ethphy4: ethernet-phy@4 &#123;</span><br><span class="line">		reg = &lt;4&gt;;</span><br><span class="line">	&#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">&amp;switch0 &#123;</span><br><span class="line">	ports &#123;</span><br><span class="line">		port@0 &#123;</span><br><span class="line">			status = &quot;okay&quot;;</span><br><span class="line">			label = &quot;lan1&quot;;</span><br><span class="line">		&#125;;</span><br><span class="line"></span><br><span class="line">		port@1 &#123;</span><br><span class="line">			status = &quot;okay&quot;;</span><br><span class="line">			label = &quot;lan2&quot;;</span><br><span class="line">		&#125;;</span><br><span class="line"></span><br><span class="line">		port@2 &#123;</span><br><span class="line">			status = &quot;okay&quot;;</span><br><span class="line">			label = &quot;lan3&quot;;</span><br><span class="line">		&#125;;</span><br><span class="line"></span><br><span class="line">		port@3 &#123;</span><br><span class="line">			status = &quot;okay&quot;;</span><br><span class="line">			label = &quot;lan4&quot;;</span><br><span class="line">		&#125;;</span><br><span class="line">	&#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">&amp;state_default &#123;</span><br><span class="line">	gpio &#123;</span><br><span class="line">		groups = &quot;i2c&quot;, &quot;jtag&quot;, &quot;uart2&quot;, &quot;uart3&quot;, &quot;wdt&quot;;</span><br><span class="line">		function = &quot;gpio&quot;;</span><br><span class="line">	&#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">&amp;factory &#123;</span><br><span class="line">	compatible = &quot;nvmem-cells&quot;;</span><br><span class="line">	#address-cells = &lt;1&gt;;</span><br><span class="line">	#size-cells = &lt;1&gt;;</span><br><span class="line"></span><br><span class="line">	macaddr_factory_e000: macaddr@e000 &#123;</span><br><span class="line">		reg = &lt;0xe000 0x6&gt;;</span><br><span class="line">	&#125;;</span><br><span class="line"></span><br><span class="line">	macaddr_factory_e006: macaddr@e006 &#123;</span><br><span class="line">		reg = &lt;0xe006 0x6&gt;;</span><br><span class="line">	&#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>然后就可以 <code>make menuconifg</code> 了。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/OpenWrt/">#OpenWrt</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>编译中兴E8820s必要的准备工作</div>
+      <div>http://anximin.github.io/2023/07/18/net_OpenWrt_E8820S/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Sylar</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年7月18日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/07/21/nodejs_warning/" title="node升级版本后使用HEXO生成文章时提示警告">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">node升级版本后使用HEXO生成文章时提示警告</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/07/18/net_OpenWrt_LEDE/" title="使用ubuntu编译LEDE">
+                        <span class="hidden-mobile">使用ubuntu编译LEDE</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

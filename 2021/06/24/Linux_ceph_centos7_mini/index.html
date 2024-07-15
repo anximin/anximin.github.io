@@ -1,0 +1,747 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/canvas.png">
+  <link rel="icon" href="/img/canvas.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sylar">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="CentOS 最小安装后配置Ceph集群 版本信息：OS:  CentOS 7.9.2009  集群节点信息：    主机名 业务IP 互联IP    client 10.10.10.100 10.10.100.100   node01 10.10.10.101 10.10.100.101   node02 10.10.10.102 10.10.100.102   node03 10.10.10.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CentOS 最小安装后配置Ceph集群">
+<meta property="og:url" content="http://anximin.github.io/2021/06/24/Linux_ceph_centos7_mini/index.html">
+<meta property="og:site_name" content="Want To">
+<meta property="og:description" content="CentOS 最小安装后配置Ceph集群 版本信息：OS:  CentOS 7.9.2009  集群节点信息：    主机名 业务IP 互联IP    client 10.10.10.100 10.10.100.100   node01 10.10.10.101 10.10.100.101   node02 10.10.10.102 10.10.100.102   node03 10.10.10.">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://anximin.github.io/img/index_img/index_15_ceph.jpg">
+<meta property="article:published_time" content="2021-06-24T09:30:50.000Z">
+<meta property="article:modified_time" content="2023-07-19T03:54:46.211Z">
+<meta property="article:author" content="Sylar">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="ceph">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://anximin.github.io/img/index_img/index_15_ceph.jpg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>CentOS 最小安装后配置Ceph集群 - Want To</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"anximin.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":60,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Want To Top</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/sitemap.xml">
+                <i class="iconfont icon-link-fill"></i>
+                <span>sitmap</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="CentOS 最小安装后配置Ceph集群"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2021-06-24 17:30" pubdate>
+          2021年6月24日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.3k 字
+        
+      </span>
+    
+
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">CentOS 最小安装后配置Ceph集群</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h3 id="CentOS-最小安装后配置Ceph集群"><a href="#CentOS-最小安装后配置Ceph集群" class="headerlink" title="CentOS 最小安装后配置Ceph集群"></a>CentOS 最小安装后配置Ceph集群</h3><ul>
+<li><p>版本信息：<br>OS:  CentOS 7.9.2009</p>
+</li>
+<li><p>集群节点信息：</p>
+<table>
+<thead>
+<tr>
+<th align="left">主机名</th>
+<th align="center">业务IP</th>
+<th align="center">互联IP</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">client</td>
+<td align="center">10.10.10.100</td>
+<td align="center">10.10.100.100</td>
+</tr>
+<tr>
+<td align="left">node01</td>
+<td align="center">10.10.10.101</td>
+<td align="center">10.10.100.101</td>
+</tr>
+<tr>
+<td align="left">node02</td>
+<td align="center">10.10.10.102</td>
+<td align="center">10.10.100.102</td>
+</tr>
+<tr>
+<td align="left">node03</td>
+<td align="center">10.10.10.103</td>
+<td align="center">10.10.100.103</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<h4 id="系统环境准备"><a href="#系统环境准备" class="headerlink" title="系统环境准备"></a>系统环境准备</h4><span id="more"></span>
+<h5 id="升级系统"><a href="#升级系统" class="headerlink" title="升级系统"></a>升级系统</h5><p>查看当前版本   <code>cat /etc/redhat-release</code><br>清理源    <code>sudo yum clean all</code><br>更新软件及内核   <code>sudo yum -y update</code><br>只更新软件   <code>sudo yum -y upgrade</code><br>查看当前路径   <code>pwd</code></p>
+<h5 id="修改主机名并添加HOSTS记录"><a href="#修改主机名并添加HOSTS记录" class="headerlink" title="修改主机名并添加HOSTS记录"></a>修改主机名并添加HOSTS记录</h5><ol>
+<li>修改主机名<br>方法一： <code>hostnamectl set-hostname 主机名</code><br>方法二： <code>vim /etc/hostname </code></li>
+<li>添加HOSTS记录<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs shell">[root@Client ~]# vi /etc/hosts<br><br>10.10.10.100 client client.seko.asia<br>10.10.10.101 node01 node01.seko.asia<br>10.10.10.102 node02 node02.seko.asia<br>10.10.10.103 node03 node03.seko.asia<br></code></pre></td></tr></table></figure></li>
+</ol>
+<h5 id="关闭防火墙及关闭SELinux"><a href="#关闭防火墙及关闭SELinux" class="headerlink" title="关闭防火墙及关闭SELinux"></a>关闭防火墙及关闭SELinux</h5><ol>
+<li><p>防火墙操作</p>
+<ul>
+<li>关闭防火墙<br> <code>systemctl stop firewalld</code></li>
+<li>禁用防火墙<br> <code>systemctl disable firewalld</code></li>
+<li>临时关闭SElinux<br> <code>[root@Client ~]# setenforce 0</code></li>
+</ul>
+</li>
+<li><p>永久关闭SELinux</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">[root@Client ~]# vim /etc/sysconfig/selinux <br></code></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">This file controls the state of SELinux on the system.</span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">SELINUX= can take one of these three values:</span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">    enforcing - SELinux security policy is enforced.</span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">    permissive - SELinux prints warnings instead of enforcing.</span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">    disabled - No SELinux policy is loaded.</span><br>SELINUX=disabled<br><span class="hljs-meta prompt_"># </span><span class="language-bash">SELINUXTYPE= can take one of three values:</span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">    targeted - Targeted processes are protected,</span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">    minimum - Modification of targeted policy. Only selected processes are protected.</span> <br><span class="hljs-meta prompt_"># </span><span class="language-bash">    mls - Multi Level Security protection.</span><br>SELINUXTYPE=targeted<br></code></pre></td></tr></table></figure></li>
+</ol>
+<h5 id="SSH-互信"><a href="#SSH-互信" class="headerlink" title="SSH 互信"></a>SSH 互信</h5><ol>
+<li>创建公钥私钥</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs shell">[root@Client ~]# ssh-keygen <br>Generating public/private rsa key pair.<br>Enter file in which to save the key (/root/.ssh/id_rsa): <br>Enter passphrase (empty for no passphrase): <br>Enter same passphrase again: <br>Your identification has been saved in /root/.ssh/id_rsa.<br>Your public key has been saved in /root/.ssh/id_rsa.pub.<br>The key fingerprint is:<br>SHA256:BEb9+s9g1HmI1p8VIPid9xi/iVtma+r22sfsALNAcs8 root@Client<br>The key&#x27;s randomart image is:<br>+---[RSA 2048]----+<br>|     .+.  .. .   |<br>|     . ...  . .  |<br>|        o.+ . .. |<br>|       . +.B =...|<br>|        S.= E o+o|<br>|        .o . *.oo|<br>|         .o . =*o|<br>|         ..o o===|<br>|           .==*=o|<br>+----[SHA256]-----+<br></code></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>传递公钥给其它节点主机</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">[root@Client ~]# ssh-copy-id -i /root/.ssh/id_rsa.pub node01<br></code></pre></td></tr></table></figure>
+
+<p>–记得也传给自己一份</p>
+<h5 id="配置时间服务器，保证各个节点的时间一致，如果不一致，系统会警告。"><a href="#配置时间服务器，保证各个节点的时间一致，如果不一致，系统会警告。" class="headerlink" title="配置时间服务器，保证各个节点的时间一致，如果不一致，系统会警告。"></a>配置时间服务器，保证各个节点的时间一致，如果不一致，系统会警告。</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">[root@Client ~]# vim /etc/chrony.conf<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">Allow NTP client access from <span class="hljs-built_in">local</span> network.</span><br><span class="hljs-meta prompt_">#</span><span class="language-bash">allow 192.168.0.0/16</span><br>allow 10.10.10.0/24<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">Serve time even <span class="hljs-keyword">if</span> not synchronized to a time <span class="hljs-built_in">source</span>.</span><br><span class="hljs-meta prompt_">#</span><span class="language-bash"><span class="hljs-built_in">local</span> stratum 10</span><br>local stratum 10<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">[root@Client ~]# systemctl enable chronyd.service<br>[root@Client ~]# systemctl restart chronyd<br></code></pre></td></tr></table></figure>
+
+<h5 id="在其它节点-编辑chrony-conf文件"><a href="#在其它节点-编辑chrony-conf文件" class="headerlink" title="在其它节点 编辑chrony.conf文件"></a>在其它节点 编辑chrony.conf文件</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">[root@node01 ~]# vi /etc/chrony.conf<br></code></pre></td></tr></table></figure>
+
+<h5 id="修改最上面几行-–-client-作为时间服务器主机"><a href="#修改最上面几行-–-client-作为时间服务器主机" class="headerlink" title="修改最上面几行  – &gt;client 作为时间服务器主机"></a>修改最上面几行  – &gt;client 作为时间服务器主机</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">Please consider joining the pool (http://www.pool.ntp.org/join.html).</span><br>server client iburst<br><span class="hljs-meta prompt_">#</span><span class="language-bash">server 1.centos.pool.ntp.org iburst</span><br><span class="hljs-meta prompt_">#</span><span class="language-bash">server 2.centos.pool.ntp.org iburst</span><br><span class="hljs-meta prompt_">#</span><span class="language-bash">server 3.centos.pool.ntp.org iburst</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="部署ceph-源"><a href="#部署ceph-源" class="headerlink" title="部署ceph 源"></a>部署ceph 源</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">[root@node03 ~]# yum -y install wget<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">[root@Client ~]# wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo<br></code></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">[root@Client ~]# rpm -ivh https://mirrors.aliyun.com/ceph/rpm-octopus/el7/noarch/ceph-release-1-1.el7.noarch.rpm<br></code></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">[root@Client ~]# vi /etc/yum.repos.d/epel.repo <br></code></pre></td></tr></table></figure>
+<h4 id="添加Ceph源"><a href="#添加Ceph源" class="headerlink" title="添加Ceph源"></a>添加Ceph源</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs shell">cat &lt;&lt; EOF | tee /etc/yum.repos.d/ceph.repo<br><br>[Ceph]<br>name=Ceph packages for $basearch<br>baseurl=http://mirrors.163.com/ceph/rpm-octopus/el7/$basearch<br>enabled=1<br>gpgcheck=1<br>type=rpm-md<br>gpgkey=http://mirrors.163.com/ceph/keys/release.asc<br>priority=1<br><br>[Ceph-noarch]<br>name=Ceph noarch packages<br>baseurl=http://mirrors.163.com/ceph/rpm-octopus/el7/noarch<br>enabled=1<br>gpgcheck=1<br>type=rpm-md<br>gpgkey=http://mirrors.163.com/ceph/keys/release.asc<br>priority=1<br><br>[ceph-source]<br>name=Ceph source packages<br>baseurl=http://mirrors.163.com/ceph/rpm-octopus/el7/SRPMS<br>enabled=1<br>gpgcheck=1<br>type=rpm-md<br>gpgkey=http://mirrors.163.com/ceph/keys/release.asc<br>priority=1<br>EOF<br><br></code></pre></td></tr></table></figure>
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E8%BF%90%E7%BB%B4/" class="category-chain-item">运维</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/linux/">#linux</a>
+      
+        <a href="/tags/ceph/">#ceph</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>CentOS 最小安装后配置Ceph集群</div>
+      <div>http://anximin.github.io/2021/06/24/Linux_ceph_centos7_mini/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Sylar</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2021年6月24日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/06/30/Linux_centos7_webmin/" title="基于CentOS7 安装配置Webmin">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">基于CentOS7 安装配置Webmin</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/06/24/Story_word/" title="只有小孩子才有可能兼得">
+                        <span class="hidden-mobile">只有小孩子才有可能兼得</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,743 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/canvas.png">
+  <link rel="icon" href="/img/canvas.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sylar">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="ceph-ansible 5.0优势：需要部署的节点数量越多，ceph-ansible的效率就越高 版本信息：ceph-ansible:5.0.5    ceph 15.2.11 os:centos 7.9.2009 kernel version  : 5.4.116-1.el7.elrepo 集群拓扑   ceph-admin 192.168.200.120 192.168.100.120">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ceph-ansible 5.0">
+<meta property="og:url" content="http://anximin.github.io/2021/07/23/Linux_ceph_ansible_5.0/index.html">
+<meta property="og:site_name" content="Want To">
+<meta property="og:description" content="ceph-ansible 5.0优势：需要部署的节点数量越多，ceph-ansible的效率就越高 版本信息：ceph-ansible:5.0.5    ceph 15.2.11 os:centos 7.9.2009 kernel version  : 5.4.116-1.el7.elrepo 集群拓扑   ceph-admin 192.168.200.120 192.168.100.120">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://anximin.github.io/img/index_img/index_15_ceph.jpg">
+<meta property="article:published_time" content="2021-07-23T08:50:08.000Z">
+<meta property="article:modified_time" content="2023-07-19T03:53:35.111Z">
+<meta property="article:author" content="Sylar">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="ceph">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://anximin.github.io/img/index_img/index_15_ceph.jpg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>ceph-ansible 5.0 - Want To</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"anximin.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":60,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Want To Top</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/sitemap.xml">
+                <i class="iconfont icon-link-fill"></i>
+                <span>sitmap</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="ceph-ansible 5.0"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2021-07-23 16:50" pubdate>
+          2021年7月23日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          7.1k 字
+        
+      </span>
+    
+
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">ceph-ansible 5.0</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h3 id="ceph-ansible-5-0"><a href="#ceph-ansible-5-0" class="headerlink" title="ceph-ansible 5.0"></a>ceph-ansible 5.0</h3><p>优势：需要部署的节点数量越多，ceph-ansible的效率就越高</p>
+<h5 id="版本信息："><a href="#版本信息：" class="headerlink" title="版本信息："></a>版本信息：</h5><p>ceph-ansible:5.0.5    ceph 15.2.11</p>
+<p>os:centos 7.9.2009</p>
+<p>kernel version  : 5.4.116-1.el7.elrepo</p>
+<h5 id="集群拓扑"><a href="#集群拓扑" class="headerlink" title="集群拓扑"></a>集群拓扑</h5><table>
+<thead>
+<tr>
+<th>ceph-admin</th>
+<th>192.168.200.120</th>
+<th>192.168.100.120</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ceph-node01</td>
+<td>192.168.200.121</td>
+<td>192.168.100.121</td>
+</tr>
+<tr>
+<td>ceph-node02</td>
+<td>192.168.200.122</td>
+<td>192.168.100.122</td>
+</tr>
+<tr>
+<td>ceph-node03</td>
+<td>192.168.200.123</td>
+<td>192.168.100.123</td>
+</tr>
+<tr>
+<td>ceph-node04 lb01</td>
+<td>192.168.200.124</td>
+<td>192.168.100.124</td>
+</tr>
+<tr>
+<td>ceph-node05 lb02</td>
+<td>192.168.200.125</td>
+<td>192.168.100.125</td>
+</tr>
+<tr>
+<td>ceph-admin</td>
+<td>192.168.200.126</td>
+<td>192.168.100.126</td>
+</tr>
+</tbody></table>
+<h5 id="Prerequisites"><a href="#Prerequisites" class="headerlink" title="Prerequisites"></a>Prerequisites</h5><ul>
+<li>本文档适用于创建具有mon、mgr、mds、osds四类进程的Ceph集群，如需启用nfs-ganesha、rgw、rbd-mirror等其他功能的Ceph集群，请参阅ceph-ansible github仓库中的示例文件说明，或在集群创建完成之后，手动进行配置。</li>
+<li>ceph-ansible项目的版本号与Ceph版本有依赖关系，ceph-ansible 4.0用于创建Ceph N版本的集群，ceph-ansible 5.0用于创建Ceph O版的集群，以此类推。</li>
+<li>部分Ceph功能依赖于新版内核的特性，在部署之前请将内核升级至最新的Long Term版本，升级内核请参阅另外一篇文档</li>
+<li>在ceph-admin节点上，配置好对其他所有节点的免密登录，所有节点关闭防火墙和SELinux</li>
+<li>所有节点配置好EPEL源</li>
+</ul>
+<p>在ceph-admin节点上安装ansible，admin节点可以是任意能连接到目标集群的节点，并且按照ansible的要求，需要配置免密登录至目标集群的所有节点。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs shell">yum install ansible python-netaddr unzip PyYAMLpython36-six.noarch  python36-PyYAML.x86_64 -y<br><span class="hljs-meta prompt_"># </span><span class="language-bash">python-netaddr是一个用来处理IP地址的Python模块</span><br>yum update -y<br><span class="hljs-meta prompt_"># </span><span class="language-bash">在7.7上 ，ceph-volume命令会出错</span><br><br><br></code></pre></td></tr></table></figure>
+
+<p>在所有节点上安装如下Python模块</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs shell">yum install python3-pip -y<br>pip3 install pecan<br>pip3 install werkzeug<br>pip3 install pyyaml<br><span class="hljs-meta prompt_"># </span><span class="language-bash">在所有mgr节点上安装必须的python 3 模块</span><br></code></pre></td></tr></table></figure>
+
+<p>在ceph-admin节点上获取ceph-ansible项目文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell">wget https://github.com/ceph/ceph-ansible/archive/refs/tags/v5.0.5.zip<br><span class="hljs-meta prompt_"># </span><span class="language-bash">可能需要科学上网，或者使用迅雷下载</span><br>unzip ceph-ansible-5.0.5.zip -d /usr/local/<br>cd /usr/local/ceph-ansible-5.0.5<br></code></pre></td></tr></table></figure>
+
+<h4 id="group-vars目录"><a href="#group-vars目录" class="headerlink" title="group_vars目录"></a>group_vars目录</h4><p>Ceph集群的配置将通过使用ceph-ansible提供的ansible变量来设置。所有这些选项及其默认值都定义在ceph-ansible项目根部的<code>group_vars/</code>目录中。在group_vars&#x2F;目录里面有很多Ansible配置文件的样本，通过文件名与每种Ceph守护进程相关。例如，osds.yml.sample包含了OSD守护进程的所有默认配置。all.yml.sample文件是一个特殊的group_vars文件，适用于集群中的所有主机。</p>
+<p>all.yml文件中定义的配置，作用于集群中的所有进程类型上，在安装过程中，所有进程的安装步骤都可以使用</p>
+<p>其他类似于osd.yml的文件，只适用于特定的进程组，只作用于特定进程的安装过程；例如osd.yml只适用于与osd相关的配置</p>
+<p>重点来看all.yml文件中的配置</p>
+<h4 id="all-yml文件"><a href="#all-yml文件" class="headerlink" title="all.yml文件"></a>all.yml文件</h4><p>cd至<code>group_vars</code>目录</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">cd /usr/local/ceph-ansible-5.0.5/group_vars/<br></code></pre></td></tr></table></figure>
+
+<p>在<code>group_vars</code>目录下创建all.yml文件，内容如下</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-attr">mon_group_name:</span> <span class="hljs-string">mons</span><br><span class="hljs-comment"># 在Inventory文件（ansible的hosts文件），要安装mon组件的主机是在哪个资产组内，上面这个例子指的就是在[mons]组内</span><br><span class="hljs-comment"># 以下同理</span><br><span class="hljs-attr">osd_group_name:</span> <span class="hljs-string">osds</span><br><span class="hljs-comment"># rgw_group_name: rgws</span><br><span class="hljs-attr">mds_group_name:</span> <span class="hljs-string">mdss</span><br><span class="hljs-comment"># nfs_group_name: nfss</span><br><span class="hljs-comment"># rbdmirror_group_name: rbdmirrors</span><br><span class="hljs-attr">client_group_name:</span> <span class="hljs-string">clients</span><br><span class="hljs-comment"># iscsi_gw_group_name: iscsigws</span><br><span class="hljs-attr">mgr_group_name:</span> <span class="hljs-string">mgrs</span><br><span class="hljs-comment"># rgwloadbalancer_group_name: rgwloadbalancers</span><br><span class="hljs-attr">configure_firewall:</span> <span class="hljs-literal">false</span><br><span class="hljs-comment"># 是否自动配置防火墙，如果设置为true，ceph-ansible会自动去配置集群内组件相互通信所需的防火墙规则</span><br><span class="hljs-comment"># 这一步建议手动做</span><br><span class="hljs-attr">ceph_origin:</span> <span class="hljs-string">repository</span><br><span class="hljs-comment"># 自动配置源</span><br><span class="hljs-comment"># 设置为distro表示不自动配置源</span><br><span class="hljs-comment"># 设置为local表示从本地计算机——即ceph-admin节点去复制ceph二进制文件分发至其他节点</span><br><span class="hljs-attr">ceph_repository:</span> <span class="hljs-string">community</span><br><span class="hljs-comment"># 表示使用ceph社区的版本，ceph-ansible可以安装rhcs等厂家发行的版本</span><br><span class="hljs-comment"># 此处只安装社区的版本，如果指定了此参数,需要设置ceph_stable_release和cepph_mirror</span><br><span class="hljs-attr">ceph_mirror:</span> <span class="hljs-string">http://mirrors.163.com/ceph</span><br><span class="hljs-attr">ceph_stable_release:</span> <span class="hljs-string">octopus</span><br><span class="hljs-comment"># yum源如果提示404，编辑下面这个文件定制yum源baseurl的路径</span><br><span class="hljs-comment"># 编辑此文件/usr/local/ceph-ansible-5.0.5/roles/ceph-common/tasks/installs/redhat_community_repository.yml</span><br><br><span class="hljs-comment"># 删除ceph_stable_release这个变量，将自定义路径输入，效果具体如下：</span><br><span class="hljs-comment">#  baseurl: &quot;&#123;&#123; ceph_mirror &#125;&#125;/rpm-15.2.9/el&#123;&#123; ansible_distribution_major_version &#125;&#125;/noarch&quot;</span><br><span class="hljs-comment"># </span><br><br><span class="hljs-comment"># 要部署哪个ceph版本</span><br><span class="hljs-attr">ceph_version_num:</span> <span class="hljs-number">15</span><br><span class="hljs-attr">ceph_stable_repo:</span> <span class="hljs-string">&quot;<span class="hljs-template-variable">&#123;&#123; ceph_mirror &#125;&#125;</span>/rpm-<span class="hljs-template-variable">&#123;&#123; ceph_stable_release &#125;&#125;</span>&quot;</span><br><span class="hljs-comment"># 两个&#123;&#123;&#125;&#125;表示使用ansible变量</span><br><span class="hljs-attr">ceph_stable_key:</span> <span class="hljs-string">http://mirrors.163.com/ceph/keys/release.asc</span><br><span class="hljs-attr">ip_version:</span> <span class="hljs-string">ipv4</span><br><span class="hljs-attr">monitor_interface:</span> <span class="hljs-string">ens33</span><br><span class="hljs-attr">public_network:</span> <span class="hljs-number">192.168</span><span class="hljs-number">.200</span><span class="hljs-number">.0</span><span class="hljs-string">/24</span><br><span class="hljs-attr">cluster_network:</span> <span class="hljs-number">192.168</span><span class="hljs-number">.100</span><span class="hljs-number">.0</span><span class="hljs-string">/24</span><br><span class="hljs-attr">monitor_address_block:</span> <span class="hljs-number">192.168</span><span class="hljs-number">.200</span><span class="hljs-number">.0</span><span class="hljs-string">/24</span><br><span class="hljs-attr">cephx:</span> <span class="hljs-literal">true</span><br><span class="hljs-attr">copy_admin_key:</span> <span class="hljs-literal">true</span><br><span class="hljs-comment"># 将&#x27;copy_admin_key&#x27;设置为&#x27;true&#x27;会将管理员密钥复制到[clients]主机中的/etc/ceph/目录下</span><br><br><span class="hljs-comment"># ceph_iscsi_config_dev: true </span><br><span class="hljs-comment"># nfs_ganesha_stable: true </span><br><span class="hljs-comment"># nfs </span><br><span class="hljs-comment"># nfs_file_gw: true</span><br><span class="hljs-comment"># 是否启用通过NFS的形式来访问CephFS的功能，将此项设置为true依赖于mds角色，即必须启用mds安装</span><br><span class="hljs-comment"># nfs_obj_gw: true</span><br><span class="hljs-comment"># 是否启用通过NFS的形式来访问RGW的功能，将此项设置为true依赖于rgws角色，即必须启用rgw安装</span><br><br><span class="hljs-comment"># 自定义的ceph配置选项可以写在这里</span><br><span class="hljs-comment"># ceph_conf_overrides:</span><br><span class="hljs-comment">#  global:</span><br><span class="hljs-comment">#    osd_pool_default_size: 3</span><br><span class="hljs-comment">#  mon:</span><br><span class="hljs-comment">#    mon_allow_pool_delete: true</span><br><br><br><span class="hljs-comment"># osd相关的配置</span><br><span class="hljs-attr">osd_objectstore:</span> <span class="hljs-string">bluestore</span><br><span class="hljs-comment"># filestore bluestore SeaStore</span><br><span class="hljs-comment"># SeaStore面向全NVMe场景设计</span><br><span class="hljs-comment"># 对象存储引擎，如有必要可以将其更改为filestore</span><br><span class="hljs-attr">osd_auto_discovery:</span> <span class="hljs-literal">true</span><br><span class="hljs-comment"># 是否启用OSD设备自动发现，如果这个选项设置为true，将不再需要填写osds.yml中的device设置</span><br><span class="hljs-comment"># 因为ceph-ansible将会使用ansible_devices发现的所有可用的块设备</span><br><span class="hljs-comment"># 不必担心会将系统盘也给做成OSD，ceph-ansible将检测所有块设备，已有分区表的设备将不会被使用</span><br><span class="hljs-comment"># 与之相关的还有另外一个配置项osd_auto_discovery_exclude，用于设置一个规则来排除指定的设备</span><br><span class="hljs-comment"># 例如rbd*表示所有rbd开头的设备将不会被自动创建为osd</span><br><br><br><span class="hljs-attr">dashboard_enabled:</span> <span class="hljs-literal">false</span><br><span class="hljs-comment"># 这一步如果不设置为false，默认启动的grafana容器将会到github下载必须的json文件，需科学上网</span><br><span class="hljs-comment"># </span><br><span class="hljs-comment"># rgw相关的配置</span><br><span class="hljs-comment"># radosgw_frontend_type: beast</span><br><span class="hljs-comment"># 使用什么实现来作为RGW的前端，beast表示使用Boost.Beast库来作为前端web服务器，以及使用</span><br><span class="hljs-comment"># Boost.Asio库来进行异步网络i/o，此实现于Mimic版本中引入</span><br><span class="hljs-comment"># 当前共有两个实现，beast和civetweb</span><br><span class="hljs-comment"># 端口默认是8080</span><br><br><span class="hljs-comment"># radosgw_interface: ens33</span><br><span class="hljs-comment"># radosgw_address_block: 192.168.200.0/24</span><br><br><span class="hljs-comment"># </span><br><span class="hljs-comment"># radosgw_civetweb_port: 8080</span><br><span class="hljs-comment"># 设置civetweb的端口</span><br><br><span class="hljs-comment"># cephx，是否启用cephx认证功能</span><br><br><br><span class="hljs-comment"># dashboard</span><br><span class="hljs-comment"># dashboard_enabled: false</span><br><span class="hljs-comment"># dashboard_protocol: http</span><br><span class="hljs-comment"># dashboard_admin_user_ro: false</span><br><span class="hljs-comment"># dashboard_port: 8443</span><br><span class="hljs-comment"># dashboard_admin_user: admin</span><br><span class="hljs-comment"># dashboard_admin_password: 123456</span><br><span class="hljs-comment"># grafana_admin_user: admin</span><br><span class="hljs-comment"># grafana_admin_password: 123456</span><br><span class="hljs-comment"># dashboard_grafana_api_no_ssl_verify: True</span><br><span class="hljs-comment"># dashboard_rgw_api_user_id: ceph-dashboard</span><br><span class="hljs-comment"># dashboard_rgw_api_no_ssl_verify: True</span><br><span class="hljs-comment"># prometheus和grafana</span><br><span class="hljs-comment"># docker_pull_timeout: 600s</span><br><span class="hljs-comment"># grafana_datasource: Dashboard</span><br><span class="hljs-comment"># grafana_dashboards_path: &quot;/etc/grafana/dashboards/ceph-dashboard&quot;</span><br><span class="hljs-comment"># grafana_dashboard_version: nautilus</span><br><span class="hljs-comment"># grafana_dashboard_files:</span><br><span class="hljs-comment">#  - ceph-cluster.json</span><br><span class="hljs-comment">#  - cephfs-overview.json</span><br><span class="hljs-comment">#  - host-details.json</span><br><span class="hljs-comment">#  - hosts-overview.json</span><br><span class="hljs-comment">#  - osd-device-details.json</span><br><span class="hljs-comment">#  - osds-overview.json</span><br><span class="hljs-comment">#  - pool-detail.json</span><br><span class="hljs-comment">#  - pool-overview.json</span><br><span class="hljs-comment">#  - radosgw-detail.json</span><br><span class="hljs-comment">#  - radosgw-overview.json</span><br><span class="hljs-comment">#  - rbd-overview.json</span><br><span class="hljs-comment"># grafana_plugins:</span><br><span class="hljs-comment">#  - vonage-status-panel</span><br><span class="hljs-comment">#  - grafana-piechart-panel</span><br><span class="hljs-comment"># node_exporter_container_image: &quot;prom/node-exporter:v0.17.0&quot;</span><br><span class="hljs-comment"># node_exporter_port: 9100</span><br><span class="hljs-comment"># grafana_container_image: &quot;grafana/grafana:5.4.3&quot;</span><br><span class="hljs-comment"># grafana_allow_embedding: True</span><br><span class="hljs-comment"># grafana_port: 3000</span><br><span class="hljs-comment"># prometheus_container_image: &quot;prom/prometheus:v2.7.2&quot;</span><br><span class="hljs-comment"># prometheus_data_dir: /var/lib/prometheus</span><br><span class="hljs-comment"># prometheus_conf_dir: /etc/prometheus</span><br><span class="hljs-comment"># prometheus_port: 9092</span><br><span class="hljs-comment"># alertmanager_container_image: &quot;prom/alertmanager:v0.16.2&quot;</span><br><span class="hljs-comment"># alertmanager_container_memory: 4</span><br><span class="hljs-comment"># alertmanager_data_dir: /var/lib/alertmanager</span><br><span class="hljs-comment"># alertmanager_conf_dir: /etc/alertmanager</span><br><span class="hljs-comment"># alertmanager_port: 9093</span><br></code></pre></td></tr></table></figure>
+
+<p>复制mon、osd、mgr、mds的yml文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">在group_vars目录下执行</span><br>for i in &#123;mons,osds,mgrs,mdss&#125;;do cp $i.yml.sample $i.yml;done<br></code></pre></td></tr></table></figure>
+
+<p>在<code>group_vars</code>的上一级目录，即ceph-ansible项目的根目录下，新建一个hosts文件，作为ansible的资产清单使用</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-section">[mons]</span><br>192.168.200.121<br>192.168.200.122<br>192.168.200.123<br><span class="hljs-section">[mgrs]</span><br>192.168.200.121<br>192.168.200.122<br>192.168.200.123<br><span class="hljs-section">[mdss]</span><br>192.168.200.121<br>192.168.200.122<br>192.168.200.123<br><span class="hljs-section">[osds]</span><br>192.168.200.121<br>192.168.200.122<br>192.168.200.123<br>192.168.200.124<br>192.168.200.125<br><span class="hljs-section">[clients]</span><br>192.168.200.126<br></code></pre></td></tr></table></figure>
+
+<p>如果不需要单独指明db和wal设备，那么现在已经开始部署了，如果需要，请参照下文的参考。</p>
+<p>在ceph-ansible的根目录下，执行如下命令，开始部署过程</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">cp site.yml.sample site.yml<br>ansible-playbook -i hosts site.yml<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<h3 id="单独指明DB和WAL设备"><a href="#单独指明DB和WAL设备" class="headerlink" title="单独指明DB和WAL设备"></a>单独指明DB和WAL设备</h3><h5 id="指明block-db设备"><a href="#指明block-db设备" class="headerlink" title="指明block-db设备"></a>指明block-db设备</h5><p>编辑group_vars&#x2F;osds.yml，添加</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">dedicated_devices:<br>- /dev/sdg<br><span class="hljs-meta prompt_"># </span><span class="language-bash">会自动平均分配这个设备上的所有空间给host上的osd</span><br></code></pre></td></tr></table></figure>
+
+<p>编辑group_vars&#x2F;all.yml，添加</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">osd_auto_discovery_exclude:</span> <span class="hljs-string">&quot;dm-*|loop*|md*|rbd*|sdg&quot;</span><br><span class="hljs-comment"># 如果有多个设备，在此处全部写上，表示在做osd设备自动发现的时候，将这些设备排除在外。</span><br></code></pre></td></tr></table></figure>
+
+<h5 id="指明block-wal设备"><a href="#指明block-wal设备" class="headerlink" title="指明block-wal设备"></a>指明block-wal设备</h5><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">bluestore_wal_devices:</span><br><span class="hljs-bullet">-</span> <span class="hljs-string">/dev/nvme0n1</span><br></code></pre></td></tr></table></figure>
+
+<p>编辑group_vars&#x2F;all.yml，添加</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">osd_auto_discovery_exclude: &quot;dm-*|loop*|md*|rbd*|nvme0n1&quot;<br><span class="hljs-meta prompt_"># </span><span class="language-bash">如果有多个设备，在此处全部写上，表示在做osd设备自动发现的时候，将这些设备排除在外。</span><br></code></pre></td></tr></table></figure>
+
+
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/linux/">#linux</a>
+      
+        <a href="/tags/ceph/">#ceph</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>ceph-ansible 5.0</div>
+      <div>http://anximin.github.io/2021/07/23/Linux_ceph_ansible_5.0/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Sylar</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2021年7月23日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/07/23/Linux_ceph_Octopus/" title="cephadm部署Octopus + ceph orch命令行工具简单实用">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">cephadm部署Octopus + ceph orch命令行工具简单实用</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/07/23/Linux_ceph_cephadm/" title="ceph部署中所需的cephadm文件">
+                        <span class="hidden-mobile">ceph部署中所需的cephadm文件</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

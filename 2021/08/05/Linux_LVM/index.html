@@ -1,0 +1,993 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/canvas.png">
+  <link rel="icon" href="/img/canvas.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sylar">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="LVM（逻辑分区管理）中的几个概念：PV(physical volume)：物理卷在逻辑卷管理系统最底层，可为整个物理硬盘或实际物理硬盘上的分区。VG(volume group)：卷组建立在物理卷上，一卷组中至少要包括一物理卷，卷组建立后可动态的添加卷到卷组中，一个逻辑卷管理系统工程中可有多个卷组。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux LVM分区全解">
+<meta property="og:url" content="http://anximin.github.io/2021/08/05/Linux_LVM/index.html">
+<meta property="og:site_name" content="Want To">
+<meta property="og:description" content="LVM（逻辑分区管理）中的几个概念：PV(physical volume)：物理卷在逻辑卷管理系统最底层，可为整个物理硬盘或实际物理硬盘上的分区。VG(volume group)：卷组建立在物理卷上，一卷组中至少要包括一物理卷，卷组建立后可动态的添加卷到卷组中，一个逻辑卷管理系统工程中可有多个卷组。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://anximin.github.io/img/index_img/0photo-2.jpg">
+<meta property="article:published_time" content="2021-08-05T03:34:56.000Z">
+<meta property="article:modified_time" content="2024-07-15T08:49:41.574Z">
+<meta property="article:author" content="Sylar">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="LVM">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://anximin.github.io/img/index_img/0photo-2.jpg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>linux LVM分区全解 - Want To</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"anximin.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":60,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Want To Top</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/sitemap.xml">
+                <i class="iconfont icon-link-fill"></i>
+                <span>sitmap</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="linux LVM分区全解"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2021-08-05 11:34" pubdate>
+          2021年8月5日 中午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          22k 字
+        
+      </span>
+    
+
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">linux LVM分区全解</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h3 id="LVM（逻辑分区管理）中的几个概念："><a href="#LVM（逻辑分区管理）中的几个概念：" class="headerlink" title="LVM（逻辑分区管理）中的几个概念："></a>LVM（逻辑分区管理）中的几个概念：</h3><p><code>PV</code>(physical volume)：物理卷在逻辑卷管理系统最底层，可为整个物理硬盘或实际物理硬盘上的分区。<br><code>VG</code>(volume group)：卷组建立在物理卷上，一卷组中至少要包括一物理卷，卷组建立后可动态的添加卷到卷组中，一个逻辑卷管理系统工程中可有多个卷组。</p>
+<span id="more"></span>
+
+<p><code>LV</code>(logical volume)：逻辑卷建立在卷组基础上，卷组中未分配空间可用于建立新的逻辑卷，逻辑卷建立后可以动态扩展和缩小空间。<br><code>PE</code>(physical extent)：物理区域是物理卷中可用于分配的最小存储单元，物理区域大小在建立卷组时指定，一旦确定不能更改，同一卷组所有物理卷的物理区域大小需一致，新的pv加入到vg后，pe的大小自动更改为vg中定义的pe大小。<br><code>LE</code>(logical extent)：逻辑区域是逻辑卷中可用于分配的最小存储单元，逻辑区域的大小取决于逻辑卷所在卷组中的物理区域的大小。<br>卷组描述区域：卷组描述区域存在于每个物理卷中，用于描述物理卷本身、物理卷所属卷组、卷组中逻辑卷、逻辑卷中物理区域的分配等所有信息，它是在使用pvcreate建立物理卷时建立的。</p>
+<p>步骤：</p>
+<p>1．准备物理分区（Physical Partions）<br>首先，我们需要选择用于 LVM 的物理存储器。这些通常是标准分区，但也可以是已创建的 Linux Software RAID 卷。这里我利用fdisk命令，将sdb、sdc两块磁盘分了两个区sdb1、sdc1， 通过fdisk的t指令指定分区为8e类型(Linux LVM) 。</p>
+<p>2．创建物理卷PV（Physical Volumes）</p>
+<p>物理卷（Physical Volumes）简称PV，是在磁盘的物理分区或与磁盘分区具有同样功能的设备（如RAID)上创建而来。它只是在物理分区中划出了一个特殊的区域，用于记载与LVM相关的管理参数。<br>创建物理卷的命令是 <code>pvcreate</code> : </p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs autoit">[root<span class="hljs-symbol">@li2</span> ~]<span class="hljs-meta"># pvcreate /dev/sdb1 </span><br>Physical volume <span class="hljs-string">&quot;/dev/sdb1&quot;</span> successfully created <br>[root<span class="hljs-symbol">@li2</span> ~]<span class="hljs-meta"># pvcreate /dev/sdc1 </span><br>Physical volume <span class="hljs-string">&quot;/dev/sdc1&quot;</span> successfully created <br></code></pre></td></tr></table></figure>
+
+<p>以上命令分别将<code>/dev/sdc1</code>、<code>/dev/sdd1</code>初始化成物理卷，使用物理卷显示命令<code>pvdisplay</code>查看物理卷情况如下: </p>
+<figure class="highlight irpf90"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs irpf90">[root@li2 ~]# pvdisplay <br>--- NEW Physical volume --- <br>PV <span class="hljs-keyword">Name</span> /dev/sdb1 <br>VG <span class="hljs-keyword">Name</span> <br>PV <span class="hljs-built_in">Size</span> <span class="hljs-number">36.00</span> GB <br><span class="hljs-keyword">Allocatable</span> NO <br>PE <span class="hljs-built_in">Size</span> (KByte) <span class="hljs-number">0</span> <br>Total PE <span class="hljs-number">0</span> <br><span class="hljs-keyword">Free</span> PE <span class="hljs-number">0</span> <br><span class="hljs-built_in">Allocated</span> PE <span class="hljs-number">0</span> <br>PV UUID QDmnUd-tuvH-U4Hn-n5Ry-zGRT-O1yK-<span class="hljs-number">67</span>Dxbb <br>--- NEW Physical volume --- <br>PV <span class="hljs-keyword">Name</span> /dev/sdc1 <br>VG <span class="hljs-keyword">Name</span> <br>PV <span class="hljs-built_in">Size</span> <span class="hljs-number">36.00</span> GB <br><span class="hljs-keyword">Allocatable</span> NO <br>PE <span class="hljs-built_in">Size</span> (KByte) <span class="hljs-number">0</span> <br>Total PE <span class="hljs-number">0</span> <br><span class="hljs-keyword">Free</span> PE <span class="hljs-number">0</span> <br><span class="hljs-built_in">Allocated</span> PE <span class="hljs-number">0</span> <br>PV UUID NDBf68-<span class="hljs-number">6</span>qrD-<span class="hljs-number">9</span>hE6-Rotv-RdxL-Azvv-<span class="hljs-number">7</span>NlC0S<br></code></pre></td></tr></table></figure>
+
+<p>3．创建卷组VG（Volume Groups）<br>卷组（Volume Group）简称VG，它是一个或者多个物理卷的组合。卷组将多个物理卷组合在一起，形成一个可管理的单元，它类似于非<code>LVM</code>系统中的物理硬盘。<br>创建卷组的命令为<code>vgcreate</code>，下面利用它创建了一个名为“<code>lvmdisk</code>”的卷组，该卷组包含<code>/dev/sdb1</code>、<code>/dev/sdc1</code>两个物理卷。 </p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs crmsh">[root@li2 ~]<span class="hljs-comment"># vgcreate lvmdisk /dev/sdb1 /dev/sdc1 </span><br>Volume <span class="hljs-keyword">group</span> <span class="hljs-title">&quot;lvmdisk</span><span class="hljs-string">&quot; successfully created </span><br></code></pre></td></tr></table></figure>
+
+<p>使用卷组查看命令<code>vgdisplay</code>显示卷组情况: </p>
+<figure class="highlight irpf90"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs irpf90">[root@li2 ~]# vgdisplay <br>--- Volume group --- <br>VG <span class="hljs-keyword">Name</span> lvmdisk <br>System ID <br><span class="hljs-keyword">Format</span> lvm2 <br>Metadata Areas <span class="hljs-number">2</span> <br>Metadata <span class="hljs-keyword">Sequence</span> No <span class="hljs-number">1</span> <br>VG <span class="hljs-keyword">Access</span> read/<span class="hljs-built_in">write</span> <br>VG <span class="hljs-keyword">Status</span> resizable <br><span class="hljs-built_in">MAX</span> LV <span class="hljs-number">0</span> <br>Cur LV <span class="hljs-number">0</span> <br>Open LV <span class="hljs-number">0</span> <br><span class="hljs-built_in">Max</span> PV <span class="hljs-number">0</span> <br>Cur PV <span class="hljs-number">2</span> <br>Act PV <span class="hljs-number">2</span> <br>VG <span class="hljs-built_in">Size</span> <span class="hljs-number">71.98</span> GB <br>PE <span class="hljs-built_in">Size</span> <span class="hljs-number">4.00</span> MB <br>Total PE <span class="hljs-number">18428</span> <br>Alloc PE / <span class="hljs-built_in">Size</span> <span class="hljs-number">0</span> / <span class="hljs-number">0</span> <br><span class="hljs-keyword">Free</span> PE / <span class="hljs-built_in">Size</span> <span class="hljs-number">18428</span> / <span class="hljs-number">71.98</span> GB <br>VG UUID SARfuj-wAUI-od81-VWAc-A1nt-aaFN-JWaPVf <br></code></pre></td></tr></table></figure>
+
+<p>当多个物理卷组合成一个卷组后时，<code>LVM</code>会在所有的物理卷上做类似格式化的工作，将每个物理卷切成一块一块的空间，这一块一块的空间就称为PE（Physical Extent ），它的默认大小是4MB。<br>由于受内核限制的原因，一个逻辑卷（Logic Volume）最多只能包含65536个PE（Physical Extent），所以一个PE的大小就决定了逻辑卷的最大容量，4 MB 的PE决定了单个逻辑卷最大容量为 256 GB，若希望使用大于256G的逻辑卷，则创建卷组时需要指定更大的PE。在Red Hat Enterprise Linux AS 4中PE大小范围为8 KB 到 16GB，并且必须总是 2 的倍数。<br>例如，如果希望使用 64 MB 的PE创建卷组，这样逻辑卷最大容量就可以为4 TB，命令如下: </p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs gradle">\# vgcreate － <span class="hljs-number">64</span>MB lvmdisk <span class="hljs-regexp">/dev/</span>sdb1 <span class="hljs-regexp">/dev/</span>sdc1<br></code></pre></td></tr></table></figure>
+
+<p>4．创建逻辑卷<code>LV</code>（Logical Volumes）<br>逻辑卷（Logical Volumes）简称<code>LV</code>，是在卷组中划分的一个逻辑区域，类似于非<code>LVM</code>系统中的硬盘分区。<br>创建逻辑卷的命令为<code>lvcreate</code>，通过下面的命令，我们在卷组<code>lvmdisk</code>上创建了一个名字为<code>pldy1</code>的逻辑卷，大小为15GB，其设备入口为<code>/dev/lvmdisk/pldy1</code>。 </p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs autoit">[root<span class="hljs-symbol">@li2</span> dev]<span class="hljs-meta"># lvcreate -L 15G -n pldy1 lvmdisk </span><br>Logical volume <span class="hljs-string">&quot;pldy1&quot;</span> created <br></code></pre></td></tr></table></figure>
+
+<p>也可以使用-l参数，通过指定PE数来设定逻辑分区大小。<br>例如，希望创建一个使用全部空间的逻辑卷，需要先查清卷组中的PE总数，通过上面的vgdisplay命令查得当前卷组PE总数为18428，命令如下: </p>
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs 1c">\<span class="hljs-meta"># lvcreate -l 18428 -n pldy1 lvmdisk </span><br></code></pre></td></tr></table></figure>
+
+<p>当逻辑卷创建成功后，可以使用lvdisplay命令查看逻辑卷情况: </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs bash">[root@li2 ~]<span class="hljs-comment"># lvdisplay </span><br>--- Logical volume --- <br>LV Name /dev/lvmdisk/pldy1 <br>VG Name lvmdisk <br>LV UUID FQcnm3-BMyq-NkJz-hykw-9xg1-Qy8d-8UeGCN <br>LV Write Access <span class="hljs-built_in">read</span>/write <br>LV Status available <br>\<span class="hljs-comment"># open 0 </span><br>LV Size 15.00 GB <br>Current LE 3840 <br>Segments 1 <br>Allocation inherit <br>Read ahead sectors 0 <br>Block device 253:0 <br></code></pre></td></tr></table></figure>
+
+<p>同卷组一样，逻辑卷在创建的过程中也被分成了一块一块的空间，这些空间称为LE（Logical Extents），在同一个卷组中，LE的大小和PE是相同的，并且一一对应。</p>
+<p>5．创建文件系统<br>在逻辑卷上创建ext3文件系统: </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">[root@li2 ~]<span class="hljs-comment"># mkfs -t ext3 /dev/lvmdisk/pldy1 </span><br></code></pre></td></tr></table></figure>
+
+<p>创建了文件系统以后，就可以加载并使用了: </p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs swift">[root<span class="hljs-meta">@li2</span> <span class="hljs-operator">~</span>]# mkdir <span class="hljs-regexp">/opt/</span><span class="hljs-type">Oracle</span> <br>[root<span class="hljs-meta">@li2</span> <span class="hljs-operator">~</span>]# mount <span class="hljs-regexp">/dev/</span>lvmdisk<span class="hljs-regexp">/pldy1 /</span>opt<span class="hljs-operator">/</span><span class="hljs-type">Oracle</span> <br></code></pre></td></tr></table></figure>
+
+<p><strong>为了在系统启动时自动加载文件系统，则还需要在<code>/etc/fstab</code>中添加内容:</strong><br><code>/dev/lvmdisk/pldy1 /opt/Oracle ext3 defaults 1 2 </code><br>管理LVM<br>LVM的最大好处就是可以动态地调整分区大小，而无须重新启动机器，下面让我们来体验一下吧！继续上面的实例，现假设逻辑卷&#x2F;dev&#x2F;lvmdisk&#x2F;pldy1空间不足，需要增加其大小，我们分两种情况讨论：</p>
+<p>1．卷组中有剩余的空间<br>通过vgdisplay命令可以检查当前卷组空间使用情况: </p>
+<figure class="highlight irpf90"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs irpf90">[root@li2 ~]# vgdisplay <br>--- Volume group --- <br>VG <span class="hljs-keyword">Name</span> lvmdisk <br>System ID <br><span class="hljs-keyword">Format</span> lvm2 <br>Metadata Areas <span class="hljs-number">2</span> <br>Metadata <span class="hljs-keyword">Sequence</span> No <span class="hljs-number">2</span> <br>VG <span class="hljs-keyword">Access</span> read/<span class="hljs-built_in">write</span> <br>VG <span class="hljs-keyword">Status</span> resizable <br><span class="hljs-built_in">MAX</span> LV <span class="hljs-number">0</span> <br>Cur LV <span class="hljs-number">1</span> <br>Open LV <span class="hljs-number">0</span> <br><span class="hljs-built_in">Max</span> PV <span class="hljs-number">0</span> <br>Cur PV <span class="hljs-number">2</span> <br>Act PV <span class="hljs-number">2</span> <br>VG <span class="hljs-built_in">Size</span> <span class="hljs-number">71.98</span> GB <br>PE <span class="hljs-built_in">Size</span> <span class="hljs-number">4.00</span> MB <br>Total PE <span class="hljs-number">18428</span> <br>Alloc PE / <span class="hljs-built_in">Size</span> <span class="hljs-number">3840</span> / <span class="hljs-number">15.00</span> GB <br><span class="hljs-keyword">Free</span> PE / <span class="hljs-built_in">Size</span> <span class="hljs-number">14588</span> / <span class="hljs-number">56.98</span> GB <br>VG UUID SARfuj-wAUI-od81-VWAc-A1nt-aaFN-JWaPVf <br></code></pre></td></tr></table></figure>
+
+<p>确定当前卷组剩余空间56.98GB，剩余PE数量为14588个。在这里将所有的剩余空间全部增加给逻辑卷 <code>/dev/lvmdisk/pldy1</code></p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs autoit">[root<span class="hljs-symbol">@li2</span> Oracle]<span class="hljs-meta"># lvextend -l+14588 /dev/lvmdisk/pldy1 </span><br>Extending logical volume pldy1 <span class="hljs-keyword">to</span> <span class="hljs-number">56.98</span> GB <br>Logical volume pldy1 successfully resized <br></code></pre></td></tr></table></figure>
+
+<p>上面的命令使用了-l+14588参数，它的意思是给指定的逻辑卷增加14588个PE。如果不是将全部空间都使用，还可使用其他形式的lvextend命令。<br>例如将逻辑卷<code>/dev/lvmdisk/pldy1</code>增加5GB的空间，使其空间达到20GB，可写成: </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">lvextend -L+5G /dev/lvmdisk/pldy1</span><br></code></pre></td></tr></table></figure>
+
+<p>或</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">lvextend －L20G /dev/lvmdisk/pldy1</span><br></code></pre></td></tr></table></figure>
+
+<p>增加了逻辑卷容量后，就要通过ext2online命令修改文件系统的大小了。 </p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs autoit">[root<span class="hljs-symbol">@li2</span> ~]<span class="hljs-meta"># ext2online /opt/Oracle/ </span><br></code></pre></td></tr></table></figure>
+
+<p>转换好后，让我们查看一下文件系统的当前状态: </p>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs crystal">[root<span class="hljs-variable">@li2</span> ~]<span class="hljs-comment"># df －lh </span><br>Filesystem <span class="hljs-number">1</span>k-blocks Used Available Use% Mounted on <br><span class="hljs-regexp">/dev/sda</span>1 <span class="hljs-number">7.4</span>G <span class="hljs-number">1.8</span>G <span class="hljs-number">5.3</span>G <span class="hljs-number">25</span>% <span class="hljs-regexp">/ </span><br><span class="hljs-regexp">none 135M 0 135M 0% /dev</span><span class="hljs-regexp">/shm </span><br><span class="hljs-regexp">/dev</span><span class="hljs-regexp">/mapper/lvmdisk</span>-pldy1 <span class="hljs-number">71</span>G <span class="hljs-number">81</span>M <span class="hljs-number">68</span>G <span class="hljs-number">1</span>% <span class="hljs-regexp">/opt/</span>Oracle<br></code></pre></td></tr></table></figure>
+
+<p>2．卷组中空间不足<br>当卷组中没有足够的空间用于扩展逻辑卷的大小时，就需要增加卷组的容量，而增加卷组容量的惟一办法就是向卷组中添加新的物理卷。<br>首先是增加一块新硬盘(36GB SCSI 硬盘)，并对其完成分区、创建物理卷等工作。接下来是利用vgextend命令将新的物理卷（&#x2F;dev&#x2F;sdd1）加入到卷组中。<br>扩展卷组的命令如下： </p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs crmsh">[root@li2 ~]<span class="hljs-comment"># vgextend lvmdisk /dev/sdd1 </span><br>Volume <span class="hljs-keyword">group</span> <span class="hljs-title">&quot;lvmdisk</span><span class="hljs-string">&quot; successfully extended </span><br></code></pre></td></tr></table></figure>
+
+<p>利用vgdisplay命令查看卷组lvmdisk的情况: </p>
+<figure class="highlight irpf90"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs irpf90">[root@li2 ~]# vgdisplay <br>--- Volume group --- <br>VG <span class="hljs-keyword">Name</span> lvmdisk <br>System ID <br><span class="hljs-keyword">Format</span> lvm2 <br>Metadata Areas <span class="hljs-number">3</span> <br>Metadata <span class="hljs-keyword">Sequence</span> No <span class="hljs-number">3</span> <br>VG <span class="hljs-keyword">Access</span> read/<span class="hljs-built_in">write</span> <br>VG <span class="hljs-keyword">Status</span> resizable <br><span class="hljs-built_in">MAX</span> LV <span class="hljs-number">0</span> <br>Cur LV <span class="hljs-number">1</span> <br>Open LV <span class="hljs-number">0</span> <br><span class="hljs-built_in">Max</span> PV <span class="hljs-number">0</span> <br>Cur PV <span class="hljs-number">3</span> <br>Act PV <span class="hljs-number">3</span> <br>VG <span class="hljs-built_in">Size</span> <span class="hljs-number">107.97</span> GB <br>PE <span class="hljs-built_in">Size</span> <span class="hljs-number">4.00</span> MB <br>Total PE <span class="hljs-number">27640</span> <br>Alloc PE / <span class="hljs-built_in">Size</span> <span class="hljs-number">3840</span> / <span class="hljs-number">15.00</span> GB <br><span class="hljs-keyword">Free</span> PE / <span class="hljs-built_in">Size</span> <span class="hljs-number">23800</span> / <span class="hljs-number">92.97</span> GB <br>VG UUID l8YPvz-uD7h-oj1A-<span class="hljs-number">0</span>qS5-TFcT-mbC7-QbjzCu <br></code></pre></td></tr></table></figure>
+
+<p>完成卷组的扩容后，就可以按照第一种情况的方法完成逻辑卷的扩容，最终实现分区的动态调整。</p>
+<p>&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</p>
+<h3 id="Linux卷管理详解"><a href="#Linux卷管理详解" class="headerlink" title="Linux卷管理详解"></a>Linux卷管理详解</h3><p><strong>一、 前言</strong></p>
+<p>  每个Linux使用者在安装Linux时 都会遇到这样的困境：在为系统分区时，如何精确评估和分配各个硬盘分区的容量，因为系统管理员不但要考虑到当前某个分区需要的容量，还要预见该分区以后可能需要的容量的最大值。因为如果估计不准确，当遇到某个分区不够用时管理员可能甚至要备份整个系统、清除硬盘、重新对硬盘分区，然后恢复数据到新分区。</p>
+<p>   虽然现在有很多动态调整磁盘的工具可以使用，例如Partation Magic等等，但是它并不能完全解决问题，因为某个分区可能会再次被耗尽；另外一个方面这需要重新引导系统才能实现，对于很多关键的服务器，停机是不可接受的，而且对于添加新硬盘，希望一个能跨越多个硬盘驱动器的文件系统时，分区调整程序就不能解决问题。</p>
+<p>   因此完美的解决方法应该是在零停机前提下可以自如对文件系统的大小进行调整，可以方便实现文件系统跨越不同磁盘和分区。那么我们可以通过逻辑盘卷管理（LVM，Logical Volume Manager）的方式来非常完美的实现这一功能。</p>
+<p>​    LVM是逻辑盘卷管理（Logical Volume Manager）的简称，他是磁盘管理的另一种工具，就目前基本上所有操作系统均支持，LVM是建立在硬盘和分区之上的一个逻辑层，来提高磁盘分区管理的灵活性。通过LVM系统管理员可以轻松管理磁盘分区，如：将若干个磁盘分区连接为一个整块的卷组（volume group），形成一个存储池。管理员可以在卷组上随意创建逻辑卷组（logical volumes），并进一步在逻辑卷组上创建文件系统。管理员通过LVM可以方便的调整存储卷组的大小，并且可以对磁盘存储按照组的方式进行命名、管理和分配，例如按照使用用途进行定义：“DBdata”和“DBSoft”，而不是使用物理磁盘名“sda”和“sdb”或”hda”和”hdb”。而且当系统添加了新的磁盘，通过LVM管理员就不必将磁盘的文件移动到新的磁盘上以充分利用新的存储空间，而是直接扩展文件系统跨越磁盘即可。</p>
+<p><strong>二、 LVM基本术语</strong></p>
+<p>  前面谈到，LVM是在磁盘分区和文件系统之间添加的一个逻辑层，来为文件系统屏蔽下层磁盘分区布局，提供一个抽象的盘卷，在盘卷上建立文件系统。首先我们讨论以下几个LVM术语：</p>
+<p><strong>物理存储介质（The physical media）</strong></p>
+<p>这里指系统的存储设备：硬盘，如：&#x2F;dev&#x2F;hda、&#x2F;dev&#x2F;sda等等，是存储系统最低层的存储单元。</p>
+<p><em><strong>物理卷（physicalvolume）</strong></em></p>
+<p>物理卷就是指硬盘分区或从逻辑上与磁盘分区具有同样功能的设备(如RAID)，是LVM的基本存储逻辑块，但和基本的物理存储介质（如分区、磁盘等）比较，却包含有与LVM相关的管理参数。</p>
+<p><em><strong>卷组（Volume Group）</strong></em></p>
+<p>LVM卷组类似于非LVM系统中的物理硬盘，其由物理卷组成。可以在卷组上创建一个或多个“LVM分区”（逻辑卷），LVM卷组由一个或多个物理卷组成。</p>
+<p><em><strong>逻辑卷（logicalvolume）</strong></em></p>
+<p>LVM的逻辑卷类似于非LVM系统中的硬盘分区，在逻辑卷之上可以建立文件系统(比如&#x2F;home或者&#x2F;usr等)。</p>
+<p><strong>PE（physical extent）</strong></p>
+<p>每一个物理卷被划分为称为PE(Physical Extents)的基本单元，具有唯一编号的PE是可以被LVM寻址的最小单元。PE的大小是可配置的，默认为4MB。</p>
+<p><strong>LE（logical extent）</strong></p>
+<p>逻辑卷也被划分为被称为LE(Logical Extents) 的可被寻址的基本单位。在同一个卷组中，LE的大小和PE是相同的，并且一一对应。</p>
+<p>   首先物理卷（PV）被由大小等同的基本单元PE组成。</p>
+<p>   一个卷组由一个或多个物理卷组成：</p>
+<p>   PE和LE有着一一对应的关系。逻辑卷建立在卷组上。逻辑卷就相当于非LVM系统的磁盘分区，可以在其上创建文件系统。</p>
+<p>​    和非LVM系统将包含分区信息的元数据保存在位于分区的起始位置的分区表中一样，逻辑卷以及卷组相关的元数据也是保存在位于物理卷起始处的VGDA(卷组描述符区域)中。VGDA包括以下内容： PV描述符、VG描述符、LV描述符、和一些PE描述符 。</p>
+<p>​    系统启动LVM时激活VG，并将VGDA加载至内存，来识别LV的实际物理存储位置。当系统进行I&#x2F;O操作时，就会根据VGDA建立的映射机制来访问实际的物理位置。</p>
+<p><strong>三、 安装LVM</strong></p>
+<p>首先确定系统中是否安装了lvm工具：</p>
+<figure class="highlight subunit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs subunit">[root@jetsen ~]# rpm -qa|grep lvm<br>system-config-lvm<span class="hljs-string">-1</span>.1.5<span class="hljs-string">-1</span>.0.el5<br>lvm2<span class="hljs-string">-2</span>.02.46<span class="hljs-string">-8</span>.el5<br></code></pre></td></tr></table></figure>
+
+<p>  如果命令结果输入类似于上例，那么说明系统已经安装了LVM管理工具；如果命令没有输出则说明没有安装LVM管理工具，则需要从网络下载或者从光盘装LVM rpm工具包。</p>
+<p> 安装了LVM的RPM软件包以后，要使用LVM还需要配置内核支持LVM。RedHat默认内核是支持LVM的，如果需要重新编译内核，则需要在配置内核时，进入Multi-device Support (RAID and LVM)子菜单，选中以下两个选项：</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs scss"><span class="hljs-selector-attr">[*]</span>Multiple devices driver support (RAID and LVM)<br>&lt;*&gt;Logical volume manager (LVM) Support<br></code></pre></td></tr></table></figure>
+
+
+
+<p> 然后重新编译内核，即可将LVM的支持添加到新内核中。</p>
+<p> 为了使用LVM，要确保在系统启动时激活LVM，幸运的是在RedHat7.0以后的版本，系统启动脚本已经具有对激活LVM的支持，在&#x2F;etc&#x2F;rc.d&#x2F;rc.sysinit中有以下内容：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash">\<span class="hljs-comment"># LVMinitialization</span><br><span class="hljs-keyword">if</span> [ -e/proc/lvm -a -x /sbin/vgchange -a -f /etc/lvmtab ]; <span class="hljs-keyword">then</span><br><br>action$<span class="hljs-string">&quot;Setting up Logical Volume Management:&quot;</span> /sbin/vgscan &amp;&amp;/sbin/vgchange -a y<br><br><span class="hljs-keyword">fi</span><br></code></pre></td></tr></table></figure>
+
+
+
+<p>  其中关键是两个命令，vgscan命令实现扫描所有磁盘得到卷组信息，并创建文件卷组数据文件&#x2F;etc&#x2F;lvmtab和&#x2F;etc&#x2F;lvmtab.d&#x2F;*；vgchange -a y命令激活系统所有卷组。</p>
+<p><strong>四、 创建和管理LVM</strong></p>
+<p>  创建LV有两种方式，一种是基于磁盘的，另外一种是基于分区的，如果是基于分区的就必须按照我之前讲的通过fdisk或parted方式划分好分区，但不要格式化来进行pvcreate创建处理卷，如果基于磁盘的就不需要创建分区了，直接就可以通过pvcreate来创建物理卷。因为只有创建好了物理卷之后才能添加到卷组，并在卷组里面创建逻辑卷，后格式化才能存放数据。</p>
+<p>要创建一个LVM系统，一般需要经过以下步骤：</p>
+<p><em><strong>创建基于磁盘的LV</strong></em></p>
+<p>1、 查看磁盘信息：</p>
+<figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs tap">[root@jetsen~]<span class="hljs-comment"># fdisk -l</span><br><br>Disk/dev/sda: 21.4 GB,<span class="hljs-number"> 21474836480 </span>bytes<br>255heads,<span class="hljs-number"> 63 </span>sectors/track,<span class="hljs-number"> 2610 </span>cylinders<br>Units =cylinders of<span class="hljs-number"> 16065 </span>*<span class="hljs-number"> 512 </span>=<span class="hljs-number"> 8225280 </span>bytes<br><br>Device Boot   Start     End   Blocks Id System<br>/dev/sda1  *    <span class="hljs-number"> 1 </span>   <span class="hljs-number"> 13 </span> <span class="hljs-number"> 104391 </span>83 Linux<br>/dev/sda2      <span class="hljs-number"> 14 </span>  <span class="hljs-number"> 2610 </span> 20860402+ 8e Linux LVM<br></code></pre></td></tr></table></figure>
+
+
+
+<p><em><strong>我们就用如下两块磁盘来配置VG的管理</strong></em></p>
+<p>Disk &#x2F;dev&#x2F;sdb: 536.8 GB, 536870912000 bytes</p>
+<p>255 heads, 63 sectors&#x2F;track, 65270 cylinders</p>
+<p>Units &#x3D; cylinders of 16065 * 512 &#x3D; 8225280 bytes</p>
+<p> Disk &#x2F;dev&#x2F;sdb doesn’t contain a valid partition table</p>
+<p> Disk &#x2F;dev&#x2F;sdc: 536.8 GB, 536870912000 bytes</p>
+<p>255 heads, 63 sectors&#x2F;track, 65270 cylinders</p>
+<p>Units &#x3D; cylinders of 16065 * 512 &#x3D; 8225280 bytes</p>
+<p> Disk &#x2F;dev&#x2F;sdc doesn’t contain a valid partition table</p>
+<p>2、 使用sdb创建基于磁盘的物理卷</p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs autoit">[root<span class="hljs-symbol">@jetsen</span>~]<span class="hljs-meta"># pvcreate /dev/sdb</span><br> Physical volume <span class="hljs-string">&quot;/dev/sdb&quot;</span>successfully created<br></code></pre></td></tr></table></figure>
+
+
+
+<p>3、 查看物理卷创建是否成功</p>
+<figure class="highlight irpf90"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs irpf90">[root@jetsen~]# pvdisplay<br><br> --- Physical volume ---<br> PV <span class="hljs-keyword">Name</span>        /dev/sda2<br> VG <span class="hljs-keyword">Name</span>        VolGroup00<br> PV <span class="hljs-built_in">Size</span>        <span class="hljs-number">19.89</span> GB / not usable <span class="hljs-number">19.49</span> MB<br> <span class="hljs-keyword">Allocatable</span>      yes (but full)<br> PE <span class="hljs-built_in">Size</span> (KByte)    <span class="hljs-number">32768</span><br> Total PE       <span class="hljs-number">636</span><br> <span class="hljs-keyword">Free</span> PE        <span class="hljs-number">0</span><br> <span class="hljs-built_in">Allocated</span> PE     <span class="hljs-number">636</span><br> PV UUID        <span class="hljs-number">9</span>UuRWq-<span class="hljs-number">3</span>nFG-pQvY-nkCN-WZgj-uzNW-cUI1ei<br><br><br> <span class="hljs-string">&quot;/dev/sdb&quot;</span> is a newphysical volume of <span class="hljs-string">&quot;500.00 GB&quot;</span>   ----这里是我们刚才创建的PV，已经成功<br><br> --- NEW Physical volume ---<br> PV <span class="hljs-keyword">Name</span>        /dev/sdb<br> VG <span class="hljs-keyword">Name</span>       <br> PV <span class="hljs-built_in">Size</span>        <span class="hljs-number">500.00</span> GB<br> <span class="hljs-keyword">Allocatable</span>      NO<br> PE <span class="hljs-built_in">Size</span> (KByte)    <span class="hljs-number">0</span><br> Total PE       <span class="hljs-number">0</span><br> <span class="hljs-keyword">Free</span> PE        <span class="hljs-number">0</span><br> <span class="hljs-built_in">Allocated</span> PE     <span class="hljs-number">0</span><br> PV UUID       <span class="hljs-number">3</span>Xhu20-<span class="hljs-number">4</span>Y4L-ITf5-MyXi-VLVN-kJ3M-LsoouK<br></code></pre></td></tr></table></figure>
+
+
+
+<p>4、 创建data卷组：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs swift">[root<span class="hljs-meta">@jetsen</span><span class="hljs-operator">~</span>]# vgcreate data <span class="hljs-regexp">/dev/</span>sdb<br> <span class="hljs-regexp">/dev/</span>cdrom: <span class="hljs-keyword">open</span> failed: 只读文件系统<br> <span class="hljs-regexp">/dev/</span>cdrom: <span class="hljs-keyword">open</span> failed: 只读文件系统<br> <span class="hljs-type">Attempt</span> to close device &#x27;<span class="hljs-regexp">/dev/</span>cdrom&#x27; which isnot <span class="hljs-keyword">open</span>.<br> <span class="hljs-type">Volume</span> group <span class="hljs-string">&quot;data&quot;</span> successfullycreated<br><br></code></pre></td></tr></table></figure>
+
+
+
+<p>5、 查看卷组是否创建成功：</p>
+<figure class="highlight irpf90"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><code class="hljs irpf90">[root@jetsen ~]# vgdisplay<br><br> --- Volume group ---         ------我们可以看到，这就是我们刚才创建的vg，已经成功了，大小为<span class="hljs-number">500</span>G，由一个PV组成<br><br> VG <span class="hljs-keyword">Name</span>        <span class="hljs-keyword">data</span><br> System ID      <br> <span class="hljs-keyword">Format</span>        lvm2<br> Metadata Areas    <span class="hljs-number">1</span><br> Metadata <span class="hljs-keyword">Sequence</span> No <span class="hljs-number">1</span><br> VG <span class="hljs-keyword">Access</span>       read/<span class="hljs-built_in">write</span><br> VG <span class="hljs-keyword">Status</span>       resizable<br> <span class="hljs-built_in">MAX</span> LV        <span class="hljs-number">0</span><br> Cur LV        <span class="hljs-number">0</span><br> Open LV        <span class="hljs-number">0</span><br> <span class="hljs-built_in">Max</span> PV        <span class="hljs-number">0</span><br> Cur PV        <span class="hljs-number">1</span><br> Act PV        <span class="hljs-number">1</span><br> VG <span class="hljs-built_in">Size</span>        <span class="hljs-number">500.00</span> GB<br> PE <span class="hljs-built_in">Size</span>        <span class="hljs-number">4.00</span> MB<br> Total PE       <span class="hljs-number">127999</span><br> Alloc PE / <span class="hljs-built_in">Size</span>    <span class="hljs-number">0</span> / <span class="hljs-number">0</span> <br> <span class="hljs-keyword">Free</span> PE / <span class="hljs-built_in">Size</span>    <span class="hljs-number">127999</span> / <span class="hljs-number">500.00</span> GB<br> VG UUID       wqyQM5-Rigb-<span class="hljs-number">5</span>art-<span class="hljs-number">0</span>H20-X9QW-OL6N-PDkI4o<br><br><br> --- Volume group ---                     -----这是系统之前的卷组<br><br> VG <span class="hljs-keyword">Name</span>        VolGroup00<br> System ID      <br> <span class="hljs-keyword">Format</span>        lvm2<br> Metadata Areas    <span class="hljs-number">1</span><br> Metadata <span class="hljs-keyword">Sequence</span> No <span class="hljs-number">3</span><br> VG <span class="hljs-keyword">Access</span>       read/<span class="hljs-built_in">write</span><br> VG <span class="hljs-keyword">Status</span>       resizable<br> <span class="hljs-built_in">MAX</span> LV        <span class="hljs-number">0</span><br> Cur LV        <span class="hljs-number">2</span><br> Open LV        <span class="hljs-number">2</span><br> <span class="hljs-built_in">Max</span> PV        <span class="hljs-number">0</span><br> Cur PV        <span class="hljs-number">1</span><br> Act PV        <span class="hljs-number">1</span><br> VG <span class="hljs-built_in">Size</span>        <span class="hljs-number">19.88</span> GB<br> PE <span class="hljs-built_in">Size</span>        <span class="hljs-number">32.00</span> MB<br> Total PE       <span class="hljs-number">636</span><br> Alloc PE / <span class="hljs-built_in">Size</span>    <span class="hljs-number">636</span> / <span class="hljs-number">19.88</span> GB<br> <span class="hljs-keyword">Free</span> PE / <span class="hljs-built_in">Size</span>    <span class="hljs-number">0</span> / <span class="hljs-number">0</span> <br> VG UUID       <span class="hljs-number">9</span>BbNZr-<span class="hljs-number">0</span>ILr-CP3K-debx-OyJM-hDru-C0gVuR<br><br></code></pre></td></tr></table></figure>
+
+<p>6、 激活卷组</p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs autoit">[root<span class="hljs-symbol">@jetsen</span>~]<span class="hljs-meta"># vgchange -a y data</span><br><br> <span class="hljs-number">0</span> logical volume(s) <span class="hljs-keyword">in</span> volume group<span class="hljs-string">&quot;data&quot;</span> now active<br></code></pre></td></tr></table></figure>
+
+<p> 7、 创建新的物理卷</p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs autoit">[root<span class="hljs-symbol">@jetsen</span>~]<span class="hljs-meta"># pvcreate /dev/sdc</span><br><br> Physical volume <span class="hljs-string">&quot;/dev/sdc&quot;</span>successfully created<br></code></pre></td></tr></table></figure>
+
+<p>8、 将新的物理卷添加到现有卷组：</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">[root@jetsen~]# vgextend data /dev/sdc<br><br> /dev/cdrom: <span class="hljs-keyword">open</span> failed: 只读文件系统<br><br> Attempt <span class="hljs-keyword">to</span> <span class="hljs-keyword">close</span> device <span class="hljs-string">&#x27;/dev/cdrom&#x27;</span> which isnot <span class="hljs-keyword">open</span>.<br><br> Volume <span class="hljs-keyword">group</span> &quot;data&quot; successfullyextended<br></code></pre></td></tr></table></figure>
+
+<p>9、 查看卷组信息： </p>
+<p>*** 我们可以看到，VG的大小由刚才的500G变成了现在的1T的空间，PV的数量也由之前的1个变成了两个  ***</p>
+<figure class="highlight irpf90"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs irpf90">[root@jetsen~]# vgdisplay <span class="hljs-keyword">data</span><br><br> --- Volume group ---<br> VG <span class="hljs-keyword">Name</span>        <span class="hljs-keyword">data</span><br> System ID      <br> <span class="hljs-keyword">Format</span>        lvm2<br> Metadata Areas    <span class="hljs-number">2</span><br> Metadata <span class="hljs-keyword">Sequence</span> No <span class="hljs-number">2</span><br> VG <span class="hljs-keyword">Access</span>       read/<span class="hljs-built_in">write</span><br> VG <span class="hljs-keyword">Status</span>       resizable<br> <span class="hljs-built_in">MAX</span> LV        <span class="hljs-number">0</span><br> Cur LV        <span class="hljs-number">0</span><br> Open LV        <span class="hljs-number">0</span><br> <span class="hljs-built_in">Max</span> PV        <span class="hljs-number">0</span><br> CurPV        <span class="hljs-number">2</span><br> ActPV        <span class="hljs-number">2</span><br> VG <span class="hljs-built_in">Size</span>       <span class="hljs-number">999.99</span> GB<br> PE <span class="hljs-built_in">Size</span>        <span class="hljs-number">4.00</span> MB<br> Total PE       <span class="hljs-number">255998</span><br> Alloc PE / <span class="hljs-built_in">Size</span>    <span class="hljs-number">0</span> / <span class="hljs-number">0</span> <br> <span class="hljs-keyword">Free</span> PE / <span class="hljs-built_in">Size</span>    <span class="hljs-number">255998</span> / <span class="hljs-number">999.99</span> GB<br> VG UUID       wqyQM5-Rigb-<span class="hljs-number">5</span>art-<span class="hljs-number">0</span>H20-X9QW-OL6N-PDkI4o<br></code></pre></td></tr></table></figure>
+
+<p>10、    从现有的卷组中删除一个物理卷：</p>
+<p>要从一个卷组中删除一个物理卷，首先要确认要删除的物理卷没有被任何逻辑卷正在使用，就要使用pvdisplay命令察看一个该物理卷信息，如果某个物理卷正在被逻辑卷所使用，就需要将该物理卷的数据备份到其他地方，然后再删除。删除物理卷的命令为vgreduce：</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs crmsh">[root@jetsen~]<span class="hljs-comment"># vgreduce data /dev/sdc</span><br> Removed <span class="hljs-string">&quot;/dev/sdc&quot;</span> fromvolume <span class="hljs-keyword">group</span> <span class="hljs-title">&quot;data</span><span class="hljs-string">&quot;   -----已经删除成功</span><br></code></pre></td></tr></table></figure>
+
+<p> 查看VG信息       我们可以看到磁盘已经被删除，并且空间也由刚才的1T变成了500G</p>
+<figure class="highlight irpf90"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs irpf90">[root@jetsen~]# vgdisplay <span class="hljs-keyword">data</span><br><br> --- Volume group ---<br> VG <span class="hljs-keyword">Name</span>        <span class="hljs-keyword">data</span><br> System ID      <br> <span class="hljs-keyword">Format</span>        lvm2<br> Metadata Areas    <span class="hljs-number">1</span><br> Metadata <span class="hljs-keyword">Sequence</span> No <span class="hljs-number">3</span><br> VG <span class="hljs-keyword">Access</span>       read/<span class="hljs-built_in">write</span><br> VG <span class="hljs-keyword">Status</span>       resizable<br> <span class="hljs-built_in">MAX</span> LV        <span class="hljs-number">0</span><br> Cur LV        <span class="hljs-number">0</span><br> Open LV        <span class="hljs-number">0</span><br> <span class="hljs-built_in">Max</span> PV        <span class="hljs-number">0</span><br> Cur PV        <span class="hljs-number">1</span><br> Act PV        <span class="hljs-number">1</span><br> VG <span class="hljs-built_in">Size</span>        <span class="hljs-number">500.00</span> GB<br> PE <span class="hljs-built_in">Size</span>        <span class="hljs-number">4.00</span> MB<br> Total PE       <span class="hljs-number">127999</span><br> Alloc PE / <span class="hljs-built_in">Size</span>    <span class="hljs-number">0</span> / <span class="hljs-number">0</span> <br> <span class="hljs-keyword">Free</span> PE / <span class="hljs-built_in">Size</span>    <span class="hljs-number">127999</span> / <span class="hljs-number">500.00</span> GB<br> VG UUID       wqyQM5-Rigb-<span class="hljs-number">5</span>art-<span class="hljs-number">0</span>H20-X9QW-OL6N-PDkI4o<br></code></pre></td></tr></table></figure>
+
+<p>11、    创建逻辑卷</p>
+<p><em><strong>创建逻辑卷的命令为lvcreate，分为两种：</strong></em></p>
+<p><strong>A、  创建指定大小的逻辑卷LV</strong></p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs autoit">[root<span class="hljs-symbol">@jetsen</span> ~]<span class="hljs-meta"># lvcreate -L200M -n data001 data</span><br><br> Logical volume<span class="hljs-string">&quot;data001&quot;</span> created<br></code></pre></td></tr></table></figure>
+
+<p>该命令就在卷组data上创建名字为data001，大小为200M的逻辑卷，并且设备入口为&#x2F;dev&#x2F;data&#x2F;data001（data为卷组名，data001为逻辑卷名）。</p>
+<p>  <em><strong>查看我们创建的逻辑卷：</strong></em></p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">[root@jetsen ~]# lvdisplay data<br><br> <span class="hljs-comment">--- Logical volume ---</span><br> LV <span class="hljs-type">Name</span>        /dev/data/data001          **<span class="hljs-comment">---LV的名称为data001**</span><br> VG <span class="hljs-type">Name</span>        data                       **<span class="hljs-comment">----卷组的名称为data**</span><br> LV <span class="hljs-type">UUID</span>        o75uV4-VvTA-aaMe<span class="hljs-number">-4</span>T74-mVQe-gSQO-clot5L<br> LV <span class="hljs-keyword">Write</span> <span class="hljs-keyword">Access</span>    <span class="hljs-keyword">read</span>/<span class="hljs-keyword">write</span><br> LV Status       available<br> # <span class="hljs-keyword">open</span>         <span class="hljs-number">0</span><br> LV Size        <span class="hljs-number">200.00</span> MB                   **<span class="hljs-comment">---大小为200M**</span><br> <span class="hljs-keyword">Current</span> LE       <span class="hljs-number">50</span><br> Segments        <span class="hljs-number">1</span><br> Allocation       <span class="hljs-keyword">inherit</span><br> <span class="hljs-keyword">Read</span> ahead sectors   auto<br> - currently <span class="hljs-keyword">set</span> <span class="hljs-keyword">to</span>   <span class="hljs-number">256</span><br> Block device      <span class="hljs-number">253</span>:<span class="hljs-number">2</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>B、  创建卷组全部大小的逻辑卷LV</strong></p>
+<p> 如果希望创建一个使用全部卷组的逻辑卷，则需要首先通过vgdisplay察看该卷组的Total PE数，然后在创建逻辑卷时指定</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs bash">[root@jetsen~]<span class="hljs-comment"># vgdisplay data</span><br><br> --- Volume group ---<br> VG Name        data<br> System ID      <br> Format        lvm2<br> Metadata Areas    1<br> Metadata Sequence No 4<br> VG Access       <span class="hljs-built_in">read</span>/write<br> VG Status       resizable<br> MAX LV        0<br> Cur LV        1<br> Open LV        0<br> Max PV        0<br> Cur PV        1<br> Act PV        1<br> VG Size        500.00 GB<br> PE Size        4.00 MB<br> Total PE       127999   -----也就是这个值<br> Alloc PE / Size    50 / 200.00 MB<br> Free PE / Size    127949 / 499.80 GB<br> VG UUID       wqyQM5-Rigb-5art-0H20-X9QW-OL6N-PDkI4o<br></code></pre></td></tr></table></figure>
+
+<p>创建使用卷组的全部逻辑卷语法如下：（由于之前已经创建了一卷组，就无法演示）</p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs autoit">[root<span class="hljs-symbol">@jetsen</span>~]<span class="hljs-meta"># lvcreate -l***\*127999\****-n dataall data</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>C、  创建剩余空间所有大小的LV</strong></p>
+<p><strong>查看LV剩余空间的大小：</strong></p>
+<figure class="highlight irpf90"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs irpf90">[root@jetsen~]# vgdisplay <span class="hljs-keyword">data</span><br><br> --- Volume group ---<br> VG <span class="hljs-keyword">Name</span>        <span class="hljs-keyword">data</span><br> System ID      <br> <span class="hljs-keyword">Format</span>        lvm2<br> Metadata Areas    <span class="hljs-number">1</span><br> Metadata <span class="hljs-keyword">Sequence</span> No <span class="hljs-number">4</span><br> VG <span class="hljs-keyword">Access</span>       read/<span class="hljs-built_in">write</span><br> VG <span class="hljs-keyword">Status</span>       resizable<br> <span class="hljs-built_in">MAX</span> LV        <span class="hljs-number">0</span><br> Cur LV        <span class="hljs-number">1</span><br> Open LV        <span class="hljs-number">0</span><br> <span class="hljs-built_in">Max</span> PV        <span class="hljs-number">0</span><br> Cur PV        <span class="hljs-number">1</span><br> Act PV        <span class="hljs-number">1</span><br> VG <span class="hljs-built_in">Size</span>        <span class="hljs-number">500.00</span> GB<br> PE <span class="hljs-built_in">Size</span>        <span class="hljs-number">4.00</span> MB<br> Total PE       <span class="hljs-number">127999</span><br> Alloc PE / <span class="hljs-built_in">Size</span>    <span class="hljs-number">50</span> / <span class="hljs-number">200.00</span> MB<br> <span class="hljs-keyword">Free</span> PE / <span class="hljs-built_in">Size</span>    <span class="hljs-number">127949</span> / <span class="hljs-number">499.80</span> GB      ----这里是剩余空间的大小<br> VG UUID        wqyQM5-Rigb-<span class="hljs-number">5</span>art-<span class="hljs-number">0</span>H20-X9QW-OL6N-PDkI4o<br></code></pre></td></tr></table></figure>
+
+<p><strong>创建分区：</strong></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs kotlin">[<span class="hljs-symbol">root@</span>jetsen~]# lvcreate -l127949 -n data003 <span class="hljs-keyword">data</span><br> /dev/cdrom: <span class="hljs-keyword">open</span> failed: 只读文件系统<br> Logical volume <span class="hljs-string">&quot;data003&quot;</span> created<br></code></pre></td></tr></table></figure>
+
+
+
+<p><strong>再次查看Free PE</strong> </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sql">[root<span class="hljs-variable">@jetsen</span> <span class="hljs-operator">~</span>]# vgdisplay data<span class="hljs-operator">|</span>grep &quot;Free&quot;     <br><br> <span class="hljs-keyword">Free</span> PE <span class="hljs-operator">/</span> Size    <span class="hljs-number">0</span> <span class="hljs-operator">/</span> <span class="hljs-number">0</span>             <span class="hljs-comment">----空间已经被划分完了，没有空间了</span><br></code></pre></td></tr></table></figure>
+
+<p> 查看刚才创建的LV的信息：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs bash">[root@jetsen~]<span class="hljs-comment"># lvdisplay /dev/data/data003</span><br><br> --- Logical volume ---<br> LV Name        /dev/data/data003<br> VG Name        data<br> LV UUID        5gk4X3-ltNL-YUR9-AZnx-GHr9-shgc-t1Cuye<br> LV Write Access    <span class="hljs-built_in">read</span>/write<br> LV Status       available<br> <span class="hljs-comment"># open         0</span><br> LV Size        499.80 GB         ----大小为499.80G，正好验证了剩余空间的大小<br> Current LE       127949           ----LV个数正好验证了刚才所剩余的个数<br> Segments        1<br> Allocation       inherit<br> Read ahead sectors   auto<br> - currently <span class="hljs-built_in">set</span> to   256<br> Block device      253:3<br><br></code></pre></td></tr></table></figure>
+
+<p>12、    创建文件系统：</p>
+<p>我们可以创建reiserfs文件系统，也可以创建ext2和ext3</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs routeros">[root@jetsen~]# mkfs.ext3 /dev/data/data003 -------我们创建ext3的文件系统<br><br>mke2fs1.39 (29-May-2006)<br>Filesystemlabel=<br>OS type:Linux<br><span class="hljs-attribute">Blocksize</span>=4096 (<span class="hljs-attribute">log</span>=2)<br><span class="hljs-attribute">Fragmentsize</span>=4096 (<span class="hljs-attribute">log</span>=2)<br>65519616inodes, 131019776 blocks<br>6550988blocks (5.00%) reserved <span class="hljs-keyword">for</span> the super<span class="hljs-built_in"> user</span><br><span class="hljs-built_in"></span>Firstdata <span class="hljs-attribute">block</span>=0<br>Maximumfilesystem <span class="hljs-attribute">blocks</span>=0<br>3999block groups<br>32768blocks per group, 32768 fragments per<span class="hljs-built_in"> group</span><br><span class="hljs-built_in"></span>16384inodes per<span class="hljs-built_in"> group</span><br><span class="hljs-built_in"></span>Superblockbackups stored on blocks:<br>​    32768, 98304, 163840, 229376, 294912,819200, 884736, 1605632, 2654208,<br>​    4096000, 7962624, 11239424, 20480000,23887872, 71663616, 78675968,<br>​    102400000<br><br><br>Writinginode tables: done              <br>Creatingjournal (32768 blocks): done<br>Writingsuperblocks <span class="hljs-keyword">and</span> filesystem<span class="hljs-built_in"> accounting </span>information: done<br><br>Thisfilesystem will be automatically checked every 23 mounts <span class="hljs-keyword">or</span><br>180days, whichever comes first. Use tune2fs-c <span class="hljs-keyword">or</span> -i <span class="hljs-keyword">to</span> override.<br></code></pre></td></tr></table></figure>
+
+
+
+<p>13、    挂载文件系统   —-我们可以看到已经挂载，并且大小也正常。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash">[root@jetsen/]<span class="hljs-comment"># mkdir /data003</span><br>[root@jetsen/]<span class="hljs-comment"># mount /dev/data/data003 /data003</span><br>[root@jetsen/]<span class="hljs-comment"># df -h</span><br>Filesystem              Size  Used  Avail  Use%  Mountedon<br>/dev/mapper/VolGroup00-LogVol00   18G  5.8G 11G   35%  /<br>/dev/sda1               99M  12M 82M  13%  /boot<br>tmpfs                 506M  4.0K 506M  1%  /dev/shm<br>/dev/mapper/data-data003      492G  198M 467G   1%  /data003<br></code></pre></td></tr></table></figure>
+
+<p>14、删除LV</p>
+<p><em><strong>A、</strong></em> <strong>先卸载分区</strong></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs swift">[root<span class="hljs-meta">@jetsen</span> <span class="hljs-regexp">/]# umount /</span>dev<span class="hljs-regexp">/data/</span>data003<br></code></pre></td></tr></table></figure>
+
+<p><em><strong>B、</strong></em> <strong>执行删除操作</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">[root@jetsen /]<span class="hljs-comment"># lvremove /dev/data/data003</span><br> /dev/cdrom:open failed: Read-only file system<br>Do you really want to remove active logical volume data003?[y/n]: y<br> Logical volume<span class="hljs-string">&quot;data003&quot;</span> successfully removed<br></code></pre></td></tr></table></figure>
+
+<p> <em><strong>创建基于分区的LV</strong></em></p>
+<p>1、   通过fdisk创建分区</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">[root@jetsen /]<span class="hljs-comment"># fdisk /dev/sdc  （n\ p\ 1\ +500m\ w\） --创建了500M分区</span><br>[root@jetsen /]<span class="hljs-comment"># fdisk /dev/sdc  （n\ p\ 1\ +1024m\ w\） --创建了1G分区</span><br></code></pre></td></tr></table></figure>
+
+<p>查看分区信息</p>
+<figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs tap">[root@jetsen/]<span class="hljs-comment"># fdisk -l /dev/sdc        ----分区已经创建成功</span><br>Disk/dev/sdc: 536.8 GB,<span class="hljs-number"> 536870912000 </span>bytes<br>255heads,<span class="hljs-number"> 63 </span>sectors/track,<span class="hljs-number"> 65270 </span>cylinders<br>Units =cylinders of<span class="hljs-number"> 16065 </span>*<span class="hljs-number"> 512 </span>=<span class="hljs-number"> 8225280 </span>bytes<br><br>  Device Boot   Start     End   Blocks  Id System<br>/dev/sdc1       <span class="hljs-number"> 1 </span>   <span class="hljs-number"> 62 </span>  497983+<span class="hljs-number"> 83 </span>Linux<br>/dev/sdc2      <span class="hljs-number"> 63 </span>   <span class="hljs-number"> 187 </span> 1004062+<span class="hljs-number"> 83 </span>Linux<br></code></pre></td></tr></table></figure>
+
+<p>2、   创建基于分区的物理卷</p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs autoit">[root<span class="hljs-symbol">@jetsen</span>/]<span class="hljs-meta"># pvcreate /dev/sdc1</span><br> Physical volume <span class="hljs-string">&quot;/dev/sdc1&quot;</span>successfully created<br>[root<span class="hljs-symbol">@jetsen</span>/]<span class="hljs-meta"># pvcreate /dev/sdc2</span><br> Physical volume <span class="hljs-string">&quot;/dev/sdc2&quot;</span>successfully created<br></code></pre></td></tr></table></figure>
+
+<p>3、   创建卷组：</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">[root@jetsen/]# vgcreate soft /dev/sdc1 /dev/sdc2<br> /dev/cdrom: <span class="hljs-keyword">open</span> failed: <span class="hljs-keyword">Read</span>-<span class="hljs-keyword">only</span> filesystem<br> /dev/cdrom: <span class="hljs-keyword">open</span> failed: <span class="hljs-keyword">Read</span>-<span class="hljs-keyword">only</span> filesystem<br> Attempt <span class="hljs-keyword">to</span> <span class="hljs-keyword">close</span> device <span class="hljs-string">&#x27;/dev/cdrom&#x27;</span> which isnot <span class="hljs-keyword">open</span>.<br> Volume <span class="hljs-keyword">group</span> &quot;soft&quot; successfullycreated<br></code></pre></td></tr></table></figure>
+
+<p>4、   激活卷组</p>
+<figure class="highlight mel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs mel">[root@jetsen/]# vgchange -a y <span class="hljs-keyword">soft</span><br> <span class="hljs-number">0</span> logical volume(s) <span class="hljs-keyword">in</span> volume <span class="hljs-keyword">group</span><span class="hljs-string">&quot;soft&quot;</span> now active<br></code></pre></td></tr></table></figure>
+
+<p>5、     从卷组中删除物理卷</p>
+<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs coffeescript">[root@jetsen/]<span class="hljs-comment"># vgreduce soft /dev/sdc2</span><br> Removed <span class="hljs-string">&quot;/dev/sdc2&quot;</span> <span class="hljs-keyword">from</span> volumegroup <span class="hljs-string">&quot;soft&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p>6、   添加卷组到物理卷</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">[root@jetsen/]# vgextend soft /dev/sdc2<br> /dev/cdrom: <span class="hljs-keyword">open</span> failed: <span class="hljs-keyword">Read</span>-<span class="hljs-keyword">only</span> filesystem<br> Attempt <span class="hljs-keyword">to</span> <span class="hljs-keyword">close</span> device <span class="hljs-string">&#x27;/dev/cdrom&#x27;</span> which isnot <span class="hljs-keyword">open</span>.<br> Volume <span class="hljs-keyword">group</span> &quot;soft&quot; successfullyextended<br></code></pre></td></tr></table></figure>
+
+<p>7、   创建LV</p>
+<p>先查看VG的大小，为1.5G，包含2个PV</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs bash">[root@jetsen/]<span class="hljs-comment"># vgdisplay soft</span><br><br> --- Volume group ---<br> VG Name        soft<br> System ID      <br> Format        lvm2<br> Metadata Areas    2<br> Metadata Sequence No 3<br> VG Access       <span class="hljs-built_in">read</span>/write<br> VG Status      resizable<br> MAX LV        0<br> Cur LV        0<br> Open LV        0<br> Max PV        0<br> Cur PV        2<br> Act PV        2<br> VG Size        1.43 GB<br> PE Size        4.00 MB<br> Total PE       366<br> Alloc PE / Size    0 / 0 <br> Free PE / Size    366 / 1.43 GB<br> VG UUID       D3x6JY-BVIL-C4ld-013H-U2Rq-hb1q-1oOVnx<br></code></pre></td></tr></table></figure>
+
+<p>将1.5G共366个PE创建一个LV</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">[root@jetsen/]<span class="hljs-comment"># lvcreate -l366 soft -n soft01</span><br> Logical volume <span class="hljs-string">&quot;soft01&quot;</span> created<br></code></pre></td></tr></table></figure>
+
+<p>8、   创建文件系统：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs bash">[root@jetsen/]<span class="hljs-comment"># mkfs.ext4 /dev/soft/soft01</span><br><br>mke4fs1.41.5 (23-Apr-2009)<br>Filesystemlabel=<br>OS <span class="hljs-built_in">type</span>:Linux<br>Blocksize=4096 (<span class="hljs-built_in">log</span>=2)<br>Fragmentsize=4096 (<span class="hljs-built_in">log</span>=2)<br>93696inodes, 374784 blocks<br>18739blocks (5.00%) reserved <span class="hljs-keyword">for</span> the super user<br>First datablock=0<br>Maximumfilesystem blocks=385875968<br>12 blockgroups<br>32768blocks per group, 32768 fragments per group<br>7808inodes per group<br>Superblockbackups stored on blocks:<br>​    32768, 98304, 163840, 229376, 294912<br><br>Writinginode tables: <span class="hljs-keyword">done</span>               <br>Creatingjournal (8192 blocks): <span class="hljs-keyword">done</span><br>Writingsuperblocks and filesystem accounting information: <span class="hljs-keyword">done</span><br><br>Thisfilesystem will be automatically checked every 29 mounts or<br>180days, whichever comes first. Use tune4fs-c or -i to override.<br></code></pre></td></tr></table></figure>
+
+<p>9、   挂载文件系统</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash">[root@jetsen/]<span class="hljs-comment"># mkdir /soft</span><br>[root@jetsen/]<span class="hljs-comment"># mount /dev/soft/soft01 /soft</span><br>[root@jetsen/]<span class="hljs-comment"># df -h</span><br>Filesystem              Size Used  Avail  Use% Mounted on<br>/dev/mapper/VolGroup00-LogVol00   18G 5.8G  11G  35%  /<br>/dev/sda1              99M  12M 82M 13%   /boot<br>tmpfs                506M 4.0K 506M  1%  /dev/shm<br>/dev/mapper/soft-soft01       1.5G  35M  1.4G  3%  /soft<br></code></pre></td></tr></table></figure>
+
+<p>  <em><strong>扩展LV的大小</strong></em></p>
+<p>我们在用传统磁盘管理工具的时候经常会有一种问题，就是分区在刚开始创建时候的大小是够用的，但是随着时间的推移，分区及硬盘的可用空间越来越少，并且到最后可能就不够用了，就只有通过添加硬盘并且添加分区的方式同时还要做数据转移来完成磁盘的添加工作，那么我们通过使用卷管理之后就可以实现分区大小的动态调整，也就是说单个分区不够了，我们添加硬盘后直接将新硬盘的空间无缝的动态在线添加载到当前需要扩容的分区上，原理如下图</p>
+<table>
+<thead>
+<tr>
+<th>&lt;– sda1—-&gt;</th>
+<th>&lt;– sda2——&gt;</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>xxxxxxxxxxx</td>
+<td>xxxxxx</td>
+</tr>
+<tr>
+<td>xxxxxxxxxxx</td>
+<td>xxxxxx</td>
+</tr>
+</tbody></table>
+<p>硬盘分区&#x2F;dev&#x2F;sda1中的文件系统占满了整个分区，而&#x2F;dev&#x2F;sda2中的文件系统只占用了2&#x2F;3左右的分区。</p>
+<p>所以在调整逻辑卷容量大小的同时也要调整在该卷上的文件系统的大小，当要增大容量时，先调整容量，后调整文件系统，若要缩小容量则反之。</p>
+<p>扩展LV大小的步骤如下:</p>
+<p>1、 检查VG的可用PE</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs bash">[root@jetsen/]<span class="hljs-comment"># vgdisplay soft</span><br><br> --- Volume group ---<br><br> VG Name        soft<br> System ID      <br> Format        lvm2<br> Metadata Areas    2<br> Metadata Sequence No 4<br> VG Access       <span class="hljs-built_in">read</span>/write<br> VG Status       resizable<br> MAX LV        0<br> Cur LV        1<br> Open LV        1<br> Max PV        0<br> Cur PV        2<br> Act PV        2<br> VG Size        1.43 GB<br> PE Size        4.00 MB<br> Total PE       366<br> Alloc PE / Size    366 / 1.43 GB<br> Free PE / Size   0 / 0              ----可用PE为0，需添加磁盘或分区<br> VG UUID       D3x6JY-BVIL-C4ld-013H-U2Rq-hb1q-1oOVnx<br></code></pre></td></tr></table></figure>
+
+
+
+<p>2、 如果不够，需想VG中添加磁盘或新的分区</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs bash">[root@jetsen /]<span class="hljs-comment"># fdisk /dev/sdc –l   查看现在分区信息</span><br><br>Disk /dev/sdc: 536.8 GB, 536870912000 bytes<br>255 heads, 63 sectors/track, 65270 cylinders<br>Units = cylinders of 16065 * 512 = 8225280 bytes<br><br>  Device Boot   Start     End   Blocks Id System<br>/dev/sdc1        1     62   497983+ 83 Linux<br>/dev/sdc2       63     187  1004062+ 83 Linux<br><br>[root@jetsen /]<span class="hljs-comment"># fdisk /dev/sdc （n\ p\ 3\ +1G\ w\）   --创建了1G分区</span><br><br>[root@jetsen /]<span class="hljs-comment"># fdisk /dev/sdc –l              ----再次查看分区信息</span><br><br>Disk /dev/sdc: 536.8 GB, 536870912000 bytes<br>255 heads, 63 sectors/track, 65270 cylinders<br>Units = cylinders of 16065 * 512 = 8225280 bytes<br><br>  Device Boot   Start     End   Blocks Id System<br>/dev/sdc1       1     62    497983+ 83 Linux<br>/dev/sdc2       63     187   1004062+ 83 Linux<br>/dev/sdc3      188     310   987997+ 83 Linux<br></code></pre></td></tr></table></figure>
+
+<p><em><strong>添加刚才创建的分区到VG中</strong></em></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs bash">[root@jetsen~]<span class="hljs-comment"># pvcreate /dev/sdc3</span><br> Physical volume <span class="hljs-string">&quot;/dev/sdc3&quot;</span>successfully created<br>[root@jetsen~]<span class="hljs-comment"># vgextend soft /dev/sdc3</span><br> /dev/cdrom: open failed: 只读文件系统<br> /dev/cdrom: open failed:只读文件系统<br> Attempt to close device <span class="hljs-string">&#x27;/dev/cdrom&#x27;</span> <span class="hljs-built_in">which</span> isnot open.<br> Volume group <span class="hljs-string">&quot;soft&quot;</span> successfullyextended<br>[root@jetsen~]<span class="hljs-comment"># vgdisplay soft</span><br> --- Volume group ---<br> VG Name        soft<br> System ID      <br> Format        lvm2<br> Metadata Areas    3<br> Metadata Sequence No 5<br> VG Access      <span class="hljs-built_in">read</span>/write<br> VG Status       resizable<br> MAX LV        0<br> Cur LV        1<br> Open LV        0<br> Max PV        0<br> Cur PV        3<br> Act PV        3<br> VG Size        2.37 GB<br> PE Size       4.00 MB<br> Total PE       607<br> Alloc PE / Size    366 / 1.43 GB<br> Free PE / Size    241 / 964.00 MB       ------我们可以看到，这里已经添加进来了<br> VG UUID       D3x6JY-BVIL-C4ld-013H-U2Rq-hb1q-1oOVnx<br></code></pre></td></tr></table></figure>
+
+<p>3、 扩展LV的大小</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash">[root@jetsen/]<span class="hljs-comment"># df -h</span><br>Filesystem      Size Used Avail Use% Mounted on<br>/dev/mapper/VolGroup00-LogVol00<br>​             18G 5.8G  11G 35% /<br>/dev/sda1        99M 12M  82M 13% /boot<br>tmpfs          506M 4.0K 506M  1% /dev/shm<br>/dev/mapper/soft-soft01  1.5G  35M 1.4G  3% /soft           -----现在大小是1.5G<br></code></pre></td></tr></table></figure>
+
+<p><strong>写法一： 在现有的空间中添加500M</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">[root@jetsen~]<span class="hljs-comment"># lvextend -L+500M /dev/soft/soft01 ---向LV01添加500M的空间</span><br> Extending logical volume soft01 to 1.92 GB      -----这里告诉你添加后的soft01的大小是1.92GB<br> Logical volume soft01 successfully resized<br></code></pre></td></tr></table></figure>
+
+<p><strong>写法二： 在现有的空间中添加到分区的总大小为2G</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">[root@jetsen~]<span class="hljs-comment"># lvextend -L2G /dev/soft/soft01</span><br> Extending logical volume soft01 to 2.00 GB<br> Logical volume soft01 successfully resized<br></code></pre></td></tr></table></figure>
+
+<p>4、查看lv扩容后的大小</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs bash">[root@jetsensoft]<span class="hljs-comment"># lvdisplay soft</span><br> --- Logical volume ---<br> LV Name        /dev/soft/soft01<br> VG Name        soft<br> LV UUID        AutjnY-C3KP-5bfC-Di5v-Zkdu-4VhD-AahFY8<br> LV Write Access    <span class="hljs-built_in">read</span>/write<br> LV Status       available<br> <span class="hljs-comment"># open         1</span><br> LV Size        2.00 GB          ----已经扩容到2G了<br> Current LE       512<br> Segments        3<br> Allocation       inherit<br> Read ahead sectors   auto<br> - currently <span class="hljs-built_in">set</span> to   256<br> Block device      253:2<br></code></pre></td></tr></table></figure>
+
+<p><strong>扩容文件系统</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash">[root@jetsen~]<span class="hljs-comment"># resize4fs /dev/soft/soft01</span><br>resize4fs1.41.5 (23-Apr-2009)<br>Filesystemat /dev/soft/soft01 is mounted on /soft; on-line resizing required<br>olddesc_blocks = 1, new_desc_blocks = 1<br>Performingan on-line resize of /dev/soft/soft01 to 652288 (4k) blocks.<br>Thefilesystem on /dev/soft/soft01 is now 652288 blocks long.<br></code></pre></td></tr></table></figure>
+
+<p><strong>查看大小已经是2G了</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash">[root@jetsen/]<span class="hljs-comment"># df -h</span><br>Filesystem              Size   Used  Avail  Use% Mounted on<br>/dev/mapper/VolGroup00-LogVol00  18G   5.8G 11G  35%  /<br>/dev/sda1              99M   12M 82M  13%  /boot<br>tmpfs               506M  4.0K 506M  1%  /dev/shm<br>/dev/mapper/soft-soft01       2.0G   67M 1.9G 4%  /soft  ---大小已经是2G了。<br></code></pre></td></tr></table></figure>
+
+<p><strong>注意：增加了逻辑卷的容量以后，就需要修改文件系统大小以实现利用扩充的空间。推荐使用ext4文件系统来替代reiserfs、ext2或者ext3。因此这里仅仅讨论ext4的情况。Reiserfs文件工具提供了文件系统大小调整工具：</strong></p>
+<p>对于使用reiserfs文件系统的用户可以考虑使用工具<strong>reiserfs</strong></p>
+<p><strong>附录：</strong></p>
+<p><strong>LV建立流程：</strong></p>
+<p>1.建立PV</p>
+<p>2.建立VG，将PV加入到VG中。</p>
+<p>3.建立LV，并设置LV大小。</p>
+<p>4.格式化LV或LP成你需要的文件系统。</p>
+<p><strong>LV删除流程：</strong></p>
+<p>1.umountFS</p>
+<p>2.删除LV。</p>
+<p>3.将PV从所在的VG中删除。</p>
+<p>4.删除VG。</p>
+<p><strong>卷管理常用命令集合：</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>查看显示</th>
+<th>创建</th>
+<th>删除</th>
+<th>扩容</th>
+<th>激活</th>
+<th>扫描查找</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>LV</td>
+<td>lvdisplay</td>
+<td>lvcreate</td>
+<td>lvremove</td>
+<td>lvextend</td>
+<td>lvchange</td>
+<td>lvscan</td>
+</tr>
+<tr>
+<td>PV</td>
+<td>pvdisplay</td>
+<td>pvcreate</td>
+<td>pvremove</td>
+<td></td>
+<td>pvchange</td>
+<td>pvscan</td>
+</tr>
+<tr>
+<td>VG</td>
+<td>vgdisplay</td>
+<td>vgcreate</td>
+<td>vgremove</td>
+<td>vgextend</td>
+<td>vgchange</td>
+<td>vgscan</td>
+</tr>
+</tbody></table>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/linux/">#linux</a>
+      
+        <a href="/tags/LVM/">#LVM</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>linux LVM分区全解</div>
+      <div>http://anximin.github.io/2021/08/05/Linux_LVM/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Sylar</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2021年8月5日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/08/05/Linux_drbd_bigdisk/" title="认识DRDB并应用-3：使用大硬盘">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">认识DRDB并应用-3：使用大硬盘</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/08/05/Linux_drbd_naolie/" title="认识DRDB并应用-2：解决脑裂问题">
+                        <span class="hidden-mobile">认识DRDB并应用-2：解决脑裂问题</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
