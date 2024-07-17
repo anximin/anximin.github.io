@@ -290,16 +290,16 @@
                 <p><strong>一. 开启SSH登录</strong></p>
 <p>控制面板-&gt; 终端和SNMP -&gt; 启动SSH功能</p>
 <p><strong>二. 使用SSH登录群晖</strong><br>‘admin’是群晖的管理员用户，改成你用的即可。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh admin@10.10.10.100</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">ssh admin@10.10.10.100<br></code></pre></td></tr></table></figure>
 <p><strong>三. 登录后切换root账户</strong><br>这里需要再次输入登录密码。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo -i</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">sudo -i<br></code></pre></td></tr></table></figure>
 <p><strong>四. 赋予sshd_config文件775的权限</strong></p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">chmod</span> 775 /etc/ssh/sshd_config</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">chmod</span> 775 /etc/ssh/sshd_config<br></code></pre></td></tr></table></figure>
 
 <p><strong>五. 修改sshd_config文件内容</strong></p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/ssh/sshd_config</span><br><span class="line"><span class="comment"># 找到&quot;#PermitRootLogin prohibit-password&quot;,按“i”在下面增加一行：</span></span><br><span class="line">PermitRootLogin <span class="built_in">yes</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#然后按“ESC”，输入“:wq” 保存。</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sh">vi /etc/ssh/sshd_config<br><span class="hljs-comment"># 找到&quot;#PermitRootLogin prohibit-password&quot;,按“i”在下面增加一行：</span><br>PermitRootLogin <span class="hljs-built_in">yes</span><br><br><span class="hljs-comment">#然后按“ESC”，输入“:wq” 保存。</span><br></code></pre></td></tr></table></figure>
 
-<p> <strong>六. 重启，修改ROOT密码</strong><br> <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">reboot</span><br><span class="line"><span class="comment">#再次SSH登录后，输入sudo -i</span></span><br><span class="line">sudo -i</span><br><span class="line"><span class="comment">#使用群晖的命令修改ROOT密码</span></span><br><span class="line">synouser --setpw root root密码</span><br></pre></td></tr></table></figure></p>
+<p> <strong>六. 重启，修改ROOT密码</strong><br> <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sh">reboot<br><span class="hljs-comment">#再次SSH登录后，输入sudo -i</span><br>sudo -i<br><span class="hljs-comment">#使用群晖的命令修改ROOT密码</span><br>synouser --setpw root root密码<br></code></pre></td></tr></table></figure></p>
 
                 
               </div>

@@ -303,19 +303,19 @@
 <p>要安装 VIB 文件，请按照以下简单步骤操作：</p>
 <p><strong>1.</strong> 使用您喜欢的SFTP客户端，在以下目录下上传VIB文件：</p>
 <p>Path</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/tmp</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs Shell">/tmp<br></code></pre></td></tr></table></figure>
 
 <p><strong>2.</strong> 使用您喜欢的 SSH 客户端连接到主机（可能需要先从 vSphere 客户端手动启动 SSH 服务）;</p>
 <p><strong>3.</strong> 使用以下命令安装 VIB 文件：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">esxcli software vib install -v /tmp/your-vib-file-name.vib </span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs Command">esxcli software vib install -v /tmp/your-vib-file-name.vib <br></code></pre></td></tr></table></figure>
 
 <p>注意：如果 VIB 文件不是从受信任的颁发机构签名的，即使它来自受信任的制造商，您也可能会收到消息“找不到受信任的签名者”。如果您真的信任源，您可以通过在末尾附加选项“–no-sig-check”来覆盖它，例如：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">esxcli software vib install -v /tmp/your-vib-file-name.vib --no-sig-check</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs Command">esxcli software vib install -v /tmp/your-vib-file-name.vib --no-sig-check<br></code></pre></td></tr></table></figure>
 
 <p>如果您收到消息“[Errno 4] IOError： &lt;urlopen error [Errno 2] 没有这样的文件或目录： ‘&#x2F;var&#x2F;log&#x2F;vmware&#x2F;your-vib-file-name.vib’&gt;”）“，请知道这是未指定 VIB 文件的完整路径时发生的常见错误，即使您位于同一目录中也是如此。</p>
 <p><em>VIB 也可以直接从 URL 安装，但我通常更喜欢手动上传并验证签名以避免任何问题。</em></p>
 <p><strong>5.</strong> 您可以使用以下命令列出主机上已安装的 VIB 的完整列表：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">esxcli software vib list</span><br></pre></td></tr></table></figure>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">esxcli software vib list</span><br></code></pre></td></tr></table></figure>
                 
               </div>
             

@@ -290,31 +290,31 @@
                 <h3 id="第-1-步：在-Ubuntu-上设置-OpenVpn-服务器"><a href="#第-1-步：在-Ubuntu-上设置-OpenVpn-服务器" class="headerlink" title="第 1 步：在 Ubuntu 上设置 OpenVpn 服务器"></a>第 1 步：在 Ubuntu 上设置 OpenVpn 服务器</h3><p><strong>1. 手动安装和配置 OpenVpn 服务器并不是一项简单的事情。我们将使用一个脚本，让你在一分钟内设置自己的安全 OpenVpn 服务器。</strong></p>
 <p><strong>在下载和运行脚本之前，需要得到你的服务器的公网 iP 地址。</strong></p>
 <p><strong>2.可以执行以下命令查看当前公网IP。</strong></p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget -qO - icanhazip.com</span><br><span class="line">**或者**</span><br><span class="line">dig +short myip.opendns.com @resolver1.opendns.com</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">wget -qO - icanhazip.com<br>**或者**<br>dig +short myip.opendns.com @resolver1.opendns.com<br></code></pre></td></tr></table></figure>
 <p><strong>首先，通过运行以下命令确保所有系统包都是最新的apt终端中的命令。</strong></p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt upgrade</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">sudo apt update<br>sudo apt upgrade<br></code></pre></td></tr></table></figure>
 
 <p><strong>1-创建要存储OpenVpn配置的目录</strong></p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir OpenVpn</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">mkdir OpenVpn<br></code></pre></td></tr></table></figure>
 
 <p><strong>2-然后通过命令下载OpenVpn安装程序脚本</strong></p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://raw.githubusercontent.com/angristan/openvpn-install/master/openvpn-install.sh</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">wget https://raw.githubusercontent.com/angristan/openvpn-install/master/openvpn-install.sh<br></code></pre></td></tr></table></figure>
 
 <p><strong>3-将文件的模式更改为可执行</strong></p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod +x openvpn-install.sh</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">chmod +x openvpn-install.sh<br></code></pre></td></tr></table></figure>
 
 <p><strong>4-为了运行脚本，您需要具有sudo权限，因此在运行脚本的命令请求中添加sudo，执行</strong></p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ./openvpn-install.sh</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">sudo ./openvpn-install.sh<br></code></pre></td></tr></table></figure>
 
 <p><strong>或者使用以下另一种脚本部署也是一样：</strong></p>
 <p><strong>2.现在使用 curl 命令行工具下载安装程序脚本，然后使用chmod命令使其文件的模式可执行，如下所示。</strong></p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -O https://raw.githubusercontent.com/angristan/openvpn-install/master/openvpn-install.sh</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">curl -O https://raw.githubusercontent.com/angristan/openvpn-install/master/openvpn-install.sh<br></code></pre></td></tr></table></figure>
 
 <p><strong>放开文件权限，</strong></p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod +x openvpn-install.sh</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">chmod +x openvpn-install.sh<br></code></pre></td></tr></table></figure>
 
 <p><strong>3.接下来，运行可执行安装程序脚本。</strong></p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo bash openvpn-install.sh</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">sudo bash openvpn-install.sh<br></code></pre></td></tr></table></figure>
 
 <p><strong>第一次执行时，脚本会问你一些问题，仔细阅读并根据你的喜好提供答案，以设置你的 OpenVPN 服务器，默认是你的服务器ip地址，你也可以填写自己解析的域名</strong></p>
 <p><strong>监听端口3种选项，分别是1.默认的1194，2.是自定义端口，3.随机端口，通常默认回车选择1194端口，当然你也可以选择3随机端口，或者自己自定义一个想要的监听端口，</strong></p>
@@ -342,16 +342,16 @@
 <p><strong>要用密码保护配置文件吗？输入1</strong></p>
 <p><strong>服务器搭建就到此完成，下载配置文件导入客户端就可以使用了，在root根目录里后缀.ovpn的文件</strong></p>
 <p><strong>接下来，使用以下 systemctl 命令检查其状态，确认OpenVpn服务已启动并正在运行</strong></p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl status openvpn</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">sudo systemctl status openvpn<br></code></pre></td></tr></table></figure>
 
 <p><strong>此外，使用 ss 命令确认OpenVpn守护程序正在侦听您指示脚本使用的端口</strong></p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ss -tupln | grep openvpn</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">sudo ss -tupln | grep openvpn<br></code></pre></td></tr></table></figure>
 
 <p><strong>如果您检查您的网络接口，一个新的接口已经为Vpn隧道创建，您可以使用iP命令确认这一点</strong></p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip add</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">ip add<br></code></pre></td></tr></table></figure>
 
 <p><strong>启动OpenVpn服务，现在，让它在系统启动时自动启动，并检查其状态以确认它已启动并正在运行</strong></p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl start openvpn </span><br><span class="line">sudo systemctl enable openvpn </span><br><span class="line">sudo systemctl status openvpn</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">sudo systemctl start openvpn <br>sudo systemctl enable openvpn <br>sudo systemctl status openvpn<br></code></pre></td></tr></table></figure>
 
 <p><strong>要在操作系统上设置其他 OpenVpn 客户端，请使用以下客户端：</strong></p>
 <ul>
@@ -368,10 +368,10 @@
 <p><strong>设置更多客户端，添加更多用户</strong></p>
 <p><strong>每个配置文件每次可以由一个设备连接，并且对于每个设备，您必须创建一个单独的文件。因此，请再次按照以下步骤创建更多用户：</strong></p>
 <p><strong>1-再次运行脚本</strong></p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ./openvpn-install.sh</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">sudo ./openvpn-install.sh<br></code></pre></td></tr></table></figure>
 
 <p><strong>2-选择添加</strong></p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1) Add a new user</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">1) Add a new user<br></code></pre></td></tr></table></figure>
 
 <p><strong>3-给一个新的用户名</strong></p>
 <p><strong>4-不设置密码</strong></p>

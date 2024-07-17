@@ -234,6 +234,56 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/08/20/NAS_openfiler_lostLV/" target="_self">
+          <img src="/img/index_img/index_7_openfiler.png" srcset="/img/loading.gif" lazyload alt="openfiler丢失了LV卷">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/08/20/NAS_openfiler_lostLV/" target="_self">
+          openfiler丢失了LV卷
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2021/08/20/NAS_openfiler_lostLV/" target="_self">
+        <div>
+          使用lvdisplay和lvs命令查看都能正常看到对应的卷，但是在openfiler中没有显示。  应该是在openfiler的配置信息丢失导致的；  卷的配置信息保存在一个叫volumes.xml的配置文件中；/meta/opt/openfiler/etc/volumes.xml  在volumes.xml中添加对应的配置信息；   格式如下：
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-08-20 14:05" pubdate>
+              2021-08-20
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/NAS/">#NAS</a>
+            
+              <a href="/tags/linux/">#linux</a>
+            
+              <a href="/tags/openfiler/">#openfiler</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
         <a href="/2021/08/19/Win_kuaijiejian/" target="_self">
           <img src="/img/index_img/index_18_windowskb.jpg" srcset="/img/loading.gif" lazyload alt="Windows10运行命令大全">
         </a>
@@ -669,59 +719,9 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/linux/">#linux</a>
-            
               <a href="/tags/LVM/">#LVM</a>
             
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2021/08/05/Linux_drbd_naolie/" target="_self">
-          <img src="/img/index_img/index_6_DRBD.png" srcset="/img/loading.gif" lazyload alt="认识DRDB并应用-2：解决脑裂问题">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/08/05/Linux_drbd_naolie/" target="_self">
-          认识DRDB并应用-2：解决脑裂问题
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt " href="/2021/08/05/Linux_drbd_naolie/" target="_self">
-        <div>
-          DRBD脑裂(split brain)脑裂实际上是指在某种情况下，造成DRBD的两个节点断开连接，都以primary的身份来运行。当DRBD某primary节点连接对方节点准备发送信息的时候，如果发现对方也是primary状态，那么会立刻自行断开连接，并认定当前已经发生split brain，这时候会在系统日志中记录以下信息：“Split-Brain detected,dropping conne
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-08-05 10:06" pubdate>
-              2021-08-05
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
               <a href="/tags/linux/">#linux</a>
-            
-              <a href="/tags/openfiler/">#openfiler</a>
-            
-              <a href="/tags/drbd/">#drbd</a>
             
           </div>
         

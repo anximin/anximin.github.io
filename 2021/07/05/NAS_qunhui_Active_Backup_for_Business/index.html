@@ -301,10 +301,10 @@
 <p>这样就完成了Active Backup for Business套件的激活，打开正常。</p>
 <h4 id="DSM7-0-1"><a href="#DSM7-0-1" class="headerlink" title="DSM7.0.1"></a>DSM7.0.1</h4><p>激活方式总体与DSM6.2相同，不同的是链接；<br>需要注意的是： 1. 密码只能包含大小写字母和数字。 2. cookie前有个空格，并不是手误。</p>
 <p>第一步链接：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://IP:5001/webapi/auth.cgi?api=SYNO.API.Auth&amp;version=3&amp;method=login&amp;account=管理员用户名&amp;passwd=密码&amp;format= cookie</span><br></pre></td></tr></table></figure>
+<figure class="highlight sas"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sas">https://IP:5001/webapi/auth.cgi?api=SYNO.API.Auth<span class="hljs-variable">&amp;version</span>=3<span class="hljs-variable">&amp;method</span>=login<span class="hljs-variable">&amp;account</span>=管理员用户名<span class="hljs-variable">&amp;passwd</span>=密码<span class="hljs-variable">&amp;format</span>= cookie<br></code></pre></td></tr></table></figure>
 
 <p>第二步链接：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://IP:5001/webapi/entry.cgi?api=SYNO.ActiveBackup.Activation&amp;method=set&amp;version=1&amp;activated=true&amp;serial_number=&quot;序列号&quot;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sas"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sas">https://IP:5001/webapi/entry.cgi?api=SYNO.ActiveBackup.Activation<span class="hljs-variable">&amp;method</span>=<span class="hljs-keyword">set</span><span class="hljs-variable">&amp;version</span>=1<span class="hljs-variable">&amp;activated</span>=true<span class="hljs-variable">&amp;serial_number</span>=<span class="hljs-string">&quot;序列号&quot;</span><br></code></pre></td></tr></table></figure>
 
                 
               </div>

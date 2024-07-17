@@ -291,7 +291,7 @@
               <div class="markdown-body">
                 
                 <h3 id="Ubuntu域名解析暂时失败-网络不可达【解决】"><a href="#Ubuntu域名解析暂时失败-网络不可达【解决】" class="headerlink" title="Ubuntu域名解析暂时失败 网络不可达【解决】"></a>Ubuntu域名解析暂时失败 网络不可达【解决】</h3><p>如果之前的网络是正常的，突然出现了这种错误提示，可以使用这个方法试一下。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo service network-manager stop</span><br><span class="line">sudo rm /var/lib/NetworkManager/NetworkManager.state</span><br><span class="line">sudo service network-manager start</span><br></pre></td></tr></table></figure>
+<figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs pf">sudo service network-manager stop<br>sudo rm /var/lib/NetworkManager/NetworkManager.<span class="hljs-keyword">state</span><br>sudo service network-manager start<br></code></pre></td></tr></table></figure>
 
 
                 

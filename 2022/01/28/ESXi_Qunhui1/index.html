@@ -318,14 +318,14 @@
 </ol>
 <p>准备好后开始直通，但是对于板载的SATA控制器一般显示是灰色的不可选状态，首先打开ESXi的SSH服务，</p>
 <p>使用SSH客户端工具连接主机，输入命令：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lspci -v |grep &quot;Class 0106&quot; -B 1</span><br></pre></td></tr></table></figure>
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs 1c">lspci -v <span class="hljs-string">|grep &quot;</span>Class <span class="hljs-number">0106</span><span class="hljs-string">&quot; -B 1</span><br></code></pre></td></tr></table></figure>
 
 <p>返回的结果可能是</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">0000:00:17.0 Massstorage controller SATA controller: Intel Corporation Union Point-H AHCIController [vmhba0]</span><br><span class="line"></span><br><span class="line">Class 0106: 8086:a282</span><br></pre></td></tr></table></figure>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">0000</span>:<span class="hljs-number">00</span>:<span class="hljs-number">17</span>.<span class="hljs-number">0</span> Massstorage controller SATA controller: Intel Corporation Union Point-H AHCIController<span class="hljs-meta"> [vmhba0]</span><br><br><span class="hljs-attribute">Class</span> <span class="hljs-number">0106</span>: <span class="hljs-number">8086</span>:a282<br></code></pre></td></tr></table></figure>
 
 <p>记住这个返回结果。</p>
 <p>编辑 <code>/etc/vmware/passthru.map</code> 文件，再文件末尾增加：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#Intel Corporation Lynx Point AHCIController</span><br><span class="line"></span><br><span class="line">8086 a282 d3d0 false</span><br></pre></td></tr></table></figure>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-comment">#Intel Corporation Lynx Point AHCIController</span><br><br><span class="hljs-number">8086 </span><span class="hljs-string">a282</span> <span class="hljs-string">d3d0</span> <span class="hljs-literal">false</span><br></code></pre></td></tr></table></figure>
 
 <p>重启ESXi服务器，再次直通设备时，对应的SATA控制器就为可选状态了。</p>
 <p>#：其中8086是PCIE设备的供应商ID，a282是PCIE设备的设备ID。</p>

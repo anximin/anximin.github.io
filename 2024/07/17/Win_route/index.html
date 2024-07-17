@@ -16,26 +16,26 @@
   <meta name="author" content="Sylar">
   <meta name="keywords" content="">
   
-    <meta name="description" content="新电脑第一次开机启动时根据向导会遇到强制联网才能进行下一步的限制，而且一旦联网，就只能登录微软账户才能继续。解决这个问题也不难，两步搞定。 ** 一、 开机到联网界面时按快捷键启动命令窗口。**首先确定当前没有任何方式连接到互联网。如果已经联网，拔掉网线，必要时恢复出厂。按快捷键【shift】+【F10】,会弹出一个CMD命令窗口，** 二、 输入命令然后回车：** 1oobe\bypassnro">
+    <meta name="description" content="不论单网卡还是双网卡，windows下默认只能同时存在一个网关。通过设置后即可实现多网关同时存在了。 一、 准备网络配置  双网卡情况： 这种情况相对简单，直接配置每个网卡对应的IP、掩码、网关即可。  单网卡情况： 在原网卡配置基础上，选中（TCP&#x2F;IPv4）协议，点击属性 -&gt; 点击高级 在高级TCPIP高级设置窗口中单击添加 -&gt; 添加自定义的IP地址和掩码 点击下面的">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Win10和Win11释放系统时跳过联网限制">
-<meta property="og:url" content="http://anximin.github.io/2023/12/25/Win_skipNetwork/index.html">
+<meta property="og:title" content="Windows下配置静态路由，实现多网络同时使用">
+<meta property="og:url" content="http://anximin.github.io/2024/07/17/Win_route/index.html">
 <meta property="og:site_name" content="Want To">
-<meta property="og:description" content="新电脑第一次开机启动时根据向导会遇到强制联网才能进行下一步的限制，而且一旦联网，就只能登录微软账户才能继续。解决这个问题也不难，两步搞定。 ** 一、 开机到联网界面时按快捷键启动命令窗口。**首先确定当前没有任何方式连接到互联网。如果已经联网，拔掉网线，必要时恢复出厂。按快捷键【shift】+【F10】,会弹出一个CMD命令窗口，** 二、 输入命令然后回车：** 1oobe\bypassnro">
+<meta property="og:description" content="不论单网卡还是双网卡，windows下默认只能同时存在一个网关。通过设置后即可实现多网关同时存在了。 一、 准备网络配置  双网卡情况： 这种情况相对简单，直接配置每个网卡对应的IP、掩码、网关即可。  单网卡情况： 在原网卡配置基础上，选中（TCP&#x2F;IPv4）协议，点击属性 -&gt; 点击高级 在高级TCPIP高级设置窗口中单击添加 -&gt; 添加自定义的IP地址和掩码 点击下面的">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://anximin.github.io/img/index_img/index_18_windowskb.jpg">
-<meta property="article:published_time" content="2023-12-25T03:00:17.000Z">
-<meta property="article:modified_time" content="2023-12-25T09:41:05.452Z">
+<meta property="og:image" content="http://anximin.github.io/img/index_img/index_0_demo.png">
+<meta property="article:published_time" content="2024-07-17T03:06:34.000Z">
+<meta property="article:modified_time" content="2024-07-17T03:52:43.621Z">
 <meta property="article:author" content="Sylar">
-<meta property="article:tag" content="Windows">
+<meta property="article:tag" content="windows">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://anximin.github.io/img/index_img/index_18_windowskb.jpg">
+<meta name="twitter:image" content="http://anximin.github.io/img/index_img/index_0_demo.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>Win10和Win11释放系统时跳过联网限制 - Want To</title>
+  <title>Windows下配置静态路由，实现多网络同时使用 - Want To</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -213,7 +213,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Win10和Win11释放系统时跳过联网限制"></span>
+            <span id="subtitle" data-typed-text="Windows下配置静态路由，实现多网络同时使用"></span>
           
         </div>
 
@@ -224,8 +224,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-12-25 11:00" pubdate>
-          2023年12月25日 上午
+        <time datetime="2024-07-17 11:06" pubdate>
+          2024年7月17日 上午
         </time>
       </span>
     
@@ -236,7 +236,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          289 字
+          655 字
         
       </span>
     
@@ -284,15 +284,34 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Win10和Win11释放系统时跳过联网限制</h1>
+            <h1 style="display: none">Windows下配置静态路由，实现多网络同时使用</h1>
             
             
               <div class="markdown-body">
                 
-                <p>新电脑第一次开机启动时根据向导会遇到强制联网才能进行下一步的限制，而且一旦联网，就只能登录微软账户才能继续。<br>解决这个问题也不难，两步搞定。</p>
-<p>** 一、 开机到联网界面时按快捷键启动命令窗口。**<br>首先确定当前没有任何方式连接到互联网。如果已经联网，拔掉网线，必要时恢复出厂。<br>按快捷键【shift】+【F10】,会弹出一个CMD命令窗口，<br>** 二、 输入命令然后回车：**</p>
-<figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs livescript">oobe<span class="hljs-string">\bypassnro</span><br></code></pre></td></tr></table></figure>
-<p>回车后，系统自动重启。<br>重启之后再次进入到联网步骤时，在屏幕下方会多出一个【我没有Internet连接】的按钮。<br>点击它，下一个页面继续点击，【继续执行受限设置】。<br>然后就可以设置本地用户账户了。</p>
+                <p>不论单网卡还是双网卡，windows下默认只能同时存在一个网关。<br>通过设置后即可实现多网关同时存在了。</p>
+<p>一、 准备网络配置</p>
+<ol>
+<li><p>双网卡情况：<br> 这种情况相对简单，直接配置每个网卡对应的IP、掩码、网关即可。</p>
+</li>
+<li><p>单网卡情况：<br> 在原网卡配置基础上，选中（TCP&#x2F;IPv4）协议，点击属性 -&gt; 点击高级<br> 在高级TCPIP高级设置窗口中单击添加 -&gt; 添加自定义的IP地址和掩码<br> 点击下面的添加按钮添加网关，注意取消勾选自动跃点数，填入自定义数值。<br> 同样点击原有的网关地址，点击编辑，把自动跃点数设置为自定义值。<br> 【重点】：跃点数越低优先级越高，所以想要那个网关作为默认路由就把哪个跃点数设置小一点。<br><img src="/img/content/36/3601.png" srcset="/img/loading.gif" lazyload></p>
+</li>
+</ol>
+<p>二、 开始配置路由</p>
+<ol>
+<li><p>查看路由</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-comment"># 注意：所有路由操作，需要以管理员身份运行CMD或PowerShell</span><br>&gt; route print<br></code></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>删除默认路由</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh-session"># 因为默认路由是动态的，所以先删除它。<br>&gt; route delete 0.0.0.0<br></code></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>添加静态路由</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 例举下列几条添加路由实例，根据实际情况调整。</span><br>&gt; route -p add 192.168.106.0 mask 255.255.255.0 192.168.106.1<br>// 添加目标网段走第二路由。<br>&gt; route -p add 172.16.10.10 mask 255.255.255.255 192.168.106.1<br>// 添加单个指定的目标IP走第二路由。 <br>&gt; route -p add 0.0.0.0 mask 0.0.0.0 10.10.10.254<br>// 所有路由添加后，添加默认路由。（-p 指永久路由）<br></code></pre></td></tr></table></figure></li>
+</ol>
 
                 
               </div>
@@ -305,7 +324,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/Windows/">#Windows</a>
+        <a href="/tags/windows/">#windows</a>
       
     </div>
   
@@ -317,8 +336,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Win10和Win11释放系统时跳过联网限制</div>
-      <div>http://anximin.github.io/2023/12/25/Win_skipNetwork/</div>
+      <div>Windows下配置静态路由，实现多网络同时使用</div>
+      <div>http://anximin.github.io/2024/07/17/Win_route/</div>
     </div>
     <div class="license-meta">
       
@@ -330,7 +349,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年12月25日</div>
+          <div>2024年7月17日</div>
         </div>
       
       
@@ -362,18 +381,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/12/25/nodejs-nvm-n/" title="使用NVM管理NodeJS版本">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">使用NVM管理NodeJS版本</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/12/22/NAS_qunhui_rootpwd/" title="群晖获取ROOT权限">
-                        <span class="hidden-mobile">群晖获取ROOT权限</span>
+                      <a href="/2024/07/04/net_Huawei_tls/" title="使用浏览器登录华为提示“ERR_SSL_VERSION_OR_CIPHER_MISMATCH”">
+                        <span class="hidden-mobile">使用浏览器登录华为提示“ERR_SSL_VERSION_OR_CIPHER_MISMATCH”</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
