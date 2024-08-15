@@ -4,6 +4,57 @@
   
   
   <entry>
+    <title>“这台电脑无法运行windows 11”的解决办法</title>
+    <link href="/2024/08/15/ESXi6_7_installWin11/"/>
+    <url>/2024/08/15/ESXi6_7_installWin11/</url>
+    
+    <content type="html"><![CDATA[<p>当ESXi6.7中安装Win11虚拟机的时候，遇到“这台电脑无法运行windows 11”的解决办法</p><h2 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h2><p>创建虚拟机的时候选择Windows10 64位，否则后面识别不到硬盘。</p><h2 id="开始安装"><a href="#开始安装" class="headerlink" title="开始安装"></a>开始安装</h2><p>引导到现在安装的时候，不要点击现在安装。</p><p>按<code>SHIFT</code> +<code>F10</code> ，在弹出的命令窗口中输入下面的命令(注意大小写)：</p><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dockerfile">REG <span class="hljs-keyword">ADD</span><span class="language-bash"> HKLM\SYSTEM\Setup\LabConfig /v BypassTPMCheck /t REG_DWORD /d 1</span><br></code></pre></td></tr></table></figure><h3 id="重点：输入命令回车后，不要关闭cmd窗口，将它最小化。"><a href="#重点：输入命令回车后，不要关闭cmd窗口，将它最小化。" class="headerlink" title="重点：输入命令回车后，不要关闭cmd窗口，将它最小化。"></a>重点：输入命令回车后，不要关闭cmd窗口，将它最小化。</h3><p>再点击现在安装，就可以正常安装WIN11了。</p><h2 id="如果遇到无网络连接的提示，同样按SHIFT-F10"><a href="#如果遇到无网络连接的提示，同样按SHIFT-F10" class="headerlink" title="如果遇到无网络连接的提示，同样按SHIFT+F10."></a>如果遇到无网络连接的提示，同样按<code>SHIFT</code>+<code>F10</code>.</h2><p>两种方法：1. 输入 <code>OOBE\BYPASSNRO</code>，回车后会自动重启，再次到达此步骤的时候即可点击<code>我没有Internet连接</code> 即可跳过网络检查。<br>第二种方法：2. 输入<code>ncpa.cpl</code>调出网络适配器面板，配置网卡为静态IP地址。</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>ESXi</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>net-HW6720s</title>
+    <link href="/2024/08/02/net-HW6720s/"/>
+    <url>/2024/08/02/net-HW6720s/</url>
+    
+    <content type="html"><![CDATA[<p>切换接口的二层和三层模式</p><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs stylus">interface g <span class="hljs-number">0</span>/<span class="hljs-number">0</span>/<span class="hljs-number">1</span><br>undo portswitch<br>ip <span class="hljs-selector-tag">address</span> X<span class="hljs-selector-class">.X</span><span class="hljs-selector-class">.X</span><span class="hljs-selector-class">.X</span> X<span class="hljs-selector-class">.X</span><span class="hljs-selector-class">.X</span><span class="hljs-selector-class">.X</span><br><br><br></code></pre></td></tr></table></figure><p>配置OSPF</p><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">interface</span> LoopBack <span class="hljs-number">0</span><br><span class="hljs-attribute">ip</span> address <span class="hljs-number">1.1.1.1</span> <span class="hljs-number">255.255.255.255</span><br><br><br><span class="hljs-attribute">ospf</span> <span class="hljs-number">1</span><br> <span class="hljs-attribute">area</span> <span class="hljs-number">0.0.0.0</span><br>  <span class="hljs-attribute">network</span> <span class="hljs-number">1.1.1.1</span> <span class="hljs-number">255.255.255.255</span><br>  <span class="hljs-attribute">network</span> x.x.x.x <span class="hljs-number">0.0.0.255</span><br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>net-HWusg6555e</title>
+    <link href="/2024/08/02/net-HWusg6555e/"/>
+    <url>/2024/08/02/net-HWusg6555e/</url>
+    
+    <content type="html"><![CDATA[<h2 id="combo-口切换"><a href="#combo-口切换" class="headerlink" title="combo 口切换"></a>combo 口切换</h2><p>Combo接口是一个逻辑接口，一个Combo接口对应面板上一个电接口和一个光接口，而在设备内部只有一个转发接口。电接口与其对应的光接口是光电复用关系，两者不能同时工作（例如：当激活光接口时，对应的电接口就自动处于禁用状态）。电接口和光接口共用一个接口视图。缺省情况下，Combo接口工作在电接口状态。可根据组网需求通过命令选择使用电接口或光接口。</p><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs angelscript"># 进入对应的光电互斥接口<br><span class="hljs-keyword">interface</span> <span class="hljs-symbol">GigabitEthernet</span> <span class="hljs-symbol">0</span>/<span class="hljs-symbol">0</span>/<span class="hljs-symbol">0</span> <br><span class="hljs-symbol">combo</span> <span class="hljs-symbol">enable</span>  <span class="hljs-symbol">copper</span>  //切换为电接口<br><span class="hljs-symbol">combo</span> <span class="hljs-symbol">enable</span> <span class="hljs-symbol">fiber</span> //切换为光接口<br></code></pre></td></tr></table></figure><h2 id="万兆和千兆模式切换："><a href="#万兆和千兆模式切换：" class="headerlink" title="万兆和千兆模式切换："></a>万兆和千兆模式切换：</h2><p>10GE光接口从V600R007C20版本开始支持1Gbps SFP光电模块和1Gbps eSFP光模块。<br>缺省情况下，10GE光接口的接口速率为10GE。可根据组网需求，执行命令，将10GE光接口的接口速率切换为10GE或GE。</p><figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs arduino">interface X <span class="hljs-number">0</span>/<span class="hljs-number">0</span>/<span class="hljs-number">0</span> <span class="hljs-comment">//进入对应的接口</span><br>set device port-config-mode <span class="hljs-number">10</span>ge  <span class="hljs-comment">//切换为万兆</span><br>set device port-config-mode ge <span class="hljs-comment">//切换为千兆</span><br></code></pre></td></tr></table></figure><h2 id="安全算法原因无法通过SSH登录防火墙故障"><a href="#安全算法原因无法通过SSH登录防火墙故障" class="headerlink" title="安全算法原因无法通过SSH登录防火墙故障"></a>安全算法原因无法通过SSH登录防火墙故障</h2><p>该版本防火墙对SSH的加密算法不合理，需手动补上弱算法包。</p><p>解决方案：</p><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs vim">登录https://support.huawei.<span class="hljs-keyword">com</span>/enterprise<br><br>技术支持-软件下载-安全防火墙&amp;VPN-网关USG找到该防火墙对应的弱算法包<br>USG6500E_V600R007C20SPC600_WEAKEA.<span class="hljs-keyword">mod</span><br><br>加载模块文件module.<span class="hljs-keyword">mod</span>。<br>&lt;&gt;模式<br>install-module USG6300E_V600R007C20SPC100_WEAKEA.<span class="hljs-keyword">mod</span><br><br>然后开始配置开启SSH服务器低版本兼容功能。<br><span class="hljs-built_in">system</span>-<span class="hljs-keyword">view</span><br>[sys] ssh server compatible-ssh1x enable<br>Info: SSHv1is not <span class="hljs-keyword">a</span> secure protocol, <span class="hljs-built_in">and</span> it <span class="hljs-keyword">is</span> recommended <span class="hljs-keyword">to</span> use SSHv2.<br>之后：<br>[sys]<span class="hljs-keyword">undo</span> ssh server cipher<br>[sys]<span class="hljs-keyword">undo</span> ssh server hmac<br>[sys]<span class="hljs-keyword">undo</span> ssh server key-exchange //如果低于C20SPC300版本，要将全部算法都配置上<br>[sys]<span class="hljs-keyword">undo</span> ssh server publickey<br>[sys]<span class="hljs-keyword">undo</span> ssh server dh-exchange <span class="hljs-built_in">min</span>-<span class="hljs-built_in">len</span><br>最后<br>[sys]ssh server dh-exchange <span class="hljs-built_in">min</span>-<span class="hljs-built_in">len</span> <span class="hljs-number">1024</span><br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>HUAWEI</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Windows下配置静态路由，实现多网络同时使用</title>
     <link href="/2024/07/17/Win_route/"/>
     <url>/2024/07/17/Win_route/</url>
@@ -175,9 +226,9 @@
     
     <tags>
       
-      <tag>Windows</tag>
-      
       <tag>PowerShell</tag>
+      
+      <tag>Windows</tag>
       
     </tags>
     
@@ -1844,9 +1895,9 @@
     
     <tags>
       
-      <tag>Windows</tag>
-      
       <tag>Active Directory</tag>
+      
+      <tag>Windows</tag>
       
     </tags>
     

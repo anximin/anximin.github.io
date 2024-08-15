@@ -234,6 +234,148 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2024/01/05/Linux_SYSCTL/" target="_self">
+          <img src="/img/index_img/index_0_demo.gif" srcset="/img/loading.gif" lazyload alt="修改Docker中的sysctl.conf文件时提示没有权限">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2024/01/05/Linux_SYSCTL/" target="_self">
+          修改Docker中的sysctl.conf文件时提示没有权限
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2024/01/05/Linux_SYSCTL/" target="_self">
+        <div>
+          在容器中修改 &#x2F;etc&#x2F;sysctl.conf后需要执行sysctl -p 使之生效。 但执行后提示 &#96; docker error: “Read-only file system”. **解决方法 ** 在创建Docker容器的时候加入 –privileged 即可使容器拥有系统权限。 例如： 1# docker run -itd --privileged -h doc
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-01-05 15:26" pubdate>
+              2024-01-05
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/linux/">#linux</a>
+            
+              <a href="/tags/docker/">#docker</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2024/01/05/Linux_Ubuntu_ufw/" target="_self">
+          <img src="/img/index_img/index_0_demo.png" srcset="/img/loading.gif" lazyload alt="UFW 防火墙命令">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2024/01/05/Linux_Ubuntu_ufw/" target="_self">
+          UFW 防火墙命令
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2024/01/05/Linux_Ubuntu_ufw/" target="_self">
+        <div>
+          关于ufwufw（Uncomplicated Firewall）是一个简化的、易于使用的Linux防火墙工具，旨在方便用户管理iptables防火墙规则。它为用户提供了一个直观且易于理解的命令行界面，使得配置防火墙规则变得更加简单。 ufw的一些主要特点和功能：  简化的防火墙管理：ufw提供了一个简洁的命令行界面，让您能够轻松地添加、删除和修改防火墙规则。 基于iptables：ufw是基于ip
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-01-05 15:16" pubdate>
+              2024-01-05
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/linux/">#linux</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2024/01/05/Linux_docker_cmd/" target="_self">
+          <img src="/img/index_img/index_0_demo.png" srcset="/img/loading.gif" lazyload alt="Docker常用操作命令">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2024/01/05/Linux_docker_cmd/" target="_self">
+          Docker常用操作命令
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2024/01/05/Linux_docker_cmd/" target="_self">
+        <div>
+          一、 Docker 容器命令1. 拉取镜像1$ docker pull ubuntu  2. 启动容器1$ docker run -it ubuntu /bin/bash  命令参数说明： -i   :  以交互模式运行容器，通过容器内的标准输入&#x2F;输出进行交互 -t  :   重新分配一个输入终端 -d :  指定容器后台运行 ubuntu :   指定要运行的镜像。 如果本地主机上查找
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-01-05 15:10" pubdate>
+              2024-01-05
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/linux/">#linux</a>
+            
+              <a href="/tags/docker/">#docker</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
         <a href="/2023/12/29/Linux_centos7NodeJs18/" target="_self">
           <img src="/img/index_img/index_35_nodejs.jpg" srcset="/img/loading.gif" lazyload alt="在centos7（7.9）下部署NodeJs18版本的过程">
         </a>
@@ -556,153 +698,11 @@
     </article>
   </div>
 
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2023/12/15/Linux_centos7_python3-8-12/" target="_self">
-          <img src="/img/index_img/0photo-2.jpg" srcset="/img/loading.gif" lazyload alt="CentOS7下安装python3.8.12">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2023/12/15/Linux_centos7_python3-8-12/" target="_self">
-          CentOS7下安装python3.8.12
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt " href="/2023/12/15/Linux_centos7_python3-8-12/" target="_self">
-        <div>
-          在CentOS7系统下，默认安装的Python版本为2.7.5，如下是安装Python3.8版本的方法。 一、安装依赖环境 命令如下： 1yum install gcc glibc make libffi-devel zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel -y
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2023-12-15 17:07" pubdate>
-              2023-12-15
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/linux/">#linux</a>
-            
-              <a href="/tags/python/">#python</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2023/12/15/Linux_mysql_forgetpwd/" target="_self">
-          <img src="/img/index_img/index_28_mysql.png" srcset="/img/loading.gif" lazyload alt="在Linux环境中的Mysql忘记root密码的恢复方法">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2023/12/15/Linux_mysql_forgetpwd/" target="_self">
-          在Linux环境中的Mysql忘记root密码的恢复方法
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt " href="/2023/12/15/Linux_mysql_forgetpwd/" target="_self">
-        <div>
-          有些版本的MySQL安装完成后root用户的默认密码不一样，有的是空密码，有的是root,还有的是password ，如果都不是，可以使用下面的方法强制修改。具体如下： 1、首先修改MySQL配置文件为跳过密码验证登录。 1[root@localhost my.cnf.d]# vim /etc/my.cnf  在文件最末尾加上  skip-grant–tables   然后保存配置文件。 2、接下
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2023-12-15 11:26" pubdate>
-              2023-12-15
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/linux/">#linux</a>
-            
-              <a href="/tags/mysql/">#mysql</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2023/12/09/net_Huawei_ma5620/" target="_self">
-          <img src="/img/index_img/index_27_MA5620.jpg" srcset="/img/loading.gif" lazyload alt="华为MA5620改为交换机设置的具体步骤">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2023/12/09/net_Huawei_ma5620/" target="_self">
-          华为MA5620改为交换机设置的具体步骤
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt " href="/2023/12/09/net_Huawei_ma5620/" target="_self">
-        <div>
-          初使化： 123enableerase flash data reboot system  操作步骤：  1. 准备：Com 转 网口的数据传输连接线  2. 下载 一个超级终端程序 hyper terminal 3. 数据线Console口上。  4. 启动超级终端程序，位调为9600。链接。 用户名：root ;密码： mduadmin  具体参数设计步骤：   MA5620默认端口是隔离的，
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2023-12-09 16:25" pubdate>
-              2023-12-09
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/NETWORK/">#NETWORK</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
 
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/page/3/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/#board">2</a><a class="page-number" href="/page/3/#board">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/#board">5</a><a class="page-number" href="/page/6/#board">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/#board">10</a><a class="extend next" rel="next" href="/page/5/#board"><i class="iconfont icon-arrowright"></i></a>
+      <a class="extend prev" rel="prev" href="/page/3/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/#board">2</a><a class="page-number" href="/page/3/#board">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/#board">5</a><a class="page-number" href="/page/6/#board">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/#board">11</a><a class="extend next" rel="next" href="/page/5/#board"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
 
