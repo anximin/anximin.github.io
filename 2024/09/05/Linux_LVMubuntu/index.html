@@ -16,26 +16,27 @@
   <meta name="author" content="Sylar">
   <meta name="keywords" content="">
   
-    <meta name="description" content="当ESXi6.7中安装Win11虚拟机的时候，遇到“这台电脑无法运行windows 11”的解决办法 前提条件创建虚拟机的时候选择Windows10 64位，否则后面识别不到硬盘。 开始安装引导到现在安装的时候，不要点击现在安装。 按SHIFT +F10 ，在弹出的命令窗口中输入下面的命令(注意大小写)： 1REG ADD HKLM\SYSTEM\Setup\LabConfig &#x2F;v Bypass">
+    <meta name="description" content="Ubuntu虚拟机增加磁盘空间后，需要对分区进行扩容操作才能生效。 扩容前准备增加硬盘容量如果不能修改，必须把当前的快照全部删除，修改硬盘容量后，第一时间再打一个新快照。 1.查看当前硬盘分区情况1df -h  2.使用fdisk -l列出所有硬盘信息（修改硬盘容量后会报错）1GPT PMBR size mismatch (104857599 !&#x3D; 209715199) will be corre">
 <meta property="og:type" content="article">
-<meta property="og:title" content="“这台电脑无法运行windows 11”的解决办法">
-<meta property="og:url" content="http://anximin.github.io/2024/08/15/ESXi6_7_installWin11/index.html">
+<meta property="og:title" content="Ubuntu虚拟机增加磁盘空间后的扩容操作">
+<meta property="og:url" content="http://anximin.github.io/2024/09/05/Linux_LVMubuntu/index.html">
 <meta property="og:site_name" content="Want To">
-<meta property="og:description" content="当ESXi6.7中安装Win11虚拟机的时候，遇到“这台电脑无法运行windows 11”的解决办法 前提条件创建虚拟机的时候选择Windows10 64位，否则后面识别不到硬盘。 开始安装引导到现在安装的时候，不要点击现在安装。 按SHIFT +F10 ，在弹出的命令窗口中输入下面的命令(注意大小写)： 1REG ADD HKLM\SYSTEM\Setup\LabConfig &#x2F;v Bypass">
+<meta property="og:description" content="Ubuntu虚拟机增加磁盘空间后，需要对分区进行扩容操作才能生效。 扩容前准备增加硬盘容量如果不能修改，必须把当前的快照全部删除，修改硬盘容量后，第一时间再打一个新快照。 1.查看当前硬盘分区情况1df -h  2.使用fdisk -l列出所有硬盘信息（修改硬盘容量后会报错）1GPT PMBR size mismatch (104857599 !&#x3D; 209715199) will be corre">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://anximin.github.io/img/index_img/index_36_ESXiwin11">
-<meta property="article:published_time" content="2024-08-15T00:16:32.000Z">
-<meta property="article:modified_time" content="2024-08-15T00:39:40.365Z">
+<meta property="og:image" content="http://anximin.github.io/img/index_img/index_0_demo.png">
+<meta property="article:published_time" content="2024-09-05T08:11:29.000Z">
+<meta property="article:modified_time" content="2024-09-05T09:15:08.977Z">
 <meta property="article:author" content="Sylar">
-<meta property="article:tag" content="ESXi">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="LVM">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://anximin.github.io/img/index_img/index_36_ESXiwin11">
+<meta name="twitter:image" content="http://anximin.github.io/img/index_img/index_0_demo.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>“这台电脑无法运行windows 11”的解决办法 - Want To</title>
+  <title>Ubuntu虚拟机增加磁盘空间后的扩容操作 - Want To</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -213,7 +214,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="“这台电脑无法运行windows 11”的解决办法"></span>
+            <span id="subtitle" data-typed-text="Ubuntu虚拟机增加磁盘空间后的扩容操作"></span>
           
         </div>
 
@@ -224,8 +225,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-08-15 08:16" pubdate>
-          2024年8月15日 早上
+        <time datetime="2024-09-05 16:11" pubdate>
+          2024年9月5日 下午
         </time>
       </span>
     
@@ -236,7 +237,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          394 字
+          643 字
         
       </span>
     
@@ -284,21 +285,26 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">“这台电脑无法运行windows 11”的解决办法</h1>
+            <h1 style="display: none">Ubuntu虚拟机增加磁盘空间后的扩容操作</h1>
             
             
               <div class="markdown-body">
                 
-                <p>当ESXi6.7中安装Win11虚拟机的时候，遇到“这台电脑无法运行windows 11”的解决办法</p>
-<h2 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h2><p>创建虚拟机的时候选择Windows10 64位，否则后面识别不到硬盘。</p>
-<h2 id="开始安装"><a href="#开始安装" class="headerlink" title="开始安装"></a>开始安装</h2><p>引导到现在安装的时候，不要点击现在安装。</p>
-<p>按<code>SHIFT</code> +<code>F10</code> ，在弹出的命令窗口中输入下面的命令(注意大小写)：</p>
-<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dockerfile">REG <span class="hljs-keyword">ADD</span><span class="language-bash"> HKLM\SYSTEM\Setup\LabConfig /v BypassTPMCheck /t REG_DWORD /d 1</span><br></code></pre></td></tr></table></figure>
+                <p>Ubuntu虚拟机增加磁盘空间后，需要对分区进行扩容操作才能生效。</p>
+<h3 id="扩容前准备"><a href="#扩容前准备" class="headerlink" title="扩容前准备"></a>扩容前准备</h3><h4 id="增加硬盘容量"><a href="#增加硬盘容量" class="headerlink" title="增加硬盘容量"></a>增加硬盘容量</h4><p>如果不能修改，必须把当前的快照全部删除，修改硬盘容量后，第一时间再打一个新快照。</p>
+<h4 id="1-查看当前硬盘分区情况"><a href="#1-查看当前硬盘分区情况" class="headerlink" title="1.查看当前硬盘分区情况"></a>1.查看当前硬盘分区情况</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">df</span> -h<br></code></pre></td></tr></table></figure>
 
+<h4 id="2-使用fdisk-l列出所有硬盘信息（修改硬盘容量后会报错）"><a href="#2-使用fdisk-l列出所有硬盘信息（修改硬盘容量后会报错）" class="headerlink" title="2.使用fdisk -l列出所有硬盘信息（修改硬盘容量后会报错）"></a>2.使用<code>fdisk -l</code>列出所有硬盘信息（修改硬盘容量后会报错）</h4><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">GPT</span> PMBR size mismatch (<span class="hljs-number">104857599</span> != <span class="hljs-number">209715199</span>) will be corrected by write.<br></code></pre></td></tr></table></figure>
 
+<h3 id="开始扩容"><a href="#开始扩容" class="headerlink" title="开始扩容"></a>开始扩容</h3><h4 id="1-修复分区表"><a href="#1-修复分区表" class="headerlink" title="1.修复分区表"></a>1.修复分区表</h4><p>使用命令<code>parted -l</code> 修复分区表</p>
+<h4 id="2-追加容量"><a href="#2-追加容量" class="headerlink" title="2.追加容量"></a>2.追加容量</h4><p>ubuntu默认分区最后一个分区为sda3，就以这个为例将扩展的空间追加到<code>/dev/sda3</code></p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-comment"># 进入parted命令</span><br>parted <span class="hljs-regexp">/dev/</span>sda<br><span class="hljs-comment"># 设置Size单位</span><br>unit s <br><span class="hljs-comment"># 查看详情</span><br>p free<br><span class="hljs-comment"># 追加容量到sda3</span><br>resizepart <span class="hljs-number">3</span><br><span class="hljs-comment"># 根据p free的输出结果填写结束位置</span><br>例如 <span class="hljs-number">309715166</span>s<br><span class="hljs-comment"># 输入q 退出</span><br>q<br><br></code></pre></td></tr></table></figure>
 
-<h3 id="重点：输入命令回车后，不要关闭cmd窗口，将它最小化。"><a href="#重点：输入命令回车后，不要关闭cmd窗口，将它最小化。" class="headerlink" title="重点：输入命令回车后，不要关闭cmd窗口，将它最小化。"></a>重点：输入命令回车后，不要关闭cmd窗口，将它最小化。</h3><p>再点击现在安装，就可以正常安装WIN11了。</p>
-<h2 id="如果遇到无网络连接的提示，同样按SHIFT-F10"><a href="#如果遇到无网络连接的提示，同样按SHIFT-F10" class="headerlink" title="如果遇到无网络连接的提示，同样按SHIFT+F10."></a>如果遇到无网络连接的提示，同样按<code>SHIFT</code>+<code>F10</code>.</h2><p>两种方法：1. 输入 <code>OOBE\BYPASSNRO</code>，回车后会自动重启，再次到达此步骤的时候即可点击<code>我没有Internet连接</code> 即可跳过网络检查。<br>第二种方法：2. 输入<code>ncpa.cpl</code>调出网络适配器面板，配置网卡为静态IP地址。</p>
+<h4 id="3-更新物理卷"><a href="#3-更新物理卷" class="headerlink" title="3.更新物理卷"></a>3.更新物理卷</h4><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-comment"># 更新PV物理卷</span><br>pvresize <span class="hljs-regexp">/dev/</span>sda3<br><span class="hljs-comment"># 使用pvdisplay即可查看更新后的状态</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="4-扩容LVM逻辑卷"><a href="#4-扩容LVM逻辑卷" class="headerlink" title="4.扩容LVM逻辑卷"></a>4.扩容LVM逻辑卷</h4><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs awk">lvdisplay <span class="hljs-comment">#获取这个逻辑卷名称 默认是 /dev/ubuntu-vg/ubuntu-lv</span><br><span class="hljs-comment">#将剩余的空间全部添加到这个逻辑卷</span><br>lvexted -l +<span class="hljs-number">100</span>%FREE <span class="hljs-regexp">/dev/u</span>buntu-vg/ubuntu-lv <br><span class="hljs-comment"># 刷新逻辑卷</span><br>resize2fs <span class="hljs-regexp">/dev/u</span>buntu-vg/ubuntu-lv<br></code></pre></td></tr></table></figure>
+
+<p>整个扩容过程结束。可以使用<code>df -Th</code>查看分区信息。</p>
 
                 
               </div>
@@ -311,7 +317,9 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/ESXi/">#ESXi</a>
+        <a href="/tags/Linux/">#Linux</a>
+      
+        <a href="/tags/LVM/">#LVM</a>
       
     </div>
   
@@ -323,8 +331,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>“这台电脑无法运行windows 11”的解决办法</div>
-      <div>http://anximin.github.io/2024/08/15/ESXi6_7_installWin11/</div>
+      <div>Ubuntu虚拟机增加磁盘空间后的扩容操作</div>
+      <div>http://anximin.github.io/2024/09/05/Linux_LVMubuntu/</div>
     </div>
     <div class="license-meta">
       
@@ -336,7 +344,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年8月15日</div>
+          <div>2024年9月5日</div>
         </div>
       
       
@@ -368,18 +376,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/08/20/net_IPrepair/" title="手动设置静态IP">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">手动设置静态IP</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/08/02/net-HW6720s/" title="net-HW6720s">
-                        <span class="hidden-mobile">net-HW6720s</span>
+                      <a href="/2024/08/20/net_IPrepair/" title="手动设置静态IP">
+                        <span class="hidden-mobile">手动设置静态IP</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

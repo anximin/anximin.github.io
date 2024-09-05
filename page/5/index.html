@@ -234,6 +234,98 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2023/12/22/NAS_qunhui_rootpwd/" target="_self">
+          <img src="/img/index_img/index_0_demo.gif" srcset="/img/loading.gif" lazyload alt="群晖获取ROOT权限">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2023/12/22/NAS_qunhui_rootpwd/" target="_self">
+          群晖获取ROOT权限
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2023/12/22/NAS_qunhui_rootpwd/" target="_self">
+        <div>
+          一. 开启SSH登录 控制面板-&gt; 终端和SNMP -&gt; 启动SSH功能 二. 使用SSH登录群晖‘admin’是群晖的管理员用户，改成你用的即可。 1ssh admin@10.10.10.100 三. 登录后切换root账户这里需要再次输入登录密码。 1sudo -i 四. 赋予sshd_config文件775的权限 1chmod 775 /etc/ssh/sshd_config
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-12-22 11:48" pubdate>
+              2023-12-22
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/NAS/">#NAS</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2023/12/20/net_Huawei_resetOSPF/" target="_self">
+          <img src="/img/index_img/index_10_huaweiSwitch.png" srcset="/img/loading.gif" lazyload alt="华为交换机OSPF服务">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2023/12/20/net_Huawei_resetOSPF/" target="_self">
+          华为交换机OSPF服务
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2023/12/20/net_Huawei_resetOSPF/" target="_self">
+        <div>
+          重启OSPF服务进程： 首先确认用户视图 在该视图下输入命令 reset ospf [进程号] process查看当前OSPF状态：display ospf brief OSPF单区域配置 123456ospf 1 router-id 1.1.1.1 #进入ospf视图1代表进程号area 0 #创建区域并进入OSPF区域视图，输入要创建的区域ID，骨干区域即区域0network +IP +匹配码
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-12-20 14:40" pubdate>
+              2023-12-20
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/NETWORK/">#NETWORK</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
         <a href="/2023/12/15/Linux_centos7_python3-8-12/" target="_self">
           <img src="/img/index_img/0photo-2.jpg" srcset="/img/loading.gif" lazyload alt="CentOS7下安装python3.8.12">
         </a>
@@ -613,98 +705,6 @@
             <i class="iconfont icon-tags"></i>
             
               <a href="/tags/OpenWrt/">#OpenWrt</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2023/07/18/net_OpenWrt_LEDE/" target="_self">
-          <img src="/img/index_img/index_2_OpenWrt.jpg" srcset="/img/loading.gif" lazyload alt="使用ubuntu编译LEDE">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2023/07/18/net_OpenWrt_LEDE/" target="_self">
-          使用ubuntu编译LEDE
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt " href="/2023/07/18/net_OpenWrt_LEDE/" target="_self">
-        <div>
-          编译openWrt不能使用root用户，否则报错。使用下面命令新建一个newuser.并为其添加sudo权限。
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2023-07-18 10:36" pubdate>
-              2023-07-18
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/OpenWrt/">#OpenWrt</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2023/07/10/Linux_cmd_Route/" target="_self">
-          <img src="/img/index_img/index_3_cmdRoute.png" srcset="/img/loading.gif" lazyload alt="详解 linux 路由 route 命令">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2023/07/10/Linux_cmd_Route/" target="_self">
-          详解 linux 路由 route 命令
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt " href="/2023/07/10/Linux_cmd_Route/" target="_self">
-        <div>
-          route命令用于查看和操作Linux操作系统中的路由表。它允许您添加，删除和修改路由表的条目，以确定数据包从一台计算机到另一台计算机的传输路径。
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2023-07-10 11:30" pubdate>
-              2023-07-10
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/linux/">#linux</a>
             
           </div>
         

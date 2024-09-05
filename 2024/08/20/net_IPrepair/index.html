@@ -16,26 +16,24 @@
   <meta name="author" content="Sylar">
   <meta name="keywords" content="">
   
-    <meta name="description" content="当ESXi6.7中安装Win11虚拟机的时候，遇到“这台电脑无法运行windows 11”的解决办法 前提条件创建虚拟机的时候选择Windows10 64位，否则后面识别不到硬盘。 开始安装引导到现在安装的时候，不要点击现在安装。 按SHIFT +F10 ，在弹出的命令窗口中输入下面的命令(注意大小写)： 1REG ADD HKLM\SYSTEM\Setup\LabConfig &#x2F;v Bypass">
+    <meta name="description" content="最终解决办法123456789# 以管理员身份运行 powershellGet-NetAdapter   #得到需要配置的网络接口名字。# 然后运行一条命令Set-ItemProperty -Path &quot;HKLM:\SYSTEM\CurrentControlSet\services\Tcpip\Parameters\Interfaces\$((Get-NetAdapter -Interf">
 <meta property="og:type" content="article">
-<meta property="og:title" content="“这台电脑无法运行windows 11”的解决办法">
-<meta property="og:url" content="http://anximin.github.io/2024/08/15/ESXi6_7_installWin11/index.html">
+<meta property="og:title" content="手动设置静态IP">
+<meta property="og:url" content="http://anximin.github.io/2024/08/20/net_IPrepair/index.html">
 <meta property="og:site_name" content="Want To">
-<meta property="og:description" content="当ESXi6.7中安装Win11虚拟机的时候，遇到“这台电脑无法运行windows 11”的解决办法 前提条件创建虚拟机的时候选择Windows10 64位，否则后面识别不到硬盘。 开始安装引导到现在安装的时候，不要点击现在安装。 按SHIFT +F10 ，在弹出的命令窗口中输入下面的命令(注意大小写)： 1REG ADD HKLM\SYSTEM\Setup\LabConfig &#x2F;v Bypass">
+<meta property="og:description" content="最终解决办法123456789# 以管理员身份运行 powershellGet-NetAdapter   #得到需要配置的网络接口名字。# 然后运行一条命令Set-ItemProperty -Path &quot;HKLM:\SYSTEM\CurrentControlSet\services\Tcpip\Parameters\Interfaces\$((Get-NetAdapter -Interf">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://anximin.github.io/img/index_img/index_36_ESXiwin11">
-<meta property="article:published_time" content="2024-08-15T00:16:32.000Z">
-<meta property="article:modified_time" content="2024-08-15T00:39:40.365Z">
+<meta property="article:published_time" content="2024-08-20T09:50:23.000Z">
+<meta property="article:modified_time" content="2024-08-20T10:03:14.918Z">
 <meta property="article:author" content="Sylar">
-<meta property="article:tag" content="ESXi">
+<meta property="article:tag" content="net">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://anximin.github.io/img/index_img/index_36_ESXiwin11">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>“这台电脑无法运行windows 11”的解决办法 - Want To</title>
+  <title>手动设置静态IP - Want To</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -213,7 +211,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="“这台电脑无法运行windows 11”的解决办法"></span>
+            <span id="subtitle" data-typed-text="手动设置静态IP"></span>
           
         </div>
 
@@ -224,8 +222,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-08-15 08:16" pubdate>
-          2024年8月15日 早上
+        <time datetime="2024-08-20 17:50" pubdate>
+          2024年8月20日 下午
         </time>
       </span>
     
@@ -236,7 +234,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          394 字
+          382 字
         
       </span>
     
@@ -284,21 +282,14 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">“这台电脑无法运行windows 11”的解决办法</h1>
+            <h1 style="display: none">手动设置静态IP</h1>
             
             
               <div class="markdown-body">
                 
-                <p>当ESXi6.7中安装Win11虚拟机的时候，遇到“这台电脑无法运行windows 11”的解决办法</p>
-<h2 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h2><p>创建虚拟机的时候选择Windows10 64位，否则后面识别不到硬盘。</p>
-<h2 id="开始安装"><a href="#开始安装" class="headerlink" title="开始安装"></a>开始安装</h2><p>引导到现在安装的时候，不要点击现在安装。</p>
-<p>按<code>SHIFT</code> +<code>F10</code> ，在弹出的命令窗口中输入下面的命令(注意大小写)：</p>
-<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dockerfile">REG <span class="hljs-keyword">ADD</span><span class="language-bash"> HKLM\SYSTEM\Setup\LabConfig /v BypassTPMCheck /t REG_DWORD /d 1</span><br></code></pre></td></tr></table></figure>
+                <h3 id="最终解决办法"><a href="#最终解决办法" class="headerlink" title="最终解决办法"></a>最终解决办法</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-comment"># 以管理员身份运行 powershell</span><br><span class="hljs-built_in">Get-NetAdapter</span>   <span class="hljs-comment">#得到需要配置的网络接口名字。</span><br><br><span class="hljs-comment"># 然后运行一条命令</span><br><span class="hljs-built_in">Set-ItemProperty</span> <span class="hljs-literal">-Path</span> <span class="hljs-string">&quot;HKLM:\SYSTEM\CurrentControlSet\services\Tcpip\Parameters\Interfaces\<span class="hljs-variable">$</span>((Get-NetAdapter -InterfaceAlias 刚才得到的网络接口名).InterfaceGuaid)&quot;</span> <span class="hljs-literal">-Name</span> EnableDHCP <span class="hljs-literal">-Value</span> <span class="hljs-number">0</span><br><br><span class="hljs-comment">#再运行一条命令</span><br><span class="hljs-built_in">Remove-NetRoute</span> <span class="hljs-literal">-InterfaceAlias</span> 刚才得到的网络接口名 <span class="hljs-literal">-AddressFamily</span> IPv4 <span class="hljs-literal">-Confirm</span>:<span class="hljs-variable">$false</span><br><br></code></pre></td></tr></table></figure>
 
-
-
-<h3 id="重点：输入命令回车后，不要关闭cmd窗口，将它最小化。"><a href="#重点：输入命令回车后，不要关闭cmd窗口，将它最小化。" class="headerlink" title="重点：输入命令回车后，不要关闭cmd窗口，将它最小化。"></a>重点：输入命令回车后，不要关闭cmd窗口，将它最小化。</h3><p>再点击现在安装，就可以正常安装WIN11了。</p>
-<h2 id="如果遇到无网络连接的提示，同样按SHIFT-F10"><a href="#如果遇到无网络连接的提示，同样按SHIFT-F10" class="headerlink" title="如果遇到无网络连接的提示，同样按SHIFT+F10."></a>如果遇到无网络连接的提示，同样按<code>SHIFT</code>+<code>F10</code>.</h2><p>两种方法：1. 输入 <code>OOBE\BYPASSNRO</code>，回车后会自动重启，再次到达此步骤的时候即可点击<code>我没有Internet连接</code> 即可跳过网络检查。<br>第二种方法：2. 输入<code>ncpa.cpl</code>调出网络适配器面板，配置网卡为静态IP地址。</p>
+<p>输入完上面的命令后，对应的网络设配器属性中 IPV4就会变成静态空白状态，手动输入静态IP即可。</p>
 
                 
               </div>
@@ -311,7 +302,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/ESXi/">#ESXi</a>
+        <a href="/tags/net/">#net</a>
       
     </div>
   
@@ -323,8 +314,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>“这台电脑无法运行windows 11”的解决办法</div>
-      <div>http://anximin.github.io/2024/08/15/ESXi6_7_installWin11/</div>
+      <div>手动设置静态IP</div>
+      <div>http://anximin.github.io/2024/08/20/net_IPrepair/</div>
     </div>
     <div class="license-meta">
       
@@ -336,7 +327,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年8月15日</div>
+          <div>2024年8月20日</div>
         </div>
       
       
@@ -368,9 +359,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/08/20/net_IPrepair/" title="手动设置静态IP">
+                      <a href="/2024/09/05/Linux_LVMubuntu/" title="Ubuntu虚拟机增加磁盘空间后的扩容操作">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">手动设置静态IP</span>
+                        <span class="hidden-mobile">Ubuntu虚拟机增加磁盘空间后的扩容操作</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -378,8 +369,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/08/02/net-HW6720s/" title="net-HW6720s">
-                        <span class="hidden-mobile">net-HW6720s</span>
+                      <a href="/2024/08/15/ESXi6_7_installWin11/" title="“这台电脑无法运行windows 11”的解决办法">
+                        <span class="hidden-mobile">“这台电脑无法运行windows 11”的解决办法</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

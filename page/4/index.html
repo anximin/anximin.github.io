@@ -234,6 +234,100 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2024/01/16/net_VPNwireguard/" target="_self">
+          <img src="/img/index_img/index_0_demo.png" srcset="/img/loading.gif" lazyload alt="基于Wireguard技术的个人虚拟网络搭建">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2024/01/16/net_VPNwireguard/" target="_self">
+          基于Wireguard技术的个人虚拟网络搭建
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2024/01/16/net_VPNwireguard/" target="_self">
+        <div>
+          手动安装Wireguard安装Wireguard（ubuntu20.04）123456789#root权限sudo -i#安装wireguard软件apt install wireguard resolvconf -y#开启IP转发echo &quot;net.ipv4.ip_forward = 1&quot; &gt;&gt; /etc/sysctl.confsysctl -p  进入配置路径，
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-01-16 17:42" pubdate>
+              2024-01-16
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/VPN/">#VPN</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2024/01/11/Linux_setlocale/" target="_self">
+          <img src="/img/index_img/index_0_demo.gif" srcset="/img/loading.gif" lazyload alt="Centos7 提示setlocale:LC_CTYPE:无法改变区域选项（UTF-8）">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2024/01/11/Linux_setlocale/" target="_self">
+          Centos7 提示setlocale:LC_CTYPE:无法改变区域选项（UTF-8）
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2024/01/11/Linux_setlocale/" target="_self">
+        <div>
+          编辑environment文件   12345vi /etc/environment# 添加两行LANG=en_US.utf-8LC_ALL=en_US.utf-8   安装依赖库   12yum install glibc-commonyum -y install kde-l10n-Chinese telent   设置本地语言 1localectl set-locale LANG=zh_CN
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-01-11 17:31" pubdate>
+              2024-01-11
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/linux/">#linux</a>
+            
+              <a href="/tags/centos/">#centos</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
         <a href="/2024/01/05/Linux_SYSCTL/" target="_self">
           <img src="/img/index_img/index_0_demo.gif" srcset="/img/loading.gif" lazyload alt="修改Docker中的sysctl.conf文件时提示没有权限">
         </a>
@@ -599,98 +693,6 @@
             <i class="iconfont icon-tags"></i>
             
               <a href="/tags/Windows/">#Windows</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2023/12/22/NAS_qunhui_rootpwd/" target="_self">
-          <img src="/img/index_img/index_0_demo.gif" srcset="/img/loading.gif" lazyload alt="群晖获取ROOT权限">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2023/12/22/NAS_qunhui_rootpwd/" target="_self">
-          群晖获取ROOT权限
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt " href="/2023/12/22/NAS_qunhui_rootpwd/" target="_self">
-        <div>
-          一. 开启SSH登录 控制面板-&gt; 终端和SNMP -&gt; 启动SSH功能 二. 使用SSH登录群晖‘admin’是群晖的管理员用户，改成你用的即可。 1ssh admin@10.10.10.100 三. 登录后切换root账户这里需要再次输入登录密码。 1sudo -i 四. 赋予sshd_config文件775的权限 1chmod 775 /etc/ssh/sshd_config
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2023-12-22 11:48" pubdate>
-              2023-12-22
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/NAS/">#NAS</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2023/12/20/net_Huawei_resetOSPF/" target="_self">
-          <img src="/img/index_img/index_10_huaweiSwitch.png" srcset="/img/loading.gif" lazyload alt="华为交换机OSPF服务">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2023/12/20/net_Huawei_resetOSPF/" target="_self">
-          华为交换机OSPF服务
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt " href="/2023/12/20/net_Huawei_resetOSPF/" target="_self">
-        <div>
-          重启OSPF服务进程： 首先确认用户视图 在该视图下输入命令 reset ospf [进程号] process查看当前OSPF状态：display ospf brief OSPF单区域配置 123456ospf 1 router-id 1.1.1.1 #进入ospf视图1代表进程号area 0 #创建区域并进入OSPF区域视图，输入要创建的区域ID，骨干区域即区域0network +IP +匹配码
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2023-12-20 14:40" pubdate>
-              2023-12-20
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/NETWORK/">#NETWORK</a>
             
           </div>
         

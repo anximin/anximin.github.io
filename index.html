@@ -234,6 +234,100 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2024/09/05/Linux_LVMubuntu/" target="_self">
+          <img src="/img/index_img/index_0_demo.png" srcset="/img/loading.gif" lazyload alt="Ubuntu虚拟机增加磁盘空间后的扩容操作">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2024/09/05/Linux_LVMubuntu/" target="_self">
+          Ubuntu虚拟机增加磁盘空间后的扩容操作
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2024/09/05/Linux_LVMubuntu/" target="_self">
+        <div>
+          Ubuntu虚拟机增加磁盘空间后，需要对分区进行扩容操作才能生效。 扩容前准备增加硬盘容量如果不能修改，必须把当前的快照全部删除，修改硬盘容量后，第一时间再打一个新快照。 1.查看当前硬盘分区情况1df -h  2.使用fdisk -l列出所有硬盘信息（修改硬盘容量后会报错）1GPT PMBR size mismatch (104857599 != 209715199) will be corre
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-09-05 16:11" pubdate>
+              2024-09-05
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Linux/">#Linux</a>
+            
+              <a href="/tags/LVM/">#LVM</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2024/08/20/net_IPrepair/" target="_self">
+          <img src="/img/index_img/index_0_demo.gif" srcset="/img/loading.gif" lazyload alt="手动设置静态IP">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2024/08/20/net_IPrepair/" target="_self">
+          手动设置静态IP
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2024/08/20/net_IPrepair/" target="_self">
+        <div>
+          最终解决办法123456789# 以管理员身份运行 powershellGet-NetAdapter   #得到需要配置的网络接口名字。# 然后运行一条命令Set-ItemProperty -Path &quot;HKLM:\SYSTEM\CurrentControlSet\services\Tcpip\Parameters\Interfaces\$((Get-NetAdapter -Interf
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-08-20 17:50" pubdate>
+              2024-08-20
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/net/">#net</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
         <a href="/2024/08/15/ESXi6_7_installWin11/" target="_self">
           <img src="/img/index_img/index_36_ESXiwin11" srcset="/img/loading.gif" lazyload alt="“这台电脑无法运行windows 11”的解决办法">
         </a>
@@ -577,99 +671,10 @@
         
         
         
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2024/04/30/Virtualization_vcenter/" target="_self">
-          <img src="/img/index_img/index_0_demo.gif" srcset="/img/loading.gif" lazyload alt="vCenter6.7问题集合">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2024/04/30/Virtualization_vcenter/" target="_self">
-          vCenter6.7问题集合
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt " href="/2024/04/30/Virtualization_vcenter/" target="_self">
-        <div>
-          一、 后台root账户无法登录原因分析：首先确认了密码一定对。那么问题就是vCenter创建后root密码默认90天过期，过期后不能登录WEBvCenter. 解决：通过SSH终端命令讲密码设置为永不过期 方法： 1234567891011Use service-control command to manage applmgmt service    * List APIs: &quot;hel
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2024-04-30 15:46" pubdate>
-              2024-04-30
-            </time>
-          </div>
-        
-        
-        
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/vCenter/">#vCenter</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2024/04/07/Linux_Ubuntu_ssh/" target="_self">
-          <img src="/img/index_img/index_0_demo.png" srcset="/img/loading.gif" lazyload alt="Ubuntu安装后不能SSH连接">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2024/04/07/Linux_Ubuntu_ssh/" target="_self">
-          Ubuntu安装后不能SSH连接
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt " href="/2024/04/07/Linux_Ubuntu_ssh/" target="_self">
-        <div>
-          一、首先确保SSH服务开启1sudo /etc/init.d/ssh start 二、修改SSH配置文件由于ubuntu默认是不允许root用户远程登录的，所以要特意开启ROOT用户的远程配置。 1sudo vim /etc/ssh/sshd_config 找到#PermitRootLogin yes 把前面的#号删除，保存。 三、重启SSH服务1sudo service ssh restart
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2024-04-07 10:13" pubdate>
-              2024-04-07
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/linux/">#linux</a>
-            
-              <a href="/tags/ubuntu/">#ubuntu</a>
-            
-              <a href="/tags/ssh/">#ssh</a>
+              <a href="/tags/Linux/">#Linux</a>
             
           </div>
         

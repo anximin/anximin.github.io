@@ -234,6 +234,102 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2024/04/30/Virtualization_vcenter/" target="_self">
+          <img src="/img/index_img/index_0_demo.gif" srcset="/img/loading.gif" lazyload alt="vCenter6.7问题集合">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2024/04/30/Virtualization_vcenter/" target="_self">
+          vCenter6.7问题集合
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2024/04/30/Virtualization_vcenter/" target="_self">
+        <div>
+          一、 后台root账户无法登录原因分析：首先确认了密码一定对。那么问题就是vCenter创建后root密码默认90天过期，过期后不能登录WEBvCenter. 解决：通过SSH终端命令讲密码设置为永不过期 方法： 1234567891011Use service-control command to manage applmgmt service    * List APIs: &quot;hel
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-04-30 15:46" pubdate>
+              2024-04-30
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/vCenter/">#vCenter</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2024/04/07/Linux_Ubuntu_ssh/" target="_self">
+          <img src="/img/index_img/index_0_demo.png" srcset="/img/loading.gif" lazyload alt="Ubuntu安装后不能SSH连接">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2024/04/07/Linux_Ubuntu_ssh/" target="_self">
+          Ubuntu安装后不能SSH连接
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/2024/04/07/Linux_Ubuntu_ssh/" target="_self">
+        <div>
+          一、首先确保SSH服务开启1sudo /etc/init.d/ssh start 二、修改SSH配置文件由于ubuntu默认是不允许root用户远程登录的，所以要特意开启ROOT用户的远程配置。 1sudo vim /etc/ssh/sshd_config 找到#PermitRootLogin yes 把前面的#号删除，保存。 三、重启SSH服务1sudo service ssh restart
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-04-07 10:13" pubdate>
+              2024-04-07
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/linux/">#linux</a>
+            
+              <a href="/tags/ubuntu/">#ubuntu</a>
+            
+              <a href="/tags/ssh/">#ssh</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
         <a href="/2024/03/25/JS-clipboardjs/" target="_self">
           <img src="/img/index_img/0photo-2.jpg" srcset="/img/loading.gif" lazyload alt="JS_clipboardjs">
         </a>
@@ -353,9 +449,9 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/PowerShell/">#PowerShell</a>
-            
               <a href="/tags/Windows/">#Windows</a>
+            
+              <a href="/tags/PowerShell/">#PowerShell</a>
             
           </div>
         
@@ -587,98 +683,6 @@
           </div>
         
         
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2024/02/27/net_Speettest_iperf/" target="_self">
-          <img src="/img/index_img/index_0_demo.png" srcset="/img/loading.gif" lazyload alt="网络性能测试【iperf】">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2024/02/27/net_Speettest_iperf/" target="_self">
-          网络性能测试【iperf】
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt " href="/2024/02/27/net_Speettest_iperf/" target="_self">
-        <div>
-          Iperf 是一个网络性能测试工具。Iperf可以测试最大TCP和UDP带宽性能，具有多种参数和UDP特性，可以根据需要调整，可以报告带宽、延迟抖动和数据包丢失. 安装iPerf下载地址：iperf官网  windows安装：解压即可，使用cmd运行。  Linux安装：   1234567yum install iperf -y# 或者使用下面的命令编译安装wget https://downlo
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2024-02-27 08:26" pubdate>
-              2024-02-27
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/NETWORK/">#NETWORK</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2024/02/23/git_chengepassword/" target="_self">
-          <img src="/img/index_img/0photo-2.jpg" srcset="/img/loading.gif" lazyload alt="git常见问题">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2024/02/23/git_chengepassword/" target="_self">
-          git常见问题
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt " href="/2024/02/23/git_chengepassword/" target="_self">
-        <div>
-          如果每次提交或拉取都需要输入密码 1git config --global credential.helper store  再次输入密码后就可以记住密码了。  操作时提示错误：remot:HTTP Basic：Access denied 1git config --system --unset credential.helper  再次输入正确的用户名和密码即可。或者清空http验证再试： 1
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2024-02-23 16:37" pubdate>
-              2024-02-23
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/GitLab/">#GitLab</a>
-            
-          </div>
         
       </div>
     </article>
