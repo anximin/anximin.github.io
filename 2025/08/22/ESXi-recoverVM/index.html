@@ -1,0 +1,679 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/canvas.png">
+  <link rel="icon" href="/img/canvas.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sylar">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="方法一. 通过Ubuntu挂载硬盘恢复VM【成功】1. 准备Ubuntu主机并挂载ESXi磁盘1234567891011121314151617181920212223242526272829# 查看磁盘列表（找到目标硬盘，如 &#x2F;dev&#x2F;sdb）lsblk -o NAME,SIZE,TYPE,MODEL# 此次看到我这里显示的时sda为ESXi磁盘，其中sda3分区最大，判断其应为VMFS所在分区">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ESXi主机损坏后恢复虚拟机方法">
+<meta property="og:url" content="http://anximin.github.io/2025/08/22/ESXi-recoverVM/index.html">
+<meta property="og:site_name" content="Want To">
+<meta property="og:description" content="方法一. 通过Ubuntu挂载硬盘恢复VM【成功】1. 准备Ubuntu主机并挂载ESXi磁盘1234567891011121314151617181920212223242526272829# 查看磁盘列表（找到目标硬盘，如 &#x2F;dev&#x2F;sdb）lsblk -o NAME,SIZE,TYPE,MODEL# 此次看到我这里显示的时sda为ESXi磁盘，其中sda3分区最大，判断其应为VMFS所在分区">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-08-22T01:23:19.000Z">
+<meta property="article:modified_time" content="2026-10-08T03:20:51.097Z">
+<meta property="article:author" content="Sylar">
+<meta property="article:tag" content="ESXi">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>ESXi主机损坏后恢复虚拟机方法 - Want To</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"anximin.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":60,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<!-- hexo injector head_end start --><meta name="google-adsense-account" content="ca-pub-6157972465866983"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Want To Top</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/sitemap.xml">
+                <i class="iconfont icon-link-fill"></i>
+                <span>sitmap</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="ESXi主机损坏后恢复虚拟机方法"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-08-22 09:23" pubdate>
+          2025年8月22日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.8k 字
+        
+      </span>
+    
+
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">ESXi主机损坏后恢复虚拟机方法</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h3 id="方法一-通过Ubuntu挂载硬盘恢复VM【成功】"><a href="#方法一-通过Ubuntu挂载硬盘恢复VM【成功】" class="headerlink" title="方法一. 通过Ubuntu挂载硬盘恢复VM【成功】"></a>方法一. 通过Ubuntu挂载硬盘恢复VM【成功】</h3><h5 id="1-准备Ubuntu主机并挂载ESXi磁盘"><a href="#1-准备Ubuntu主机并挂载ESXi磁盘" class="headerlink" title="1. 准备Ubuntu主机并挂载ESXi磁盘"></a><strong>1. 准备Ubuntu主机</strong>并挂载ESXi磁盘</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 查看磁盘列表（找到目标硬盘，如 /dev/sdb）</span><br>lsblk -o NAME,SIZE,TYPE,MODEL<br><span class="hljs-comment"># 此次看到我这里显示的时sda为ESXi磁盘，其中sda3分区最大，判断其应为VMFS所在分区。</span><br>sylar@ubuntu:~$ lsblk -o NAME,SIZE,TYPE,MODEL<br>NAME                        SIZE TYPE MODEL<br>loop0                      49.9M loop <br>loop1                      63.3M loop <br>loop2                      91.9M loop <br>loop3                      49.3M loop <br>loop4                      91.9M loop <br>loop5                      63.8M loop <br>sda                         1.8T disk RSYE38362-1920<br>├─sda1                        4M part <br>├─sda2                        4G part <br>├─sda3                      1.8T part <br>├─sda5                      250M part <br>├─sda6                      250M part <br>├─sda7                      110M part <br>├─sda8                      286M part <br>└─sda9                      2.5G part <br>sdb                       931.5G disk ST1000DM010-2EP1<br>├─sdb1                        1M part <br>├─sdb2                        2G part <br>└─sdb3                    929.5G part <br>  └─ubuntu--vg-ubuntu--lv   100G lvm  <br><br><span class="hljs-comment"># 确认分区3（对应原 ESXi 的 :3 分区）</span><br>sylar@ubuntu:~$ fdisk -l /dev/sda | grep <span class="hljs-string">&quot;sda3&quot;</span><br>/dev/sda3  15472640 3748046814 3732574175  1.8T VMware VMFS<br></code></pre></td></tr></table></figure>
+
+<h5 id="2-使用vmfs6-tools-挂载sda3分区"><a href="#2-使用vmfs6-tools-挂载sda3分区" class="headerlink" title="2. 使用vmfs6-tools 挂载sda3分区"></a>2. 使用<strong>vmfs6-tools</strong> 挂载sda3分区</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 安装工具</span><br>sudo apt update &amp;&amp; sudo apt install -y vmfs6-tools<br><br><span class="hljs-comment"># 创建挂载点</span><br>sudo <span class="hljs-built_in">mkdir</span> /mnt/vmfs_recover<br><br><span class="hljs-comment"># 强制挂载分区3（忽略元数据错误）</span><br>sudo vmfs6-fuse -o ro,allow_other /dev/sda3 /mnt/vmfs_recover<br><span class="hljs-comment"># 返回 VMFS version: 6 就代表挂载成功</span><br></code></pre></td></tr></table></figure>
+
+
+
+<h5 id="3-通过SSH复制VM虚拟机文件夹到可用的ESXi主机（ESXi主机需开启SSH服务）"><a href="#3-通过SSH复制VM虚拟机文件夹到可用的ESXi主机（ESXi主机需开启SSH服务）" class="headerlink" title="3. 通过SSH复制VM虚拟机文件夹到可用的ESXi主机（ESXi主机需开启SSH服务）"></a>3. 通过SSH复制VM虚拟机文件夹到可用的ESXi主机（ESXi主机需开启SSH服务）</h5><p><strong>复制文件期间带宽占用非常高，建议目标主机为非主业务机</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 查看可恢复的文件/目录</span><br><span class="hljs-built_in">ls</span> /mnt/vmfs_recover/<br>例： IT_ED_20.18  IT_ED_30.196<br><br><span class="hljs-comment"># 使用SCP复制虚拟机目录到可用的ESXi主机(目标目录需自行确定)</span><br>sudo scp -r /mnt/vmfs_recover/IT_ED_20.18 root@10.10.30.1:/vmfs/volumes/Data1A_HDD/<br>提示输入密码后即开始复制，保持网络稳定即可。<br><br><br>root@ubuntu:~<span class="hljs-comment"># scp -r /mnt/vmfs_recover/IT_ED_20.18 root@10.10.30.1:/vmfs/volumes/Data1A_HDD/</span><br>The authenticity of host <span class="hljs-string">&#x27;10.10.30.1 (10.10.30.1)&#x27;</span> can<span class="hljs-string">&#x27;t be established.</span><br><span class="hljs-string">RSA key fingerprint is SHA256:FnQ1MO8TDz3nklcwdF0qoLp6YNsDewq4LP7DWK5jy8c.</span><br><span class="hljs-string">Are you sure you want to continue connecting (yes/no/[fingerprint])? yes</span><br><span class="hljs-string">Warning: Permanently added &#x27;</span>10.10.30.1<span class="hljs-string">&#x27; (RSA) to the list of known hosts.</span><br><span class="hljs-string">Password: </span><br><span class="hljs-string">IT_ED_20.18-0ea0f19a.hlog                                                            100% 1031     1.2MB/s   00:00    </span><br><span class="hljs-string">IT_ED_20.18-flat.vmdk                                                                100%  400GB  61.8MB/s 1:50:30    </span><br><span class="hljs-string">IT_ED_20.18.vmdk                                                                     100%  533   396.5KB/s   00:00    </span><br><span class="hljs-string">IT_ED_20.18-000002-sesparse.vmdk                                                     100% 1616MB  66.1MB/s   00:24    </span><br><span class="hljs-string">IT_ED_20.18-000002.vmdk                                                              100%  319   294.9KB/s   00:00    </span><br><span class="hljs-string">IT_ED_20.18.nvram                                                                    100%  264KB  14.8MB/s   00:00    </span><br><span class="hljs-string">IT_ED_20.18.vmsd                                                                     100%  382   332.5KB/s   00:00    </span><br><span class="hljs-string">IT_ED_20.18-Snapshot1.vmsn                                                           100%  287KB  55.7MB/s   00:00    </span><br><span class="hljs-string">vmware-3.log                                                                         100%  336KB  52.6MB/s   00:00    </span><br><span class="hljs-string">vmware-2.log                                                                         100%  894KB  74.6MB/s   00:00    </span><br><span class="hljs-string">vmware-1.log                                                                         100%  518KB  65.6MB/s   00:00    </span><br><span class="hljs-string">vmware.log                                                                           100%  336KB  55.8MB/s   00:00    </span><br><span class="hljs-string">IT_ED_20.18.vmx                                                                      100% 2764     3.2MB/s   00:00    </span><br><span class="hljs-string">root@ubuntu:~# </span><br></code></pre></td></tr></table></figure>
+
+<h5 id="4-验证虚拟机是否可正常使用。"><a href="#4-验证虚拟机是否可正常使用。" class="headerlink" title="4. 验证虚拟机是否可正常使用。"></a>4. 验证虚拟机是否可正常使用。</h5><p>登录ESXi （如：10.10.30.1），虚拟机-注册现有虚拟机</p>
+<h3 id="方法二、付费软件-699美元可恢复6台虚拟机（未验证）"><a href="#方法二、付费软件-699美元可恢复6台虚拟机（未验证）" class="headerlink" title="方法二、付费软件 699美元可恢复6台虚拟机（未验证）"></a>方法二、付费软件 699美元可恢复6台虚拟机（未验证）</h3><p> <a target="_blank" rel="noopener" href="https://www.diskinternals.com/">DiskInternals VMFS Recovery</a></p>
+<h3 id="方法三、-将ESXi虚拟机硬盘插入正常ESXi机器（未成功）"><a href="#方法三、-将ESXi虚拟机硬盘插入正常ESXi机器（未成功）" class="headerlink" title="方法三、 将ESXi虚拟机硬盘插入正常ESXi机器（未成功）"></a>方法三、 将ESXi虚拟机硬盘插入正常ESXi机器（未成功）</h3><p><em>未实验成功，仅作记录</em></p>
+<p>注意：只适用 相兼容的RAID卡的情况</p>
+<p>插入硬盘后开机启动ESXi系统，重新扫描存储适配器和磁盘。顺利的话自动挂载原数据存储，重新注册虚拟机即可。</p>
+<p>如不能自动挂载数据存储，需打开ESXi的SSH。通过ESXicli手动挂载数据存储。</p>
+<p><strong>操作步骤</strong></p>
+<h5 id="扫描存储适配器，发现目标-LUN"><a href="#扫描存储适配器，发现目标-LUN" class="headerlink" title="扫描存储适配器，发现目标 LUN"></a>扫描存储适配器，发现目标 LUN</h5><p>首先扫描存储适配器，确保当前主机能识别到目标 LUN：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 列出所有存储适配器（获取适配器名称，如vmhba0、vmhba1等）</span><br>esxcli storage core adapter list<br><br><span class="hljs-comment"># 扫描指定适配器（刷新存储设备列表），以vmhba0为例</span><br>esxcli storage core adapter rescan --adapter=vmhba0<br><br><span class="hljs-comment"># 若不确定适配器，可扫描所有适配器</span><br>esxcli storage core adapter rescan --all<br></code></pre></td></tr></table></figure>
+
+
+
+<h5 id="确认目标-LUN-的设备路径"><a href="#确认目标-LUN-的设备路径" class="headerlink" title="确认目标 LUN 的设备路径"></a>确认目标 LUN 的设备路径</h5><p>列出所有可见的存储设备，找到目标 LUN 的设备路径（如<code>/vmfs/devices/disks/t10.xxxx</code>）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 列出所有存储设备（包含LUN信息）</span><br>esxcli storage core device list<br><br><span class="hljs-comment"># 过滤显示VMFS类型的设备（目标数据存储通常是VMFS）</span><br>esxcli storage vmfs extent list<br></code></pre></td></tr></table></figure>
+
+<h5 id="检查设备分区表，确认是否存在-VMFS-分区"><a href="#检查设备分区表，确认是否存在-VMFS-分区" class="headerlink" title="检查设备分区表，确认是否存在 VMFS 分区"></a>检查设备分区表，确认是否存在 VMFS 分区</h5><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs markdown"><span class="hljs-section"># 查看目标设备的分区信息（替换为实际设备名）</span><br>esxcli storage core device partition list -d t10.ATA<span class="hljs-strong">____</span><span class="hljs-emphasis">_RSYE383622D1920<span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">__PKCH370603703__</span><span class="hljs-strong">____</span>_</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs markdown">[root@ESXi-14:~] esxcli storage core device partition list -d t10.ATA<span class="hljs-strong">____</span><span class="hljs-emphasis">_RSYE383622D1920<span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">__PKCH370603703__</span><span class="hljs-strong">____</span>_</span><br>Device                                                                    Partition  Start Sector  End Sector Type     Size<br>-------------------------------------------------------------------------  ------  ------------  ----------  ----  -------------<br>t10.ATA<span class="hljs-strong">____</span><span class="hljs-emphasis">_RSYE383622D1920<span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">__PKCH370603703__</span><span class="hljs-strong">____</span>_</span>     0             0  3750748847     0  1920383410176<br>t10.ATA<span class="hljs-strong">____</span><span class="hljs-emphasis">_RSYE383622D1920<span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">__PKCH370603703__</span><span class="hljs-strong">____</span>_</span>     1            64        8191     0        4161536<br>t10.ATA<span class="hljs-strong">____</span><span class="hljs-emphasis">_RSYE383622D1920<span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">__PKCH370603703__</span><span class="hljs-strong">____</span>_</span>     2       7086080    15472639     6     4293918720<br>t10.ATA<span class="hljs-strong">____</span><span class="hljs-emphasis">_RSYE383622D1920<span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">__PKCH370603703__</span><span class="hljs-strong">____</span>_</span>     3      15472640  3748046814    fb  1911077977600<br>t10.ATA<span class="hljs-strong">____</span><span class="hljs-emphasis">_RSYE383622D1920<span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">__PKCH370603703__</span><span class="hljs-strong">____</span>_</span>     5          8224      520191     6      262127616<br>t10.ATA<span class="hljs-strong">____</span><span class="hljs-emphasis">_RSYE383622D1920<span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">__PKCH370603703__</span><span class="hljs-strong">____</span>_</span>     6        520224     1032191     6      262127616<br>t10.ATA<span class="hljs-strong">____</span><span class="hljs-emphasis">_RSYE383622D1920<span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">__PKCH370603703__</span><span class="hljs-strong">____</span>_</span>     7       1032224     1257471    fc      115326976<br>t10.ATA<span class="hljs-strong">____</span><span class="hljs-emphasis">_RSYE383622D1920<span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">__PKCH370603703__</span><span class="hljs-strong">____</span>_</span>     8       1257504     1843199     6      299876352<br>t10.ATA<span class="hljs-strong">____</span><span class="hljs-emphasis">_RSYE383622D1920<span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">__PKCH370603703__</span><span class="hljs-strong">____</span>_</span>     9       1843200     7086079    fc     2684354560<br>[root@ESXi-14:~]<br></code></pre></td></tr></table></figure>
+
+<p>从分区列表可以看到，目标硬盘（t10.ATA_____RSYE383622D1920__________________________PKCH370603703_______）的 分区 3（Partition 3） 类型为 fb，这是 VMFS 文件系统的标识（ESXi 中 VMFS 分区的标准类型码），且该分区容量较大（1911077977600 字节），符合数据存储的特征。</p>
+<h5 id="挂载指定设备上的VMFS数据存储"><a href="#挂载指定设备上的VMFS数据存储" class="headerlink" title="挂载指定设备上的VMFS数据存储"></a>挂载指定设备上的VMFS数据存储</h5><p><strong>格式：esxcli storage filesystem mount -l &lt;数据存储名称&gt; 或 -d &lt;设备路径&gt;</strong></p>
+<p>获取 VMFS 分区的 UUID 或卷标签<br>通过 vmkfstools 命令查看分区 3 的详细信息（包含 UUID 和卷名）：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs markdown">vmkfstools -P /vmfs/devices/disks/t10.ATA<span class="hljs-strong">____</span><span class="hljs-emphasis">_RSYE383622D1920<span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">__PKCH370603703__</span><span class="hljs-strong">____</span>_</span>:3<br></code></pre></td></tr></table></figure>
+
+<p><strong>通过 VMFS UUID 挂载（推荐，唯一标识）</strong></p>
+<figure class="highlight nsis"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs nsis">esxcli storage <span class="hljs-keyword">file</span><span class="hljs-params">system</span> mount -u &lt;VMFS_UUID&gt;<br></code></pre></td></tr></table></figure>
+
+<p><strong>通过卷标签挂载（需确保标签唯一）</strong></p>
+<figure class="highlight nsis"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs nsis">esxcli storage <span class="hljs-keyword">file</span><span class="hljs-params">system</span> mount -l <span class="hljs-string">&quot;卷标签名称&quot;</span><br></code></pre></td></tr></table></figure>
+
+
+
+<h5 id="验证挂载结果"><a href="#验证挂载结果" class="headerlink" title="验证挂载结果"></a>验证挂载结果</h5><p>检查数据存储是否成功挂载：</p>
+<figure class="highlight nsis"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs nsis"><span class="hljs-comment"># 列出所有已挂载的数据存储 </span><br>esxcli storage <span class="hljs-keyword">file</span><span class="hljs-params">system</span> list | grep -i vmfs<br></code></pre></td></tr></table></figure>
+
+<p>若成功，会显示目标数据存储的路径（如<code>/vmfs/volumes/数据存储名称</code>）。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/ESXi/">#ESXi</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>ESXi主机损坏后恢复虚拟机方法</div>
+      <div>http://anximin.github.io/2025/08/22/ESXi-recoverVM/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Sylar</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年8月22日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/06/30/NAS-qunhui-activeBackupForBusiness/" title="黑群晖DSM7.2.2套件activeBackupForBusiness激活">
+                        <span class="hidden-mobile">黑群晖DSM7.2.2套件activeBackupForBusiness激活</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

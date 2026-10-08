@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://anximin.github.io/img/index_img/index_0_demo.png">
 <meta property="article:published_time" content="2024-07-17T03:06:34.000Z">
-<meta property="article:modified_time" content="2024-07-17T03:52:43.621Z">
+<meta property="article:modified_time" content="2025-06-18T02:26:54.596Z">
 <meta property="article:author" content="Sylar">
 <meta property="article:tag" content="windows">
 <meta name="twitter:card" content="summary_large_image">
@@ -86,7 +86,7 @@
 
 
   
-<meta name="generator" content="Hexo 7.2.0"></head>
+<!-- hexo injector head_end start --><meta name="google-adsense-account" content="ca-pub-6157972465866983"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.2.0"></head>
 
 
 <body>
@@ -236,7 +236,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          655 字
+          1.9k 字
         
       </span>
     
@@ -310,8 +310,21 @@
 
 </li>
 <li><p>添加静态路由</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 例举下列几条添加路由实例，根据实际情况调整。</span><br>&gt; route -p add 192.168.106.0 mask 255.255.255.0 192.168.106.1<br>// 添加目标网段走第二路由。<br>&gt; route -p add 172.16.10.10 mask 255.255.255.255 192.168.106.1<br>// 添加单个指定的目标IP走第二路由。 <br>&gt; route -p add 0.0.0.0 mask 0.0.0.0 10.10.10.254<br>// 所有路由添加后，添加默认路由。（-p 指永久路由）<br></code></pre></td></tr></table></figure></li>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 例举下列几条添加路由实例，根据实际情况调整。</span><br>// 添加目标网段走第二路由。<br>&gt; route -p add 192.168.106.0 mask 255.255.255.0 192.168.106.1<br><br>// 添加单个指定的目标IP走第二路由。 <br>&gt; route -p add 172.16.10.10 mask 255.255.255.255 192.168.106.1<br><br>// 所有路由添加后，添加默认路由。（-p 指永久路由）<br>&gt; route -p add 0.0.0.0 mask 0.0.0.0 10.10.10.254<br></code></pre></td></tr></table></figure></li>
 </ol>
+<p>三、 Route命令详解</p>
+<ol>
+<li><p>route命令的格式</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs css">route <span class="hljs-selector-attr">[-f]</span> <span class="hljs-selector-attr">[-p]</span> <span class="hljs-selector-attr">[Command]</span> <span class="hljs-selector-attr">[Destination]</span> <span class="hljs-selector-attr">[mask Netmask]</span> <span class="hljs-selector-attr">[Gateway]</span> <span class="hljs-selector-attr">[metric Metric]</span> <span class="hljs-selector-attr">[if Interface]</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>route参数含义：<br>route -f 用于清除路由表。<br>route -p 用于创建永久路由。<br>route Comman 主要有print（打印路由）、ADD（添加路由）、DELETE（删除路由）、CHANGE（修改路由）4个常用命令。<br>route Destination 表示到达的目的IP地址。<br>route MASK 表示子网掩码的关键字。<br>route Netmask 表示具体的子网掩码，如果不进行设置，系统默认设置成255.255.255.255（单机IP地址），添加掩码时要注意，特别是要确认添加的是某个IP地址还是IP网段，如果代表全部出口子网掩码可用0.0.0.0。<br>route Gateway 表示出口网关。<br>route interface 表示特殊路由的接口数。<br>route metric 表示到达目的网络的跳数。</p>
+</li>
+<li><p>route实例</p>
+</li>
+</ol>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs dns"># 要显示路由表<br>route print<br><br>#要显示网络中以<span class="hljs-number">192</span>开始的路由<br>route print <span class="hljs-number">192</span>.*<br><br># 要添加默认网关为地址为<span class="hljs-number">192.168.31.1</span>的默认路由<br>route add <span class="hljs-number">0.0.0.0</span> mask <span class="hljs-number">0.0.0.0</span> <span class="hljs-number">192.168.31.1</span><br><br># 要添加目标地址为<span class="hljs-number">10.20.0.0</span>，子网掩码为<span class="hljs-number">255.255.0.0</span>，下一个跃点地址为<span class="hljs-number">10.20.0.1</span>的路由<br>route add <span class="hljs-number">10.20.0.0</span> mask <span class="hljs-number">255.255.0.0</span> <span class="hljs-number">10.20.0.1</span><br><br># 要添加目标地址为<span class="hljs-number">10.20.0.0</span>，子网掩码为<span class="hljs-number">255.255.0.0</span>，下一个跃点地址为<span class="hljs-number">10.20.0.1</span>的永久路由<br>route -p add <span class="hljs-number">10.20.0.0</span> mask <span class="hljs-number">255.255.0.0</span> <span class="hljs-number">10.20.0.1</span><br><br># 要添加目标地址为<span class="hljs-number">10.20.0.0</span>，子网掩码为<span class="hljs-number">255.255.0.0</span>，下一个跃点地址为<span class="hljs-number">10.20.0.1</span>，跃点数为<span class="hljs-number">5</span>的路由<br><br># 跃点数越小优先越高<br>route add <span class="hljs-number">10.20.0.0</span> mask <span class="hljs-number">255.255.0.0</span> <span class="hljs-number">10.20.0.1</span> metric <span class="hljs-number">5</span><br><br># 要添加目标地址为<span class="hljs-number">10.20.0.0</span>，子网掩码为<span class="hljs-number">255.255.0.0</span>，下一个跃点地址为<span class="hljs-number">10.20.0.1</span>，接口索引为<span class="hljs-number">0</span>x3的路由<br>route add <span class="hljs-number">10.20.0.0</span> mask <span class="hljs-number">255.255.0.0</span> <span class="hljs-number">10.20.0.1</span> if <span class="hljs-number">0</span>x3<br><br># 要删除目标地址为<span class="hljs-number">10.20.0.0</span>，子网掩码为<span class="hljs-number">255.255.0.0</span>的路由<br>route delete <span class="hljs-number">10.20.0.0</span> mask <span class="hljs-number">255.255.0.0</span><br><br># 要删除IP路由表中以<span class="hljs-number">10</span>.<span class="hljs-number">1</span>开始的所有路由<br>route delete <span class="hljs-number">10</span>.*<br><br># 要将目标地址为<span class="hljs-number">10.20.0.0</span>，子网掩码为<span class="hljs-number">255.255.0.0</span>，下一个跃点地址由<span class="hljs-number">10.20.0.1</span>更改为<span class="hljs-number">10.20.0.25</span><br>route change <span class="hljs-number">10.20.0.0</span> mask <span class="hljs-number">255.255.0.0</span> <span class="hljs-number">10.20.0.25</span><br></code></pre></td></tr></table></figure>
+
+
 
                 
               </div>
